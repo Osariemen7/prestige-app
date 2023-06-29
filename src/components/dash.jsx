@@ -12,6 +12,9 @@ const Dashboard =()=>{
   const [users, setUsers] = useState('');
   const [hidden, setHidden] = useState("******");
   const navigate = useNavigate()
+  const [sidebar, setSidebar] = useState('')
+
+  const showSidebar = () => setSidebar(!sidebar)
   
   let tok= JSON.parse(localStorage.getItem("user-info"));
   let refresh = tok.refresh_token
@@ -107,7 +110,37 @@ const toggleHidden =()=>{
         
     return(
         <div>
-            <Link to='/'><i class="fa-solid fa-chevron-left bac"></i></Link>
+            <i onClick={showSidebar} class="fa-solid fa-bars bac"></i>
+            <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+                <ul className='nav-menu-item'>
+                    <li className='nav-close'>
+                    <i onClick={showSidebar} class="fa-solid fa-x"></i>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-house"></i>
+                    <span className='dfp'>Home</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/project' className='nav-text'><i class="fa-solid fa-layer-group home"></i>
+                  <span className='dfp'>Project</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/club' className='nav-text'><i class="fa-solid fa-people-group home"></i>
+                     <span className='dfp'>Club</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet home"></i>
+                      <span className='dfp'>Account</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    
+                    <Link to='/components/login' className='nav-text'><i class="fa-solid fa-share"></i>
+                      <span className='dfp'>Log Out</span></Link>
+                    </li>
+                
+                    
+                </ul>
+            </nav>
 
             <h3 className='dah3'>Hi, {name.first_name} </h3>
             <div className='dash'>
@@ -152,25 +185,7 @@ const toggleHidden =()=>{
                 </div>
                 <img src={sidearrow} alt='' />
             </div>
-            <footer className='dflex2'>
-                <div>
-                  <i class="fa-solid fa-house home1"></i>
-                  <p className='dfp'>Home</p>
-                </div>
-                <div>
-                <Link to='/components/project'><i class="fa-solid fa-layer-group home"></i></Link>
-                  <p className='dfp'>Project</p>
-                </div>
-                <div>
-                <Link to='/components/club'><i class="fa-solid fa-people-group home"></i></Link>
-                  <p className='dfp'>Club</p>
-                </div>
-                <div>
-                <Link to='/components/accounts'><i class="fa-solid fa-wallet home"></i></Link>
-                  
-                  <p className='dfp'>Account</p>
-                </div> 
-            </footer>
+                
         </div>
     )
 }

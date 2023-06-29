@@ -12,7 +12,7 @@ const ListPage=()=>{
     const [asset_name1, setAssetname] = useState([]);
     const [inputVal, setInputVal] = useState("");
     const [inputValue, setInputValue] = useState("");
-    const [is_purchase, setIspurchase] = useState(true)
+    const [is_purcha, setIspurcha] = useState([])
     const [often, setOften] = useState('');
     const navigate = useNavigate()
     const location = useLocation();
@@ -27,9 +27,9 @@ const ListPage=()=>{
     return nam;
   };
   let name = term(tick)
-    const handleChange =(event)=> {
-      setOften(event.target.value)
-    }
+  const handleChange =(event)=> {
+    setOften(event.target.value)
+  }
        let tota =(asset_price1.reduce((total, to) => {
             return total + parseInt (to);
           }, 0));
@@ -56,17 +56,25 @@ const ListPage=()=>{
       setInputValue("");
       setAssetsprice([...asset_price1, inputVal]);
       setInputVal();
+      setIspurcha([...is_purcha, often]);
+      setOften();
       closeModal()
     }
      const handleSubmit =(event) => {
-      setIspurchase(is_purchase)
         event.preventDefault();
         if (asset_name1.length < 1) {
           setMessage('Please Add items')
         } else {
-          let asset_name =(asset_name1.toString())
-          let asset_price= (asset_price1.toString())
-          let assets = [{asset_name, asset_price, is_purchase}]
+          let is_purchase = (is_purcha)
+          let asset_name =(asset_name1)
+          let asset_price= (asset_price1)
+          let asset = {asset_name, asset_price, is_purchase}
+          const separatedData = asset.asset_name.map((_, index) => ({
+            asset_name: asset.asset_name[index],
+            asset_price:parseInt( asset.asset_price[index]),
+            is_purchase:Boolean(asset.is_purchase[index])
+          }));
+          let assets = separatedData;
           let pro = {assets, name, tota}
           
                 navigate('/components/frequent', {state:{pro}})
@@ -116,8 +124,8 @@ const ListPage=()=>{
                    <label> On Purchase</label>
             
                    <input type='radio' className='rad'
-                    value='false'
-                    checked={often === 'false'}
+                    value=''
+                    checked={often === ''}
                     onChange={handleChange} />
                    <label>On Lease</label>
                 

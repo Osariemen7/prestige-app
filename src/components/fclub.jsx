@@ -1,8 +1,43 @@
+import { useState } from 'react'
 import { Link } from "react-router-dom";
 
 const Fclub =()=> {
+  const [sidebar, setSidebar] = useState('')
+
+  const showSidebar = () => setSidebar(!sidebar)
     return (
         <div>
+        <i onClick={showSidebar} class="fa-solid fa-bars bac"></i>
+            <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+                <ul className='nav-menu-item'>
+                    <li className='nav-close'>
+                    <i onClick={showSidebar} class="fa-solid fa-x"></i>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-house"></i>
+                    <span className='dfp'>Home</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/project' className='nav-text'><i class="fa-solid fa-layer-group home"></i>
+                  <span className='dfp'>Project</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/club' className='nav-text'><i class="fa-solid fa-people-group home"></i>
+                     <span className='dfp'>Club</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet home"></i>
+                      <span className='dfp'>Account</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    
+                    <Link to='/components/login' className='nav-text'><i class="fa-solid fa-share"></i>
+                      <span className='dfp'>Log Out</span></Link>
+                    </li>
+                
+                    
+                </ul>
+            </nav>
           <h3 className='head'>Community</h3>  
           <p className='cl'>Join or Create a lending group</p>
           <p className='clt'>You have no active plan yet. Click on button to create plan</p>
@@ -10,25 +45,7 @@ const Fclub =()=> {
            <Link to='/components/cclub'> <button className='but1'>Create Club</button></Link>
            <Link to='/components/joinc'> <button className='cut'>Join an existing Club</button></Link>
           </div>
-          <footer className='dflex2'>
-                <div>
-                <Link to='/components/dash'><i class="fa-solid fa-house home"></i></Link>  
-                  <p className='dfp'>Home</p>
-                </div>
-                <div>
-                <Link to='/components/project'><i class="fa-solid fa-layer-group home"></i></Link>
-                  <p className='dfp'>Project</p>
-                </div>
-                <div>
-                  <i class="fa-solid fa-people-group home1"></i>
-                  <p className='dfp'>Club</p>
-                </div>
-                <div>
-                <Link to='/components/accounts'><i class="fa-solid fa-wallet home"></i></Link>
-                  
-                  <p className='dfp'>Account</p>
-                </div> 
-            </footer>
+          
         </div>
     )
 }

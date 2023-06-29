@@ -3,73 +3,13 @@ import {Link, useNavigate} from "react-router-dom";
 import { Helmet } from "react-helmet"
 
 const Accounts =()=> {
-  const [info, setInfo] = useState([
-    {
-        "id": 2,
-        "name": "first",
-        "status": "inactive",
-        performance: 0.0,
-        my_membership: {
-            "member": {
-                "phone_number": "2349020161808",
-                "first_name": "Osagumwenro",
-                "last_name": "Aibueku",
-                "username": "2349020161808",
-                "email": "aibuekuosagumwro@gmail.com"
-            },
-            "invite_code": "CNZ33",
-            "admin": false,
-            "super_admin": false,
-            "valid_admin": true,
-            "invited_by": {
-                "phone_number": "2348069234749",
-                "first_name": "Osariemen",
-                "last_name": "Aibueku",
-                "username": "2348069234749",
-                "email": "osariemwen7@gmail.com"
-            },
-            "performance": 0.0,
-            "member_status": "Very poor",
-            "projects_no": "6",
-            "in_default": false,
-            "blacklisted": false,
-            "invite_slots": "5",
-            "last_deposit": null,
-            "join_date": "2023-06-24T12:49:54.777962Z"
-        },
-        "members_no": "2",
-        "projects_no": "14",
-        "members": [
-            {
-                "member": {
-                    "phone_number": "2348069234749",
-                    "first_name": "Osariemen",
-                    "last_name": "Aibueku",
-                    "username": "2348069234749",
-                    "email": "osariemwen7@gmail.com"
-                },
-                "invite_code": "JHC9",
-                "admin": false,
-                "super_admin": true,
-                "valid_admin": true,
-                "invited_by": {
-                    "username": ""
-                },
-                "performance": 0.0,
-                "member_status": "Very poor",
-                "projects_no": "8",
-                "in_default": false,
-                "blacklisted": false,
-                "invite_slots": "4",
-                "last_deposit": null,
-                "join_date": "2023-06-23T20:23:36.242026Z"
-            }
-        ]
-    }
-])
+  const [info, setInfo] = useState([])
   const [users, setUsers] = useState('');
   const [hidden, setHidden] = useState("******");
   const navigate= useNavigate()
+  const [sidebar, setSidebar] = useState('')
+
+  const showSidebar = () => setSidebar(!sidebar)
     let tok= JSON.parse(localStorage.getItem("user-info"));
     const terms = (tok) => {
       let refreshval;
@@ -162,6 +102,37 @@ return(
             <title>Transactions</title>
             
         </Helmet>
+        <i onClick={showSidebar} class="fa-solid fa-bars bac"></i>
+            <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+                <ul className='nav-menu-item'>
+                    <li className='nav-close'>
+                    <i onClick={showSidebar} class="fa-solid fa-x"></i>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-house"></i>
+                    <span className='dfp'>Home</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/project' className='nav-text'><i class="fa-solid fa-layer-group home"></i>
+                  <span className='dfp'>Project</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/club' className='nav-text'><i class="fa-solid fa-people-group home"></i>
+                     <span className='dfp'>Club</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet home"></i>
+                      <span className='dfp'>Account</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    
+                    <Link to='/components/login' className='nav-text'><i class="fa-solid fa-share"></i>
+                      <span className='dfp'>Log Out</span></Link>
+                    </li>
+                
+                    
+                </ul>
+            </nav>
            <div className="dash">
               <h3 className="h1">Account</h3>
               <p className='dp'>Total Balance</p>
@@ -180,30 +151,41 @@ return(
               <p className='l'>RECENT TRANSACTIONS</p>
               <p className='ad'>no transaction yet</p>
 
-          <footer className='dflex2'>
-                <div>
-                <Link to='/components/dash'><i class="fa-solid fa-house home"></i></Link>
-                  
-                  <p className='dfp'>Home</p>
-                </div>
-                <div>
-                <Link to='/components/project'><i class="fa-solid fa-layer-group home"></i></Link>
-                  <p className='dfp'>Project</p>
-                </div>
-                <div>
-                <Link to='/components/club'><i class="fa-solid fa-people-group home"></i></Link>
-                  
-                  <p className='dfp'>Club</p>
-                </div>
-                <div>
-                  <i class="fa-solid fa-wallet home1"></i>
-                  <p className='dfp'>Account</p>
-                </div> 
-            </footer> 
         </div>
     )
     return(
       <div>
+             <i onClick={showSidebar} class="fa-solid fa-bars bac"></i>
+            <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+                <ul className='nav-menu-item'>
+                    <li className='nav-close'>
+                    <i onClick={showSidebar} class="fa-solid fa-x"></i>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-house"></i>
+                    <span className='dfp'>Home</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/project' className='nav-text'><i class="fa-solid fa-layer-group home"></i>
+                  <span className='dfp'>Project</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/club' className='nav-text'><i class="fa-solid fa-people-group home"></i>
+                     <span className='dfp'>Club</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet home"></i>
+                      <span className='dfp'>Account</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    
+                    <Link to='/components/login' className='nav-text'><i class="fa-solid fa-share"></i>
+                      <span className='dfp'>Log Out</span></Link>
+                    </li>
+                
+                    
+                </ul>
+            </nav>
              <div className="dash">
                 <h3 className="h1">Account</h3>
                 <p className='dp'>Total Balance</p>
@@ -233,24 +215,7 @@ return(
                        <p className='tm' key={index}>{obj.narration}</p>
                   </div>
                        )}
-                       <footer className='dflex2'>
-                  <div>
-                    <Link to='/components/dash'><i class="fa-solid fa-house home"></i></Link>
-                    <p className='dfp'>Home</p>
-                  </div>
-                  <div>
-                  <Link to='/components/project'><i class="fa-solid fa-layer-group home"></i></Link>
-                    <p className='dfp'>Project</p>
-                  </div>
-                  <div>
-                    <i class="fa-solid fa-people-group home"></i>
-                    <p className='dfp'>Club</p>
-                  </div>
-                  <div>
-                    <i class="fa-solid fa-wallet home1"></i>
-                    <p className='dfp'>Account</p>
-                  </div> 
-              </footer> 
+                        
       </div>
    )
 }

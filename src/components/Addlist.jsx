@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Vector from './images/Vector.svg';
 import Modal from 'react-modal';
 let tok= JSON.parse(localStorage.getItem("user-info"));
@@ -23,6 +23,9 @@ const Addlist=()=>{
   const [isOpen, setIsOpen] = useState(false);
   const [amount, setAmount] = useState('')
   const [message, setMessage] = useState('')
+  const navigate = useNavigate()
+  const location = useLocation();
+  let index = location.state.data
 
   const openModal = () => {
     setIsOpen(true);
@@ -51,9 +54,14 @@ const Addlist=()=>{
   headers:{'Authorization': `Bearer ${bab}`},
   })
   //localStorage.setItem('user-info', JSON.stringify(item))
-  response = await response.json()
-  setInfo(response)
-  setLoading(false)
+  if (response.status === 401) {
+    navigate('/components/login');
+  } else {  
+    response = await response.json()
+    setInfo(response)
+    setLoading(false)
+    }
+  
 }
 useEffect(() => {
   fetchDa()
@@ -72,8 +80,8 @@ async function fproj(e) {
     });
     rep = await rep.json();
     let bab = rep.access_token 
-    console.warn(info[0].name, amount)
-    let project_name = info[0].name
+    console.warn(index.name, amount)
+    let project_name = index.name
     let item = {project_name, amount};
     let result = await fetch ('https://api.prestigedelta.com/fundproject/',{
         method: 'POST',
@@ -102,16 +110,17 @@ if(loading) {
   return(
     <div>
         <Link to='/components/project'><i class="fa-solid fa-chevron-left bac"></i></Link>
-        <h4 className="dh3">{info[0].name}</h4>
+        <h4 className="dh3">{index.name}</h4>
         <div className="kd">
         <div className="pp">
            <p>Balance</p>
            <p>In Progress</p>
         </div>
-        <h2 className="ah3">₦{(parseInt(info[0].target) - parseInt(info[0].equity)).toLocaleString('en-US')}</h2>
-        <p className="prip">{parseInt( info[0].equity)/parseInt(info[0].target) * 100}% achieved of ₦{(info[0].target).toLocaleString('en-US')} </p>
-        <div className="progress-bar" style={{ width: `${parseInt( info[0].equity)/parseInt(info[0].target) * 100}%` }}>
-         </div>
+        <h2 className="ah3">₦{(parseInt(index.target) - parseInt(index.equity)).toLocaleString('en-US')}</h2>
+          <p key={index}>{ Math.round(((parseInt( index.equity)/parseInt(index.target) * 100) + Number.EPSILON) * 100) / 100}% </p>
+          <div className="progress-b" style={{ width: `${100}%` }}>
+          <div className="progress-bar" style={{ width: `${parseInt(index.equity) / parseInt(index.target) * 100}%` }}>
+          </div> </div>
         </div>
          <div className="aflex">
          <button className="pof" onClick={openModal}>Top up</button>
@@ -128,31 +137,31 @@ if(loading) {
                  <p>Maturity Date</p>
               </div>
               <div className="asav1">
-                <p>₦{(info[0].target_equity).toLocaleString('en-US')}</p>
-                <p>{(new Date(info[0].maturity_day)).toLocaleDateString('en-GB')}</p>
+                <p>₦{(index.target_equity).toLocaleString('en-US')}</p>
+                <p>{(new Date(index.maturity_day)).toLocaleDateString('en-GB')}</p>
               </div>
             </div>
             <div className="pd">
                <div className="asa2">
-                  <p>Interest Value(2% p.a)</p>
+                  <p>Interest Value(6% p.a)</p>
                   <p>Repayment Date</p>
                </div>
                <div className="asav1">
-                  <p>₦{(info[0].interest_value).toLocaleString('en-US')}</p>
-                  <p>{(new Date(info[0].repayment_day)).toLocaleDateString('en-GB')} </p>
+                  <p>₦{(index.interest_value).toLocaleString('en-US')}</p>
+                  <p>{(new Date(index.repayment_day)).toLocaleDateString('en-GB')} </p>
                </div>
             </div>
             <h4 className="prit">Project Resources</h4>
             <p className="prip">List of project Resources you will need for this project</p>
             <div className="">
-            {info[0].assets.map((obj, index) =>
+            {index.assets.map((obj, index) =>
               <div className="asa">
                 <p key={index}>{obj.name}</p>
                 <p key={index}>₦{(obj.price).toLocaleString('en-US')}</p>
               </div>)}
                <div className="asagr">
                 <p>Total</p>
-                <p>₦{(info[0].target).toLocaleString('en-US')}</p>
+                <p>₦{(index.target).toLocaleString('en-US')}</p>
                </div>
             </div>
             <Modal
