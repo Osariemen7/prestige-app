@@ -2,9 +2,19 @@ import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Vector from './images/Vector.svg';
 import Modal from 'react-modal';
-let tok= JSON.parse(localStorage.getItem("user-info"));
-const terms = (tok) => {
-  let refreshval;
+
+const Addlist=()=>{
+  const [info, setInfo] = useState('')
+  const [loading, setLoading] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+  const [amount, setAmount] = useState('')
+  const [message, setMessage] = useState('')
+  const navigate = useNavigate()
+  const location = useLocation();
+  let index = location.state.data
+  let tok= JSON.parse(localStorage.getItem("user-info"));
+  const terms = (tok) => {
+    let refreshval;
 
   if (tok === null || typeof tok === 'undefined') {
     refreshval = 0;
@@ -17,15 +27,6 @@ const terms = (tok) => {
 let refresh = terms(tok)
 
 
-const Addlist=()=>{
-  const [info, setInfo] = useState('')
-  const [loading, setLoading] = useState(true);
-  const [isOpen, setIsOpen] = useState(false);
-  const [amount, setAmount] = useState('')
-  const [message, setMessage] = useState('')
-  const navigate = useNavigate()
-  const location = useLocation();
-  let index = location.state.data
 
   const openModal = () => {
     setIsOpen(true);
@@ -116,8 +117,10 @@ if(loading) {
            <p>Balance</p>
            <p>In Progress</p>
         </div>
-        <h2 className="ah3">₦{(parseInt(index.target) - parseInt(index.equity)).toLocaleString('en-US')}</h2>
-          <p key={index}>{ Math.round(((parseInt( index.equity)/parseInt(index.target) * 100) + Number.EPSILON) * 100) / 100}% </p>
+        <h2 className="ah3">₦{(index.balance).toLocaleString('en-US')}</h2>
+        <p className='asav1'>Next Payment Date: {(new Date(index.next_payment_day)).toDateString('en-GB')}</p>
+                <p className='asav1'>Amount To pay: ₦{(index.payment_amount).toLocaleString('en-US')}</p>
+          <h3 key={index}>{ Math.round(((parseInt( index.equity)/parseInt(index.target) * 100) + Number.EPSILON) * 100) / 100}% </h3>
           <div className="progress-b" style={{ width: `${100}%` }}>
           <div className="progress-bar" style={{ width: `${parseInt(index.equity) / parseInt(index.target) * 100}%` }}>
           </div> </div>
@@ -127,7 +130,7 @@ if(loading) {
          <Link className="trb" to='/components/transact'>View Transactions</Link>
          
          </div>
-         <div className='dflex'>
+         <div className='dfle'>
             <img src={Vector} alt=''/>
                 <p className='dfp'>Maturity date may depend on your ability to make the payment on schedule</p>
             </div>

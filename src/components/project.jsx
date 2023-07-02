@@ -117,9 +117,9 @@ let refresh = terms(tok)
                 </ul>
             </nav>
         <h2 className='head'>Project</h2>
-        <div className="dash1">
+        <div className="dash">
            <p className='dp'>Total Balance</p>
-           <h1 className='tp'>₦0</h1>
+           <h1 className='h1'>₦0</h1>
         </div>
         <p className='l'>PROJECT PLANS</p>
         <div className='opend'>

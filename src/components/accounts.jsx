@@ -129,8 +129,6 @@ return(
                     <Link to='/components/login' className='nav-text'><i class="fa-solid fa-share"></i>
                       <span className='dfp'>Log Out</span></Link>
                     </li>
-                
-                    
                 </ul>
             </nav>
            <div className="dash">
@@ -143,13 +141,13 @@ return(
             <div className="acct">
                <Link to='/components/fund'><button className='abut'>Add Fund</button></Link> 
                <div>
-                  <Link to='./transact'><button className='abut'>Transfer</button></Link>
+                  <Link to='/components/getgroup'><button className='abut'>Transfer</button></Link>
                </div>
               
                 <button className='abut'>Overdraft</button>
               </div>
               <p className='l'>RECENT TRANSACTIONS</p>
-              <p className='ad'>no transaction yet</p>
+              <p className='ad'>No transaction yet</p>
 
         </div>
     )
@@ -192,11 +190,11 @@ return(
                 { hidden ? <i onClick={toggleHidden} class="fa-regular fa-eye-slash see"></i> : <i class="fa-regular fa-eye see" onClick={toggleHidden}></i>}
                 <h1 className="h1">{hidden}</h1>
                 <div className="acct">
-                 <Link to='/components/fund'><button className='abut'>Add Fund</button></Link> 
-                 <div>
-                    <Link to='./transact'><button className='abut'>Transfer</button></Link>
-                 </div>
-        
+                <Link to='/components/fund'><button className='abut'>Add Fund</button></Link> 
+               <div>
+                  <Link to='/components/getgroup'><button className='abut'>Transfer</button></Link>
+               </div>
+
                   <button className='abut'>Overdraft</button>
                 </div>
              </div>
