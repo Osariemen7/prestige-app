@@ -5,7 +5,7 @@ import stack from './images/stack.svg';
 import sidearrow from './images/sidearrow.svg';
 import money from './images/money.svg';
 import club from './images/club.svg';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 
 
 const Dashboard =()=>{
@@ -15,32 +15,16 @@ const Dashboard =()=>{
   const [sidebar, setSidebar] = useState('')
 
   const showSidebar = () => setSidebar(!sidebar)
-  
+
   let tok= JSON.parse(localStorage.getItem("user-info"));
   let refresh = tok.refresh_token
   let name = tok.user
   
- 
-  const project = () => {
-    localStorage.setItem('user-info', JSON.stringify(tok))
-    navigate('/components/project')
-  }
-  // useEffect(() => {
-  //   const reloadCount = sessionStorage.getItem('reloadCount');
-    
-  //   if (!reloadCount || reloadCount < 2) {
-  //     const updatedReloadCount = reloadCount ? parseInt(reloadCount) + 1 : 1;
-  //     sessionStorage.setItem('reloadCount', String(updatedReloadCount));
-  //     window.location.reload();
-  //   } else {
-  //     sessionStorage.removeItem('reloadCount');
-  //   }
-  // }, []);
   
   
     const fetchData = async () => {
         let item ={refresh}
-        let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
+        let rep = await fetch ('https://sandbox.prestigedelta.com/refreshtoken/',{
             method: 'POST',
             headers:{
               'Content-Type': 'application/json',
@@ -50,7 +34,7 @@ const Dashboard =()=>{
         });
         rep = await rep.json();
         let bab = rep.access_token
-      let response = await fetch("https://api.prestigedelta.com/accounts/",{
+      let response = await fetch("https://sandbox.prestigedelta.com/accounts/",{
       method: "GET",
       headers:{'Authorization': `Bearer ${bab}`},
       })
@@ -62,12 +46,12 @@ const Dashboard =()=>{
      setUsers(response)
       
       }
-       
-     }
+    }
   
     useEffect(() => {
       fetchData()
     }, [])
+    
     console.log(tok)
     
 //   useEffect(() => {
@@ -94,19 +78,7 @@ const toggleHidden =()=>{
         }
         setHidden("******")
       }
-      // useEffect(() => {
-      //   const reloadCount = sessionStorage.getItem('reloadCount');
       
-      //   if (!reloadCount || parseInt(reloadCount) < 2) {
-      //     const updatedReloadCount = reloadCount ? parseInt(reloadCount) + 1 : 1;
-      //     sessionStorage.setItem('reloadCount', String(updatedReloadCount));
-      //     if (!reloadCount) {
-      //       window.location.reload();
-      //     }
-      //   } else {
-      //     sessionStorage.removeItem('reloadCount');
-      //   }
-      // }, []);
         
     return(
         <div>
@@ -141,8 +113,7 @@ const toggleHidden =()=>{
                     
                 </ul>
             </nav>
-
-            <h3 className='dah3'>Hi, {name.first_name} </h3>
+            <h3 className='h4'>Hi, {name.first_name} </h3>
             <div className='dash'>
                 <p className='dp'>Total Balance</p>
                 
@@ -162,7 +133,7 @@ const toggleHidden =()=>{
             </div>
             <p className='l'>QUICK ACTION</p>
             <Link to='/components/project' className='link'> <div className='dflex1'>
-                <img  src={stack} alt='' />
+                <img src={stack} alt='' />
                 <div >
                     <h4 className='dh3'>Create project plan</h4>
                     <p className='dfp'>Start your project plan now</p>
@@ -185,7 +156,7 @@ const toggleHidden =()=>{
                 </div>
                 <img src={sidearrow} alt='' />
             </div>
-                
+            
         </div>
     )
 }

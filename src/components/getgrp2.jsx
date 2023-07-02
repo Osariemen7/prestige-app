@@ -33,13 +33,14 @@ let refresh = terms(tok)
      async function transfer(e) {
         e.preventDefault();
         let amount = meal.amount
-        let pin_id = meal.users.pin_id
+        let pin_id = meal.pin_id.pin_id
         let narration = meal.narration
         let bank_code = meal.selectedOption.value
         let nuban = meal.nuban
-        let account_name = meal.users.account_number
+        let account_name = meal.users.account_name
+        let bank = meal.selectedOption.label
         let item ={refresh}
-        let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
+        let rep = await fetch ('https://sandbox.prestigedelta.com/refreshtoken/',{
             method: 'POST',
             headers:{
               'Content-Type': 'application/json',
@@ -51,8 +52,9 @@ let refresh = terms(tok)
         rep = await rep.json();
         let bab = rep.access_token
           console.warn(amount, pin_id, narration, nuban, account_name, pin, bank_code )
+          let ite ={amount, bank, nuban, account_name, pin, bank_code, narration}
           let items = {amount, pin_id, narration, nuban, account_name, pin, bank_code};
-          let resut = await fetch ('https://api.prestigedelta.com/banktransfer/',{
+          let resut = await fetch ('https://sandbox.prestigedelta.com/banktransfer/',{
               method: 'POST',
               headers:{
                 'Content-Type': 'application/json',
@@ -62,12 +64,12 @@ let refresh = terms(tok)
            body:JSON.stringify(items)
           });
           
-          if (resut.status !== 200) {
+          if (resut.status !== 201) {
             setMessage('Invalid Information');
           } else {
             resut = await resut.json();
           localStorage.setItem('user-info', JSON.stringify(resut)) 
-          navigate('/components/getrec', {state:{items}} )
+          navigate('/components/getrec', {state:{ite}} )
           }
         }
     return(
@@ -76,7 +78,7 @@ let refresh = terms(tok)
             
             <h3>Confirm Details</h3>
            <div className="meat">
-              <h4>Tranfer ₦{(parseInt(meal.amount)).toLocaleString('en-US')} to<br/> {meal.users.account_number}</h4>
+              <h4>Tranfer ₦{(parseInt(meal.amount)).toLocaleString('en-US')} to<br/> {meal.users.account_name}</h4>
            </div>
            <div className="vasa">
               <p>Account Number</p>

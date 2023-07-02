@@ -24,11 +24,11 @@ import Transact from './components/transact';
 import Pro from './components/pro';
 import Club from './components/club';
 import CreateClub from './components/cclub';
-import Join from './components/joinc'
-import Fclub from './components/fclub'
+import GetGroup from './components/getgroup';
+import Join from './components/joinc';
+import Navbar from './components/navbar';
 import PostMon from './components/getgrp2';
 import Receipt from './components/getrec';
-import GetGroup from './components/getgroup';
 function App() {
   const [loading, setLoading] = useState(true)
 
@@ -65,11 +65,11 @@ function App() {
         <Route path='/components/club' element={<Club />}/>
         <Route path='/components/joinc' element={<Join />} />
         <Route path='/components/cclub' element={<CreateClub />} />
-        <Route path='/components/fclub' element={<Fclub />} />
+        <Route path='/components/getgroup' element={<GetGroup />} />
+        <Route path='/components/navbar' element={<Navbar />} />
         <Route path='/components/getgrp2' element={<PostMon />} />
         <Route path='/components/getrec' element={<Receipt />} />
-        <Route path='/components/getgroup' element={<GetGroup />} />
-        
+              
      </Routes>
       
     </div>

@@ -1,29 +1,28 @@
 import tick from './images/tick.svg';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 const ThankPage=()=>{
      const [monthly_revenue, setMonthly] = useState(100000)
      const [message, setMessage] = useState("");
      const navigate= useNavigate()
     
      let tok= JSON.parse(localStorage.getItem("user-info"));
-     const term = (tok) => {
-      let refval;  
-      if (tok === null || typeof tok === 'undefined') {
-        refval = 0;
+     const terms = (tok) => {
+      let refreshval;
+    
+      if (tok.length === 0) {
+        refreshval = 0;
       } else {
-        refval = tok.refresh_token;
+        refreshval = tok.refresh_token;
       }
     
-      return refval;
-    }
-    let refresh = term(tok)
+      return refreshval;
+    };
+    let refresh = terms(tok)
      async function create(e) {
         e.preventDefault();
         let ite ={refresh}
-        
-    let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
+    let rep = await fetch ('https://sandbox.prestigedelta.com/refreshtoken/',{
         method: 'POST',
         headers:{
           'Content-Type': 'application/json',
@@ -36,7 +35,7 @@ const ThankPage=()=>{
         setMonthly(monthly_revenue)
           console.warn(monthly_revenue)
           let item = {monthly_revenue};
-          let result = await fetch ('https://api.prestigedelta.com/createaccount/',{
+          let result = await fetch ('https://sandbox.prestigedelta.com/createaccount/',{
               method: 'POST',
               headers:{
                 'Content-Type': 'application/json',
@@ -46,15 +45,14 @@ const ThankPage=()=>{
            body:JSON.stringify(item)
           });
           if (result.status !== 201) {
-            result = await result.json()
-            setMessage(JSON.stringify(result));
+            setMessage("Some error occured");
           } else {
             result = await result.json();
-          localStorage.setItem('user-info', JSON.stringify(tok)) 
+          localStorage.setItem('user-info', JSON.stringify(result)) 
           navigate('/components/login')
           }
-        }
-        console.log(tok)
+          
+       }
     return(
         <div className='tha'>
            <div className=''>

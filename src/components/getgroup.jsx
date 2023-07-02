@@ -11,6 +11,7 @@ const GetGroup =()=>{
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
   const [narration, setNarration] = useState('')
+  const [pin_id, setPinid] = useState('')
   const navigate = useNavigate();
   
    
@@ -23,7 +24,7 @@ const GetGroup =()=>{
 
   const handleSubmit=(e)=>{
     e.preventDefault()
-    let data ={amount, selectedOption, nuban, users, narration}
+    let data ={amount, selectedOption, nuban, users, narration, pin_id}
     navigate('/components/getgrp2', {state:{data}})
   }
 
@@ -51,7 +52,7 @@ let refresh = terms(tok)
 
   const fetchDa = async () => {
     let item ={refresh}
-    let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
+    let rep = await fetch ('https://sandbox.prestigedelta.com/refreshtoken/',{
         method: 'POST',
         headers:{
           'Content-Type': 'application/json',
@@ -62,18 +63,23 @@ let refresh = terms(tok)
     
     rep = await rep.json();
     let bab = rep.access_token
-  let response = await fetch("https://api.prestigedelta.com/getbanklist/",{
+  let response = await fetch("https://sandbox.prestigedelta.com/getbanklist/",{
   method: "GET",
   headers:{'Authorization': `Bearer ${bab}`},
   })
   //localStorage.setItem('user-info', JSON.stringify(tok))
-
+  let respet = await fetch("https://sandbox.prestigedelta.com/transferpinid/",{
+    method: "GET",
+    headers:{'Authorization': `Bearer ${bab}`},
+    })
   if (response.status === 401) {
     navigate('/components/login');
-  } else {  
+  } else { 
+  respet = await respet.json(); 
   response = await response.json();
   setLoading(false)
   setInfo(response)
+  setPinid(respet)
     }}
     useEffect(() => {
       fetchDa()
@@ -96,7 +102,7 @@ let refresh = terms(tok)
 
     const fetchData = async () => {
       let item ={refresh}
-      let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
+      let rep = await fetch ('https://sandbox.prestigedelta.com/refreshtoken/',{
           method: 'POST',
           headers:{
             'Content-Type': 'application/json',
@@ -106,7 +112,7 @@ let refresh = terms(tok)
       });
       rep = await rep.json();
       let bab = rep.access_token
-    let response = await fetch(`https://api.prestigedelta.com/banktransfer/?bank_code=${bank_code}&nuban=${nuban}`,{
+    let response = await fetch(`https://sandbox.prestigedelta.com/banktransfer/?bank_code=${bank_code}&nuban=${nuban}`,{
     method: "GET",
     headers:{'Authorization': `Bearer ${bab}`},
     })
@@ -148,7 +154,7 @@ let refresh = terms(tok)
     />
                 <p className='sp'>Account Number</p>
                 <input type='number' onChange={handleAcct} className="line" placeholder="Enter Account Number" name="birth"/><br/> 
-                <div className="me">{users ? <p>{users.account_number}</p> : null}</div>
+                <div className="me">{users ? <p>{users.account_name}</p> : null}</div>
                 <p className='sp'>Enter Amount</p>
                 <input type="number" onChange={handleAmount} className="line" placeholder="0.00" name="BVN"/><br/><br/>
                 <p className='sp'>Add a Note</p>
