@@ -5,7 +5,7 @@ import Vector from './images/Vector.svg';
 let tok= JSON.parse(localStorage.getItem("user-info"));
 const term = (tok) => {
   let refval;  
-  if (tok === null || typeof tok === 'undefined') {
+  if (typeof tok === 'undefined' || tok === null) {
     refval = 0;
   } else {
     refval = tok.refresh_token;
@@ -21,7 +21,7 @@ const Select =()=> {
   let pane = location.state.pal
   const terms = (pane) => {
     let nam;  
-    if (pane.length === 0) {
+    if (typeof pane === 'undefined'|| pane === null) {
       nam = 'null';
     } else {
       nam = pane.pan.name;
@@ -33,7 +33,7 @@ const Select =()=> {
   
   const term1 = (pane) => {
     let tots;  
-    if (typeof pane === 'undefined' || pane === null || pane.length < 6) {
+    if (typeof pane === 'undefined' || pane === null) {
       tots = 0;
     } else {
       tots= pane.pan.tota;
@@ -75,11 +75,12 @@ const Select =()=> {
   
     return ast;
   }
-  let assets = term4(pane);
-  let thirty = parseInt(tota) * 30 / 100;
-  let seventy = tota - thirty;
-  let interest = seventy * 6 / 100;
-  const targetAmount = thirty;
+  let assets = term4(pane)
+  let thirty =parseInt(tota)* 30/100
+  console.log(thirty)
+  let seventy = tota - thirty
+  let interest = seventy * 6/100
+  const targetAmount = thirty
   const frequentSavings = payment_amount;
   
   const paying = (payment_frequency, targetAmount, frequentSavings) => {
@@ -111,9 +112,8 @@ const Select =()=> {
   };
   
   let funding_dat = paying(payment_frequency, targetAmount, frequentSavings);
-  
+  let funding_dates = (funding_dat).toDateString('en-GB')
   let funding_date = (funding_dat).toLocaleDateString('en-GB')
-
   const pay = (payment_frequency, tota, frequentSavings) => {
     let repayment_mat;
     const currentDate = new Date();
@@ -143,17 +143,13 @@ const Select =()=> {
   };
   
   let repayment_mature = pay(payment_frequency, tota, frequentSavings);
-  
+  let repayment_maturi = (repayment_mature).toDateString('en-GB')
   let repayment_maturity = (repayment_mature).toLocaleDateString('en-GB')
-  
-  // const remains = Math.ceil(seventy - frequentSavings) / frequentSavings
-  // let repayment_mature = new Date(currentDate.setMonth(currentDate.getMonth() + remains + 1));
-  // let repayment_maturity =(repayment_mature).toLocaleDateString('en-GB')
-  
+    
   async function agree(e) {
     e.preventDefault();
     let item ={refresh}
-        let rep = await fetch ('https://sandbox.prestigedelta.com/refreshtoken/',{
+        let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
             method: 'POST',
             headers:{
               'Content-Type': 'application/json',
@@ -165,7 +161,7 @@ const Select =()=> {
         let bab = rep.access_token
       console.warn(name, payment_amount, payment_frequency, repayment_maturity, funding_date, assets)
       let project = {name, payment_amount, payment_frequency, repayment_maturity, funding_date, assets};
-      let result = await fetch ('https://sandbox.prestigedelta.com/createproject/',{
+      let result = await fetch ('https://api.prestigedelta.com/createproject/',{
           method: 'POST',
           headers:{
             'Authorization': `Bearer ${bab}`,
@@ -174,50 +170,51 @@ const Select =()=> {
        },
        body:JSON.stringify(project)
       });
-      if (result.status === 401) {
+      if (result.status === 400) {
+        setMessage("Invalid Information");
+      } else if (result.status === 401 ) { 
         navigate('/components/login');
-      } else if (result.status === 500) { 
-        setMessage('Click again!');
       } else {
         result = await result.json();
         navigate('/components/pro', { state: { name } });
       }
+      
     }
     console.log(funding_date)
-    console.log(assets)
- console.log(tok)
- //console.log(funding_dat)
+    console.log(name)
+    console.log(tota)
+   console.log(pane)
  
  
   return(
         <div>
            <Link to='/components/createp'><i class="fa-solid fa-chevron-left bac"></i></Link>
-            <h4>{name}</h4>
+            <h4 className='shi'>{name}</h4>
             <p className='rp'>Estimated Project amount</p>
             <h1 className='rh'>₦{total}</h1>
             <div className='rev'>
                 <p>Saving target</p>
-             <p className='revp'>{thirty}</p>
+             <p className='revp'>₦{thirty}</p>
             </div>
             <div className='rev'>
                 <p>Recuring Savings</p>
                 <p>₦{payment_amount}/{payment_frequency}</p>
             </div>
-            <div className='rev'>
+            <div className='revd'>
                 <p>Amount to be loan</p>
                 <p>₦{seventy}</p>
             </div>
             <div className='rev'>
                 <p>Interest value</p>
-                <p className='revp'>₦{interest}(2%p.a)</p>
+                <p className='revp'>₦{interest}(6%p.a)</p>
             </div>
             <div className='rev'>
                 <p>Est. Maturity date</p>
-                <p>{funding_date}</p>
+                <p>{funding_dates}</p>
             </div>
             <div className='revd'>
                 <p>Est. Repayment date</p>
-                <p>{repayment_maturity}</p>
+                <p>{repayment_maturi}</p>
             </div>
             <div className='dflex'>
             <img src={Vector} alt=''/>

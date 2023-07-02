@@ -16,7 +16,7 @@ const ShareButton = ({ inviteCode }) => {
   };;
 
   return (
-    <button className='logb' onClick={handleShare}>Share App</button>
+    <button className='logb' onClick={handleShare}>Add Members</button>
   );
 };
 

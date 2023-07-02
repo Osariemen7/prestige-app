@@ -1,7 +1,20 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 
-let tok = JSON.parse(localStorage.getItem("user-info"));
+  
+const PersonalPage =() => {
+    const [message, setMessage] = useState("");
+    const [gender, setGender] = useState('');
+    const [dob1, setDob] = useState('');
+    const [bvn, setBvn] = useState('');
+    const [city, setCity] = useState('');
+    const [state, setState] = useState('');
+    const [address, setAddress] = useState('');
+    const [business_name, setBusinessname] = useState('');
+    const [business_type, setBusinesstype] = useState('');
+    const [create_anchor_user, setCreateanchoruser] = useState(true);
+    const navigate = useNavigate();
+    let tok = JSON.parse(localStorage.getItem("user-info"));
 const terms = (tok) => {
     let refreshval;
   
@@ -20,25 +33,13 @@ const terms = (tok) => {
     
      banes = "";
     } else {
-      banes = tok.first_name;;
+      banes = tok.last_name;
     }
   
     return banes;
   };
   let bane = term(tok)
-  
-const PersonalPage =() => {
-    const [message, setMessage] = useState("");
-    const [gender, setGender] = useState('');
-    const [dob1, setDob] = useState('');
-    const [bvn, setBvn] = useState('');
-    const [city, setCity] = useState('');
-    const [state, setState] = useState('');
-    const [address, setAddress] = useState('');
-    const [business_name, setBusinessname] = useState('');
-    const [business_type, setBusinesstype] = useState('');
-    const [create_anchor_user, setCreateanchoruser] = useState(true);
-    const navigate = useNavigate();
+
     const handleBusiness=(event) =>{
         setBusinessname(event.target.value)
     }
@@ -71,7 +72,7 @@ let dob = `${day}/${month}/${year}`;
 async function bus(e) {
     e.preventDefault();
     let ite ={refresh}
-    let rep = await fetch ('https://sandbox.prestigedelta.com/refreshtoken/',{
+    let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
         method: 'POST',
         headers:{
           'Content-Type': 'application/json',
@@ -85,7 +86,7 @@ async function bus(e) {
       setCreateanchoruser(create_anchor_user)
       console.warn(gender, address, dob, bvn, city, state, business_name, business_type, create_anchor_user)
       let item = {gender, address, dob, bvn, city, state, business_name, business_type, create_anchor_user};
-      let result = await fetch ('https://sandbox.prestigedelta.com/updateuser/',{
+      let result = await fetch ('https://api.prestigedelta.com/updateuser/',{
           method: 'POST',
           headers:{
             'Content-Type': 'application/json',
@@ -96,7 +97,8 @@ async function bus(e) {
       });
     
       if (result.status !== 200) {
-        setMessage("Some error occured");
+        result = await result.json()
+        setMessage(JSON.stringify(result));
       } else {
         result = await result.json();
       localStorage.setItem('user-info', JSON.stringify(tok)) 

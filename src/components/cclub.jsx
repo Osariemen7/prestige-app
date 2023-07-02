@@ -27,7 +27,7 @@ let refresh = terms(tok)
     const create = async(e) => {
         e.preventDefault();
     let ite ={refresh}
-    let rep = await fetch ('https://sandbox.prestigedelta.com/refreshtoken/',{
+    let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
         method: 'POST',
         headers:{
           'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ let refresh = terms(tok)
     
       console.warn(name)
       let item = {name};
-      let result = await fetch ('https://sandbox.prestigedelta.com/creategroup/',{
+      let result = await fetch ('https://api.prestigedelta.com/creategroup/',{
           method: 'POST',
           headers:{
             'Content-Type': 'application/json',

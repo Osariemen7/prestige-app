@@ -40,7 +40,7 @@ let refresh = terms(tok)
         let account_name = meal.users.account_name
         let bank = meal.selectedOption.label
         let item ={refresh}
-        let rep = await fetch ('https://sandbox.prestigedelta.com/refreshtoken/',{
+        let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
             method: 'POST',
             headers:{
               'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ let refresh = terms(tok)
           console.warn(amount, pin_id, narration, nuban, account_name, pin, bank_code )
           let ite ={amount, bank, nuban, account_name, pin, bank_code, narration}
           let items = {amount, pin_id, narration, nuban, account_name, pin, bank_code};
-          let resut = await fetch ('https://sandbox.prestigedelta.com/banktransfer/',{
+          let resut = await fetch ('https://api.prestigedelta.com/banktransfer/',{
               method: 'POST',
               headers:{
                 'Content-Type': 'application/json',

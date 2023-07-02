@@ -5,7 +5,11 @@ import f123 from './images/f123.svg';
 import { Link, useNavigate } from 'react-router-dom'
 
 
-let tok= JSON.parse(localStorage.getItem("user-info"));
+ 
+const FundPage =()=>{
+  const [data, setData] = useState('')
+  const navigate = useNavigate()
+  let tok= JSON.parse(localStorage.getItem("user-info"));
 const term = (tok) => {
   let refval;  
   if (tok === null || typeof tok === 'undefined') {
@@ -17,13 +21,11 @@ const term = (tok) => {
   return refval;
 }
 let refresh = term(tok)
- 
-const FundPage =()=>{
-  const [data, setData] = useState('')
-  const navigate = useNavigate()
+
+  
   const fetchDat = async () => {
     let item ={refresh}
-    let rep = await fetch ('https://sandbox.prestigedelta.com/refreshtoken/',{
+    let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
         method: 'POST',
         headers:{
           'Content-Type': 'application/json',
@@ -32,18 +34,17 @@ const FundPage =()=>{
      body:JSON.stringify(item)
     });
     rep = await rep.json();
-    
     let bab = rep.access_token
-  let response = await fetch("https://sandbox.prestigedelta.com/virtualnuban/",{
+  let response = await fetch("https://api.prestigedelta.com/virtualnuban/",{
   method: "GET",
   headers:{'Authorization': `Bearer ${bab}`},
   })
   response = await response.json()
   if (response.status !== 200) {
     navigate(window.location.pathname, { replace: true });
-  } else {
-  
-    response = await response.json();}
+  } else {  
+  response = await response.json();}
+
  setData(response)
   
 }
@@ -68,7 +69,7 @@ console.log(tok)
             <div className="fflex">
                 <img src={user} alt=''/>
                 <div>
-                  <p className='fdiv'>Name</p>
+                  <p className='fdiv'>Account Name</p>
                   <h3 className='dh3'>{data.account_name}</h3>
                 </div>   
             </div>
@@ -79,6 +80,7 @@ console.log(tok)
                   <h3 className='dh3'>{data.account_number}</h3>
                 </div>   
             </div>
+            
         </div>
     )
 }

@@ -1,14 +1,18 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-
+import plus from './images/plus.svg';
 
   
    
 
 const ProjectPage =()=>{
+    const [users, setUsers] = useState('');
      const [hidden, setHidden] = useState("******");
     const [info, setInfo] = useState('')
     const navigate = useNavigate()
+    const [sidebar, setSidebar] = useState('')
+
+  const showSidebar = () => setSidebar(!sidebar)
     let tok= JSON.parse(localStorage.getItem("user-info"));
     const terms = (tok) => {
        let refreshval;
@@ -22,12 +26,11 @@ const ProjectPage =()=>{
   return refreshval;
 };
 let refresh = terms(tok)
-
     
-    
+   
     const fetchDa = async () => {
         let item ={refresh}
-        let rep = await fetch ('https://sandbox.prestigedelta.com/refreshtoken/',{
+        let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
             method: 'POST',
             headers:{
               'Content-Type': 'application/json',
@@ -35,73 +38,133 @@ let refresh = terms(tok)
          },
          body:JSON.stringify(item)
         });
-        
+    
         rep = await rep.json();
         let bab = rep.access_token
-      let response = await fetch("https://sandbox.prestigedelta.com/projectlist/",{
+      let response = await fetch("https://api.prestigedelta.com/projectlist/",{
       method: "GET",
       headers:{'Authorization': `Bearer ${bab}`},
       })
       //localStorage.setItem('user-info', JSON.stringify(tok))
-
+      
       if (response.status === 401) {
         navigate('/components/login');
       } else {  
       response = await response.json();
     
       setInfo(response)
-        }}
+      }}
   
     useEffect(() => {
       fetchDa()
     }, [])
-
+    const show=(index)=>{
+      const data = info[index]
+       navigate('/components/Addlist', {state:{data}})
+    }
+  
+      const toggleHidden =()=>{
+        if(hidden==="******")
+        {let gal =(info[0].balance).toLocaleString('en-US')
+          
+         setHidden(`₦${gal}`)
+         return;
+        }
+        setHidden("******")
+      }
+     
     
    // let nam =parseInt( info[0].target_equity)/parseInt(info[0].target) * 100
     
    // console.log(nam) 
    console.log(tok)
-   console.log(info)
+   console.log()
    
-  const show=(index)=>{
-    const data = info[index]
-     navigate('/components/Addlist', {state:{data}})
-  } 
-  const toggleHidden =()=>{
-    if(hidden==="******")
-    {let gal =(info[0].balance).toLocaleString('en-US')
-      
-     setHidden(`₦${gal}`)
-     return;
-    }
-    setHidden("******")
-  }
-  console.log(info)
+   
  if(info.length < 1){
     return(
+      
         <div>
+        <i onClick={showSidebar} class="fa-solid fa-bars bac"></i>
+            <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+                <ul className='nav-menu-item'>
+                    <li className='nav-close'>
+                    <i onClick={showSidebar} class="fa-solid fa-x"></i>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-house"></i>
+                    <span className='dfp'>Home</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/project' className='nav-text'><i class="fa-solid fa-layer-group home"></i>
+                  <span className='dfp'>Project</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/club' className='nav-text'><i class="fa-solid fa-people-group home"></i>
+                     <span className='dfp'>Club</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet home"></i>
+                      <span className='dfp'>Account</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    
+                    <Link to='/components/login' className='nav-text'><i class="fa-solid fa-share"></i>
+                      <span className='dfp'>Log Out</span></Link>
+                    </li>
+                
+                    
+                </ul>
+            </nav>
         <h2 className='head'>Project</h2>
         <div className="dash">
            <p className='dp'>Total Balance</p>
-           <h1 className='tp'>₦0</h1>
+           <h1 className='h1'>₦0</h1>
         </div>
         <p className='l'>PROJECT PLANS</p>
         <div className='opend'>
-            <p>You have no active project plan yet.<br /> Tap + icon to create an active project plan</p>
+            <p>You have no active project plan yet.<br /> To access low interest credit, create your first project</p>
         </div>
          <Link to='/components/pop'>
          <button className='logb'>Create First Project</button></Link>
-        <footer className='dflex2'>
-        <Link to='/components/dash'><i class="fa-solid fa-house home"></i></Link>  
-          <i class="fa-solid fa-layer-group home1"></i>
-          <i class="fa-solid fa-people-group home"></i>
-        <Link to='/components/accounts'><i class="fa-solid fa-wallet home"></i></Link>
-          
-        </footer>
+        
+        
     </div>    
+    
     )} else{
         return(
             <div>
+            <i onClick={showSidebar} class="fa-solid fa-bars bac"></i>
+            <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+                <ul className='nav-menu-item'>
+                    <li className='nav-close'>
+                    <i onClick={showSidebar} class="fa-solid fa-x"></i>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-house"></i>
+                    <span className='dfp'>Home</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/project' className='nav-text'><i class="fa-solid fa-layer-group home"></i>
+                  <span className='dfp'>Project</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/club' className='nav-text'><i class="fa-solid fa-people-group home"></i>
+                     <span className='dfp'>Club</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet home"></i>
+                      <span className='dfp'>Account</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    
+                    <Link to='/components/login' className='nav-text'><i class="fa-solid fa-share"></i>
+                      <span className='dfp'>Log Out</span></Link>
+                    </li>
+                
+                    
+                </ul>
+            </nav>
             <div className="dash">
                     <h3 className="h1">Project</h3>
                     <p className='dp'>Total Balance</p>
@@ -111,7 +174,7 @@ let refresh = terms(tok)
             <p className='l'>PROJECT PLANS</p>
             {info.map((obj, index) =>
             <div onClick={() => show(index)} className='pd'>
-                 <p className='asav1'>Next Payment Date: {(new Date(obj.next_payment_day)).toDateString('en-GB')}</p>
+            <p className='asav1'>Next Payment Date: {(new Date(obj.next_payment_day)).toDateString('en-GB')}</p>
                 <p className='asav1'>Amount To pay: ₦{(obj.payment_amount).toLocaleString('en-US')}</p>
                 <div className='pp'>
                 <p className='pn' key={index}>{obj.name}</p>
@@ -124,31 +187,11 @@ let refresh = terms(tok)
                 <div className="progress-b" style={{ width: `${100}%` }}>
                 <div className="progress-bar" style={{ width: `${parseInt( obj.equity)/parseInt(obj.target) * 100}%` }}>
                    </div> </div>
-                    
                 
             </div>)}
             <Link to='/components/pop'>
          <button className='logb'>New Project</button></Link>
-         <footer className='dflex2'>
-                <div>
-                <Link to='/components/dash'><i class="fa-solid fa-house home"></i>
-                  
-                  <p className='dfp'>Home</p></Link>
-                </div>
-                <div>
-                <i class="fa-solid fa-layer-group home1"></i>
-                  <p className='dfp'>Project</p>
-                </div>
-                <div>
-                <Link to='/components/club'><i class="fa-solid fa-people-group home"></i></Link>
-                  <p className='dfp'>Club</p>
-                </div>
-                <div>
-                <Link to='/components/accounts'><i class="fa-solid fa-wallet home"></i></Link>
-                  
-                  <p className='dfp'>Account</p>
-                </div> 
-            </footer>
+         
             </div>
         )
     }

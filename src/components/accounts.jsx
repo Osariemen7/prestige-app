@@ -3,10 +3,13 @@ import {Link, useNavigate} from "react-router-dom";
 import { Helmet } from "react-helmet"
 
 const Accounts =()=> {
-  const [info, setInfo] = useState('')
+  const [info, setInfo] = useState([])
   const [users, setUsers] = useState('');
   const [hidden, setHidden] = useState("******");
   const navigate= useNavigate()
+  const [sidebar, setSidebar] = useState('')
+
+  const showSidebar = () => setSidebar(!sidebar)
     let tok= JSON.parse(localStorage.getItem("user-info"));
     const terms = (tok) => {
       let refreshval;
@@ -41,11 +44,11 @@ const Accounts =()=> {
   })
   response = await response.json()
   localStorage.setItem('user-info', JSON.stringify(tok))
-//   if (data.code === 'token_not_valid'){
-//     navigate('/components/token')
-//   } else {
+ if (response.status === 401){
+     navigate('/components/login')
+  } else {
  setUsers(response)
-  }
+  }}
 
 useEffect(() => {
   fetchData()
@@ -74,13 +77,13 @@ const toggleHidden =()=>{
           });
           rep = await rep.json();
           let bab = rep.access_token
-        let response = await fetch("https://api.prestigedelta.com/transactionlist/?start_date=01/31/2022&end_date=07/31/2023",{
+        let response = await fetch("https://api.prestigedelta.com/transactionlist/?start_date=01/31/2023&end_date=07/31/2023",{
         method: "GET",
         headers:{'Authorization': `Bearer ${bab}`},
         })
-        
-        if (response.status === 401) {
-          navigate('/components/login');
+        response = await response.json()
+        if (response.status !== 200) {
+          navigate(window.location.pathname, { replace: true });
         } else {  
         response = await response.json();}
 
@@ -99,6 +102,35 @@ return(
             <title>Transactions</title>
             
         </Helmet>
+        <i onClick={showSidebar} class="fa-solid fa-bars bac"></i>
+            <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+                <ul className='nav-menu-item'>
+                    <li className='nav-close'>
+                    <i onClick={showSidebar} class="fa-solid fa-x"></i>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-house"></i>
+                    <span className='dfp'>Home</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/project' className='nav-text'><i class="fa-solid fa-layer-group home"></i>
+                  <span className='dfp'>Project</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/club' className='nav-text'><i class="fa-solid fa-people-group home"></i>
+                     <span className='dfp'>Club</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet home"></i>
+                      <span className='dfp'>Account</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    
+                    <Link to='/components/login' className='nav-text'><i class="fa-solid fa-share"></i>
+                      <span className='dfp'>Log Out</span></Link>
+                    </li>
+                </ul>
+            </nav>
            <div className="dash">
               <h3 className="h1">Account</h3>
               <p className='dp'>Total Balance</p>
@@ -115,42 +147,54 @@ return(
                 <button className='abut'>Overdraft</button>
               </div>
               <p className='l'>RECENT TRANSACTIONS</p>
-              <p className='ad'>no transaction yet</p>
+              <p className='ad'>No transaction yet</p>
 
-          <footer className='dflex2'>
-                <div>
-                <Link to='/components/dash'><i class="fa-solid fa-house home"></i></Link>
-                  
-                  <p className='dfp'>Home</p>
-                </div>
-                <div>
-                <Link to='/components/project'><i class="fa-solid fa-layer-group home"></i></Link>
-                  <p className='dfp'>Project</p>
-                </div>
-                <div>
-                  <i class="fa-solid fa-people-group home"></i>
-                  <p className='dfp'>Club</p>
-                </div>
-                <div>
-                  <i class="fa-solid fa-wallet home1"></i>
-                  <p className='dfp'>Account</p>
-                </div> 
-            </footer> 
         </div>
     )
     return(
       <div>
+             <i onClick={showSidebar} class="fa-solid fa-bars bac"></i>
+            <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+                <ul className='nav-menu-item'>
+                    <li className='nav-close'>
+                    <i onClick={showSidebar} class="fa-solid fa-x"></i>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-house"></i>
+                    <span className='dfp'>Home</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/project' className='nav-text'><i class="fa-solid fa-layer-group home"></i>
+                  <span className='dfp'>Project</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/club' className='nav-text'><i class="fa-solid fa-people-group home"></i>
+                     <span className='dfp'>Club</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet home"></i>
+                      <span className='dfp'>Account</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    
+                    <Link to='/components/login' className='nav-text'><i class="fa-solid fa-share"></i>
+                      <span className='dfp'>Log Out</span></Link>
+                    </li>
+                
+                    
+                </ul>
+            </nav>
              <div className="dash">
                 <h3 className="h1">Account</h3>
                 <p className='dp'>Total Balance</p>
                 { hidden ? <i onClick={toggleHidden} class="fa-regular fa-eye-slash see"></i> : <i class="fa-regular fa-eye see" onClick={toggleHidden}></i>}
                 <h1 className="h1">{hidden}</h1>
                 <div className="acct">
-                 <Link to='/components/fund'><button className='abut'>Add Fund</button></Link> 
-                 <div>
-                    <Link to='./transact'><button className='abut'>Transfer</button></Link>
-                 </div>
-        
+                <Link to='/components/fund'><button className='abut'>Add Fund</button></Link> 
+               <div>
+                  <Link to='/components/getgroup'><button className='abut'>Transfer</button></Link>
+               </div>
+
                   <button className='abut'>Overdraft</button>
                 </div>
              </div>
@@ -169,24 +213,7 @@ return(
                        <p className='tm' key={index}>{obj.narration}</p>
                   </div>
                        )}
-                       <footer className='dflex2'>
-                  <div>
-                    <Link to='/components/dash'><i class="fa-solid fa-house home"></i></Link>
-                    <p className='dfp'>Home</p>
-                  </div>
-                  <div>
-                  <Link to='/components/project'><i class="fa-solid fa-layer-group home"></i></Link>
-                    <p className='dfp'>Project</p>
-                  </div>
-                  <div>
-                    <i class="fa-solid fa-people-group home"></i>
-                    <p className='dfp'>Club</p>
-                  </div>
-                  <div>
-                    <i class="fa-solid fa-wallet home1"></i>
-                    <p className='dfp'>Account</p>
-                  </div> 
-              </footer> 
+                        
       </div>
    )
 }
