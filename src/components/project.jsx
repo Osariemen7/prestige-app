@@ -174,7 +174,8 @@ let refresh = terms(tok)
             <p className='l'>PROJECT PLANS</p>
             {info.map((obj, index) =>
             <div onClick={() => show(index)} className='pd'>
-            <p className='asav1'>Next Payment Date: {(new Date(obj.next_payment_day)).toDateString('en-GB')}</p>
+            {new Date() < new Date(obj.next_payment_day) ? ( 
+                 <p style={{color:'green'}} className='asav1'>Next Payment Date: {(new Date(obj.next_payment_day)).toDateString('en-GB')}</p>): <p style={{color:'red'}} className='asav1'>Next Payment Date: {(new Date(obj.next_payment_day)).toDateString('en-GB')}</p>} run
                 <p className='asav1'>Amount To pay: ₦{(obj.payment_amount).toLocaleString('en-US')}</p>
                 <div className='pp'>
                 <p className='pn' key={index}>{obj.name}</p>
