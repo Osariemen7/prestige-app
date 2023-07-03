@@ -68,18 +68,15 @@ let refresh = terms(tok)
   headers:{'Authorization': `Bearer ${bab}`},
   })
   //localStorage.setItem('user-info', JSON.stringify(tok))
-  let respet = await fetch("https://api.prestigedelta.com/transferpinid/",{
-    method: "GET",
-    headers:{'Authorization': `Bearer ${bab}`},
-    })
+  
   if (response.status === 401) {
     navigate('/components/login');
   } else { 
-  respet = await respet.json(); 
+  
   response = await response.json();
   setLoading(false)
   setInfo(response)
-  setPinid(respet)
+  
     }}
     useEffect(() => {
       fetchDa()
@@ -116,16 +113,22 @@ let refresh = terms(tok)
     method: "GET",
     headers:{'Authorization': `Bearer ${bab}`},
     })
+    let respet = await fetch("https://api.prestigedelta.com/transferpinid/",{
+    method: "GET",
+    headers:{'Authorization': `Bearer ${bab}`},
+    })
+     respet = await respet.json();
     response = await response.json()
     localStorage.setItem('user-info', JSON.stringify(tok))
   //   if (data.code === 'token_not_valid'){
   //     navigate('/components/token')
   //   } else {
    setUsers(response)
+   setPinid(respet)
     }
   
   useEffect(() => {
-  if (selectedOption !== '' && nuban.length=== 10) {
+  if (selectedOption !== '' && nuban.length=== 10 ) {
     fetchData();
   }
 }, [selectedOption, nuban]);
