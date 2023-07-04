@@ -12,6 +12,7 @@ const GetGroup =()=>{
   const [loading, setLoading] = useState(true)
   const [narration, setNarration] = useState('')
   const [pin_id, setPinid] = useState('')
+  const [message, setMessage] = useState('')
   const navigate = useNavigate();
   
    
@@ -25,8 +26,13 @@ const GetGroup =()=>{
   const handleSubmit=(e)=>{
     e.preventDefault()
     let data ={amount, selectedOption, nuban, users, narration, pin_id}
+    if (typeof users !=='object'){
+      setMessage('invalid Input')
+    }
+    else {
+    
     navigate('/components/getgrp2', {state:{data}})
-  }
+  }}
 
   const handleAcct =(event)=> {
     setNuban(event.target.value)
@@ -163,6 +169,7 @@ let refresh = terms(tok)
                 <p className='sp'>Add a Note</p>
                 <input type='text' onChange={handleNote} placeholder='Add a note' className='line' />
                 <button onClick={handleSubmit} className='tranb'>Next</button>
+                <div className="message">{message ? <p>{message}</p> : null}</div>
       </form>
     </div>
   )
