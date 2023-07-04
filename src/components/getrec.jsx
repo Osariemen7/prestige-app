@@ -14,7 +14,7 @@ const Receipt=()=> {
     console.log(meal)
     return(
         <div>
-        <Link to='/components/accounts'><i class="fa-solid fa-chevron-left bac"></i></Link>
+        <Link to='/components/getgroup'><i class="fa-solid fa-chevron-left bac"></i></Link>
             <main id="main-element">
                 <h2>Sucessful!</h2>
                 <h3>Tranfer of ₦{(parseInt(meal.amount)).toLocaleString('en-US')} to<br/> {meal.account_name}</h3>
