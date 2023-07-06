@@ -64,7 +64,10 @@ const toggleHidden =()=>{
            }
            setHidden("******")
          }
-         
+         const currentDate = new Date(); // Get the current date
+
+    const thirtyDaysBefore = new Date(); // Create a new Date object
+    thirtyDaysBefore.setDate(currentDate.getDate() - 90)  
          const fetchInfo = async () => {
           let item ={refresh}
           let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
@@ -77,7 +80,7 @@ const toggleHidden =()=>{
           });
           rep = await rep.json();
           let bab = rep.access_token
-        let response = await fetch("https://api.prestigedelta.com/transactionlist/?start_date=01/31/2023&end_date=07/31/2023",{
+        let response = await fetch(`https://api.prestigedelta.com/transactionlist/?start_date=${(thirtyDaysBefore).toLocaleDateString('en-GB')}&end_date=${(new Date()).toLocaleDateString('en-GB')}`,{
         method: "GET",
         headers:{'Authorization': `Bearer ${bab}`},
         })
