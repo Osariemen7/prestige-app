@@ -98,7 +98,6 @@ async function fproj(e) {
       setMessage(JSON.stringify(result));
     } else {
       result = await result.json();
-    localStorage.setItem('user-info', JSON.stringify(result)) 
       closeModal()
     }
     
