@@ -2,7 +2,13 @@ import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Vector from './images/Vector.svg';
 
-let tok= JSON.parse(localStorage.getItem("user-info"));
+
+const Select =()=> {
+    const [message, setMessage] = useState('')
+    const navigate = useNavigate()
+    const location = useLocation();
+
+  let tok= JSON.parse(localStorage.getItem("user-info"));
 const term = (tok) => {
   let refval;  
   if (typeof tok === 'undefined' || tok === null) {
@@ -14,10 +20,6 @@ const term = (tok) => {
   return refval;
 }
 let refresh = term(tok)
-const Select =()=> {
-    const [message, setMessage] = useState('')
-    const navigate = useNavigate()
-    const location = useLocation();
   let pane = location.state.pal
   const terms = (pane) => {
     let nam;  
@@ -26,7 +28,6 @@ const Select =()=> {
     } else {
       nam = pane.pan.name;
     }
-  
     return nam;
   };
   let name = terms(pane)

@@ -9,8 +9,12 @@ const Addlist=()=>{
   const [isOpen, setIsOpen] = useState(false);
   const [amount, setAmount] = useState('')
   const [message, setMessage] = useState('')
+  const [isOpens, setIsOpens] = useState(false);
+  const [tock, setTock] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate()
   const location = useLocation();
+
   let index = location.state.data
   let tok= JSON.parse(localStorage.getItem("user-info"));
   const terms = (tok) => {
@@ -34,7 +38,17 @@ let refresh = terms(tok)
   const closeModal = () => {
     setIsOpen(false);
   };
-  
+  const openModal1 = () => {
+    setIsOpens(true);
+  };
+  const closeModal1 = () => {
+    setIsOpens(false);
+    
+  };
+   const close =() => {
+    navigate('/components/project')
+   }
+
   const handleInputChange = (event) => {
     setAmount(event.target.value);
   };
@@ -61,8 +75,7 @@ let refresh = terms(tok)
     response = await response.json()
     setInfo(response)
     setLoading(false)
-    }
-  
+    } 
 }
 useEffect(() => {
   fetchDa()
@@ -100,8 +113,40 @@ async function fproj(e) {
       result = await result.json();
       closeModal()
     }
-    
  }
+ async function closeProj(e){
+  e.preventDefault()
+  let project_name = index.name;
+  let item ={refresh}
+      let rep = await fetch ('https://sandbox.prestigedelta.com/refreshtoken/',{
+          method: 'POST',
+          headers:{
+            'Content-Type': 'application/json',
+            'accept' : 'application/json'
+       },
+       body:JSON.stringify(item)
+      });
+      
+      rep = await rep.json();
+      let bab = rep.access_token
+        console.warn(project_name )
+        let ite ={project_name}
+        let resut = await fetch ('https://api.prestigedelta.com/closeproject/',{
+            method: 'POST',
+            headers:{
+              'Content-Type': 'application/json',
+              'accept' : 'application/json',
+              'Authorization': `Bearer ${bab}`
+         },
+         body:JSON.stringify(ite)
+        });
+        if (resut.status !== 200) {
+          const errorResult = await resut.json();
+          setError(JSON.stringify(errorResult));
+        } else {
+           resut =await resut.json();
+              setTock(JSON.stringify(resut))}
+}
 console.log(tok)
 if(loading) {
   return(
@@ -165,6 +210,7 @@ if(loading) {
                 <p>Total</p>
                 <p>₦{(index.target).toLocaleString('en-US')}</p>
                </div>
+               <button className="plog" onClick={openModal1} >Close Project</button>
             </div>
             <Modal
             className='modal'
@@ -172,7 +218,7 @@ if(loading) {
              onRequestClose={closeModal}
                contentLabel="Example Popup">
         <i class="fa-solid fa-x mx" onClick={closeModal}></i>
-           <h3 className='h4'>instantly Top up</h3>
+           <h3 className='h4'>Instantly Top Up</h3>
             <form >
                 <p className='mp'>Enter Amount</p>
                 <input type="text" className='mine'  onChange={handleInputChange} /><br/>
@@ -182,9 +228,30 @@ if(loading) {
                     <option>Prestige Account</option>
                 </select>
                 {message ? <p>{message}</p> : null} 
-                <button className='logb' onClick={fproj}>Continue</button>
+                <button className='logbs' onClick={fproj}>Continue</button>
             </form>
             </Modal> 
+            <Modal
+      className='prmo'
+      isOpen={isOpens}
+      onRequestClose={closeModal1}
+      contentLabel="Example Popup"
+    >
+    {tock === '' ? (
+      <div>
+         <h3>Are you sure you want to close this project?</h3>
+        <div  className="aflex">
+          <button className="plut" onClick={closeProj}>Yes</button>
+          <button className="plut" onClick={closeModal1}>No</button>
+        </div>
+        <p>Funds will be transfered into main account</p>
+      </div>) :
+      <div>
+          <i class="fa-solid fa-x tx" onClick={close}></i>
+          <h4>{tock}</h4>
+          <p>{error}</p>
+      </div>}
+    </Modal>
     </div>
   )
 }

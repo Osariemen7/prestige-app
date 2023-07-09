@@ -451,7 +451,36 @@ hr{
     border-color: red;
     padding: 2%;
   }
-  
+  .plog{
+    margin: 5% auto;
+    background-color: red;
+    color:#fff;
+    border-color: red;
+    padding: 2%;
+  }
+  .plut{
+    background-color: #060b26;
+    color: #fff;
+    border-color: #060b26;
+    width: 40%;
+  }
+  .prmo{
+      margin-top: 75%;
+      width: 300px;
+      padding: 15%;
+      background-color: #fff;
+      height: 15vh;
+  }
+  .logbs{
+    width: 250px;
+    height:35px;
+    padding:0 2%;
+    background-color: blue;
+    border: none;
+    margin-left: 20px;
+    margin-top: 30px;
+    color: #fff;
+}
 .li{
   height: 40px;
   width: 275px;
@@ -687,12 +716,12 @@ hr{
   margin-bottom: 0;
 }
 .modal{
+  padding: 10% 5%;
   text-align: center;
   margin-top: 30px;
-  width:95%;
+  width:90%;
   background-color: #fff;
-  height: 500px;
-  
+  height: 89vh;
 }
 .clup{
   display: flex;

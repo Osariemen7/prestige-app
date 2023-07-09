@@ -46,12 +46,16 @@ let refresh = terms(tok)
       headers:{'Authorization': `Bearer ${bab}`},
       })
       //localStorage.setItem('user-info', JSON.stringify(tok))
-      
+      let respon = await fetch("https://api.prestigedelta.com/projects/",{
+        method: "GET",
+        headers:{'Authorization': `Bearer ${bab}`},
+        })
       if (response.status === 401) {
         navigate('/components/login');
       } else {  
       response = await response.json();
-    
+      respon = await respon.json()
+      setUsers(respon)
       setInfo(response)
       }}
   
@@ -65,7 +69,7 @@ let refresh = terms(tok)
   
       const toggleHidden =()=>{
         if(hidden==="******")
-        {let gal =(info[0].balance).toLocaleString('en-US')
+        {let gal =(users.total_balance).toLocaleString('en-US')
           
          setHidden(`₦${gal}`)
          return;
