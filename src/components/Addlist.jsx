@@ -2,16 +2,17 @@ import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Vector from './images/Vector.svg';
 import Modal from 'react-modal';
+import good from './images/good.svg';
+
 
 const Addlist=()=>{
-  const [info, setInfo] = useState('')
-  const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [amount, setAmount] = useState('')
   const [message, setMessage] = useState('')
   const [isOpens, setIsOpens] = useState(false);
   const [tock, setTock] = useState('');
   const [error, setError] = useState('');
+  const [fun, setFun] = useState('')
   const navigate = useNavigate()
   const location = useLocation();
 
@@ -52,34 +53,7 @@ let refresh = terms(tok)
   const handleInputChange = (event) => {
     setAmount(event.target.value);
   };
-  const fetchDa = async () => {
-    let item ={refresh}
-    let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
-        method: 'POST',
-        headers:{
-          'Content-Type': 'application/json',
-          'accept' : 'application/json'
-     },
-     body:JSON.stringify(item)
-    });
-    rep = await rep.json();
-    let bab = rep.access_token
-  let response = await fetch("https://api.prestigedelta.com/projectlist/",{
-  method: "GET",
-  headers:{'Authorization': `Bearer ${bab}`},
-  })
-  //localStorage.setItem('user-info', JSON.stringify(item))
-  if (response.status === 401) {
-    navigate('/components/login');
-  } else {  
-    response = await response.json()
-    setInfo(response)
-    setLoading(false)
-    } 
-}
-useEffect(() => {
-  fetchDa()
-}, [])
+  
 
 async function fproj(e) {
   e.preventDefault();
@@ -97,23 +71,32 @@ async function fproj(e) {
     console.warn(index.name, amount)
     let project_name = index.name
     let item = {project_name, amount};
-    let result = await fetch ('https://api.prestigedelta.com/fundproject/',{
-        method: 'POST',
-        headers:{
-          'Content-Type': 'application/json',
-          'accept' : 'application/json',
-          'Authorization': `Bearer ${bab}`
-     },
-     body:JSON.stringify(item)
+  
+
+  try {
+    let result = await fetch('https://api.prestigedelta.com/fundproject/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'accept': 'application/json',
+        'Authorization': `Bearer ${bab}`
+      },
+      body: JSON.stringify(item)
     });
+
     if (result.status !== 200) {
-      result = await result.json()
-      setMessage(JSON.stringify(result));
+      const errorResult = await result.json();
+      setMessage(JSON.stringify(errorResult));
     } else {
-      result = await result.json();
-      closeModal()
+       result =await result.json();
+       setFun(JSON.stringify(result))
     }
- }
+  } catch (error) {
+    // Handle fetch error
+    console.error(error);
+  }
+;
+}
  async function closeProj(e){
   e.preventDefault()
   let project_name = index.name;
@@ -147,11 +130,8 @@ async function fproj(e) {
            resut =await resut.json();
               setTock(JSON.stringify(resut))}
 }
-console.log(tok)
-if(loading) {
-  return(
-  <p>Loading</p>)
-}
+console.log(error)
+
   return(
     <div>
         <Link to='/components/project'><i class="fa-solid fa-chevron-left bac"></i></Link>
@@ -217,19 +197,27 @@ if(loading) {
             isOpen={isOpen}
              onRequestClose={closeModal}
                contentLabel="Example Popup">
-        <i class="fa-solid fa-x mx" onClick={closeModal}></i>
-           <h3 className='h4'>Instantly Top Up</h3>
-            <form >
-                <p className='mp'>Enter Amount</p>
-                <input type="text" className='mine'  onChange={handleInputChange} /><br/>
-                <p className='mp'>Payment Method</p>
-                <select className="line">
-                    <option></option>
-                    <option>Prestige Account</option>
+        {fun === '' ? (
+      <div>
+      <i className="fa-solid fa-x mx" onClick={closeModal}></i>
+      <h3 className='h4'>Instantly Top Up</h3>
+      <form>
+        <p className='mp'>Enter Amount</p>
+        <input type="text" className='mine' onChange={handleInputChange} /><br />
+        <p className='mp'>Payment Method</p>
+        <select className="line">
+                <option></option>
+                <option>Prestige Account</option>
                 </select>
                 {message ? <p>{message}</p> : null} 
                 <button className='logbs' onClick={fproj}>Continue</button>
             </form>
+            </div>) :
+            <div>
+          <i class="fa-solid fa-x tx" onClick={close}></i>
+          <img src={good} alt="" />
+          <h4 className="hoo">Project Successfully funded!</h4>  
+      </div>}
             </Modal> 
             <Modal
       className='prmo'
@@ -248,8 +236,8 @@ if(loading) {
       </div>) :
       <div>
           <i class="fa-solid fa-x tx" onClick={close}></i>
-          <h4>{tock}</h4>
-          <p>{error}</p>
+          <img className="goo" src={good} alt="" />
+          <h4 className="hoo">Project Closed Successfully</h4>
       </div>}
     </Modal>
     </div>

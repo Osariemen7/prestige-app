@@ -396,9 +396,9 @@ hr{
   .trmo{
     margin-top: 50%;
     width: 300px;
-    padding: 15%;
+    padding: 12%;
     background-color: #fff;
-    height: 70vh;
+    height: 75vh;
   }
   .tx{
     text-align: right;
@@ -469,7 +469,7 @@ hr{
       width: 300px;
       padding: 15%;
       background-color: #fff;
-      height: 15vh;
+      height: 25vh;
   }
   .logbs{
     width: 250px;
@@ -487,6 +487,13 @@ hr{
   padding:0 2%;
   margin-left: 1%;
   margin-bottom: 15px;
+}
+.goo{
+  margin-left: 25%;
+  height: 70px;
+}
+.hoo{
+margin-left:8% ;
 }
 /* project */
 .progress-bar {

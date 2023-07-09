@@ -195,19 +195,19 @@ let refresh = term(tok)
             <h1 className='rh'>₦{total}</h1>
             <div className='rev'>
                 <p>Saving target</p>
-             <p className='revp'>₦{thirty}</p>
+                <p className='revp'>₦{(thirty).toLocaleString('en-US')}</p>
             </div>
             <div className='rev'>
                 <p>Recuring Savings</p>
-                <p>₦{payment_amount}/{payment_frequency}</p>
+                <p>₦{(parseInt(payment_amount)).toLocaleString('en-US')}/{payment_frequency}</p>
             </div>
-            <div className='revd'>
-                <p>Amount to be loan</p>
-                <p>₦{seventy}</p>
+            <div className='rev'>
+                <p>Loan Amount</p>
+                <p>₦{(seventy).toLocaleString('en-US')}</p>
             </div>
             <div className='rev'>
                 <p>Interest value</p>
-                <p className='revp'>₦{interest}(6%p.a)</p>
+                <p className='revp'>₦{(interest).toLocaleString('en-US')}(6%p.a)</p>
             </div>
             <div className='rev'>
                 <p>Est. Maturity date</p>
