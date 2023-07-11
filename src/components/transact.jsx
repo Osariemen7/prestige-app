@@ -49,18 +49,18 @@ const Transact = () =>{
     return(
         <div>
             <Link to='/components/project'><i class="fa-solid fa-chevron-left bac"></i></Link>
-            <h4 className="dh3">transaction History</h4>
+            <h4 className="dh3">Transaction History</h4>
             {info[0].transactions.map((obj, index) => 
                   <div className='td'>
-                  <div className='tl'>
-                       <p key={index}>{obj.amount}</p>
-                       <p key={index}>{(new Date(obj.time)).toLocaleString('en-GB')}</p>
+                  <div className='tls'>
+                       <p key={index}>₦{obj.amount}</p>
+                       <p key={index}>{obj.description}</p>
                   </div>
                   <div className='tg'>
                        <p key={index}>{obj.classification}</p>
-                       
+                       <p key={index}>{(new Date(obj.time)).toLocaleString('en-GB')}</p>    
                   </div>
-        
+              
                   </div>
                        )}
         </div>

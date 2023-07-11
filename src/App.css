@@ -254,22 +254,29 @@ hr{
 /* transact */
 .tl{
   display: flex;
-  gap: 70%;
+  gap: 60%;
+  padding: 0 3%;
+  margin: 0;
+  height: 20px;
+}
+.tls{
+  display: flex;
+  gap: 20%;
   padding: 0 3%;
   margin: 0;
   height: 20px;
 }
 .tg{
-  font-size: 10px;
+  font-size: 13px;
   display: flex;
   height: 33px;
-  gap: 50%;
+  gap: 40%;
   padding: 0 3%;
   margin: 0;
   color: grey;
 }
 .td{
-  font-size: 12px;
+  font-size: 15px;
   padding: 5%;
   border-bottom: 1px solid gainsboro;
 }

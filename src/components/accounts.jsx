@@ -80,7 +80,7 @@ const toggleHidden =()=>{
           });
           rep = await rep.json();
           let bab = rep.access_token
-        let response = await fetch(`https://api.prestigedelta.com/transactionlist/?start_date=${(thirtyDaysBefore).toLocaleDateString('en-GB')}&end_date=${(new Date()).toLocaleDateString('en-GB')}`,{
+        let response = await fetch(`https://api.prestigedelta.com/transactionlist/?start_date=01/31/2022&end_date=${(new Date()).toLocaleDateString('en-GB')}`,{
         method: "GET",
         headers:{'Authorization': `Bearer ${bab}`},
         })
@@ -207,13 +207,14 @@ return(
                   <div className='td'>
                   <div className='tl'>
                        <p key={index}>{obj.classification}</p>
-                       <p key={index}>{obj.amount}</p>
+                       <p key={index}>₦{obj.amount}</p>
                   </div>
                   <div className='tg'>
                        <p  key={index}>{obj.status}</p>
                        <p key={index}>{(new Date(obj.time)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</p>
                   </div>
-                       <p className='tm' key={index}>{obj.narration}</p>
+                  {obj.transaction_type === 'CLOSE_PROJECT' ? (
+                       <p className='tm' key={index}>{obj.narration}</p>) : <p className='tm' key={index}>Beneficiary: {obj.beneficiary.account_name} {obj.beneficiary.bank_name}</p>}
                   </div>
                        )}
                         
