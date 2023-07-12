@@ -89,7 +89,7 @@ async function passChange(e) {
     </div>
   );
   return(
-     <div className='plus'>
+     <div className='opends'>
            <p>Password reset successful!</p>
            <button className='logb' onClick={nav}>Login</button>
      </div>
