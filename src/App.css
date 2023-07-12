@@ -339,13 +339,13 @@ hr{
     width: 80px;
     height: 30px;
     background-color: rgb(23, 23, 116);
-    border: 1px solid blue;
+    border: 1px solid rgb(23, 23, 116);
     color: #fff;
   }
   .acct{
     display: flex;
-    gap: 15px;
-    padding: 3% 8%;
+    gap: 20px;
+    padding: 3% 13%;
   }
   .ad{
     margin:60% 0;

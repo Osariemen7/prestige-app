@@ -71,6 +71,7 @@ function App() {
         <Route path='/components/getrec' element={<Receipt />} />
         <Route path='/components/getgroup' element={<GetGroup />} />
         
+        
      </Routes>
       
     </div>
