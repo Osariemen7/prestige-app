@@ -273,7 +273,7 @@ hr{
   font-size: 13px;
   display: flex;
   height: 33px;
-  gap: 40%;
+  gap: 30%;
   padding: 0 3%;
   margin: 0;
   color: grey;
@@ -349,6 +349,11 @@ hr{
     display: flex;
     gap: 20px;
     padding: 3% 13%;
+  }
+  .act{
+    display: flex;
+    gap: 20px;
+    padding: 3% 7%;
   }
   .ad{
     margin:60% 0;
@@ -504,6 +509,67 @@ hr{
 }
 .hoo{
 margin-left:8% ;
+}
+.oveh{
+  margin: 0 auto;
+}
+.ove {
+  margin-bottom: 0;
+}
+.logbd{
+  width: 310px;
+  height:35px;
+  padding:0 2%;
+  background-color: blue;
+  border: none;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  color: #fff;
+}
+.ovp{
+  display: flex;
+  gap: 42%;
+  padding: 0;
+  height: 40px;
+  font-size: 13px;
+  border-bottom: 1px solid gainsboro;
+}
+.ovpi{
+  display: flex;
+  gap: 62%;
+  padding: 0;
+  height: 40px;
+  font-size: 13px;
+  border-bottom: 0.8px solid gainsboro;
+}
+.opp{
+  display: flex;
+  gap: 52%;
+  padding: 0;
+  height: 40px;
+  font-size: 13px;
+}
+.ov{
+  padding:1% 9%;
+  font-size: 13px;
+}
+.orev{
+  border: 1px solid rgb(233, 230, 230);
+  border-left: none;
+  border-right: none;
+  padding: 2% 7%;
+  display: flex;
+  gap: 160px;
+  text-align: center;
+}
+.orev2{
+  border: 1px solid rgb(233, 230, 230);
+  border-left: none;
+  border-right: none;
+  padding: 2% 6%;
+  display: flex;
+  gap: 215px;
+  text-align: center;
 }
 /* project */
 .progress-bar {

@@ -56,7 +56,7 @@ let refresh = terms(tok)
       } else {
         result = await result.json();
       localStorage.setItem('user-info', JSON.stringify(tok)) 
-      navigate('/components/getgroup')
+      navigate('/components/club')
       }   
     }
     

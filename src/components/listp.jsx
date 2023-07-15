@@ -133,7 +133,7 @@ const ListPage=()=>{
             </form>
             </Modal> 
             {message ? <p>{message}</p> : null}
-            <button className='but1' onClick={handleSubmit}>Continue</button>
+            <button className='logb' onClick={handleSubmit}>Continue</button>
         </div>
     )
 }

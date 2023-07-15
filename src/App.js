@@ -29,6 +29,10 @@ import Fclub from './components/fclub'
 import PostMon from './components/getgrp2';
 import Receipt from './components/getrec';
 import GetGroup from './components/getgroup';
+import Overdraft from './components/overdraft';
+import Request from './components/overd';
+import Display from './components/odisplay';
+import Done from './components/odip';
 import { Analytics } from '@vercel/analytics/react';
 function App() {
   const [loading, setLoading] = useState(true)
@@ -70,6 +74,10 @@ function App() {
         <Route path='/components/getgrp2' element={<PostMon />} />
         <Route path='/components/getrec' element={<Receipt />} />
         <Route path='/components/getgroup' element={<GetGroup />} />
+        <Route path='/components/overdraft' element={<Overdraft />} />
+        <Route path='/components/overd' element={<Request />} />
+        <Route path='/components/odisplay' element={<Display />} />
+        <Route path='/components/odip' element={<Done />} />
         
         
      </Routes>

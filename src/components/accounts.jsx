@@ -80,7 +80,7 @@ const toggleHidden =()=>{
           });
           rep = await rep.json();
           let bab = rep.access_token
-        let response = await fetch(`https://api.prestigedelta.com/transactionlist/?start_date=01/31/2022&end_date=${(new Date()).toLocaleDateString('en-GB')}`,{
+        let response = await fetch(`https://api.prestigedelta.com/transactionlist/?start_date=01/31/2022&end_date=${(new Date()).toLocaleDateString('en-US')}`,{
         method: "GET",
         headers:{'Authorization': `Bearer ${bab}`},
         })
@@ -147,7 +147,7 @@ return(
                   <Link to='/components/getgroup'><button className='abut'>Transfer</button></Link>
                </div>
               
-                <button className='abut'>Overdraft</button>
+               <Link to='/components/overdraft'><button className='abut'>Overdraft</button></Link> 
               </div>
               <p className='l'>RECENT TRANSACTIONS</p>
               <p className='ad'>No transaction yet</p>
@@ -182,9 +182,7 @@ return(
                     
                     <Link to='/components/login' className='nav-text'><i class="fa-solid fa-share"></i>
                       <span className='dfp'>Log Out</span></Link>
-                    </li>
-                
-                    
+                    </li>   
                 </ul>
             </nav>
              <div className="dash">
@@ -192,13 +190,12 @@ return(
                 <p className='dp'>Total Balance</p>
                 { hidden ? <i onClick={toggleHidden} class="fa-regular fa-eye-slash see"></i> : <i class="fa-regular fa-eye see" onClick={toggleHidden}></i>}
                 <h1 className="h1">{hidden}</h1>
-                <div className="acct">
-                <Link to='/components/fund'><button className='abut'>Add Fund</button></Link> 
-               <div>
+                <div className="act">
+                  <Link to='/components/fund'><button className='abut'>Add Fund</button></Link> 
                   <Link to='/components/getgroup'><button className='abut'>Transfer</button></Link>
-               </div>
-
-                  <button className='abut'>Overdraft</button>
+                  <Link to='/components/overdraft'><button className='abut'>Overdraft</button></Link>
+                 
+                  
                 </div>
              </div>
               
@@ -213,7 +210,7 @@ return(
                        <p  key={index}>{obj.status}</p>
                        <p key={index}>{(new Date(obj.time)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</p>
                   </div>
-                  {obj.transaction_type === 'CLOSE_PROJECT' ? (
+                  {obj.transaction_type === 'CLOSE_PROJECT' || obj.transaction_type ==='NIPCR'? (
                        <p className='tm' key={index}>{obj.narration}</p>) : <p className='tm' key={index}>Beneficiary: {obj.beneficiary.account_name} {obj.beneficiary.bank_name}</p>}
                   </div>
                        )}

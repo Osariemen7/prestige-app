@@ -86,7 +86,7 @@ async function fproj(e) {
 
     if (result.status !== 200) {
       const errorResult = await result.json();
-      setMessage(JSON.stringify(errorResult));
+      setMessage(JSON.stringify(errorResult.message));
     } else {
        result =await result.json();
        setFun(JSON.stringify(result))
