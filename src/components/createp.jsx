@@ -34,7 +34,7 @@ const CreatePage =()=>{
             navigate('/components/listp', {state:{data}})
             
           } else {
-            setMessage("Both field must be filled");
+            setMessage("field must be filled");
           }   
     }
     

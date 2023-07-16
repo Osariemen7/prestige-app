@@ -183,7 +183,7 @@ useEffect(() => {
                         <p className='prog'>On Track</p>
                     </div>
                     <div className='ppn'>
-                        <p >Average Total of Project</p>
+                        <p className='appn' >Average project performance</p>
                         <p>{info[0].my_membership.performance * 100}% </p>
                     </div>
                     <div>

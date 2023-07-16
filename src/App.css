@@ -810,8 +810,6 @@ margin-left:8% ;
   display: flex;
   gap: 10px;
   padding:3% 5%;
-  
-
 }
 .clu{
   background-color:  #F8F9FC;
@@ -830,10 +828,14 @@ margin-left:8% ;
 }
 .ppn{
   display: flex;
-  gap: 30%;
+  gap: 25%;
   padding: 0;
   height: 20px;
   font-size: 13px;
+}
+.appn{
+  font-size: 12px;
+  
 }
 .clun{
   padding-bottom: 0;

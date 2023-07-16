@@ -63,7 +63,7 @@ if(loading) {
              <h4 className="oveh">Overdraft</h4>
              <h5 className="ove">You Owe</h5>
              <h1 className="oveh">₦{(users[0].overdraft.balance).toLocaleString('en-US')}</h1>
-            <Link to='/components/overd'><button className="logbd">Quick Credit</button></Link> 
+            <Link to='/components/overd'><button className="logbd">Get Quick Credit</button></Link> 
              <div className="pd">
                <div className="ovp">
                   <p>Available to you</p>
@@ -75,7 +75,7 @@ if(loading) {
                </div>
                <div className="opp">
                    <p>Daily Interest</p>
-                   <p>0.3%</p>
+                   <p>0.1%</p>
                </div>
              </div>
              <p className="ov">The fees will be applied only after you borrow from your loan account</p>

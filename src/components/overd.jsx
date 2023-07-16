@@ -11,10 +11,9 @@ const Request = () => {
     )
 
     
-      const send = (event) =>{
+      const send = (event) => {
         event.preventDefault();
-        
-        if (amount === null){
+        if (amount === '') {
           setMessage('please set an amount')
         } else {
         navigate('/components/odisplay', {state:{amount}})}
