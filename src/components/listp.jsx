@@ -75,7 +75,7 @@ const ListPage=()=>{
             is_purchase:Boolean(asset.is_purchase[index])
           }));
           let assets = separatedData;
-          let pro = {assets, name, tota}
+          let pro = {assets, name, tota, tick}
           
                 navigate('/components/frequent', {state:{pro}})
         }

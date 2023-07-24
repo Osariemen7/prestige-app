@@ -13,6 +13,8 @@ const Dashboard =()=>{
   const [hidden, setHidden] = useState("******");
   const navigate = useNavigate()
   const [sidebar, setSidebar] = useState('')
+  const [info, setInfo] = useState('')
+  const [loading, setLoading] = useState(true);
 
   const showSidebar = () => setSidebar(!sidebar)
   
@@ -54,13 +56,19 @@ const Dashboard =()=>{
       method: "GET",
       headers:{'Authorization': `Bearer ${bab}`},
       })
+      let respet = await fetch("https://api.prestigedelta.com/tasks/",{
+    method: "GET",
+    headers:{'Authorization': `Bearer ${bab}`},
+    })
+      respet = await respet.json();
       response = await response.json()
       localStorage.setItem('user-info', JSON.stringify(tok))
       if (response.status === 401){
         navigate('/components/login')
       } else {
+     setLoading(false)
      setUsers(response)
-      
+     setInfo(respet)
       }
        
      }
@@ -84,8 +92,6 @@ console.log(users)
 
 const toggleHidden =()=>{
   
- // let gat = wark.available_balance
-  
         if(hidden==="******")
         {let gal =(wark.main_balances.available_balance).toLocaleString('en-US')
           
@@ -94,20 +100,11 @@ const toggleHidden =()=>{
         }
         setHidden("******")
       }
-      // useEffect(() => {
-      //   const reloadCount = sessionStorage.getItem('reloadCount');
-      
-      //   if (!reloadCount || parseInt(reloadCount) < 2) {
-      //     const updatedReloadCount = reloadCount ? parseInt(reloadCount) + 1 : 1;
-      //     sessionStorage.setItem('reloadCount', String(updatedReloadCount));
-      //     if (!reloadCount) {
-      //       window.location.reload();
-      //     }
-      //   } else {
-      //     sessionStorage.removeItem('reloadCount');
-      //   }
-      // }, []);
-        
+    
+      if(loading){
+        return(
+          <p>Loading...</p>)
+      }      
     return(
         <div>
             <i onClick={showSidebar} class="fa-solid fa-bars bac"></i>
@@ -160,31 +157,17 @@ const toggleHidden =()=>{
                   <p className='dfp'>Get access to loan when you save 30% of your estimated project amount</p>
                 </div>   
             </div>
-            <p className='l'>QUICK ACTION</p>
-            <Link to='/components/project' className='link'> <div className='dflex1'>
-                <img  src={stack} alt='' />
-                <div >
-                    <h4 className='dh3'>Create project plan</h4>
-                    <p className='dfp'>Start your project plan now</p>
-                </div>
-                <img src={sidearrow} alt='' />
-            </div></Link>
+            <p className='l'>{info.label}</p>
+            {(info.tasks).map((obj, index) =>
             <div className='dflex1'>
-                <img src={money} alt='' />
-                <div >
-                    <h4 className='dh3'>Get quick credit</h4>
-                    <p className='dfp'>Start your project plan now</p>
+                <img src={stack} alt='' />
+                
+                <div key={index}>
+                    <h4 className='dh3'>{obj.task}</h4>
+                    <p className='dfp'>{obj.message}</p>
                 </div>
                 <img src={sidearrow} alt='' />
-            </div>
-            <div className='dflex1'>
-                <img src={club} alt='' />
-                <div >
-                    <h4 className='dh3'>Create lending club</h4>
-                    <p className='dfp'>Start your project plan now</p>
-                </div>
-                <img src={sidearrow} alt='' />
-            </div>
+            </div>)}
                 
         </div>
     )

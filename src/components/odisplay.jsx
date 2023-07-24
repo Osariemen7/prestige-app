@@ -9,7 +9,7 @@ const Display = ()=>{
        const currentDate = new Date(); // Get the current date
 
     const thirtyDaysBefore = new Date(); // Create a new Date object
-    thirtyDaysBefore.setDate(currentDate.getDate() + 30)  
+    thirtyDaysBefore.setDate(currentDate.getDate() + 31)  
 
        let tok= JSON.parse(localStorage.getItem("user-info"));
     const terms = (tok) => {
@@ -79,7 +79,7 @@ const Display = ()=>{
              </div>
              <div className='rev'>
                 <p>Daily Interest Rate</p>
-                <p>0.3%</p>
+                <p>0.1%</p>
              </div>
              <div className='orev2'>
                 <p>Term</p>

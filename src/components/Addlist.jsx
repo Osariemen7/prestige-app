@@ -178,6 +178,9 @@ console.log(error)
                   <p>{(new Date(index.repayment_day)).toLocaleDateString('en-GB')} </p>
                </div>
             </div>
+            {index.goal_type === 'Cost' ? (
+          <p>This project will save you ₦{(index.goal_amount).toLocaleString('en-US')} Monthly</p>) : 
+          <p>This project will make you ₦{index.goal_amount} Monthly</p> }
             <h4 className="prit">Project Resources</h4>
             <p className="prip">List of project Resources you will need for this project</p>
             <div className="">
