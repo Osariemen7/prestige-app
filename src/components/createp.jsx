@@ -36,12 +36,12 @@ const CreatePage =()=>{
         setRefre(refr)
         console.warn(name, payment_amount, often, refr)
         let data = {name, payment_amount, often, refr}
-        if (name.length > 1 || often.length > 1 || payment_amount.length > 1) {
+        if (name.length > 1 && often.length > 1 && payment_amount.length > 1) {
             
             navigate('/components/listp', {state:{data}})
             
           } else {
-            setMessage("All field must be filled");
+            setMessage("All fields must be filled");
           }   
     }
     
