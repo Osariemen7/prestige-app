@@ -142,6 +142,7 @@ console.log(error)
            <p>In Progress</p>
         </div>
         <h2 className="ah3">₦{(index.balance).toLocaleString('en-US')}</h2>
+        <h5 className="pbp">Bonus Balance: ₦{(index.bonus_balance).toLocaleString('en-US')}</h5>
         <p className='asav1'>Next Payment Date: {(new Date(index.next_payment_day)).toDateString('en-GB')}</p>
                 <p className='asav1'>Amount To pay: ₦{(index.payment_amount).toLocaleString('en-US')}</p>
           <h3 key={index}>{ Math.round(((parseInt( index.equity)/parseInt(index.target) * 100) + Number.EPSILON) * 100) / 100}% </h3>

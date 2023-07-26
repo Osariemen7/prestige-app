@@ -23,10 +23,17 @@ const Dashboard =()=>{
   let name = tok.user
   
  
-  const project = () => {
-    localStorage.setItem('user-info', JSON.stringify(tok))
-    navigate('/components/project')
-  }
+  const project = (task) => {
+    if (task === 'Create your First Project' || task === 'Create a new Project') {
+      navigate('/components/project');
+    } else if (task === 'Transfer Funds from Main Account') {
+      navigate('/components/accounts');
+    } else if (task === 'Fund Your Main Account') {
+      navigate('/components/fund');
+    } else {
+      navigate('/components/club');
+    }
+  };
   // useEffect(() => {
   //   const reloadCount = sessionStorage.getItem('reloadCount');
     
@@ -77,7 +84,7 @@ const Dashboard =()=>{
       fetchData()
     }, [])
     console.log(tok)
-    
+    console.log(info.tasks)
 //   useEffect(() => {
 //     fetch('https://sandbox.prestigedelta.com/accounts/')
 //       .then(response => response.json())
@@ -159,7 +166,7 @@ const toggleHidden =()=>{
             </div>
             <p className='l'>{info.label}</p>
             {(info.tasks).map((obj, index) =>
-            <div className='dflex1'>
+            <div className='dflex1' onClick={() => project(obj.task)}>
                 <img src={stack} alt='' />
                 
                 <div key={index}>
