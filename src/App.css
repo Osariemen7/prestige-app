@@ -112,7 +112,7 @@ nav {
 .revd{
   padding: 2% 7%;
   display: flex;
-  gap: 100px
+  gap: 42px
 }
 .rp{
   font-size: 12px;
@@ -121,6 +121,15 @@ nav {
 .revp{
   text-align: right;
   margin-left: 25px;
+  
+}
+.revpt{
+  padding: 2% 7%;
+  display: flex;
+  gap: 70px;
+  border: 1px solid rgb(233, 230, 230);
+  border-left: none;
+  border-right: none;
 }
 hr{
   border: 1px solid rgb(231, 228, 228);

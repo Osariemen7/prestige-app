@@ -173,7 +173,8 @@ let refresh = term(tok)
        body:JSON.stringify(project)
       });
       if (result.status === 400) {
-        setMessage("Invalid Information");
+        const errorResult = await result.json();
+      setMessage(JSON.stringify(errorResult))
       } else if (result.status === 401 ) { 
         navigate('/components/login');
       } else {
@@ -198,7 +199,7 @@ let refresh = term(tok)
                 <p>Saving target</p>
                 <p className='revp'>₦{(thirty).toLocaleString('en-US')}</p>
             </div>
-            <div className='rev'>
+            <div className='revpt'>
                 <p>Recuring Savings</p>
                 <p>₦{(parseInt(payment_amount)).toLocaleString('en-US')}/{payment_frequency}</p>
             </div>
@@ -208,9 +209,9 @@ let refresh = term(tok)
             </div>
             <div className='rev'>
                 <p>Interest value</p>
-                <p className='revp'>₦{(interest).toLocaleString('en-US')}(6%p.a)</p>
+                <p className=''>₦{(interest).toLocaleString('en-US')}(6%p.a)</p>
             </div>
-            <div className='rev'>
+            <div className='revpt'>
                 <p>Est. Maturity date</p>
                 <p>{funding_dates}</p>
             </div>

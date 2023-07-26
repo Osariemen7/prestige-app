@@ -4,11 +4,12 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const Frequent =()=>{
   const [often, setOften] = useState('');
-  const [clickedItem, setClickedItem] = useState(null);
+  const [clickedItem, setClickedItem] = useState('');
   const [backgroundColor, setBackgroundColor] = useState('');
   const [backgroundColor1, setBackgroundColor1] = useState('');
   const [backgroundColor2, setBackgroundColor2] = useState('');
   const [backgroundColor3, setBackgroundColor3] = useState('');
+  const [message, setMessage] = useState('')
   const navigate = useNavigate()
   const location = useLocation();
   let pin = location.state.pro
@@ -55,7 +56,14 @@ const Frequent =()=>{
      e.preventDefault()
      console.warn(clickedItem, often, pan)
      let pal ={clickedItem, often, pan}
-     navigate('/components/select', {state:{pal}})
+     if (clickedItem.length > 1 && often.length > 1) {
+            
+      navigate('/components/select', {state:{pal}})
+      
+    } else {
+      setMessage("All fields must be filled");
+    }
+     
   }
 console.log(pin)
     return(
@@ -102,6 +110,7 @@ console.log(pin)
             </div>  
             <p>{clickedItem}</p>  
         </div>
+        <div className="message">{message ? <p>{message}</p> : null}</div>
             <button onClick={review} className="logb">Continue</button>
         </div>
     )
