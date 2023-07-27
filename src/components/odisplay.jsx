@@ -73,7 +73,7 @@ const Display = ()=>{
                 <p>To</p>
                 <p>Main Account</p>
              </div>
-             <div className='revd'>
+             <div className='rev'>
                 <p>Maturity Date</p>
                 <p>{(thirtyDaysBefore).toLocaleDateString('en-GB')}</p>
              </div>
