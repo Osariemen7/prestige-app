@@ -52,7 +52,8 @@ let refresh = terms(tok)
       });
     
       if (result.status !== 200) {
-        setMessage("Some error occured");
+        const errorResult = await result.json();
+        setMessage(JSON.stringify(errorResult.message))
       } else {
         result = await result.json();
       localStorage.setItem('user-info', JSON.stringify(tok)) 

@@ -52,7 +52,7 @@ let refresh = terms(tok)
       });
     
       if (result.status !== 200) {
-        setMessage("Some error occured");
+        setMessage("Invite Code does not Exist");
       } else {
         result = await result.json();
       localStorage.setItem('user-info', JSON.stringify(tok)) 
