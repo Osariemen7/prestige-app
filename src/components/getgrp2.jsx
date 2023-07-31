@@ -64,12 +64,12 @@ let refresh = terms(tok)
            body:JSON.stringify(items)
           });
           resut = await resut.json();
-          if (resut.status !== 201) {
+          if (resut.status === 400) {
             setMessage(JSON.stringify(resut.message));
-          } else {
+          } else { 
+            navigate('/components/getrec', {state:{ite}} ) 
+            localStorage.setItem('user-info', JSON.stringify(tok)) 
             
-          localStorage.setItem('user-info', JSON.stringify(tok)) 
-          navigate('/components/getrec', {state:{ite}} )
           }
         }
     return(

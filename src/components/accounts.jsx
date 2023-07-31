@@ -150,7 +150,7 @@ return(
                <Link to='/components/overdraft'><button className='abut'>Overdraft</button></Link> 
               </div>
               <p className='l'>RECENT TRANSACTIONS</p>
-              <p className='ad'>No transaction yet</p>
+              <p className='ad'>No Transaction Yet</p>
 
         </div>
     )

@@ -70,8 +70,8 @@ console.log(pin)
         <div>
            <div>
            <Link to='/components/createp'><i class="fa-solid fa-chevron-left bac"></i></Link>
-             <h3>How frequently would you like to save?</h3>
-             <p className="sp">Enter how frequently you wish to save money</p>
+             <h3>How frequently would you like to repay the Loan?</h3>
+             <p className="sp">Set you payment plan for the loan and down-payment</p>
            </div>
            <div className="dflex1">
               <input type="radio" 
@@ -97,8 +97,8 @@ console.log(pin)
               <label>Monthly</label>
             </div>
             <div>
-            <h3>How much will you to save Monthly</h3>
-            <p className='sp'>Enter the amount you wish to save {}</p>
+            <h3>How much will you pay monthly</h3>
+            <p className='sp'>Enter an amount you'll pay monthly for the down-payment and loan repayment</p>
             <div className="freq">
                <div onClick={() => handleClick('10000')} style={{backgroundColor:backgroundColor}} className="mon">₦10000</div>
                <div onClick={() => handleClick1('20000') } style={{backgroundColor:backgroundColor1}} className="mon">₦20000</div>

@@ -213,7 +213,7 @@ useEffect(() => {
                </div>
                <div className='clup'>
                 <div className='clu'>
-                  <p className='clund'>Total Number of Projects</p>
+                  <p className='clund'>Number of Projects</p>
                   <h3 className='clun'>{info[0].projects_no}</h3>  
                 </div>
                 <div className='clu'>
@@ -221,6 +221,7 @@ useEffect(() => {
                     <h3 className='clun'>{info[0].status}</h3>
                 </div>
                </div>
+               <p className='appn'>Overdraft Limit for Group: ₦{(info[0].overdraft_limit).toLocaleString('en-US')}</p>
                <h3>Members</h3>
                <div>
                {users.map((obj, index) =>

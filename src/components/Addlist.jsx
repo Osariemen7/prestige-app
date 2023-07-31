@@ -125,7 +125,7 @@ async function fproj(e) {
         });
         if (resut.status !== 200) {
           const errorResult = await resut.json();
-          setError(JSON.stringify(errorResult));
+          setError(JSON.stringify(errorResult.message));
         } else {
            resut =await resut.json();
               setTock(JSON.stringify(resut))}
@@ -161,8 +161,8 @@ console.log(error)
             </div>
             <div className="pd">
               <div className="asa2">
-                 <p>Savings Target(30%)</p>
-                 <p>Maturity Date</p>
+                 <p>Loan Down-payment</p>
+                 <p>Loan Disbursement On:</p>
               </div>
               <div className="asav1">
                 <p>₦{(index.target_equity).toLocaleString('en-US')}</p>
@@ -171,8 +171,8 @@ console.log(error)
             </div>
             <div className="pd">
                <div className="asa2">
-                  <p>Interest Value(6% p.a)</p>
-                  <p>Repayment Date</p>
+                  <p>Interest On Loan</p>
+                  <p>Loan Repayment by:</p>
                </div>
                <div className="asav1">
                   <p>₦{(index.interest_value).toLocaleString('en-US')}</p>
@@ -237,6 +237,7 @@ console.log(error)
           <button className="plut" onClick={closeModal1}>No</button>
         </div>
         <p>Funds will be transfered into main account</p>
+        {error ? <p>{error}</p> : null}
       </div>) :
       <div>
           <i class="fa-solid fa-x tx" onClick={close}></i>

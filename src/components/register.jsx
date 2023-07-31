@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { Helmet } from "react-helmet";
 
 const RegisterPage =()=>{
     const [passwordType, setPasswordType] = useState("password");
@@ -68,7 +69,26 @@ const RegisterPage =()=>{
           //
       return(
         <div>
-      
+      <Helmet>
+         <script>
+           {`!function(f,b,e,v,n,t,s)
+           {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+          n.queue=[];t=b.createElement(e);t.async=!0;
+          t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window,document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+ fbq('init', '7048589111822139'); 
+fbq('track', 'CompleteRegistration');`}
+</script>
+<noscript>
+ {`<img height="1" width="1" 
+src="https://www.facebook.com/tr?id=7048589111822139&ev=PageView
+&noscript=1"/>`}
+</noscript>
+            
+        </Helmet>
         <h2>Enter your details</h2>
          <p className='lp'>Let's set things up. Enter your details as they appear in your legal documents</p>
         <form>

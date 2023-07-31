@@ -26,7 +26,7 @@ const GetGroup =()=>{
   const handleSubmit=(e)=>{
     e.preventDefault()
     let data ={amount, selectedOption, nuban, users, narration, pin_id}
-    if (typeof users !=='object' || narration.length < 1){
+    if (typeof users !=='object' || narration.length < 1 || users.length < 1 || amount.length < 1){
       setMessage('invalid Input')
     }
     else {
@@ -144,7 +144,7 @@ let refresh = terms(tok)
 
     if(loading) {
       return(
-      <p>Loading</p>)} 
+      <p>Loading...</p>)} 
 
   return(
     <div>

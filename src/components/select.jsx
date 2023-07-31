@@ -195,28 +195,28 @@ let refresh = term(tok)
             <h4 className='shi'>{name}</h4>
             <p className='rp'>Estimated Project amount</p>
             <h1 className='rh'>₦{total}</h1>
-            <div className='rev'>
-                <p>Saving target</p>
+            <div className='revpt'>
+                <p>Loan down-payment</p>
                 <p className='revp'>₦{(thirty).toLocaleString('en-US')}</p>
             </div>
             <div className='revpt'>
-                <p>Recuring Savings</p>
-                <p>₦{(parseInt(payment_amount)).toLocaleString('en-US')}/{payment_frequency}</p>
+                <p>Payment schedule</p>
+                <p >₦{(parseInt(payment_amount)).toLocaleString('en-US')}/{payment_frequency}</p>
             </div>
             <div className='rev'>
-                <p>Loan Amount</p>
+                <p>Loan amount</p>
                 <p>₦{(seventy).toLocaleString('en-US')}</p>
             </div>
             <div className='rev'>
                 <p>Interest value</p>
                 <p className=''>₦{(interest).toLocaleString('en-US')}(6%p.a)</p>
             </div>
-            <div className='revpt'>
-                <p>Est. Maturity date</p>
+            <div className='revd'>
+                <p>Loan Disbursement Date</p>
                 <p>{funding_dates}</p>
             </div>
             <div className='revd'>
-                <p>Est. Repayment date</p>
+                <p>Loan Repayment Date</p>
                 <p>{repayment_maturi}</p>
             </div>
             <div className='dflex'>

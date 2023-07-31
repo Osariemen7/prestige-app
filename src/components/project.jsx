@@ -82,7 +82,7 @@ let refresh = terms(tok)
     
    // console.log(nam) 
    console.log(tok)
-   console.log()
+   console.log(info)
    
    
  if(info.length < 1){
@@ -192,7 +192,7 @@ let refresh = terms(tok)
                 <div className="progress-b" style={{ width: `${100}%` }}>
                 <div className="progress-bar" style={{ width: `${parseInt( obj.equity)/parseInt(obj.target) * 100}%` }}>
                    </div> </div>
-                
+                <p className='ex'>You must have a minimum down-payment of ₦{(obj.minimum_balance).toLocaleString('en-US')} or loan disbursement will be extended to {(new Date(obj.extension_day)).toDateString('en-GB')}</p>
             </div>)}
             <Link to='/components/pop'>
          <button className='logb'>New Project</button></Link>

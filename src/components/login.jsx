@@ -105,7 +105,7 @@ const LoginPage = () => {
     return(
         <div>
         <Helmet>
-            <title>Log in Page</title>L
+            <title>Log in Page</title>
             
         </Helmet>
             <h2 className="lh">Welcome Back</h2> 
