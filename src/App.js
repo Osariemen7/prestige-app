@@ -33,6 +33,7 @@ import Overdraft from './components/overdraft';
 import Request from './components/overd';
 import Display from './components/odisplay';
 import Done from './components/odip';
+import Save from './components/save';
 import { Analytics } from '@vercel/analytics/react';
 function App() {
   const [loading, setLoading] = useState(true)
@@ -78,6 +79,7 @@ function App() {
         <Route path='/components/overd' element={<Request />} />
         <Route path='/components/odisplay' element={<Display />} />
         <Route path='/components/odip' element={<Done />} />
+        <Route path='/components/save' element={<Save />} />
         
         
      </Routes>

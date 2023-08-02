@@ -33,17 +33,18 @@ let refresh = term(tok)
   let name = terms(pane)
   let goal_amount = pane.pan.tick.payment_amount
   let goal_type = pane.pan.tick.often
-  const term1 = (pane) => {
+  let pre_saved = pane.pan.tick.save
+  const term1 = (pane, pre_saved) => {
     let tots;  
-    if (typeof pane === 'undefined' || pane === null) {
-      tots = 0;
+    if (pre_saved !== "") {
+      tots = pane.pan.tota - pre_saved;
     } else {
       tots= pane.pan.tota;
     }
   
     return tots;
   }
-  let tota = term1(pane)
+  let tota = term1(pane, pre_saved)
   let total = (tota).toLocaleString('en-US')
   const term2 = (pane) => {
     let pay;  
@@ -77,6 +78,7 @@ let refresh = term(tok)
   
     return ast;
   }
+
   let assets = term4(pane)
   let thirty =parseInt(tota)* 30/100
   console.log(thirty)
@@ -162,7 +164,7 @@ let refresh = term(tok)
         rep = await rep.json();
         let bab = rep.access_token
       console.warn(name, payment_amount, goal_amount, goal_type, payment_frequency, repayment_maturity, funding_date, assets)
-      let project = {name, payment_amount, goal_amount, goal_type, payment_frequency, repayment_maturity, funding_date, assets};
+      let project = {name, payment_amount, goal_amount, goal_type, pre_saved, payment_frequency, repayment_maturity, funding_date, assets};
       let result = await fetch ('https://api.prestigedelta.com/createproject/',{
           method: 'POST',
           headers:{

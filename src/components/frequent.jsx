@@ -97,8 +97,8 @@ console.log(pin)
               <label>Monthly</label>
             </div>
             <div>
-            <h3>How much will you pay monthly</h3>
-            <p className='sp'>Enter an amount you'll pay monthly for the down-payment and loan repayment</p>
+            <h3>How much will you pay {often}?</h3>
+            <p className='sp'>Enter an amount you'll pay {often} for the down-payment and loan repayment</p>
             <div className="freq">
                <div onClick={() => handleClick('10000')} style={{backgroundColor:backgroundColor}} className="mon">₦10000</div>
                <div onClick={() => handleClick1('20000') } style={{backgroundColor:backgroundColor1}} className="mon">₦20000</div>

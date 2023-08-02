@@ -22,7 +22,7 @@ const ListPage=()=>{
     if (typeof tick=== 'undefined' || tick === null) {
       nam = "";
     } else {
-      nam = tick.name;
+      nam = tick.tack.name;
     }
     return nam;
   };

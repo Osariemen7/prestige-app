@@ -154,7 +154,8 @@ console.log(error)
          <button className="pof" onClick={openModal}>Top up</button>
          <Link className="trb" to='/components/transact'>View Transactions</Link>
          
-         </div>
+         </div><br/>
+         <p className='prip'>You must have a minimum down-payment<br/> of ₦{(index.minimum_balance).toLocaleString('en-US')} on/before {new Date().toDateString('en-GB')} <br/>or loan disbursement day will be extended to<br/> {(new Date(index.extension_day)).toDateString('en-GB')}</p>
          <div className='dfle'>
             <img src={Vector} alt=''/>
                 <p className='dfp'>Maturity date may depend on your ability to make the payment on schedule</p>
@@ -180,8 +181,8 @@ console.log(error)
                </div>
             </div>
             {index.goal_type === 'Cost' ? (
-          <p>This project will save you ₦{(index.goal_amount).toLocaleString('en-US')} Monthly</p>) : 
-          <p>This project will make you ₦{index.goal_amount} Monthly</p> }
+          <p className="prip">This project will save you ₦{(index.goal_amount).toLocaleString('en-US')} Monthly</p>) : 
+          <p className="prip">This project will make you ₦{index.goal_amount} Monthly</p> }
             <h4 className="prit">Project Resources</h4>
             <p className="prip">List of project Resources you will need for this project</p>
             <div className="">
