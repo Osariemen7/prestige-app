@@ -3,7 +3,7 @@ main {
 }
 .card {
   background: aqua;
-  width:50%;
+  width:300px;
   border: 1px solid aqua;
   padding:2%;
   border-radius:15px;
@@ -1956,6 +1956,7 @@ form{
     gap:15px;
     text-align: left;
     margin: 5%;
+    margin-bottom: 1%;
     border-radius: 10px;
   }
   .pbp{

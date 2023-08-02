@@ -154,12 +154,12 @@ console.log(error)
          <button className="pof" onClick={openModal}>Top up</button>
          <Link className="trb" to='/components/transact'>View Transactions</Link>
          
-         </div><br/>
-         <p className='prip'>You must have a minimum down-payment<br/> of ₦{(index.minimum_balance).toLocaleString('en-US')} on/before {new Date().toDateString('en-GB')} <br/>or loan disbursement day will be extended to<br/> {(new Date(index.extension_day)).toDateString('en-GB')}</p>
+         </div>
          <div className='dfle'>
             <img src={Vector} alt=''/>
-                <p className='dfp'>Maturity date may depend on your ability to make the payment on schedule</p>
+                <p className='dfp'>Loan disbursement date may depend on your ability to make the payment on schedule</p>
             </div>
+            <p className='prip'>You must have a minimum down-payment<br/> of ₦{(index.minimum_balance).toLocaleString('en-US')} on/before {new Date().toDateString('en-GB')} <br/>or loan disbursement day will be extended to<br/> {(new Date(index.extension_day)).toDateString('en-GB')}</p>
             <div className="pd">
               <div className="asa2">
                  <p>Loan Down-payment</p>
