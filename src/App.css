@@ -1049,7 +1049,7 @@ form{
   margin: 0 3%;
   border: 3px solid skyblue;
   box-shadow: 10%;
-  height: 100vh;
+  height: 30%;
 }
 .but{
   width: 85%;
@@ -1178,7 +1178,7 @@ form{
     margin: 0 3%;
     border: 3px solid skyblue;
     box-shadow: 10%;
-    height: 100vh;
+    height: 30%;
   }
   .but{
     width: 85%;
