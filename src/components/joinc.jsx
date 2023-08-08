@@ -50,11 +50,11 @@ let refresh = terms(tok)
        },
        body:JSON.stringify(item)
       });
-    
+      result = await result.json();
       if (result.status !== 200) {
-        setMessage("Invite Code does not Exist");
+        setMessage(result.message);
       } else {
-        result = await result.json();
+
       localStorage.setItem('user-info', JSON.stringify(tok)) 
       navigate('/components/club')
       }   
@@ -66,7 +66,7 @@ let refresh = terms(tok)
         <Link to='/components/club'><i class="fa-solid fa-chevron-left bac"></i></Link>
             
            <h3 className="head">Join a Club</h3>
-           <h3>Please provied a name for your club</h3>
+           <h3>Enter invite code of the Club you want to join?</h3>
            <form>
               <p className="sp">Invite Code</p>
               <input className="line" onChange={handleName} type="text" placeholder="Enter a valid invite code" /><br/>

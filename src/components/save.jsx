@@ -15,7 +15,7 @@ const terms = (tok) => {
 let refresh = terms(tok)
 const Saving =()=>{
     const navigate = useNavigate()
-    const [save, setSave] = useState('')
+    const [save, setSave] = useState(0)
     const [payment_amount, setPayment] = useState('')
     const [message, setMessage] = useState('')
     const [refr, setRefre] = useState(refresh)
