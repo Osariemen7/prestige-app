@@ -35,6 +35,7 @@ import Display from './components/odisplay';
 import Done from './components/odip';
 import Save from './components/save';
 import Savings from './components/savings';
+import Detail from './components/detail'
 import { Analytics } from '@vercel/analytics/react';
 function App() {
   const [loading, setLoading] = useState(true)
@@ -82,6 +83,7 @@ function App() {
         <Route path='/components/odip' element={<Done />} />
         <Route path='/components/save' element={<Save />} />
         <Route path='/components/savings' element={<Savings />} />
+        <Route path='/components/detail' element={<Detail />} />
         
      </Routes>
       

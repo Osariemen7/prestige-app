@@ -5,6 +5,7 @@ import Select from 'react-select';
   
 const GetGroup =()=>{
   const [info, setInfo] = useState([])
+  const [infos, setInfos] = useState([]);
   const [nuban, setNuban] = useState('')
   const [amount, setAmount] = useState('')
   const [selectedOption, setSelectedOption] = useState(null)
@@ -13,11 +14,35 @@ const GetGroup =()=>{
   const [narration, setNarration] = useState('')
   const [pin_id, setPinid] = useState('')
   const [message, setMessage] = useState('')
+  const [ben, setBen] = useState([])
+  const [selectedOptions, setSelectedOptions] = useState('')
+  const [selected, setSelected] = useState('')
   const navigate = useNavigate();
   
+  const option = infos.map((item) => ({
+    label: `${item.name} (₦${(item.balance.available_balance).toLocaleString('en-Us')})`,
+    value: item.name
+  }));
+  const opt = ben.map((item) => ({
+    label: `${item.account_name} 
+             (${item.bank_name})`,
+    value: item.account_number,
+    team:   item.bank_code,
+    code: item.bank_name
+  }));
+  
+  const handleBanks = (selectedOptions) => {
+    setSelectedOptions(selectedOptions);
+  };
    
   const handleBank = (selectedOption) => {
     setSelectedOption(selectedOption);
+  };
+  const handleBen = (selected) => {
+    setSelected(selected);
+    // Set the selected bank and account number in their respective fields
+    setSelectedOption({ label: selected.code, value: selected.team });
+    setNuban(selected.value);
   };
   const handleNote =(event)=>{
     setNarration(event.target.value)
@@ -25,9 +50,9 @@ const GetGroup =()=>{
 
   const handleSubmit=(e)=>{
     e.preventDefault()
-    let data ={amount, selectedOption, nuban, users, narration, pin_id}
-    if (typeof users !=='object' || narration.length < 1 || users.length < 1 || amount.length < 1){
-      setMessage('invalid Input')
+    let data ={amount, selectedOption, selectedOptions, nuban, users, narration, pin_id}
+    if (typeof users !=='object' || narration.length < 1 || nuban.length < 1 || selectedOptions.length < 1){
+      setMessage('All Fields must be Filled')
     }
     else {
     
@@ -41,6 +66,42 @@ const handleAmount=(event)=> {
   setAmount(event.target.value)
 }
 
+const fetchDap = async () => {
+  let item ={refresh}
+  let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
+      method: 'POST',
+      headers:{
+        'Content-Type': 'application/json',
+        'accept' : 'application/json'
+   },
+   body:JSON.stringify(item)
+  });
+  
+  rep = await rep.json();
+  let bab = rep.access_token
+let response = await fetch("https://api.prestigedelta.com/subaccount/",{
+method: "GET",
+headers:{'Authorization': `Bearer ${bab}`},
+})
+let respet = await fetch("https://api.prestigedelta.com/beneficiaries/",{
+  method: "GET",
+  headers:{'Authorization': `Bearer ${bab}`},
+  })
+  respet = await respet.json();
+//localStorage.setItem('user-info', JSON.stringify(tok))
+  
+if (response.status === 401) {
+  navigate('/components/login');
+} else { 
+  response = await response.json();
+setLoading(false)
+setInfos(response)
+setBen(respet)
+
+  }}
+  useEffect(() => {
+    fetchDap()
+  }, [])
 
   let tok= JSON.parse(localStorage.getItem("user-info"));
     const terms = (tok) => {
@@ -54,6 +115,17 @@ const handleAmount=(event)=> {
 
   return refreshval;
 };
+// const debit = (selectedOptions) => {
+//   let menu
+//   if (selectedOptions.value === 'main'){
+//       menu = true;
+//   }else{
+//       menu = false
+//   }
+//   return menu
+// }
+// let sub_account = debit(selectedOptions)
+
 let refresh = terms(tok)
 
   const fetchDa = async () => {
@@ -78,11 +150,9 @@ let refresh = terms(tok)
   if (response.status === 401) {
     navigate('/components/login');
   } else { 
-  
   response = await response.json();
   setLoading(false)
   setInfo(response)
-  
     }}
     useEffect(() => {
       fetchDa()
@@ -91,13 +161,21 @@ let refresh = terms(tok)
       label: item.bank_name,
       value: item.bank_code,
     }));
-    
+//  const trim = (selected) => {
+//    let pip;
+//    if (selected === null  ){
+//      pip = 0;
+//      else {}
+//    }
+//  }
+   console.log(nuban)
     const teams = (selectedOption) => {
       let ref;
 
-        if ( selectedOption=== null || typeof selectedOption=== "undefined" ) {
-           ref = 0;
-            } else {
+        if ( selectedOption === null || typeof selectedOption === 'undefined') {
+           ref = 10;
+            }
+             else {
            ref= selectedOption.value;
          }
           return ref}
@@ -123,7 +201,7 @@ let refresh = terms(tok)
     method: "GET",
     headers:{'Authorization': `Bearer ${bab}`},
     })
-     respet = await respet.json();
+    respet = await respet.json();
     response = await response.json()
     localStorage.setItem('user-info', JSON.stringify(tok))
   //   if (data.code === 'token_not_valid'){
@@ -134,7 +212,7 @@ let refresh = terms(tok)
     }
   
   useEffect(() => {
-  if (selectedOption !== '' && nuban.length=== 10 ) {
+  if (selectedOption !== '' && nuban.length=== 10) {
     fetchData();
   }
 }, [selectedOption, nuban]);
@@ -144,16 +222,40 @@ let refresh = terms(tok)
 
     if(loading) {
       return(
-      <p>Loading...</p>)} 
+      <p>Loading</p>)} 
 
   return(
     <div>
        <Link to='/components/accounts'><i class="fa-solid fa-chevron-left bac"></i></Link>
-            
+      
             <h3>Send Money</h3>
        <form>
-                <p className='sp'>Select Bank</p>
+
+       <p className='sp'>Select Account to debit</p>
+       <Select
+      onChange={handleBanks}
+      className="lne"
+      placeholder="Account to debit"
+      options={option}
+      isSearchable={true}
+      value={selectedOptions}
+    />
+    <p className='sp'>Select Beneficiary</p>
                 <Select
+      onChange={handleBen}
+      className="lne"
+      placeholder="Select Beneficiary"
+      options={opt}
+      isSearchable={true}
+      value={selected}
+    />
+    
+    
+    <p className='sp'>Select Bank</p>
+                
+     {selected === '' ?(
+      <div>
+      <Select
       onChange={handleBank}
       className="lne"
       placeholder="Select Bank"
@@ -161,8 +263,25 @@ let refresh = terms(tok)
       isSearchable={true}
       value={selectedOption}
     />
-                <p className='sp'>Account Number</p>
-                <input type='number' onChange={handleAcct} className="line" placeholder="Enter Account Number" name="birth"/><br/> 
+                <p className='sp'>To Account Number</p>
+                <input type='number'  onChange={handleAcct} className="line" placeholder="Enter Account Number" name="birth"/><br/> 
+                </div>) :(
+                  <div> 
+                  <input
+              onChange={handleBank}
+              className="line"
+              placeholder="Select Bank"
+              value={selected.code}
+            />
+            <p className='sp'>To Account Number</p>
+            <input
+              type='number'
+              onChange={handleAcct}
+              value={selected.value}
+              className="line"
+              placeholder="Enter Account Number"
+            />
+                  </div>)}
                 <div className="me">{users ? <p>{users.account_name}</p> : null}</div>
                 <p className='sp'>Enter Amount</p>
                 <input type="number" onChange={handleAmount} className="line" placeholder="0.00" name="BVN"/><br/><br/>

@@ -4,12 +4,13 @@ const Display = ()=>{
        const [message, setMessage] = useState('')
        const navigate = useNavigate()
        const location = useLocation()
-       let amount = location.state.amount
-       
+       let am = location.state.data
+       let amount = am.amount
+       let sub_account = am.sub_account
        const currentDate = new Date(); // Get the current date
 
     const thirtyDaysBefore = new Date(); // Create a new Date object
-    thirtyDaysBefore.setDate(currentDate.getDate() + 31)  
+    thirtyDaysBefore.setDate(currentDate.getDate() + 30)  
 
        let tok= JSON.parse(localStorage.getItem("user-info"));
     const terms = (tok) => {
@@ -39,8 +40,8 @@ const Display = ()=>{
             
             rep = await rep.json();
             let bab = rep.access_token
-              console.warn(amount )
-              let ited ={amount}
+              console.warn(amount, sub_account )
+              let ited ={amount, sub_account}
               let resut = await fetch ('https://api.prestigedelta.com/overdraftdrawdown/',{
                   method: 'POST',
                   headers:{
@@ -58,10 +59,11 @@ const Display = ()=>{
                  navigate('/components/odip')
                     }
       }
-     console.log(amount)
+      console.log(am)
+
     return(
         <div>
-        <Link to='/components/overd'><i class="fa-solid fa-chevron-left bac"></i></Link>
+        <Link to='/components/savings'><i class="fa-solid fa-chevron-left bac"></i></Link>
         <h4 className='oveh'>Confirm Overdraft</h4>
         <p className='ove'>You are borrowing</p>
         <h1>₦{(parseInt(amount)).toLocaleString('en-US')}</h1>
@@ -71,9 +73,9 @@ const Display = ()=>{
              </div>
              <div className='orev'>
                 <p>To</p>
-                <p>Main Account</p>
+                <p>{am.sub_account} Sub Account</p>
              </div>
-             <div className='rev'>
+             <div className='revd'>
                 <p>Maturity Date</p>
                 <p>{(thirtyDaysBefore).toLocaleDateString('en-GB')}</p>
              </div>

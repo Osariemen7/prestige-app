@@ -13,7 +13,7 @@ const terms = (tok) => {
   return refreshval;
 };
 let refresh = terms(tok)
-const Saving =()=>{
+const Save =()=>{
     const navigate = useNavigate()
     const [save, setSave] = useState(0)
     const [payment_amount, setPayment] = useState('')
@@ -107,4 +107,4 @@ const Saving =()=>{
         </div>
     )
 }
-export default Saving
+export default Save

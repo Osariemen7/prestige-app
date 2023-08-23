@@ -1547,6 +1547,7 @@ form{
       background-color: rgb(23, 23, 116);
       border: 1px solid rgb(23, 23, 116);
       color: #fff;
+      margin-bottom: 15px;
     }
     .acct{
       display: flex;
@@ -1916,6 +1917,107 @@ form{
     max-height: 100%;
     height: 800px;
   }
+  .svin{
+    display:flex;
+    gap:10%;
+    padding:0 5%;
+    font-size: 13px;
+  }
+  .saed{
+    text-align: left;
+    margin-bottom: 0;
+    padding-left: 5%;
+  }
+  .loos{
+    text-align: right;
+    font-size: 12px;
+  }
+  .svmo{
+    padding: 10% 5%;
+    text-align: center;
+    margin-top: 30px;
+    width:90%;
+    background-color: #fff;
+    height: 39vh;
+  }
+  .oves{
+    margin-top: 5%;
+  }
+  .sev{
+    display: flex;
+    gap: 150px;
+    padding: 0% 8%;
+  }
+  .sco{
+    color: green;
+  }
+  .ax{
+    border-top: 1px solid gainsboro;
+    display: flex;
+    gap: 150px;
+    padding: 0% 8%;
+  }
+  .pax{
+    display: flex;
+    gap:60px;
+    margin: 0 2%;
+  }
+  .spt{
+    border: 1px solid gainsboro;
+    margin:2% 9%;
+    border-radius: 14px;
+    padding:5% 3% 4% 5%;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.06);
+    background-color: rgb(136, 205, 233);
+    font-size: 13px;
+  }
+  .wad{
+    height: 25px;
+  }
+  .dogb{
+    width: 100px;
+    height:30px;
+    padding:0 1%;
+    background-color: blue;
+    border: none;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    color: #fff;
+  }
+  .dax{
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    
+  }
+  .asx{
+    display: flex;
+    gap: 128px;
+    padding: 0% 8%; 
+  }
+  .bfle{
+    display: flex;
+    gap: 145px;
+    margin: 0;
+  }
+  .h2{
+    color:#fff;
+  }
+  .pdf{
+    background-color:rgb(18, 86, 112);
+    color: #fff;
+    border-color: rgb(18, 86, 112);
+    padding:2% 5%;
+    font-size: 14px;
+    margin-bottom: 5%;
+  }
+  .progress-bi {
+    width: 100%;
+    height: 6px;
+    background-color: blue;
+    margin-top: 5%;
+    margin-bottom: 2%;
+  }
   .tp{
     color: #fff;
     margin-top: 0;
@@ -1923,9 +2025,10 @@ form{
   .lne {
     padding: 0 2%;
     width: 295px;
-    margin-left: 40px;
+    margin-left: 55px;
     height: 35px;
     border-color: black;
+    justify-content: center;
   }
   .receipt{
     color: blue;
@@ -2001,6 +2104,13 @@ form{
     height: 35px;
     margin-left:18px ;
     margin-bottom: 20px;
+  }
+  .pne{
+    padding: 0 2%;
+    width: 295px;
+    margin-left: 35px;
+    height: 35px;
+    border-color:black;
   }
   .mp{
     text-align: left;

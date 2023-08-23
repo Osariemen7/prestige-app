@@ -8,7 +8,7 @@ const Fclub =()=> {
     return (
         <div>
         <i onClick={showSidebar} class="fa-solid fa-bars bac"></i>
-            <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+        <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
                 <ul className='nav-menu-item'>
                     <li className='nav-close'>
                     <i onClick={showSidebar} class="fa-solid fa-x"></i>
@@ -18,6 +18,14 @@ const Fclub =()=> {
                     <span className='dfp'>Home</span></Link>
                     </li>
                     <li className='nav-list'>
+                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet home"></i>
+                      <span className='dfp'>Account</span></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/savings' className='nav-text'><i class="fa-solid fa-money-bill"></i>
+                      <span className='dfp'>Sub Account</span></Link>
+                    </li>
+                    <li className='nav-list'>
                     <Link to='/components/project' className='nav-text'><i class="fa-solid fa-layer-group home"></i>
                   <span className='dfp'>Project</span></Link>
                     </li>
@@ -25,17 +33,12 @@ const Fclub =()=> {
                     <Link to='/components/club' className='nav-text'><i class="fa-solid fa-people-group home"></i>
                      <span className='dfp'>Club</span></Link>
                     </li>
-                    <li className='nav-list'>
-                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet home"></i>
-                      <span className='dfp'>Account</span></Link>
-                    </li>
+                    
                     <li className='nav-list'>
                     
                     <Link to='/components/login' className='nav-text'><i class="fa-solid fa-share"></i>
                       <span className='dfp'>Log Out</span></Link>
                     </li>
-                
-                    
                 </ul>
             </nav>
           <h3 className='head'>Community</h3>  
