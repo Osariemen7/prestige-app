@@ -198,6 +198,7 @@ const openModal = () => {
       } else {
          result =await result.json();
          setFun(JSON.stringify(result))
+         fetchDa()
       }
     } catch (error) {
       // Handle fetch error
@@ -340,7 +341,7 @@ const finfo = info.find(inf => inf.name === index.name)
              <h4 className="cpn">{index.name} SUB ACCOUNT</h4>
              <div className="dash">
                 <p className="dp">Balance</p>
-                <h2 className="h2">₦{(index.balance.available_balance).toLocaleString('en-Us')}</h2> 
+                <h2 className="h2">₦{(finfo.balance.available_balance).toLocaleString('en-Us')}</h2> 
             <div className="act">
                  <button className="dogb" onClick={openModal}>Fund</button>  
                 <button className="dogb" onClick={openModals}>Edit Budget</button>  

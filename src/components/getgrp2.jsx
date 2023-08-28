@@ -39,7 +39,7 @@ let refresh = terms(tok)
         let nuban = meal.nuban
         let account_name = meal.users.account_name
         let bank = meal.selectedOption.label
-        let sub_account = meal.sub_account.value
+        let sub_account = meal.selectedOptions.value
         let item ={refresh}
         let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
             method: 'POST',
@@ -73,6 +73,7 @@ let refresh = terms(tok)
             
           }
         }
+        console.log(meal)
     return(
         <div>
         <Link to='/components/getgroup'><i class="fa-solid fa-chevron-left bac"></i></Link>
