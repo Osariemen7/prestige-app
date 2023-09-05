@@ -488,6 +488,14 @@ hr{
     border-color: red;
     padding: 2%;
   }
+  .dlog{
+    margin: 5% auto;
+    background-color:blue;
+    color:#fff;
+    border-color: blue;
+    padding: 2%;
+    margin-right: 0;
+  }
   .plut{
     background-color: #060b26;
     color: #fff;
@@ -1588,21 +1596,21 @@ form{
     }
     .vasa{
       display: flex;
-      gap:50px;
+      gap: 20%;
       height:25px;
       border-bottom: 1px solid gainsboro;
       padding: 4% 12%;
     }
     .vasa1{
       display: flex;
-      gap:120px;
+      gap:45%;
       height:25px;
       border-bottom: 1px solid gainsboro;
       padding: 4% 12%;
     }
     .vasa2{
       display: flex;
-      gap:100px;
+      gap:45%;
       height:25px;
       border-bottom: 1px solid gainsboro;
       padding: 4% 12%;

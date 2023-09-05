@@ -65,18 +65,18 @@ let refresh = terms(tok)
            body:JSON.stringify(items)
           });
           resut = await resut.json();
-          if (resut.status === 400) {
-            setMessage(JSON.stringify(resut.message));
-          } else { 
+          if (resut.status === 201) {
             navigate('/components/getrec', {state:{ite}} ) 
-            localStorage.setItem('user-info', JSON.stringify(tok)) 
-            
+            localStorage.setItem('user-info', JSON.stringify(tok))
+          } else { 
+             
+            setMessage(JSON.stringify(resut.message));
           }
         }
         console.log(meal)
     return(
         <div>
-        <Link to='/components/getgroup'><i class="fa-solid fa-chevron-left bac"></i></Link>
+        <Link to='/components/savings'><i class="fa-solid fa-chevron-left bac"></i></Link>
             
             <h3>Confirm Details</h3>
            <div className="meat">
