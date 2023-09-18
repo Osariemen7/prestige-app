@@ -209,7 +209,7 @@ hr{
 }
 .nav-menu{
   background-color: #060b26;
-  width: 20%;
+  width: 50%;
   height:100vh;
   display: flex;
   justify-content: center;
@@ -218,7 +218,7 @@ hr{
   left: -100%;
   transition: 850ms;;
   padding: 0;
-  padding-right: 20px;
+  overflow-x: scroll;
 }
 .nav-menu.active {
   left: 0;
@@ -231,7 +231,6 @@ hr{
   color:#fff;
   width: 100%;
   height: 50%;
-  border-bottom: 1px solid #fff ;
 }
 .nav-text span{
   margin-left: 14px;
@@ -243,11 +242,12 @@ hr{
 .nav-list {
   list-style: none;
   display: flex;
-  justify-content: start;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  height: 99px;
-  padding: 8px 10px 8px 16px;
-  
+  height: 85px;
+  padding: 8px 15px 8px 16px;
+  border-bottom: 1px solid #fff ;
 }
 .nav-close{
   list-style: none;
@@ -1046,6 +1046,7 @@ form{
   color: blue;
   margin:0;
   font-size: 12px;
+  margin-top: 2%;
 }
 .sp{
   text-align: left;
@@ -1108,7 +1109,7 @@ form{
   background-color: blue;
   width: 254px;
   margin: 10% 5%;
-  border: 1px solid blue;
+  border: 1px solid  #0000FF;
 }
   .but1{
     margin: 10px;
@@ -1146,17 +1147,18 @@ form{
     margin: 3% 12%;
   }
   .lin{
-    width:275px;
-    height:30px;
+    width:250px;
+    height:35px;
     padding: 0 2%;
     margin-bottom: 0;
+    border-color: rgb(214, 209, 209);
     }
   .line{
     padding:0 2%;
-    width: 265px;
-    height: 30px;
+    width: 250px;
+    height: 35px;
     margin-left:18px ;
-  }
+    border-color: rgb(214, 209, 209);}
   .fot{
     margin-top: 50px;
   }
@@ -1175,6 +1177,7 @@ form{
     color: blue;
     margin:0;
     font-size: 12px;
+    margin-top: 2%;
   }
   .sp{
     text-align: left;
@@ -1405,7 +1408,7 @@ form{
   }
   .nav-menu{
     background-color: #060b26;
-    width: 50%;
+    width: 45%;
     height:100vh;
     display: flex;
     justify-content: center;
@@ -1421,29 +1424,34 @@ form{
     transition: 350ms;
   }
   .nav-text{
-    justify-content: start;
-    align-items: center;
     text-decoration: none;
     color:#fff;
     width: 100%;
     height: 50%;
-    border-bottom: 1px solid #fff ;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .nav-text span{
     margin-left: 14px;
   }
-  .nav-text i{
+  .nav-list i{
     color: #fff;
     font-size: 30px;
+    text-align: center;
+  }
+  .nav-list p{
+    text-decoration: none;
+    color: #fff;
   }
   .nav-list {
     list-style: none;
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    height: 99px;
-    padding: 8px 10px 8px 16px;
+    justify-content: center;
     
+    height: 85px;
+    padding: 8px 15px 8px 16px;
+    color:#fff;
+    border-bottom: 1px solid #fff ;
   }
   .nav-close{
     list-style: none;
@@ -1484,7 +1492,7 @@ form{
     font-size: 13px;
     display: flex;
     height: 33px;
-    gap: 30%;
+    gap: 15%;
     padding: 0 3%;
     margin: 0;
     color: grey;
@@ -2032,14 +2040,213 @@ form{
   }
   .lne {
     padding: 0 2%;
-    width: 295px;
+    width: 280px;
     margin-left: 55px;
-    height: 35px;
+    height: 40px;
     border-color: black;
-    justify-content: center;
   }
   .receipt{
     color: blue;
+  }
+  .dlog{
+    margin: 5% auto;
+    background-color:blue;
+    color:#fff;
+    border-color: blue;
+    padding: 2%;
+    margin-right: 0;
+  }
+  .cbl{
+    padding-bottom: 0;
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+  .blc{
+    background-color:  #c9d4f5;
+    border: 1px solid  #c9d4f5;;
+    padding: 3%;
+    text-align: left;
+    margin-top: 0;
+    border-radius: 4px;
+    width: 150px;
+    height: 60px;
+  }
+  .dnc{
+    padding-bottom: 0;
+    margin-bottom: 0;
+    margin-top: 2px;
+    font-size: 13px;
+  }
+  .xp{
+      border: 1px solid #c9d4f5;
+      margin:2% 9%;
+      border-radius: 4px;
+      padding:2%;
+      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.06);
+    
+  }
+  .pepl{
+      display: flex;
+      gap:10px;
+      padding: 2%;
+    
+  }
+  .zp{
+    display: flex;
+    font-size: 13px;
+    gap: 70px;
+    margin-top: 0;
+    margin-left: 5%;
+  }
+  .dlu{
+    background-color:  #F8F9FC;
+    border: 1px solid  #F8F9FC;;
+    padding: 3%;
+    text-align: left;
+    margin-top: 0;
+    border-radius: 4px;
+    width: 150px;
+    height: 82px;
+  }
+  .frame1{
+    margin-left: 60%;
+    height: 20px;
+    margin-top: 2%;
+  }
+  .jos{
+    border: 1px solid  #c9d4f5;
+    padding:3% 5%;
+    width: fit-content;
+    
+  }
+  .minus{
+    text-align: left;
+    margin-left: 7%;
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+  .ld{
+    font-size: 10px;
+    color:#060b26;
+    text-align: left;
+    margin:0 7%;
+    margin-bottom: 5%;
+  }
+  .box{
+    border: 1px solid #c9d4f5;
+    width: 80%;
+    margin-left: 10%;
+  }
+  .rasa{
+     display: flex;
+        gap: 15%;
+        height:22px;
+        align-items: center;
+        border-bottom: 1px solid gainsboro;
+        padding: 2% 5%;
+        font-size: 13px;
+  }
+  .dasa{
+    display: flex;
+    gap: 5%;
+    height:22px;
+    align-items: center;
+    border-bottom: 1px solid gainsboro;
+    padding: 2% 5%;
+    font-size: 13px;
+  }
+  .vasa3{
+    display: flex;
+        gap: 20%;
+        height:22px;
+        align-items: center;
+        border-bottom: 1px solid gainsboro;
+        padding: 2% 5%;
+        font-size: 13px;
+  }
+  .vasa4{
+    display: flex;
+    gap: 10%;
+        height:22px;
+        align-items: center;
+        border-bottom: 1px solid gainsboro;
+        padding: 2% 5%;
+        font-size: 13px;
+  }
+  .w{
+    font-size: 12px;
+    color: blue;
+    text-align: left;
+    margin-left: 5%;
+  }
+  .rax{
+    background-color: blue;
+    color:#fff;
+    width: 150px;
+    margin: 4% 25%;
+    padding: 1% 2%;
+  }
+  .hr {
+    border: none;
+    border-top: 1px double #333;
+    color: #333;
+    overflow: visible;
+    text-align: center;
+    height: 4px;
+  }
+  
+  .hr:after {
+    background: #fff;
+    content: '§';
+    padding: 0 4px;
+    position: relative;
+    top: -13px;
+  }
+  .cul{
+    display: flex;
+    gap: 10px;
+    font-size: 10px;
+  }
+  .cule{
+    display: flex;
+    margin: 0 10%;
+    margin-bottom: 2%;
+    gap: 40px;
+    border-bottom: 1px dashed black;
+    font-size: 10px;
+  }
+  .cveh{
+    margin-top: 0;
+    font-size: 10px;
+  }
+  .font{
+    font-size: 10px;
+    margin: 0;
+  }
+  .invo{
+    text-align: right;
+    margin-right: 9%;
+  }
+  .grn{
+    background-color: rgb(242, 244, 247);
+  }
+  .frame2{
+    margin-right: 70%;
+    height: 15px;
+    margin-top: 2%;
+    margin-bottom: 0;
+  }
+  .drz{
+    display: flex;
+    gap: 128px;
+    padding: 0% 8%; 
+    margin-bottom: 0;
+  }
+  .ac{
+    position: relative;
+      right: 40%;
+      margin: 3%;
+      font-size: 25px;
   }
   .tbut{
     color:blue;
@@ -2114,11 +2321,11 @@ form{
     margin-bottom: 20px;
   }
   .pne{
-    padding: 0 2%;
-    width: 295px;
-    margin-left: 35px;
-    height: 35px;
-    border-color:black;
+    padding:0 2%;
+    width: 280px;
+    height: 40px;
+    margin-left:33px ;
+    border-color: rgb(214, 209, 209);
   }
   .mp{
     text-align: left;

@@ -84,9 +84,9 @@ const toggleHidden =()=>{
         method: "GET",
         headers:{'Authorization': `Bearer ${bab}`},
         })
-        response = await response.json()
-        if (response.status !== 200) {
-          navigate(window.location.pathname, { replace: true });
+      
+        if (response.status === 401) {
+          navigate('/components/login');
         } else {  
         response = await response.json();}
 
@@ -96,6 +96,10 @@ const toggleHidden =()=>{
         useEffect(() => {
           fetchInfo()
           }, [])
+          const receipt =(index)=>{
+            const ite = info[index]
+            navigate('/components/Receipt', {state:{ite}} )
+          }
 if (info.length < 1)        
 return(
      
@@ -105,109 +109,117 @@ return(
             <title>Accounts</title>
             
         </Helmet>
-        <i onClick={showSidebar} class="fa-solid fa-bars bac"></i>
-        <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+        <i onClick={showSidebar} class="fa-solid fa-bars ac"></i>
+            <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
                 <ul className='nav-menu-item'>
                     <li className='nav-close'>
                     <i onClick={showSidebar} class="fa-solid fa-x"></i>
                     </li>
                     <li className='nav-list'>
                     <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-house"></i>
-                    <span className='dfp'>Home</span></Link>
+                    <p className='dfp'>Home</p></Link>
                     </li>
                     <li className='nav-list'>
                     <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet home"></i>
-                      <span className='dfp'>Account</span></Link>
+                      <p className='dfp'>Account</p></Link>
                     </li>
                     <li className='nav-list'>
                     <Link to='/components/savings' className='nav-text'><i class="fa-solid fa-money-bill"></i>
-                      <span className='dfp'>Sub-Account</span></Link>
+                      <p className='dfp'>Sub-Account</p></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/customer' className='nav-text'><i class="fa-solid fa-people-roof"></i>
+                      <p className='dfp'>Customers</p></Link>
                     </li>
                     <li className='nav-list'>
                     <Link to='/components/project' className='nav-text'><i class="fa-solid fa-layer-group home"></i>
-                  <span className='dfp'>Project</span></Link>
+                  <p className='dfp'>Project</p></Link>
                     </li>
                     <li className='nav-list'>
                     <Link to='/components/club' className='nav-text'><i class="fa-solid fa-people-group home"></i>
-                     <span className='dfp'>Club</span></Link>
+                     <p className='dfp'>Club</p></Link>
                     </li>
                     <li className='nav-list'>
                     
                     <Link to='/components/login' className='nav-text'><i class="fa-solid fa-share"></i>
-                      <span className='dfp'>Log Out</span></Link>
-                    </li>
+                      <p className='dfp'>Log Out</p></Link>
+                    </li>  
                 </ul>
             </nav>
            
-           <div className="dash">
+            <div className="dash">
               <h3 className="h1">Account</h3>
               <p className='dp'>Total Balance</p>
               { hidden ? <i onClick={toggleHidden} class="fa-regular fa-eye-slash see"></i> : <i class="fa-regular fa-eye see" onClick={toggleHidden}></i>}
               <h1 className="h1">{hidden}</h1>
-              <div className="dax">
+              <div>
                <Link to='/components/fund'><button className='abut'>Add Funds</button></Link> 
-               <div>
-                  <Link to='/components/getgroup'><button className='abut'>Transfer</button></Link>
-               </div> 
+                              
               </div>
            </div>
-            
+           
               <p className='l'>RECENT TRANSACTIONS</p>
               <p className='ad'>No Transaction Yet</p>
 
+         
         </div>
     )
     return(
       <div>
-             <i onClick={showSidebar} class="fa-solid fa-bars bac"></i>
-             <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
-                <ul className='nav-menu-item'>
+      <div  className=''>
+      <i onClick={showSidebar} class="fa-solid fa-bars ac"></i>
+            <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+            <ul className='nav-menu-item'>
                     <li className='nav-close'>
                     <i onClick={showSidebar} class="fa-solid fa-x"></i>
                     </li>
                     <li className='nav-list'>
                     <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-house"></i>
-                    <span className='dfp'>Home</span></Link>
+                    <p className='dfp'>Home</p></Link>
                     </li>
                     <li className='nav-list'>
                     <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet home"></i>
-                      <span className='dfp'>Account</span></Link>
+                      <p className='dfp'>Account</p></Link>
                     </li>
                     <li className='nav-list'>
                     <Link to='/components/savings' className='nav-text'><i class="fa-solid fa-money-bill"></i>
-                      <span className='dfp'>Sub Account</span></Link>
+                      <p className='dfp'>Sub-Account</p></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/customer' className='nav-text'><i class="fa-solid fa-people-roof"></i>
+                      <p className='dfp'>Customers</p></Link>
                     </li>
                     <li className='nav-list'>
                     <Link to='/components/project' className='nav-text'><i class="fa-solid fa-layer-group home"></i>
-                  <span className='dfp'>Project</span></Link>
+                  <p className='dfp'>Project</p></Link>
                     </li>
                     <li className='nav-list'>
                     <Link to='/components/club' className='nav-text'><i class="fa-solid fa-people-group home"></i>
-                     <span className='dfp'>Club</span></Link>
+                     <p className='dfp'>Club</p></Link>
                     </li>
-                    
                     <li className='nav-list'>
                     
                     <Link to='/components/login' className='nav-text'><i class="fa-solid fa-share"></i>
-                      <span className='dfp'>Log Out</span></Link>
+                      <p className='dfp'>Log Out</p></Link>
                     </li>
                 </ul>
             </nav>
+            </div>
              <div className="dash">
                 <h3 className="h1">Account</h3>
                 <p className='dp'>Total Balance</p>
                 { hidden ? <i onClick={toggleHidden} class="fa-regular fa-eye-slash see"></i> : <i class="fa-regular fa-eye see" onClick={toggleHidden}></i>}
                 <h1 className="h1">{hidden}</h1>
-                <div className="dax">
-                  <Link to='/components/fund'><button className='abut'>Add Funds</button></Link> 
-                  <Link to='/components/getgroup'><button className='abut'>Transfer</button></Link>
-                  
+                <div >
+                 <Link to='/components/fund'><button className='abut'>Add Funds</button></Link> 
+                
                 </div>
              </div>
+             
               
           <p className='l'>RECENT TRANSACTIONS</p>
           {info.map((obj, index) => 
-                  <div className='td'>
+                  <div className='td' onClick={() => receipt(index)}>
                   <div className='tl'>
                        <p key={index}>{obj.classification}</p>
                        <p key={index}>₦{obj.amount}</p>
@@ -216,11 +228,11 @@ return(
                        <p  key={index}>{obj.status}</p>
                        <p key={index}>{(new Date(obj.time)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</p>
                   </div>
-                  {obj.transaction_type === 'CLOSE_PROJECT' || obj.transaction_type ==='NIPCR'? (
+                  {obj.transaction_type === 'CLOSE_PROJECT' || obj.transaction_type ==='NIPCR' ? (
                        <p className='tm' key={index}>{obj.narration}</p>) : <p className='tm' key={index}>Beneficiary: {obj.beneficiary.account_name} {obj.beneficiary.bank_name}</p>}
+                  <div ><i class="fa-solid fa-file-export"></i></div>    
                   </div>
-                       )}
-                        
+                )}                        
       </div>
    )
 }

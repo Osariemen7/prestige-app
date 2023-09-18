@@ -36,6 +36,13 @@ import Done from './components/odip';
 import Save from './components/save';
 import Savings from './components/savings';
 import Detail from './components/detail'
+import Customer from './components/customer';
+import Cusdet from './components/cusdet';
+import Recdet from './components/Receipt';
+import Resident from './components/resident';
+import Business from './components/rebout';
+import Bud from './components/reboard';
+import Credit from './components/credit';
 import { Analytics } from '@vercel/analytics/react';
 function App() {
   const [loading, setLoading] = useState(true)
@@ -84,7 +91,14 @@ function App() {
         <Route path='/components/save' element={<Save />} />
         <Route path='/components/savings' element={<Savings />} />
         <Route path='/components/detail' element={<Detail />} />
-        
+        <Route path='/components/customer' element={<Customer />} />
+        <Route path='/components/cusdet' element={<Cusdet />} />
+        <Route path='/components/Receipt' element={<Recdet />} />
+        <Route path='/components/resident' element={<Resident />} />
+        <Route path='/components/rebout' element={<Business />} />
+        <Route path='/components/reboard' element={<Bud />} />
+        <Route path='/components/credit' element={<Credit />} />
+       
      </Routes>
       
     </div>

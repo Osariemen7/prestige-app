@@ -9,6 +9,7 @@ const Detail = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [message, setMessage] = useState('')
     const [messages, setMessages] = useState('');
+    const [buttonVisible, setButtonVisible] = useState(true);
     const [info, setInfo] = useState([])
     const [isOpned, setIsOpned] = useState(false);
     const [fin, setFin] = useState('')
@@ -61,6 +62,7 @@ const openModal = () => {
   };
   const closeModal = () => {
     setIsOpen(false);
+    fetchDa()
   };
   const handleBank = (selectedOption) => {
     setSelectedOption(selectedOption);
@@ -83,7 +85,37 @@ const openModal = () => {
   }
   let debit_main = debit(selectedOption)
 
-
+  const fetchDa = async () => {
+    let item ={refresh}
+    let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json',
+          'accept' : 'application/json'
+     },
+     body:JSON.stringify(item)
+    });
+    
+    rep = await rep.json();
+    let bab = rep.access_token
+  let response = await fetch("https://api.prestigedelta.com/subaccount/",{
+  method: "GET",
+  headers:{'Authorization': `Bearer ${bab}`},
+  })
+  //localStorage.setItem('user-info', JSON.stringify(tok))
+  
+  if (response.status === 401) {
+    navigate('/components/login');
+  } else { 
+   
+  response = await response.json();
+  setLoading(false)
+  setInfo(response)
+  
+    }}
+    useEffect(() => {
+      fetchDa()
+    }, [])
   const fetchInfo = async () => {
     let item ={refresh}
     let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
@@ -108,16 +140,15 @@ const openModal = () => {
   if (response.status === 401) {
     navigate('/components/login');
   } else {  
-  response = await response.json();
+  response = await response.json();}
 
   setList(response)
   setAuto(result)
 
-  }}
+  }
   useEffect(() => {
     fetchInfo()
     }, [])
-
     async function fproj(e) {
       e.preventDefault();
        let items ={refresh}
@@ -161,8 +192,16 @@ const openModal = () => {
       }
     ;
     }
+    const handleClick = () => {
+      // When the button is clicked, setButtonVisible to false
+      setButtonVisible(false);
+      setTimeout(() => {
+        setButtonVisible(true);
+      }, 20000);
+    };
 
   async function fsav(e) {
+    handleClick()
     e.preventDefault();
      let items ={refresh}
       let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
@@ -191,20 +230,22 @@ const openModal = () => {
         },
         body: JSON.stringify(item)
       });
-  
-      if (result.status !== 200) {
+      
+            if (result.status !== 200) {
         const errorResult = await result.json();
         setMessage(JSON.stringify(errorResult.message));
       } else {
          result =await result.json();
-         setFun(JSON.stringify(result))
-         fetchDa()
+         setFun(JSON.stringify(result))   
       }
+      
+      
     } catch (error) {
       // Handle fetch error
       console.error(error);
     };
   }
+  
   async function dauto() {
     
      let items ={refresh}
@@ -250,38 +291,13 @@ const openModal = () => {
       console.error(error);
     };
   }
-  const fetchDa = async () => {
-    let item ={refresh}
-    let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
-        method: 'POST',
-        headers:{
-          'Content-Type': 'application/json',
-          'accept' : 'application/json'
-     },
-     body:JSON.stringify(item)
-    });
-    
-    rep = await rep.json();
-    let bab = rep.access_token
-  let response = await fetch("https://api.prestigedelta.com/subaccount/",{
-  method: "GET",
-  headers:{'Authorization': `Bearer ${bab}`},
-  })
-  //localStorage.setItem('user-info', JSON.stringify(tok))
   
-  if (response.status === 401) {
-    navigate('/components/login');
-  } else { 
-   
-  response = await response.json();
-  setLoading(false)
-  setInfo(response)
-  
-    }}
-    useEffect(() => {
-      fetchDa()
-    }, [])
-const finfo = info.find(inf => inf.name === index.name)
+    const receipt =(index)=>{
+      const ite = list[index]
+      navigate('/components/Receipt', {state:{ite}} )
+    }
+    const finfo = info.find(inf => inf.name === index.name)
+    console.log(finfo)
     async function closeProj(e){
         e.preventDefault()
         let project_name = index.name;
@@ -329,6 +345,10 @@ const finfo = info.find(inf => inf.name === index.name)
     const data = index
        navigate('/components/overdraft', {state:{data}})
   }
+  const transfer= ()=>{
+    const mata = finfo
+       navigate('/components/getgroup', {state:{mata}})
+  }
   if(loading) {
     return(
     <p>Loading...</p>)} 
@@ -341,14 +361,12 @@ const finfo = info.find(inf => inf.name === index.name)
              <h4 className="cpn">{index.name} SUB ACCOUNT</h4>
              <div className="dash">
                 <p className="dp">Balance</p>
-                <h2 className="h2">₦{(finfo.balance.available_balance).toLocaleString('en-Us')}</h2> 
+                <h2 className="h2">₦{(finfo.balance.available_balance).toLocaleString('en-US')}</h2> 
             <div className="act">
                  <button className="dogb" onClick={openModal}>Fund</button>  
                 <button className="dogb" onClick={openModals}>Edit Budget</button>  
                 <button onClick={() => overdraft()} className='dogb'>Overdraft</button>
-            </div>
-                
-                             
+            </div>                
              </div>
              <div className="asx">
                 <p>Monthly Budget</p>
@@ -358,29 +376,30 @@ const finfo = info.find(inf => inf.name === index.name)
                 <p>Amount Spent</p>
                 <h4 className="sco">₦{(index.spent).toLocaleString('en-US')}</h4>
              </div>
-          
-             <div className="dax">
-             
-             {finfo.auto_fund === false ?(
-             <button onClick={dauto} className="logb">Enable Auto Fund</button>):(
-              <button onClick={dauto} className="logb">Disable Auto Fund</button>
-             )}
-             </div>
+             <button onClick={() => transfer()} className="logb">Transfers</button>
             
              <h4 className="saed">Activity</h4>
              {list.map((obj, index) => 
-                  <div className='td'>
-                  <div className='pax'>
-                  <p className="tm" key={index}>{(new Date(obj.time)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</p>
-                       <h4 className="tm" key={index}>₦{obj.amount}</h4>
+                  <div className='td' onClick={() => receipt(index)}>
+                  <div className='drz'>
+                        <p className="ove" key={index}>{obj.status}</p>
+                       <h4 className="ove" key={index}>₦{obj.amount}</h4>
                   </div>
                   <div className='tg'>
-                       <p  key={index}>{obj.status}</p>
+                  <p className="tm" key={index}>{(new Date(obj.time)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</p>
+                       <div><span>Receipt </span><i class="fa-solid fa-file-export"></i></div>
                   </div>
                        <p className='tm' key={index}>{obj.narration}</p>
                   </div>
                        )}
-             <button className="plog" onClick={openModal1} >Close Sub Account</button>
+                       <div className="dax">
+                       {finfo.auto_fund === false ?(
+             <button onClick={dauto} className="dlog">Enable Auto Fund</button>):(
+              <button onClick={dauto} className="dlog">Disable Auto Fund</button>
+             )}
+                       <button className="plog" onClick={openModal1} >Close Sub Account</button>
+                       </div>
+            
              <Modal
       className='modal'
       isOpen={isOpen}
@@ -400,12 +419,12 @@ const finfo = info.find(inf => inf.name === index.name)
       options={options}
       isSearchable={true}
       value={selectedOption}
-    />
-                <p className='sp'>Enter Amount</p>
-                <input type="number" onChange={handleAmount} className="line" placeholder="₦0.00" name="BVN"/><br/><br/>
-                <p className='sp'>Add a Note</p>
-                <input type='text' placeholder='Add a note' className='line' />
-                <button onClick={fsav} className='logbs'>Fund</button>
+    /><br/><br/>
+                <input type="number" onChange={handleAmount} className="line" placeholder="                  Enter Amount" name="amount"/><br/><br/>
+                {buttonVisible && (  <button className="logbs" onClick={fsav}>Fund</button> 
+                )}
+      {!buttonVisible && <p>Processing...</p>}
+                
                 <div className="message">{message ? <p>{message}</p> : null}</div>
             </form>
             </div>) :
