@@ -2134,8 +2134,8 @@ form{
   }
   .box{
     border: 1px solid #c9d4f5;
-    width: 80%;
-    margin-left: 10%;
+    width: 90%;
+    margin-left: 5%;
   }
   .rasa{
      display: flex;
@@ -2166,7 +2166,7 @@ form{
   }
   .vasa4{
     display: flex;
-    gap: 10%;
+    gap: 7%;
         height:22px;
         align-items: center;
         border-bottom: 1px solid gainsboro;
