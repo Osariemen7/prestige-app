@@ -1,6 +1,8 @@
 import {useState, useEffect} from 'react'
 import {Link, useNavigate} from "react-router-dom";
 import { Helmet } from "react-helmet"
+import { ChakraProvider } from '@chakra-ui/react';
+import { Card, Heading, Text } from '@chakra-ui/react'
 
 const Accounts =()=> {
   const [info, setInfo] = useState([])
@@ -8,6 +10,8 @@ const Accounts =()=> {
   const [hidden, setHidden] = useState("******");
   const navigate= useNavigate()
   const [sidebar, setSidebar] = useState('')
+  const [data, setData] = useState('')
+  const [loading, setLoading] = useState(true)
 
   const showSidebar = () => setSidebar(!sidebar)
     let tok= JSON.parse(localStorage.getItem("user-info"));
@@ -48,6 +52,7 @@ const Accounts =()=> {
      navigate('/components/login')
   } else {
  setUsers(response)
+ setLoading(false)
   }}
 
 useEffect(() => {
@@ -100,6 +105,41 @@ const toggleHidden =()=>{
             const ite = info[index]
             navigate('/components/Receipt', {state:{ite}} )
           }
+          useEffect(() => {
+            fetchInfo()
+            }, [])
+            const fetchDat = async () => {
+              let item ={refresh}
+              let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
+                  method: 'POST',
+                  headers:{
+                    'Content-Type': 'application/json',
+                    'accept' : 'application/json'
+               },
+               body:JSON.stringify(item)
+              });
+              rep = await rep.json();
+              
+              let bab = rep.access_token
+            let response = await fetch("https://api.prestigedelta.com/virtualnuban/",{
+            method: "GET",
+            headers:{'Authorization': `Bearer ${bab}`},
+            })
+            response = await response.json()
+            if (response.status !== 200) {
+              navigate(window.location.pathname, { replace: true });
+            } else {
+            
+              response = await response.json();}
+           setData(response)
+            
+          }
+          useEffect(() => {
+            fetchDat()
+          }, [])
+          if (loading)
+          return(
+        <p>Loading...</p>)
 if (info.length < 1)        
 return(
      
@@ -116,20 +156,24 @@ return(
                     <i onClick={showSidebar} class="fa-solid fa-x"></i>
                     </li>
                     <li className='nav-list'>
-                    <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-house"></i>
-                    <p className='dfp'>Home</p></Link>
-                    </li>
-                    <li className='nav-list'>
-                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet home"></i>
-                      <p className='dfp'>Account</p></Link>
+                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-house"></i>
+                      <p className='dfp'>Home</p></Link>
                     </li>
                     <li className='nav-list'>
                     <Link to='/components/savings' className='nav-text'><i class="fa-solid fa-money-bill"></i>
                       <p className='dfp'>Sub-Account</p></Link>
-                    </li>
+                    </li>  
                     <li className='nav-list'>
                     <Link to='/components/customer' className='nav-text'><i class="fa-solid fa-people-roof"></i>
                       <p className='dfp'>Customers</p></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-chart-line"></i>
+                    <p className='dfp'>Analytics</p></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/inventory' className='nav-text'><i class="fa-solid fa-cart-flatbed"></i>
+                      <p className='dfp'>Inventory</p></Link>
                     </li>
                     <li className='nav-list'>
                     <Link to='/components/project' className='nav-text'><i class="fa-solid fa-layer-group home"></i>
@@ -149,10 +193,19 @@ return(
               { hidden ? <i onClick={toggleHidden} class="fa-regular fa-eye-slash see"></i> : <i class="fa-regular fa-eye see" onClick={toggleHidden}></i>}
               <h1 className="h1">{hidden}</h1>
               <div>
-               <Link to='/components/fund'><button className='abut'>Add Funds</button></Link> 
+              <Link to='/components/invoice'><button className='dbut'>Receive Payment</button></Link> 
                               
               </div>
            </div>
+           <ChakraProvider>
+            <Card m={4}>
+                <Text mb={0}>Bank</Text>
+                <Heading size='xs' mb={2}>{data.bank}</Heading>
+                <Text>Account Number</Text>
+                <Heading size='xs'>{data.account_number}</Heading>
+
+            </Card>
+           </ChakraProvider>
            
               <p className='l'>RECENT TRANSACTIONS</p>
               <p className='ad'>No Transaction Yet</p>
@@ -170,20 +223,24 @@ return(
                     <i onClick={showSidebar} class="fa-solid fa-x"></i>
                     </li>
                     <li className='nav-list'>
-                    <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-house"></i>
-                    <p className='dfp'>Home</p></Link>
-                    </li>
-                    <li className='nav-list'>
-                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet home"></i>
-                      <p className='dfp'>Account</p></Link>
+                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-house"></i>
+                      <p className='dfp'>Home</p></Link>
                     </li>
                     <li className='nav-list'>
                     <Link to='/components/savings' className='nav-text'><i class="fa-solid fa-money-bill"></i>
                       <p className='dfp'>Sub-Account</p></Link>
-                    </li>
+                    </li>  
                     <li className='nav-list'>
                     <Link to='/components/customer' className='nav-text'><i class="fa-solid fa-people-roof"></i>
                       <p className='dfp'>Customers</p></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-chart-line"></i>
+                    <p className='dfp'>Analytics</p></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/inventory' className='nav-text'><i class="fa-solid fa-cart-flatbed"></i>
+                      <p className='dfp'>Inventory</p></Link>
                     </li>
                     <li className='nav-list'>
                     <Link to='/components/project' className='nav-text'><i class="fa-solid fa-layer-group home"></i>
@@ -197,17 +254,28 @@ return(
                 </ul>
             </nav>
             </div>
+            <ChakraProvider>
              <div className="dash">
-                <h3 className="h1">Account</h3>
+                <Heading size='md' className="h1">Account</Heading>
                 <p className='dp'>Total Balance</p>
                 { hidden ? <i onClick={toggleHidden} class="fa-regular fa-eye-slash see"></i> : <i class="fa-regular fa-eye see" onClick={toggleHidden}></i>}
-                <h1 className="h1">{hidden}</h1>
+                <Heading size='lg' className="h1">{hidden}</Heading>
                 <div >
-                 <Link to='/components/fund'><button className='abut'>Add Funds</button></Link> 
+                <Link to='/components/invoice'><button className='dbut'>Receive Payment</button></Link>  
                 
                 </div>
              </div>
              
+            <Card m={4}  >
+            
+                <Text mb={0} >Bank</Text>
+                <Heading size='xs' mb={2}>{data.bank}</Heading>
+                <Text>Account Number</Text>
+                <Heading size='xs' >{data.account_number}</Heading>
+              
+            </Card>
+           </ChakraProvider>
+          
               
           <p className='l'>RECENT TRANSACTIONS</p>
           {info.map((obj, index) => 

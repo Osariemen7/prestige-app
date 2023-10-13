@@ -4,6 +4,7 @@ import pic from './images/v.svg';
 import Modal from 'react-modal';
 import good from './images/good.svg'
 import { Link, useNavigate } from 'react-router-dom';
+import { ChakraProvider, Heading } from '@chakra-ui/react';
 
 const Savings = () =>{
     const [total, setTotal] = useState([]);
@@ -146,33 +147,38 @@ let refresh = terms(tok)
                     <i onClick={showSidebar} class="fa-solid fa-x"></i>
                     </li>
                     <li className='nav-list'>
-                    <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-house"></i>
+                  <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-house"></i>
                     <p className='dfp'>Home</p></Link>
-                    </li>
-                    <li className='nav-list'>
-                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet home"></i>
-                      <p className='dfp'>Account</p></Link>
-                    </li>
-                    <li className='nav-list'>
-                    <Link to='/components/savings' className='nav-text'><i class="fa-solid fa-money-bill"></i>
-                      <p className='dfp'>Sub-Account</p></Link>
-                    </li>
-                    <li className='nav-list'>
-                    <Link to='/components/customer' className='nav-text'><i class="fa-solid fa-people-roof"></i>
-                      <p className='dfp'>Customers</p></Link>
-                    </li>
-                    <li className='nav-list'>
-                    <Link to='/components/project' className='nav-text'><i class="fa-solid fa-layer-group home"></i>
-                  <p className='dfp'>Project</p></Link>
-                    </li>
-                    <li className='nav-list'>
-                    
-                    <Link to='/components/login' className='nav-text'><i class="fa-solid fa-share"></i>
-                      <p className='dfp'>Log Out</p></Link>
-                    </li>  
+                  </li>
+                  <li className='nav-list'>
+                  <Link to='/components/savings' className='nav-text'><i class="fa-solid fa-money-bill"></i>
+                    <p className='dfp'>Sub-Account</p></Link>
+                  </li>  
+                  <li className='nav-list'>
+                  <Link to='/components/customer' className='nav-text'><i class="fa-solid fa-people-roof"></i>
+                    <p className='dfp'>Customers</p></Link>
+                  </li>
+                  <li className='nav-list'>
+                  <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-chart-line"></i>
+                  <p className='dfp'>Analytics</p></Link>
+                  </li>
+                  <li className='nav-list'>
+                  <Link to='/components/inventory' className='nav-text'><i class="fa-solid fa-cart-flatbed"></i>
+                    <p className='dfp'>Inventory</p></Link>
+                  </li>
+                  <li className='nav-list'>
+                  <Link to='/components/project' className='nav-text'><i class="fa-solid fa-layer-group home"></i>
+                <p className='dfp'>Project</p></Link>
+                  </li>
+                  <li className='nav-list'>
+                  
+                  <Link to='/components/login' className='nav-text'><i class="fa-solid fa-share"></i>
+                    <p className='dfp'>Log Out</p></Link>
+                  </li>  
                 </ul>
             </nav>  
-           <h3 className='saed'>Budget</h3>
+            <ChakraProvider>
+           <Heading size='md' className='saed'>Budget</Heading></ChakraProvider>
            <div className='svin'>
               <p>Create sub-account and manage your cash flow</p>
               <img className=''  src={pic} alt='' onClick={openModal}/>
@@ -190,7 +196,7 @@ let refresh = terms(tok)
           <p className='clun' key={index}>
             {Math.round(((parseInt(obj.spent) / parseInt(obj.budget)) * 100 + Number.EPSILON) * 100) / 100}%
           </p>
-          <p className='clun'>₦{obj.spent.toLocaleString('en-US')} / ₦{obj.budget.toLocaleString('en-US')}</p>
+          <p className='clun'>₦{obj.balance.available_balance.toLocaleString('en-US')}</p>
         </div>
         <div className="progress-b" style={{ width: '100%' }}>
           <div className="progress-bi" style={{ width: `${(parseInt(obj.spent) / parseInt(obj.budget)) * 100}%` }}>

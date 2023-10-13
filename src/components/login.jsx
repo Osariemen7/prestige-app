@@ -74,7 +74,7 @@ const LoginPage = () => {
           navigate('/components/thanks', {state:{result}})
         } else {
           localStorage.setItem('user-info', JSON.stringify(result));
-          navigate('/components/dash');
+          navigate('/components/accounts');
         }
       }
     }

@@ -43,6 +43,11 @@ import Resident from './components/resident';
 import Business from './components/rebout';
 import Bud from './components/reboard';
 import Credit from './components/credit';
+import Invoice from './components/invoice';
+import ProDe from './components/prodet';
+import Product from './components/product';
+import Inventory from './components/inventory';
+import BuyP from './components/before';
 import { Analytics } from '@vercel/analytics/react';
 function App() {
   const [loading, setLoading] = useState(true)
@@ -98,6 +103,11 @@ function App() {
         <Route path='/components/rebout' element={<Business />} />
         <Route path='/components/reboard' element={<Bud />} />
         <Route path='/components/credit' element={<Credit />} />
+        <Route path='/components/inventory' element={<Inventory />} />
+        <Route path='/components/product' element={<Product />} />
+        <Route path='/components/prodet' element={<ProDe />} /> 
+        <Route path='/components/invoice' element={<Invoice />} /> 
+        <Route path='/components/before' element={<BuyP />} /> 
        
      </Routes>
       
