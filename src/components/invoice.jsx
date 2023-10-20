@@ -152,11 +152,20 @@ const handleFormSubmit = (event) => {
   return total + itemAmount;
 }, 0);
   let total = (tota).toLocaleString('en-US')
-let won = (parseFloat(selectedPrize)/100) * tota 
+
   const handlePack =(e)=>{
     setInputp(e.target.value)
   }
- 
+  const handleWon = () => {
+    let win
+    if (selectedPrize === '') {
+      win = 0;
+    } else {
+      win = (parseFloat(selectedPrize) / 100) * tota;
+    }
+    return win
+  }
+ let won =handleWon()
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
@@ -172,8 +181,7 @@ let won = (parseFloat(selectedPrize)/100) * tota
   }
   const openModal = (button) => {
     setPayment('CASH')
-    setOutline(button)
-    
+    setOutline(button) 
     };
     const openModal1 = (button) => {
       setPayment('POS');
@@ -183,6 +191,7 @@ let won = (parseFloat(selectedPrize)/100) * tota
       setPayment('TRANSFER');
       setOutline(button)
     };
+    console.log(won)
   function toSentenceCase(inputString) {
     if (!inputString) return inputString; // Handle empty or null input
     return inputString.charAt(0).toUpperCase() + inputString.slice(1);

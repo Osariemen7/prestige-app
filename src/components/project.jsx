@@ -178,7 +178,7 @@ let refresh = terms(tok)
                   
                   <Link to='/components/login' className='nav-text'><i class="fa-solid fa-share"></i>
                     <p className='dfp'>Log Out</p></Link>
-                  </li>  
+                  </li> 
                 </ul>
             </nav>
             <div className="dash">
