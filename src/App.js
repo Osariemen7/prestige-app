@@ -48,6 +48,7 @@ import ProDe from './components/prodet';
 import Product from './components/product';
 import Inventory from './components/inventory';
 import BuyP from './components/before';
+import Sales from './components/pinvoice';
 import { Analytics } from '@vercel/analytics/react';
 function App() {
   const [loading, setLoading] = useState(true)
@@ -108,6 +109,7 @@ function App() {
         <Route path='/components/prodet' element={<ProDe />} /> 
         <Route path='/components/invoice' element={<Invoice />} /> 
         <Route path='/components/before' element={<BuyP />} /> 
+        <Route path='/components/pinvoice' element={<Sales />} />
        
      </Routes>
       

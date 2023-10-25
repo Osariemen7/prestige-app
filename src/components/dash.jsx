@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate} from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
-import { Card, Heading, Stack, SimpleGrid, Text } from '@chakra-ui/react'
+import { Card, Heading, Button, Stack, SimpleGrid, Text } from '@chakra-ui/react'
 import { Bar } from 'react-chartjs-2';
 import { BarElement,  CategoryScale,Chart as ChartJS,Legend, LinearScale,Title, Tooltip } from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -10,11 +10,13 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 ChartJS.register(CategoryScale, LinearScale, BarElement,Title,Tooltip,Legend, ChartDataLabels);
 
 
+
 const Dashboard =()=>{
   const [users, setUsers] = useState('');
   const navigate = useNavigate()
   const [sidebar, setSidebar] = useState('')
-
+  const [info, setInfo] = useState('')
+  const [loading, setLoading] = useState(true)
 
   const showSidebar = () => setSidebar(!sidebar)
   const options = {
@@ -192,13 +194,19 @@ labels: ["Day", "Week", "Month"],
       method: "GET",
       headers:{'Authorization': `Bearer ${bab}`},
       })
+      let respon = await fetch("https://sandbox.prestigedelta.com/businessprofile/",{
+      method: "GET",
+      headers:{'Authorization': `Bearer ${bab}`},
+      })
+      respon = await respon.json()
       response = await response.json()
       localStorage.setItem('user-info', JSON.stringify(tok))
       if (response.status === 401){
         navigate('/components/login')
       } else {
+        setLoading(false)
      setUsers(response)
-     
+     setInfo(respon)
       }
     }
   
@@ -206,99 +214,115 @@ labels: ["Day", "Week", "Month"],
       fetchData()
     }, [])
     
-    console.log(tok)
+    console.log(info)
     
+    
+//   useEffect(() => {
+//     fetch('https://sandbox.prestigedelta.com/accounts/')
+//       .then(response => response.json())
+//       .then(json => setData(json))
+//       .catch(error => console.error(error));
+//     }, []);
+//     let wark = JSON.stringify(data)
+let wark =users[0]
+
+console.log(users) 
+
+if(loading) {
+  return(
+  <p>Loading...</p>)}   
+        
     return(
-      <div>
-      <ChakraProvider>
-          <i onClick={showSidebar} class="fa-solid fa-bars ac"></i>
-          <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
-              <ul className='nav-menu-item'>
-                  <li className='nav-close'>
-                  <i onClick={showSidebar} class="fa-solid fa-x"></i>
-                  </li>
-                  
-                  <li className='nav-list'>
-                  <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-house"></i>
-                    <p className='dfp'>Home</p></Link>
-                  </li>
-                  <li className='nav-list'>
-                  <Link to='/components/savings' className='nav-text'><i class="fa-solid fa-money-bill"></i>
-                    <p className='dfp'>Sub-Account</p></Link>
-                  </li>  
-                  <li className='nav-list'>
-                  <Link to='/components/customer' className='nav-text'><i class="fa-solid fa-people-roof"></i>
-                    <p className='dfp'>Customers</p></Link>
-                  </li>
-                  <li className='nav-list'>
-                  <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-chart-line"></i>
-                  <p className='dfp'>Analytics</p></Link>
-                  </li>
-                  <li className='nav-list'>
-                  <Link to='/components/inventory' className='nav-text'><i class="fa-solid fa-cart-flatbed"></i>
-                    <p className='dfp'>Inventory</p></Link>
-                  </li>
-                  <li className='nav-list'>
-                  <Link to='/components/project' className='nav-text'><i class="fa-solid fa-layer-group home"></i>
-                <p className='dfp'>Project</p></Link>
-                  </li>
-                  <li className='nav-list'>
-                  
-                  <Link to='/components/login' className='nav-text'><i class="fa-solid fa-share"></i>
-                    <p className='dfp'>Log Out</p></Link>
-                  </li>  
-              </ul>
-          </nav>
-         
-          <div>
-          <h3 className='h4'>Hi, {name.first_name} </h3>
-          <Heading size='md' >Analytics</Heading>
-          </div>
-          <Card backgroundColor='#eff1fa' m={3} >
-              <Heading size='sm'>Sales</Heading>
-             <Bar data={da} options={optio} />
-             <Text fontSize='12px'>Today's Revenue Per Sales - ₦{parseFloat(users.today_rps).toLocaleString('en-US')}</Text>
-             <Text fontSize='12px'>This Week's Revenue Per Sales - ₦{parseFloat(users.wk_rps).toLocaleString('en-US')}</Text>
-             <Text fontSize='12px'>This Month's Revenue Per Sales - ₦{parseFloat(users.mn_rpc).toLocaleString('en-US')}</Text>
-          </Card>
-          <Card backgroundColor='#eff1fa' m={3} >
-              <Heading size='sm'>Revenue</Heading>
-             
-             <Bar data={dat} options={option} />
-          </Card>
-    
-          <Card backgroundColor='#eff1fa' m={3} >
-              <Heading size='sm'>Expense</Heading>
-             
-             <Bar data={data} options={options} />
-          </Card>
-          
-          <Card backgroundColor='#eff1fa' m={3} p={2}>
-            <SimpleGrid m={2} spacing={4} templateColumns='repeat(auto-fill, minmax(150px, 1fr))'>
-              <Card backgroundColor=' #c9d4f5' p={2}>
-                <Heading fontSize='12px'>No of Customers Today</Heading>
-                <Text fontSize='14px'>{users.today_customer_count}</Text>
-              <Text fontSize='12px'>No of new Customers today - {users.today_new_customer}</Text>
-              </Card>
-              <Card backgroundColor=' #c9d4f5' p={2}>
-                <Heading fontSize='12px'>No of Customers for the Week</Heading>
-                <Text fontSize='14px'>{users.wk_customer_count}</Text>
-              <Text fontSize='12px'>No of new Customers for the Week - {users.wk_new_customer}</Text>
-              </Card>
-              <Card backgroundColor=' #c9d4f5' p={2}>
-              <Heading fontSize='12px'>No of Customers for the Month</Heading>
-                <Text fontSize='14px'>{users.mn_customer_count}</Text>
-              <Text fontSize='12px'>No of new Customers for the Month - {users.mn_new_customer}</Text>
-              </Card>
-              <Card backgroundColor=' #c9d4f5' p={2} >
-                <Heading fontSize='12px'>Today's Revenue Per Customer- ₦{parseFloat(users.today_rpc).toLocaleString('en-US')}</Heading>
-                <Text fontSize='12px'>Weekly Revenue Per Customer - ₦{parseFloat(users.wk_rpc).toLocaleString('en-US')}</Text>
-                <Text fontSize='12px'>Monthly Revenue Per Customer -₦{parseFloat(users.mn_rpc).toLocaleString('en-US')}</Text>
-              </Card>
-            </SimpleGrid>
-          </Card>
-          </ChakraProvider>   
-      </div>
+        <div>
+        <ChakraProvider>
+            <i onClick={showSidebar} class="fa-solid fa-bars ac"></i>
+            <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+                <ul className='nav-menu-item'>
+                    <li className='nav-close'>
+                    <i onClick={showSidebar} class="fa-solid fa-x"></i>
+                    </li>
+                    
+                    <li className='nav-list'>
+                    <Link to='/components/inventory' className='nav-text'><i class="fa-solid fa-house"></i>
+                      <p className='dfp'>Home</p></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet home"></i>
+                      <p className='dfp'>Account</p></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/savings' className='nav-text'><i class="fa-solid fa-money-bill"></i>
+                      <p className='dfp'>Sub-Account</p></Link>
+                    </li>  
+                    <li className='nav-list'>
+                    <Link to='/components/customer' className='nav-text'><i class="fa-solid fa-people-roof"></i>
+                      <p className='dfp'>Customers</p></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-chart-line"></i>
+                    <p className='dfp'>Analytics</p></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/project' className='nav-text'><i class="fa-solid fa-layer-group home"></i>
+                  <p className='dfp'>Project</p></Link>
+                    </li>
+                    <li className='nav-list'>
+                    
+                    <Link to='/components/login' className='nav-text'><i class="fa-solid fa-share"></i>
+                      <p className='dfp'>Log Out</p></Link>
+                    </li>    
+                </ul>
+            </nav>
+           
+            <div>
+            <Button colorScheme='black' variant='outline'>{info[0].business_name}</Button>
+            <Heading size='md' >Analytics</Heading>
+            </div>
+            <Card backgroundColor='#eff1fa' m={3} >
+                <Heading size='sm'>Sales</Heading>
+               <Bar data={da} options={optio} />
+               <Text fontSize='12px'>Today's Revenue Per Sales - ₦{parseFloat(users.today_rps).toLocaleString('en-US')}</Text>
+               <Text fontSize='12px'>This Week's Revenue Per Sales - ₦{parseFloat(users.wk_rps).toLocaleString('en-US')}</Text>
+               <Text fontSize='12px'>This Month's Revenue Per Sales - ₦{parseFloat(users.mn_rpc).toLocaleString('en-US')}</Text>
+            </Card>
+            <Card backgroundColor='#eff1fa' m={3} >
+                <Heading size='sm'>Revenue</Heading>
+               
+               <Bar data={dat} options={option} />
+            </Card>
+      
+            <Card backgroundColor='#eff1fa' m={3} >
+                <Heading size='sm'>Expense</Heading>
+               
+               <Bar data={data} options={options} />
+            </Card>
+            
+            <Card backgroundColor='#eff1fa' m={3} p={2}>
+              <SimpleGrid m={2} spacing={4} templateColumns='repeat(auto-fill, minmax(150px, 1fr))'>
+                <Card backgroundColor=' #c9d4f5' p={2}>
+                  <Heading fontSize='12px'>No of Customers Today</Heading>
+                  <Text fontSize='14px'>{users.today_customer_count}</Text>
+                <Text fontSize='12px'>No of new Customers today - {users.today_new_customer}</Text>
+                </Card>
+                <Card backgroundColor=' #c9d4f5' p={2}>
+                  <Heading fontSize='12px'>No of Customers for the Week</Heading>
+                  <Text fontSize='14px'>{users.wk_customer_count}</Text>
+                <Text fontSize='12px'>No of new Customers for the Week - {users.wk_new_customer}</Text>
+                </Card>
+                <Card backgroundColor=' #c9d4f5' p={2}>
+                <Heading fontSize='12px'>No of Customers for the Month</Heading>
+                  <Text fontSize='14px'>{users.mn_customer_count}</Text>
+                <Text fontSize='12px'>No of new Customers for the Month - {users.mn_new_customer}</Text>
+                </Card>
+                <Card backgroundColor=' #c9d4f5' p={2} >
+                  <Heading fontSize='12px'>Today's Revenue Per Customer- ₦{parseFloat(users.today_rpc).toLocaleString('en-US')}</Heading>
+                  <Text fontSize='12px'>Weekly Revenue Per Customer - ₦{parseFloat(users.wk_rpc).toLocaleString('en-US')}</Text>
+                  <Text fontSize='12px'>Monthly Revenue Per Customer -₦{parseFloat(users.mn_rpc).toLocaleString('en-US')}</Text>
+                </Card>
+              </SimpleGrid>
+            </Card>
+            </ChakraProvider>   
+        </div>
     )
 }
 export default Dashboard

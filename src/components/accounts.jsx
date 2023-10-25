@@ -156,8 +156,12 @@ return(
                     <i onClick={showSidebar} class="fa-solid fa-x"></i>
                     </li>
                     <li className='nav-list'>
-                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-house"></i>
+                    <Link to='/components/inventory' className='nav-text'><i class="fa-solid fa-house"></i>
                       <p className='dfp'>Home</p></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet home"></i>
+                      <p className='dfp'>Account</p></Link>
                     </li>
                     <li className='nav-list'>
                     <Link to='/components/savings' className='nav-text'><i class="fa-solid fa-money-bill"></i>
@@ -170,10 +174,6 @@ return(
                     <li className='nav-list'>
                     <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-chart-line"></i>
                     <p className='dfp'>Analytics</p></Link>
-                    </li>
-                    <li className='nav-list'>
-                    <Link to='/components/inventory' className='nav-text'><i class="fa-solid fa-cart-flatbed"></i>
-                      <p className='dfp'>Inventory</p></Link>
                     </li>
                     <li className='nav-list'>
                     <Link to='/components/project' className='nav-text'><i class="fa-solid fa-layer-group home"></i>
@@ -193,7 +193,7 @@ return(
               { hidden ? <i onClick={toggleHidden} class="fa-regular fa-eye-slash see"></i> : <i class="fa-regular fa-eye see" onClick={toggleHidden}></i>}
               <h1 className="h1">{hidden}</h1>
               <div>
-              <Link to='/components/invoice'><button className='dbut'>Receive Payment</button></Link> 
+              <Link to='/components/fund'><button className='abut'>Add Fund</button></Link> 
                               
               </div>
            </div>
@@ -223,8 +223,12 @@ return(
                     <i onClick={showSidebar} class="fa-solid fa-x"></i>
                     </li>
                     <li className='nav-list'>
-                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-house"></i>
+                    <Link to='/components/inventory' className='nav-text'><i class="fa-solid fa-house"></i>
                       <p className='dfp'>Home</p></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet home"></i>
+                      <p className='dfp'>Account</p></Link>
                     </li>
                     <li className='nav-list'>
                     <Link to='/components/savings' className='nav-text'><i class="fa-solid fa-money-bill"></i>
@@ -239,10 +243,6 @@ return(
                     <p className='dfp'>Analytics</p></Link>
                     </li>
                     <li className='nav-list'>
-                    <Link to='/components/inventory' className='nav-text'><i class="fa-solid fa-cart-flatbed"></i>
-                      <p className='dfp'>Inventory</p></Link>
-                    </li>
-                    <li className='nav-list'>
                     <Link to='/components/project' className='nav-text'><i class="fa-solid fa-layer-group home"></i>
                   <p className='dfp'>Project</p></Link>
                     </li>
@@ -250,7 +250,7 @@ return(
                     
                     <Link to='/components/login' className='nav-text'><i class="fa-solid fa-share"></i>
                       <p className='dfp'>Log Out</p></Link>
-                    </li>
+                    </li>  
                 </ul>
             </nav>
             </div>
@@ -261,19 +261,11 @@ return(
                 { hidden ? <i onClick={toggleHidden} class="fa-regular fa-eye-slash see"></i> : <i class="fa-regular fa-eye see" onClick={toggleHidden}></i>}
                 <Heading size='lg' className="h1">{hidden}</Heading>
                 <div >
-                <Link to='/components/invoice'><button className='dbut'>Receive Payment</button></Link>  
+                <Link to='/components/fund'><button className='abut'>Add Fund</button></Link>  
                 
                 </div>
              </div>
              
-            <Card m={4}  >
-            
-                <Text mb={0} >Bank</Text>
-                <Heading size='xs' mb={2}>{data.bank}</Heading>
-                <Text>Account Number</Text>
-                <Heading size='xs' >{data.account_number}</Heading>
-              
-            </Card>
            </ChakraProvider>
           
               

@@ -1950,6 +1950,11 @@ form{
     text-align: right;
     font-size: 12px;
   }
+  .td2{
+    font-size: 15px;
+      padding:0 5%;
+      border-bottom: 1px solid gainsboro;
+  }
   .svmo{
     padding: 10% 5%;
     text-align: center;
@@ -2311,6 +2316,10 @@ form{
       right: 40%;
       margin: 3%;
       font-size: 25px;
+  }
+  .ma{
+    margin-left: 35px;
+    margin-top: 30px;
   }
   .tbut{
     color:blue;
