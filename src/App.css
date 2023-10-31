@@ -2400,6 +2400,13 @@ form{
     margin-left:33px ;
     border-color: rgb(214, 209, 209);
   }
+  .pnes{
+    padding:0 2%;
+    width: 200px;
+    height: 40px;
+    margin-right:83px ;
+    border-color: rgb(214, 209, 209);
+  }
   .mp{
     text-align: left;
     margin-left: 75px;

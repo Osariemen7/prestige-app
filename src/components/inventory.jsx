@@ -149,7 +149,7 @@ async function fproj() {
   } else { 
    
   response = await response.json();
-  setLoading(false)
+  
   setInfo(response)
     }}
 
@@ -222,7 +222,7 @@ const options = [
       navigate('/components/login');
     } else {  
     response = await response.json();}
-  
+    setLoading(false)
     setList(response)
     }
     useEffect(() => {
@@ -340,11 +340,11 @@ const options = [
             <Heading size='sm' ml={6} textAlign='left'>Products</Heading>
             { info.length > 0 && typeof info[0].products[0] === 'object' ? (
             <Card m={5}>
-            <Card m={2} >
+            <Card m={2} p='2px' >
 
-  <CardBody>
+  <CardBody p='2px'>
     <Stack divider={<StackDivider />} spacing='4'>
-      <Box>
+      <Box p='2px'>
         <Heading size='xs' textTransform='uppercase'>
           Number of Products
         </Heading>
@@ -356,15 +356,15 @@ const options = [
     </Stack>
   </CardBody>
 </Card>
-<SimpleGrid m={3} spacing={4} templateColumns='repeat(auto-fill, minmax(100px, 1fr))'>
+<SimpleGrid m={3} mt={1} spacing={4} templateColumns='repeat(auto-fill, minmax(100px, 1fr))'>
   <Card height={100} justify='center'>
-    <CardHeader p={2}>
+    <CardHeader p={1}>
       <Heading size='xs' textTransform='uppercase'>Sales Value</Heading>
     </CardHeader>
       <Text>₦{(info[0].stock_value).toLocaleString('en-Us')}</Text>
   </Card>
   <Card height={100} justify='center'>
-    <CardHeader p={2}>
+    <CardHeader p={1}>
       <Heading size='xs' textTransform='uppercase'>Purchase Value</Heading>
     </CardHeader>
       <Text>₦{(info[0].input_value).toLocaleString('en-US')}</Text>
@@ -382,7 +382,7 @@ const options = [
 
   <CardBody>
     <Stack divider={<StackDivider />} spacing='4'>
-      <Box>
+      <Box p='2px'>
         <Heading size='xs' textTransform='uppercase'>
           Number of Products
         </Heading>
@@ -417,10 +417,11 @@ const options = [
 
 </Card>)}
 <h4 className="saed">Activity</h4>
-{list.map((obj, index) => (
+{list.sales.map((obj, index) => (
   <div className="td2" key={index} onClick={() => receipt(index)}>
     <div className="tg">
     <p >{(new Date(obj.time)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</p>
+    
     <div className='loos'><span>invoice </span><i className="fa-solid fa-file-export"></i></div>
     </div>
     
@@ -428,7 +429,7 @@ const options = [
       <div key={inde}>
       <Stack  direction='row'mt={0} mb={0} gap='55px' spacing={2} align='center' justify='center'>
       <p className="ove">{product.product_name}</p>
-          <h4 className="ove">Amount Sold: ₦{product.sold_amount}</h4>
+          <h4 className="tm">Amount Sold: ₦{product.sold_amount}</h4>
       </Stack>
         <div className='tg'>
           <p className="tm">Quantity Sold: {product.sold_quantity}</p>
@@ -439,6 +440,7 @@ const options = [
 ))}
   </div>
 ))}
+
 
                        <Modal isOpen={modal1.isOpen} onClose={modal1.onClose}>
         <ModalOverlay />
