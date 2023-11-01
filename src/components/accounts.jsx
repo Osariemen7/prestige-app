@@ -332,11 +332,11 @@ return(
 <Stack direction='row' spacing={2}  >
 <div>
          <Heading fontSize='12px'>Start Date</Heading>
-        <Input placeholder='' size='md' type='date' onChange={begin} width={173} ml={3}/><br/><br/>
+        <Input placeholder='Date' size='md' type='date' onChange={begin} width={158} ml={3}/><br/><br/>
         </div> 
         <div>
         <Heading fontSize='12px'>End Date</Heading>
-        <Input placeholder='Date' size='md' type='date' onChange={conc} width={173} ml={3}/><br/><br/>
+        <Input placeholder='Date' size='md' type='date' onChange={conc} width={158} ml={3}/><br/><br/>
         </div></Stack> 
         <Button colorScheme='blue' variant='outline' onClick={Infow}>Search</Button>
         {info.transactions.map((obj, index) => 
