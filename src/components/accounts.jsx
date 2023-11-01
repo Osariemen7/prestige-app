@@ -2,16 +2,26 @@ import {useState, useEffect} from 'react'
 import {Link, useNavigate} from "react-router-dom";
 import { Helmet } from "react-helmet"
 import { ChakraProvider } from '@chakra-ui/react';
-import { Card, Heading, Text } from '@chakra-ui/react'
+import { Card, Heading, Stack, Input, Button } from '@chakra-ui/react'
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 
 const Accounts =()=> {
-  const [info, setInfo] = useState([])
+  const [info, setInfo] = useState('')
   const [users, setUsers] = useState('');
   const [hidden, setHidden] = useState("******");
-  const navigate= useNavigate()
-  const [sidebar, setSidebar] = useState('')
   const [data, setData] = useState('')
+  const navigate= useNavigate()
   const [loading, setLoading] = useState(true)
+  const [sidebar, setSidebar] = useState('')
+  const [start, setStart] = useState('')
+  const [end, setEnd] = useState('')
+
+  const begin =(event)=>{
+    setStart(event.target.value)
+  }
+  const conc =(event)=>{
+    setEnd(event.target.value)
+  }
 
   const showSidebar = () => setSidebar(!sidebar)
     let tok= JSON.parse(localStorage.getItem("user-info"));
@@ -27,8 +37,15 @@ const Accounts =()=> {
       return refreshval;
     };
     let refresh = terms(tok)
+    const receipt =(index)=>{
+      const ite = info[index]
+      navigate('/components/Receipt', {state:{ite}} )
+    }
+   
+    const currentDate = new Date(); // Get the current date
 
-  
+    const thirtyDaysBefore = new Date(); // Create a new Date object
+    thirtyDaysBefore.setDate(currentDate.getDate() - 30)  
 
   const fetchData = async () => {
     let item ={refresh}
@@ -48,12 +65,11 @@ const Accounts =()=> {
   })
   response = await response.json()
   localStorage.setItem('user-info', JSON.stringify(tok))
- if (response.status === 401){
-     navigate('/components/login')
-  } else {
+//   if (data.code === 'token_not_valid'){
+//     navigate('/components/token')
+//   } else {
  setUsers(response)
- setLoading(false)
-  }}
+  }
 
 useEffect(() => {
   fetchData()
@@ -69,10 +85,7 @@ const toggleHidden =()=>{
            }
            setHidden("******")
          }
-         const currentDate = new Date(); // Get the current date
-
-    const thirtyDaysBefore = new Date(); // Create a new Date object
-    thirtyDaysBefore.setDate(currentDate.getDate() - 90)  
+         
          const fetchInfo = async () => {
           let item ={refresh}
           let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
@@ -89,69 +102,88 @@ const toggleHidden =()=>{
         method: "GET",
         headers:{'Authorization': `Bearer ${bab}`},
         })
-      
+        
         if (response.status === 401) {
           navigate('/components/login');
         } else {  
         response = await response.json();}
-
+        setLoading(false)
+        setInfo(response)
+      
+        }
+        const Infow = async () => {
+          let item ={refresh}
+          let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
+              method: 'POST',
+              headers:{
+                'Content-Type': 'application/json',
+                'accept' : 'application/json'
+           },
+           body:JSON.stringify(item)
+          });
+          rep = await rep.json();
+          let bab = rep.access_token
+        let response = await fetch(`https://api.prestigedelta.com/transactionlist/?start_date=${(new Date(start)).toLocaleDateString('en-US')}&end_date=${(new Date(end)).toLocaleDateString('en-US')}`,{
+        method: "GET",
+        headers:{'Authorization': `Bearer ${bab}`},
+        })
+        
+        if (response.status === 401) {
+          navigate('/components/login');
+        } else {  
+        response = await response.json();}
+        
         setInfo(response)
       
         }
         useEffect(() => {
           fetchInfo()
           }, [])
-          const receipt =(index)=>{
-            const ite = info[index]
-            navigate('/components/Receipt', {state:{ite}} )
-          }
-          useEffect(() => {
-            fetchInfo()
-            }, [])
-            const fetchDat = async () => {
-              let item ={refresh}
-              let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
-                  method: 'POST',
-                  headers:{
-                    'Content-Type': 'application/json',
-                    'accept' : 'application/json'
-               },
-               body:JSON.stringify(item)
-              });
-              rep = await rep.json();
-              
-              let bab = rep.access_token
-            let response = await fetch("https://api.prestigedelta.com/virtualnuban/",{
-            method: "GET",
-            headers:{'Authorization': `Bearer ${bab}`},
-            })
-            response = await response.json()
-            if (response.status !== 200) {
-              navigate(window.location.pathname, { replace: true });
-            } else {
+          const fetchDat = async () => {
+            let item ={refresh}
+            let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
+                method: 'POST',
+                headers:{
+                  'Content-Type': 'application/json',
+                  'accept' : 'application/json'
+             },
+             body:JSON.stringify(item)
+            });
+            rep = await rep.json();
             
-              response = await response.json();}
-           setData(response)
-            
-          }
-          useEffect(() => {
-            fetchDat()
-          }, [])
-          if (loading)
-          return(
-        <p>Loading...</p>)
-if (info.length < 1)        
+            let bab = rep.access_token
+          let response = await fetch("https://api.prestigedelta.com/virtualnuban/",{
+          method: "GET",
+          headers:{'Authorization': `Bearer ${bab}`},
+          })
+          response = await response.json()
+          if (response.status !== 200) {
+            navigate(window.location.pathname, { replace: true });
+          } else {
+          
+            response = await response.json();}
+         setData(response)
+          
+        }
+        useEffect(() => {
+          fetchDat()
+        }, [])
+console.log(info)
+if(loading) {
+  return(
+  <p>Loading...</p>)} 
+else if (info.length < 1)        
 return(
      
         <div>
         <Helmet>
             
-            <title>Accounts</title>
+            <title>Transactions</title>
             
         </Helmet>
         <i onClick={showSidebar} class="fa-solid fa-bars ac"></i>
             <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
-                <ul className='nav-menu-item'>
+            <ul className='nav-menu-item'>
                     <li className='nav-close'>
                     <i onClick={showSidebar} class="fa-solid fa-x"></i>
                     </li>
@@ -186,25 +218,18 @@ return(
                     </li>  
                 </ul>
             </nav>
-           
-            <div className="dash">
+            <ChakraProvider>
+           <div className="dash">
               <h3 className="h1">Account</h3>
               <p className='dp'>Total Balance</p>
               { hidden ? <i onClick={toggleHidden} class="fa-regular fa-eye-slash see"></i> : <i class="fa-regular fa-eye see" onClick={toggleHidden}></i>}
               <h1 className="h1">{hidden}</h1>
               <div>
-              <Link to='/components/fund'><button className='abut'>Add Fund</button></Link> 
-                              
+               <Link to='/components/fund'><button className='abut'>Add Funds</button></Link>            
               </div>
            </div>
-           <ChakraProvider>
-            <Card m={4}>
-                <Text mb={0}>Bank</Text>
-                <Heading size='xs' mb={2}>{data.bank}</Heading>
-                <Text>Account Number</Text>
-                <Heading size='xs'>{data.account_number}</Heading>
-
-            </Card>
+           
+            
            </ChakraProvider>
            
               <p className='l'>RECENT TRANSACTIONS</p>
@@ -215,6 +240,7 @@ return(
     )
     return(
       <div>
+      <ChakraProvider>
       <div  className=''>
       <i onClick={showSidebar} class="fa-solid fa-bars ac"></i>
             <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
@@ -254,23 +280,39 @@ return(
                 </ul>
             </nav>
             </div>
-            <ChakraProvider>
-             <div className="dash">
-                <Heading size='md' className="h1">Account</Heading>
+             <div className="dash"
+             >
+                <h3 className="h1">Account</h3>
                 <p className='dp'>Total Balance</p>
                 { hidden ? <i onClick={toggleHidden} class="fa-regular fa-eye-slash see"></i> : <i class="fa-regular fa-eye see" onClick={toggleHidden}></i>}
-                <Heading size='lg' className="h1">{hidden}</Heading>
+                <Heading size='md' className="h1">{hidden}</Heading>
+                <Stack direction='row' spacing={2} gap='25px'>
+                <Card justify='center' ml={0} backgroundColor='#9fc5e8' w='fit-content' p={2}>
+                 <Stack direction='row' spacing={2} >
+                  <Heading fontSize='13px' textAlign='center'>Inflow</Heading>
+                  <p>₦{(info.inflow).toLocaleString('en-US')}</p>
+                 </Stack>
+                 <Stack direction='row'>
+                  <Heading fontSize='13px'>Outflow</Heading>
+                  <p>₦{(info.outflow).toLocaleString('en-US')}</p>
+                 </Stack>
+             </Card>
                 <div >
-                <Link to='/components/fund'><button className='abut'>Add Fund</button></Link>  
-                
+               <Link to='/components/fund'><button className='abut'>Add Funds</button></Link> 
                 </div>
+                </Stack>
              </div>
              
-           </ChakraProvider>
-          
-              
-          <p className='l'>RECENT TRANSACTIONS</p>
-          {info.map((obj, index) => 
+           
+             <Tabs isFitted variant='enclosed'>
+<TabList mb='1em'>
+    <Tab>RECENT TRANSACTIONS</Tab>
+    <Tab>Search Activity</Tab>
+  </TabList>
+  <TabPanels>
+    <TabPanel>
+          <p className='l'></p>
+          {info.transactions.map((obj, index) => 
                   <div className='td' onClick={() => receipt(index)}>
                   <div className='tl'>
                        <p key={index}>{obj.classification}</p>
@@ -284,7 +326,38 @@ return(
                        <p className='tm' key={index}>{obj.narration}</p>) : <p className='tm' key={index}>Beneficiary: {obj.beneficiary.account_name} {obj.beneficiary.bank_name}</p>}
                   <div ><i class="fa-solid fa-file-export"></i></div>    
                   </div>
-                )}                        
+                )}
+                </TabPanel>
+<TabPanel>
+<Stack direction='row' spacing={2}  >
+<div>
+         <Heading fontSize='12px'>Start Date</Heading>
+        <Input placeholder='' size='md' type='date' onChange={begin} width={173} ml={3}/><br/><br/>
+        </div> 
+        <div>
+        <Heading fontSize='12px'>End Date</Heading>
+        <Input placeholder='Date' size='md' type='date' onChange={conc} width={173} ml={3}/><br/><br/>
+        </div></Stack> 
+        <Button colorScheme='blue' variant='outline' onClick={Infow}>Search</Button>
+        {info.transactions.map((obj, index) => 
+                  <div className='td' onClick={() => receipt(index)}>
+                  <div className='tl'>
+                       <p key={index}>{obj.classification}</p>
+                       <p key={index}>₦{obj.amount}</p>
+                  </div>
+                  <div className='tg'>
+                       <p  key={index}>{obj.status}</p>
+                       <p key={index}>{(new Date(obj.time)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</p>
+                  </div>
+                  {obj.transaction_type === 'CLOSE_PROJECT' || obj.transaction_type ==='NIPCR' ? (
+                       <p className='tm' key={index}>{obj.narration}</p>) : <p className='tm' key={index}>Beneficiary: {obj.beneficiary.account_name} {obj.beneficiary.bank_name}</p>}
+                  <div ><i class="fa-solid fa-file-export"></i></div>    
+                  </div>
+                )} 
+</TabPanel>
+</TabPanels>
+                </Tabs>
+                </ChakraProvider>               
       </div>
    )
 }

@@ -2,7 +2,8 @@ import { ChakraProvider } from '@chakra-ui/react';
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Select from 'react-select';
-import good from './images/good.svg'
+import good from './images/good.svg';
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import { Card, CardHeader, CardBody, Box, Button, Heading, Stack, SimpleGrid,  StackDivider, Text } from '@chakra-ui/react'
 import {
   Modal,
@@ -31,15 +32,25 @@ const Inventory = () => {
     const [fin, setFin] = useState('')
     const navigate = useNavigate()
     const [message, setMessage] = useState('')
+    const [searchTerm, setSearchTerm] = useState("");
+    const [time, setTime] = useState('')
     const modal1 = useDisclosure()
     const modal2 = useDisclosure()
-  const showSidebar = () => setSidebar(!sidebar)
+  
+    const showSidebar = () => setSidebar(!sidebar)
   const nav =()=>{
     navigate('/components/product')
   }
   const handleBank = (selectedOption) => {
     setSelectedOption(selectedOption);
   };
+const range=(event)=>{
+  setSearchTerm(event.target.value)
+}
+const tim =(event)=>{
+  setTime(event.target.value)
+}
+
   const handleAmount=(event)=> {
     setAmount(event.target.value)
   }
@@ -69,6 +80,12 @@ const Inventory = () => {
       setButtonVisible(true);
     }, 20000);
   };
+
+  const currentDate = new Date(); // Get the current date
+
+    const thirtyDaysBefore = new Date(); // Create a new Date object
+    thirtyDaysBefore.setDate(currentDate.getDate() - 60)  
+
 
   let tok= JSON.parse(localStorage.getItem("user-info"));
 const terms = (tok) => {
@@ -149,7 +166,7 @@ async function fproj() {
   } else { 
    
   response = await response.json();
-  
+ 
   setInfo(response)
     }}
 
@@ -213,7 +230,7 @@ const options = [
       });
       rep = await rep.json();
       let bab = rep.access_token
-    let response = await fetch(`https://api.prestigedelta.com/salestransactions/?start_date=01/31/2022&end_date=${(new Date()).toLocaleDateString('en-US')}&name=${info[0].sub_account.name}`,{
+    let response = await fetch(`https://api.prestigedelta.com/salestransactions/?start_date=${thirtyDaysBefore.toLocaleDateString('en-US')}&end_date=${(new Date()).toLocaleDateString('en-US')}&name=${info[0].sub_account.name}`,{
     method: "GET",
     headers:{'Authorization': `Bearer ${bab}`},
     })
@@ -275,7 +292,7 @@ const options = [
       }
        console.log(list)
       const receipt =(index)=>{
-        const data = list[index]
+        const data = reverse[index]
         navigate('/components/pinvoice', {state:{data}} )
       }
       const overdraft= ()=>{
@@ -286,10 +303,15 @@ const options = [
     
         navigate('/components/before')
    }
+   
+   
+   
       
       if(loading) {
         return(
         <p>Loading...</p>)} 
+        const reverse = [...list.sales].reverse();
+        console.log(reverse)
          return(
         <ChakraProvider>
         <div>
@@ -416,8 +438,15 @@ const options = [
 </Stack>
 
 </Card>)}
-<h4 className="saed">Activity</h4>
-{list.sales.map((obj, index) => (
+<Tabs isFitted variant='enclosed'>
+<TabList mb='1em'>
+    <Tab>Activity</Tab>
+    <Tab>Search</Tab>
+  </TabList>
+
+  <TabPanels>
+    <TabPanel>
+{reverse.map((obj, index) => (
   <div className="td2" key={index} onClick={() => receipt(index)}>
     <div className="tg">
     <p >{(new Date(obj.time)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</p>
@@ -439,8 +468,41 @@ const options = [
       </div>
 ))}
   </div>
-))}
+))}</TabPanel>
+<TabPanel>
+<Stack direction='row' spacing={2} >
+        <Input placeholder='Product Name' size='md' onChange={range} width={173} ml={3}/><br/><br/>
+        <Input placeholder='Date' size='md' type='date' onChange={tim} width={173} ml={3}/><br/><br/>
+        </Stack> 
 
+{reverse.filter(obj=> obj.time.toLocaleString('en-GB').includes(time.toLocaleString('en-GB')))
+  .map((obj, index) => (
+  <div className="td2" key={index} onClick={() => receipt(index)}>
+    <div className="tg">
+    <p >{(new Date(obj.time)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</p>
+    
+    <div className='loos'><span>invoice </span><i className="fa-solid fa-file-export"></i></div>
+    </div>
+    
+    {obj.sold_products.filter(product=> product.product_name.toLowerCase().includes(searchTerm.toLowerCase()))
+  .map((product, inde) => (
+      <div key={inde}>
+      <Stack  direction='row'mt={0} mb={0} gap='25px' spacing={2} align='center' justify='center'>
+      <p className="ove">{product.product_name}</p>
+          <h4 className="tm">Amount Sold: ₦{product.sold_amount}</h4>
+      </Stack>
+        <div className='tg'>
+          <p className="tm">Quantity Sold: {product.sold_quantity}</p>
+          <p className='tm'>Quantity Type: {product.quantity_type}</p>
+        </div>
+       
+      </div>
+))}
+  </div>
+))}
+    </TabPanel>
+  </TabPanels>
+</Tabs>
 
                        <Modal isOpen={modal1.isOpen} onClose={modal1.onClose}>
         <ModalOverlay />
