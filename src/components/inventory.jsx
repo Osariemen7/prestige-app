@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import good from './images/good.svg';
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import { Card, CardHeader, CardBody, Box, Button, Heading, Stack, SimpleGrid,  StackDivider, Text } from '@chakra-ui/react'
 import {
   Modal,
@@ -20,6 +19,8 @@ const Inventory = () => {
     const [sidebar, setSidebar] = useState('')
     const [info, setInfo] = useState('');
     const [loading, setLoading] = useState(true)
+    const [start, setStart] = useState('')
+  const [end, setEnd] = useState('')
     const [messages, setMessages] = useState('')
     const [expense_budget, setExpense] = useState('');
     const [list, setList] = useState([])
@@ -44,11 +45,15 @@ const Inventory = () => {
   const handleBank = (selectedOption) => {
     setSelectedOption(selectedOption);
   };
+  const begin =(event)=>{
+    setStart(event.target.value)
+  }
+  const conc =(event)=>{
+    setEnd(event.target.value)
+  }
+
 const range=(event)=>{
   setSearchTerm(event.target.value)
-}
-const tim =(event)=>{
-  setTime(event.target.value)
 }
 
   const handleAmount=(event)=> {
@@ -84,7 +89,7 @@ const tim =(event)=>{
   const currentDate = new Date(); // Get the current date
 
     const thirtyDaysBefore = new Date(); // Create a new Date object
-    thirtyDaysBefore.setDate(currentDate.getDate() - 60)  
+    thirtyDaysBefore.setDate(currentDate.getDate() - 30)  
 
 
   let tok= JSON.parse(localStorage.getItem("user-info"));
@@ -291,6 +296,30 @@ const options = [
         };
       }
        console.log(list)
+       const salesTra = async () => {
+        let item ={refresh}
+        let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
+            method: 'POST',
+            headers:{
+              'Content-Type': 'application/json',
+              'accept' : 'application/json'
+         },
+         body:JSON.stringify(item)
+        });
+        rep = await rep.json();
+        let bab = rep.access_token
+      let response = await fetch(`https://api.prestigedelta.com/salestransactions/?start_date=${new Date(start).toLocaleDateString('en-US')}&end_date=${(new Date(end)).toLocaleDateString('en-US')}&name=${info[0].sub_account.name}`,{
+      method: "GET",
+      headers:{'Authorization': `Bearer ${bab}`},
+      })
+      
+      if (response.status === 401) {
+        navigate('/components/login');
+      } else {  
+      response = await response.json();}
+    
+      setList(response)
+      }
       const receipt =(index)=>{
         const data = reverse[index]
         navigate('/components/pinvoice', {state:{data}} )
@@ -379,20 +408,20 @@ const options = [
   </CardBody>
 </Card>
 <SimpleGrid m={3} mt={1} spacing={4} templateColumns='repeat(auto-fill, minmax(100px, 1fr))'>
-  <Card height={100} justify='center'>
+  <Card height={90} justify='center'>
     <CardHeader p={1}>
       <Heading size='xs' textTransform='uppercase'>Sales Value</Heading>
     </CardHeader>
       <Text>₦{(info[0].stock_value).toLocaleString('en-Us')}</Text>
   </Card>
-  <Card height={100} justify='center'>
+  <Card height={90} justify='center'>
     <CardHeader p={1}>
       <Heading size='xs' textTransform='uppercase'>Purchase Value</Heading>
     </CardHeader>
       <Text>₦{(info[0].input_value).toLocaleString('en-US')}</Text>
   </Card> 
 </SimpleGrid>
-<Stack direction='row' mt={2} spacing={2} align='center' justify='center'>
+<Stack direction='row' mt={1} spacing={2} align='center' justify='center'>
 <Button colorScheme='blue' variant='solid' onClick={nav}>
     Product List
   </Button>
@@ -415,15 +444,15 @@ const options = [
       </Stack>
   </CardBody>
 </Card>
-<SimpleGrid m={3} spacing={4} templateColumns='repeat(auto-fill, minmax(100px, 1fr))'>
-  <Card height={100} justify='center'>
-    <CardHeader p={2}>
+<SimpleGrid m={3} mt={1} spacing={4} templateColumns='repeat(auto-fill, minmax(100px, 1fr))'>
+  <Card height={90} justify='center'>
+    <CardHeader p={1}>
       <Heading size='xs' textTransform='uppercase'> Stock Value</Heading>
     </CardHeader>
       <Text> 0</Text>
   </Card>
-  <Card height={100} justify='center'>
-    <CardHeader p={2}>
+  <Card height={90} justify='center'>
+    <CardHeader p={1}>
       <Heading size='xs' textTransform='uppercase' > Sales Value</Heading>
     </CardHeader>
       <Text>₦0</Text>
@@ -438,48 +467,26 @@ const options = [
 </Stack>
 
 </Card>)}
-<Tabs isFitted variant='enclosed'>
-<TabList mb='1em'>
-    <Tab>Activity</Tab>
-    <Tab>Search</Tab>
-  </TabList>
 
-  <TabPanels>
-    <TabPanel>
+<Heading fontSize='15px' textAlign='left' ml='15px'>Activity</Heading>
+
+        <Input placeholder='Product Name' size='md' onChange={range} width={173} ml={3}/><br/><br/> 
+    
+        <Stack direction='row' spacing={1} >
+<div>
+         <Heading fontSize='12px'>Start Date</Heading>
+        <Input placeholder='' defaultValue={(thirtyDaysBefore).toISOString().slice(0, 10)}  size='md' type='date' onChange={begin} width={173} ml={3}/><br/><br/>
+        </div> 
+        <div>
+        <Heading fontSize='12px'>End Date</Heading>
+        <Input placeholder='Date' size='md' defaultValue={new Date().toISOString().slice(0, 10)} type='date' onChange={conc} width={173} ml={2}/><br/><br/>
+        </div></Stack> 
+        <Button colorScheme='blue' variant='outline' 
+         w='230px' onClick={() => salesTra()}>Filter</Button><br/><br/>
 {reverse.map((obj, index) => (
   <div className="td2" key={index} onClick={() => receipt(index)}>
     <div className="tg">
-    <p >{(new Date(obj.time)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</p>
-    
-    <div className='loos'><span>invoice </span><i className="fa-solid fa-file-export"></i></div>
-    </div>
-    
-    {obj.sold_products.map((product, inde) => (
-      <div key={inde}>
-      <Stack  direction='row'mt={0} mb={0} gap='55px' spacing={2} align='center' justify='center'>
-      <p className="ove">{product.product_name}</p>
-          <h4 className="tm">Amount Sold: ₦{product.sold_amount}</h4>
-      </Stack>
-        <div className='tg'>
-          <p className="tm">Quantity Sold: {product.sold_quantity}</p>
-          <p className='tm'>Quantity Type: {product.quantity_type}</p>
-        </div>
-       
-      </div>
-))}
-  </div>
-))}</TabPanel>
-<TabPanel>
-<Stack direction='row' spacing={2} >
-        <Input placeholder='Product Name' size='md' onChange={range} width={173} ml={3}/><br/><br/>
-        <Input placeholder='Date' size='md' type='date' onChange={tim} width={173} ml={3}/><br/><br/>
-        </Stack> 
-
-{reverse.filter(obj=> obj.time.toLocaleString('en-GB').includes(time.toLocaleString('en-GB')))
-  .map((obj, index) => (
-  <div className="td2" key={index} onClick={() => receipt(index)}>
-    <div className="tg">
-    <p >{(new Date(obj.time)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</p>
+    <Text mb={0} >{(new Date(obj.time)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</Text>
     
     <div className='loos'><span>invoice </span><i className="fa-solid fa-file-export"></i></div>
     </div>
@@ -487,9 +494,13 @@ const options = [
     {obj.sold_products.filter(product=> product.product_name.toLowerCase().includes(searchTerm.toLowerCase()))
   .map((product, inde) => (
       <div key={inde}>
-      <Stack  direction='row'mt={0} mb={0} gap='25px' spacing={2} align='center' justify='center'>
-      <p className="ove">{product.product_name}</p>
-          <h4 className="tm">Amount Sold: ₦{product.sold_amount}</h4>
+      <Stack  direction='row'mt={0} mb={0} gap='115px' spacing={2} align='center' justify='center'>
+      <Text fontSize='13px'>Product:</Text>
+      <Heading mt={0} fontSize='13px' className="ove">{product.product_name}</Heading>    
+      </Stack>
+      <Stack  direction='row'mt={0} mb={0} gap='100px' spacing={2} align='center' justify='center'>
+      <Text fontSize='13px'>Amount Sold:</Text>
+      <Text mt={0} fontSize='13px' className="ove">₦{(product.sold_amount).toLocaleString('en-US')}</Text>    
       </Stack>
         <div className='tg'>
           <p className="tm">Quantity Sold: {product.sold_quantity}</p>
@@ -500,9 +511,6 @@ const options = [
 ))}
   </div>
 ))}
-    </TabPanel>
-  </TabPanels>
-</Tabs>
 
                        <Modal isOpen={modal1.isOpen} onClose={modal1.onClose}>
         <ModalOverlay />

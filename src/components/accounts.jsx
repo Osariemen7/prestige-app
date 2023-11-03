@@ -15,6 +15,8 @@ const Accounts =()=> {
   const [sidebar, setSidebar] = useState('')
   const [start, setStart] = useState('')
   const [end, setEnd] = useState('')
+  const [buttonEnabled, setButtonEnabled] = useState(false);
+
 
   const begin =(event)=>{
     setStart(event.target.value)
@@ -37,9 +39,12 @@ const Accounts =()=> {
       return refreshval;
     };
     let refresh = terms(tok)
+
+    const read = info.transactions
     const receipt =(index)=>{
-      const ite = info[index]
-      navigate('/components/Receipt', {state:{ite}} )
+      if (buttonEnabled) {
+      const ite = read[index]      
+      navigate('/components/Receipt', {state:{ite}} )}
     }
    
     const currentDate = new Date(); // Get the current date
@@ -69,6 +74,7 @@ const Accounts =()=> {
 //     navigate('/components/token')
 //   } else {
  setUsers(response)
+ setLoading(false)
   }
 
 useEffect(() => {
@@ -98,32 +104,7 @@ const toggleHidden =()=>{
           });
           rep = await rep.json();
           let bab = rep.access_token
-        let response = await fetch(`https://api.prestigedelta.com/transactionlist/?start_date=01/31/2022&end_date=${(new Date()).toLocaleDateString('en-US')}`,{
-        method: "GET",
-        headers:{'Authorization': `Bearer ${bab}`},
-        })
-        
-        if (response.status === 401) {
-          navigate('/components/login');
-        } else {  
-        response = await response.json();}
-        setLoading(false)
-        setInfo(response)
-      
-        }
-        const Infow = async () => {
-          let item ={refresh}
-          let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
-              method: 'POST',
-              headers:{
-                'Content-Type': 'application/json',
-                'accept' : 'application/json'
-           },
-           body:JSON.stringify(item)
-          });
-          rep = await rep.json();
-          let bab = rep.access_token
-        let response = await fetch(`https://api.prestigedelta.com/transactionlist/?start_date=${(new Date(start)).toLocaleDateString('en-US')}&end_date=${(new Date(end)).toLocaleDateString('en-US')}`,{
+        let response = await fetch(`https://api.prestigedelta.com/transactionlist/?start_date=${thirtyDaysBefore.toLocaleDateString('en-US')}&end_date=${(new Date()).toLocaleDateString('en-US')}`,{
         method: "GET",
         headers:{'Authorization': `Bearer ${bab}`},
         })
@@ -136,9 +117,45 @@ const toggleHidden =()=>{
         setInfo(response)
       
         }
-        useEffect(() => {
+             useEffect(() => {
           fetchInfo()
           }, [])
+
+          useEffect(() => {
+            const timer = setTimeout(() => {
+              setButtonEnabled(true);
+            }, 15000)
+            return () => clearTimeout(timer);
+          }, [])
+  
+
+          const Infow = async (e) => {
+            e.preventDefault()
+            let item ={refresh}
+            let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
+                method: 'POST',
+                headers:{
+                  'Content-Type': 'application/json',
+                  'accept' : 'application/json'
+             },
+             body:JSON.stringify(item)
+            });
+            rep = await rep.json();
+            let bab = rep.access_token
+          let response = await fetch(`https://api.prestigedelta.com/transactionlist/?start_date=${(new Date(start)).toLocaleDateString('en-US')}&end_date=${(new Date(end)).toLocaleDateString('en-US')}`,{
+          method: "GET",
+          headers:{'Authorization': `Bearer ${bab}`},
+          })
+          
+          if (response.status === 401) {
+            navigate('/components/login');
+          } else {  
+          response = await response.json();}
+          
+          setInfo(response)
+        
+          }
+     
           const fetchDat = async () => {
             let item ={refresh}
             let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
@@ -168,6 +185,7 @@ const toggleHidden =()=>{
         useEffect(() => {
           fetchDat()
         }, [])
+       
 console.log(info)
 if(loading) {
   return(
@@ -178,7 +196,7 @@ return(
         <div>
         <Helmet>
             
-            <title>Transactions</title>
+            <title>Account</title>
             
         </Helmet>
         <i onClick={showSidebar} class="fa-solid fa-bars ac"></i>
@@ -225,7 +243,7 @@ return(
               { hidden ? <i onClick={toggleHidden} class="fa-regular fa-eye-slash see"></i> : <i class="fa-regular fa-eye see" onClick={toggleHidden}></i>}
               <h1 className="h1">{hidden}</h1>
               <div>
-               <Link to='/components/fund'><button className='abut'>Add Funds</button></Link>            
+               <Link to='/components/fund'><Button mb={2} colorScheme='blue' variant='solid'>Add Funds</Button></Link>            
               </div>
            </div>
            
@@ -285,38 +303,36 @@ return(
                 <h3 className="h1">Account</h3>
                 <p className='dp'>Total Balance</p>
                 { hidden ? <i onClick={toggleHidden} class="fa-regular fa-eye-slash see"></i> : <i class="fa-regular fa-eye see" onClick={toggleHidden}></i>}
-                <Heading size='md' className="h1">{hidden}</Heading>
-                <Stack direction='row' spacing={2} gap='25px'>
-                <Card justify='center' ml={0} backgroundColor='#9fc5e8' w='fit-content' p={2}>
-                 <Stack direction='row' spacing={2} >
-                  <Heading fontSize='13px' textAlign='center'>Inflow</Heading>
-                  <p>₦{(info.inflow).toLocaleString('en-US')}</p>
-                 </Stack>
-                 <Stack direction='row'>
-                  <Heading fontSize='13px'>Outflow</Heading>
-                  <p>₦{(info.outflow).toLocaleString('en-US')}</p>
-                 </Stack>
-             </Card>
+                <Heading size='lg' mt={0} color='#fff'>{hidden}</Heading>
                 <div >
-               <Link to='/components/fund'><button className='abut'>Add Funds</button></Link> 
+               <Link to='/components/fund'><Button mb={2} colorScheme='blue' variant='solid' >Add Funds</Button></Link> 
                 </div>
-                </Stack>
              </div>
              
            
              <Tabs isFitted variant='enclosed'>
 <TabList mb='1em'>
-    <Tab>RECENT TRANSACTIONS</Tab>
-    <Tab>Search Activity</Tab>
+    <Tab>Activity </Tab>
+    <Tab>Cash Flow</Tab>
   </TabList>
   <TabPanels>
-    <TabPanel>
-          <p className='l'></p>
-          {info.transactions.map((obj, index) => 
-                  <div className='td' onClick={() => receipt(index)}>
+    <TabPanel p={0}>
+    <Stack direction='row' spacing={1} >
+<div>
+         <Heading fontSize='12px'>Start Date</Heading>
+        <Input placeholder='' defaultValue={(thirtyDaysBefore).toISOString().slice(0, 10)}  size='md' type='date' onChange={begin} width={173} ml={3}/><br/><br/>
+        </div> 
+        <div>
+        <Heading fontSize='12px'>End Date</Heading>
+        <Input placeholder='Date' size='md' defaultValue={new Date().toISOString().slice(0, 10)} type='date' onChange={conc} width={173} ml={2}/><br/><br/>
+        </div></Stack> 
+        <Button colorScheme='blue' variant='outline' 
+         w='230px' onClick={() => Infow()}>Filter</Button>
+        {info.transactions.map((obj, index) => 
+                  <div className='td'  onClick={() => receipt(index)}>
                   <div className='tl'>
                        <p key={index}>{obj.classification}</p>
-                       <p key={index}>₦{obj.amount}</p>
+                       <p key={index}>₦{(obj.amount).toLocaleString('en-US')}</p>
                   </div>
                   <div className='tg'>
                        <p  key={index}>{obj.status}</p>
@@ -327,33 +343,22 @@ return(
                   <div ><i class="fa-solid fa-file-export"></i></div>    
                   </div>
                 )}
-                </TabPanel>
+         </TabPanel>
 <TabPanel>
-<Stack direction='row' spacing={2}  >
-<div>
-         <Heading fontSize='12px'>Start Date</Heading>
-        <Input placeholder='Date' size='md' type='date' onChange={begin} width={158} ml={3}/><br/><br/>
-        </div> 
-        <div>
-        <Heading fontSize='12px'>End Date</Heading>
-        <Input placeholder='Date' size='md' type='date' onChange={conc} width={158} ml={3}/><br/><br/>
-        </div></Stack> 
-        <Button colorScheme='blue' variant='outline' onClick={Infow}>Search</Button>
-        {info.transactions.map((obj, index) => 
-                  <div className='td' onClick={() => receipt(index)}>
-                  <div className='tl'>
-                       <p key={index}>{obj.classification}</p>
-                       <p key={index}>₦{obj.amount}</p>
-                  </div>
-                  <div className='tg'>
-                       <p  key={index}>{obj.status}</p>
-                       <p key={index}>{(new Date(obj.time)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</p>
-                  </div>
-                  {obj.transaction_type === 'CLOSE_PROJECT' || obj.transaction_type ==='NIPCR' ? (
-                       <p className='tm' key={index}>{obj.narration}</p>) : <p className='tm' key={index}>Beneficiary: {obj.beneficiary.account_name} {obj.beneficiary.bank_name}</p>}
-                  <div ><i class="fa-solid fa-file-export"></i></div>    
-                  </div>
-                )} 
+<Card justify='center' ml='40px' backgroundColor='#9fc5e8' w='250px' p={2}>
+               <Stack direction='row' gap='50px' spacing={5} justify='center'>
+                 <Stack direction='column'  spacing={2} >
+                  <Heading fontSize='15px' textAlign='center'>Inflow</Heading>
+                  <p>₦{(info.inflow).toLocaleString('en-US')}</p>
+                 </Stack>
+                 <Stack direction='column'>
+                  <Heading fontSize='15px'>Outflow</Heading>
+                  <p>₦{(info.outflow).toLocaleString('en-US')}</p>
+                 </Stack>
+                 </Stack>
+             </Card>
+           
+ 
 </TabPanel>
 </TabPanels>
                 </Tabs>
