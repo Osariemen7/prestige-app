@@ -8,6 +8,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import Select from "react-select";
 
 
+
 ChartJS.register(CategoryScale, LinearScale, BarElement,Title,Tooltip,Legend, ChartDataLabels);
 
 
@@ -264,7 +265,58 @@ if (users.length >= 7) {
     };
   }, [navigate]);
 
+  const daily=()=>{
+    let rata
+    if (selectedValue.value ==='WEEKLY'){
+       rata = infos
+    } else if(selectedValue.value === 'MONTHLY'){
+      rata = mon
+    } else{
+      rata = users
+    }
+     data = {rata, selectedValue}
     
+    
+     navigate('/components/dashboard', {state:{data}})
+  }
+  const revenue=()=>{
+    let rata
+    if (selectedValue.value ==='WEEKLY'){
+       rata = infos
+    } else if(selectedValue.value === 'MONTHLY'){
+      rata = mon
+    } else{
+      rata = users
+    }
+     data = {rata, selectedValue}
+    
+    
+     navigate('/components/revenue', {state:{data}})
+  }
+  const expense=()=>{
+    let rata
+    if (selectedValue.value ==='WEEKLY'){
+       rata = infos
+    } else if(selectedValue.value === 'MONTHLY'){
+      rata = mon
+    } else{
+      rata = users
+    }
+     data = {rata, selectedValue}
+     navigate('/components/expense', {state:{data}})
+  }
+  const people=()=>{
+    let rata
+    if (selectedValue.value ==='WEEKLY'){
+       rata = infos
+    } else if(selectedValue.value === 'MONTHLY'){
+      rata = mon
+    } else{
+      rata = users
+    }
+     data = {rata, selectedValue}
+     navigate('/components/people', {state:{data}})
+  }
   const fetchData = async () => {
     let item ={refresh}
     let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
@@ -360,8 +412,13 @@ if(loading) {
                     </li>
                     <li className='nav-list'>
                     <Link to='/components/project' className='nav-text'><i class="fa-solid fa-layer-group home"></i>
-                  <p className='dfp'>Project</p></Link>
+                      <p className='dfp'>Project</p></Link>
                     </li>
+                    <li className='nav-list'>
+                    <Link to='/components/chat' className='nav-text'><i class="fa-solid fa-user-tie"></i>
+                       <p className='dfp'>Assistant</p></Link>
+                    </li>
+
                     <li className='nav-list'>
                     
                     <Link to='/components/login' className='nav-text'><i class="fa-solid fa-share"></i>
@@ -385,7 +442,9 @@ if(loading) {
             <Card backgroundColor='#eff1fa' m={2} >
                 <Heading size='sm'>Sales</Heading>
                 <Bar data={ata}  options={opti} />
-               
+                <div>
+                <Button mb={2} mt={1} colorScheme='blue' onClick={daily} variant='solid'>Report on Analytics</Button>
+                </div>
               
             </Card>
             <Card backgroundColor='#eff1fa' m={3} >
@@ -393,17 +452,22 @@ if(loading) {
                 <Bar data={data} options={options} />
                 <Text fontSize='12px'> Revenue Per Sales - ₦{parseFloat(sure[0].rps).toLocaleString('en-US')}</Text>
                <Text fontSize='12px'>Revenue Per Customer - ₦{parseFloat(sure[0].rpc).toLocaleString('en-US')}</Text>
+               <div><Button mb={2} mt={1} colorScheme='blue' onClick={revenue} variant='outline' >Report on Analytics</Button>
+           </div>  
             </Card>
       
             <Card backgroundColor='#eff1fa' m={3} >
                 <Heading size='sm'>Expense</Heading>
                 <Bar data={sata}  options={option} />
-               
+                <div>
+                <Button mb={2} mt={1} colorScheme='blue' onClick={expense} variant='solid'>Report on Analytics</Button>
+                </div>
             </Card>
             <Card backgroundColor='#eff1fa' m={3} >
                 <Heading size='sm'>Customers</Heading>
                 <Bar data={cata}  options={optio} />
-  
+                <div> <Button mb={2} mt={1} colorScheme='blue' onClick={people} variant='outline'>Report on Analytics</Button>
+               </div>
                
             </Card>
             
