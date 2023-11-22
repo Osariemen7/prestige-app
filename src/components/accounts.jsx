@@ -225,15 +225,17 @@ return(
                     <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-chart-line"></i>
                     <p className='dfp'>Analytics</p></Link>
                     </li>
+                   
                     <li className='nav-list'>
-                    <Link to='/components/project' className='nav-text'><i class="fa-solid fa-layer-group home"></i>
-                  <p className='dfp'>Project</p></Link>
+                    <Link to='/components/chat' className='nav-text'><i class="fa-solid fa-user-tie"></i>
+                  <p className='dfp'>Assistant</p></Link>
                     </li>
+
                     <li className='nav-list'>
                     
                     <Link to='/components/login' className='nav-text'><i class="fa-solid fa-share"></i>
                       <p className='dfp'>Log Out</p></Link>
-                    </li>  
+                    </li>    
                 </ul>
             </nav>
             <ChakraProvider>
@@ -286,15 +288,17 @@ return(
                     <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-chart-line"></i>
                     <p className='dfp'>Analytics</p></Link>
                     </li>
+                  
                     <li className='nav-list'>
-                    <Link to='/components/project' className='nav-text'><i class="fa-solid fa-layer-group home"></i>
-                  <p className='dfp'>Project</p></Link>
+                    <Link to='/components/chat' className='nav-text'><i class="fa-solid fa-user-tie"></i>
+                  <p className='dfp'>Assistant</p></Link>
                     </li>
+
                     <li className='nav-list'>
                     
                     <Link to='/components/login' className='nav-text'><i class="fa-solid fa-share"></i>
                       <p className='dfp'>Log Out</p></Link>
-                    </li>  
+                    </li>    
                 </ul>
             </nav>
             </div>

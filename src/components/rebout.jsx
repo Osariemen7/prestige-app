@@ -95,19 +95,8 @@ const terms = (tok) => {
                 <p className='sp'>Business Name</p>
                 <input type="text" onChange={handleBusiness} className="line" />
                 <p className='sp'>Type of Business</p>
-                <select className="line" onChange={handleBusinesstype}>
-                    <option> </option>
-                    <option>Agency Banking</option>
-                    <option>Fast Food Restuarants</option>
-                    <option>Pharmacies</option>
-                    <option>Health and Beauty Spas</option>
-                    <option>Retail Merchant</option>
-                    <option>Barber and Beauty Spas</option>
-                    <option>Electrical delivery business</option>
-                    <option>Car Washes</option>
-                    <option>Stationaries/Office Supplies</option>
-                    <option>Others</option>
-                </select>
+                <input type='text' className="line" onChange={handleBusinesstype} />
+                
                 <div className="message">{message ? <p>{message}</p> : null}</div>
                 <button className='pog' onClick={bus} type="submit">Next</button>
         </div>

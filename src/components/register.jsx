@@ -12,10 +12,14 @@ const RegisterPage =()=>{
     const [password2, setPassword2] = useState("");
     const location= useLocation()
     const [message, setMessage] = useState("");
+    const [check, setCheck] = useState('')
     const navigate = useNavigate()
     const user =location.state.num
     let username = user.phone_number
     
+   const handleCheck =(event) =>{
+    setCheck(event.target.value)
+   }
     const handleEmailChange = (event) =>{
        setEmail(event.target.value)
     }
@@ -57,10 +61,13 @@ const RegisterPage =()=>{
              body:JSON.stringify(item)
             });
         
-            if (resut.status !== 201) {
+            if (check === ''){
+              setMessage('Privacy policy and Terms and Condition must be checked')
+          
+            }  else if (resut.status !== 201) {
               resut = await resut.json();
-              setMessage(JSON.stringify(resut));
-            } else {
+              setMessage(JSON.stringify(resut));}
+            else {
               resut = await resut.json();
               localStorage.setItem('user-info', JSON.stringify(resut)) 
             navigate('/components/personal')
@@ -70,23 +77,7 @@ const RegisterPage =()=>{
       return(
         <div>
       <Helmet>
-         <script>
-           {`!function(f,b,e,v,n,t,s)
-           {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-          n.queue=[];t=b.createElement(e);t.async=!0;
-          t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window,document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
- fbq('init', '7048589111822139'); 
-fbq('track', 'CompleteRegistration');`}
-</script>
-<noscript>
- {`<img height="1" width="1" 
-src="https://www.facebook.com/tr?id=7048589111822139&ev=PageView
-&noscript=1"/>`}
-</noscript>
+         <title>Registration</title>
             
         </Helmet>
         <h2>Enter your details</h2>
@@ -109,8 +100,8 @@ src="https://www.facebook.com/tr?id=7048589111822139&ev=PageView
             { passwordType==="password"?
              <i onClick={togglePassword} class="fa-regular fa-eye-slash ic"></i> : <i class="fa-regular fa-eye ic" onClick={togglePassword}></i>} <br/>
              <br/>
-             <input class="check" type="checkbox" name="" id="check" required></input>
-             <label>By tapping next, you agree to our private policy<br/> and Terms & Condition</label>
+             <input class="check" type="checkbox" name="" onChange={handleCheck} value="check" required></input>
+             <label>By tapping next, you agree to our <a className='lsf' href='https://prestigefinance.co/policy.html'>privacy policy</a><br/> and <a className='lsf' href='https://prestigefinance.co/terms.html'>Terms & Condition</a> </label>
              <div className="message">{message ? <p>{message}</p> : null}</div>
         </form>
         <button className="but" onClick={reg} type="submit">Next</button>

@@ -24,7 +24,7 @@ const Dashboard =()=>{
   const [loading, setLoading] = useState(true)
 
   const showSidebar = () => setSidebar(!sidebar)
-  const mont = ['Daily', 'Weekly', 'Monthly'];
+  const mont = ['DAILY', 'WEEKLY', 'MONTHLY'];
  const opt = mont.map((p) => ({
    label: p,
    value: p,
@@ -409,10 +409,6 @@ if(loading) {
                     <li className='nav-list'>
                     <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-chart-line"></i>
                     <p className='dfp'>Analytics</p></Link>
-                    </li>
-                    <li className='nav-list'>
-                    <Link to='/components/project' className='nav-text'><i class="fa-solid fa-layer-group home"></i>
-                      <p className='dfp'>Project</p></Link>
                     </li>
                     <li className='nav-list'>
                     <Link to='/components/chat' className='nav-text'><i class="fa-solid fa-user-tie"></i>

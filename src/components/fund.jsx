@@ -9,6 +9,7 @@ import { Link, useNavigate } from 'react-router-dom'
 const FundPage =()=>{
   const [data, setData] = useState('')
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(true)
   let tok= JSON.parse(localStorage.getItem("user-info"));
 const term = (tok) => {
   let refval;  
@@ -46,15 +47,20 @@ let refresh = term(tok)
   response = await response.json();}
 
  setData(response)
-  
+  setLoading(false)
 }
 useEffect(() => {
   fetchDat()
 }, [])
 console.log(tok)
+
+if(loading) {
+  return(
+  <p>Loading...</p>)
+} 
     return(
         <div >
-           <Link to='/components/dash'>
+           <Link to='/components/accounts'>
            <i class="fa-solid fa-chevron-left bac"></i>
            </Link> 
             <h1>Fund via bank transfer</h1>

@@ -167,10 +167,6 @@ let refresh = terms(tok)
                     <p className='dfp'>Analytics</p></Link>
                     </li>
                     <li className='nav-list'>
-                    <Link to='/components/project' className='nav-text'><i class="fa-solid fa-layer-group home"></i>
-                  <p className='dfp'>Project</p></Link>
-                    </li>
-                    <li className='nav-list'>
                     <Link to='/components/chat' className='nav-text'><i class="fa-solid fa-user-tie"></i>
                   <p className='dfp'>Assistant</p></Link>
                     </li>

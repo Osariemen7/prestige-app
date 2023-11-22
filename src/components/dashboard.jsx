@@ -51,6 +51,8 @@ const  talk=()=>{
     return(
     <p>Loading...</p>)
 }   
+const sentences =(messages.conversation[0].message_value).split('\n')
+
     return(
         <ChakraProvider>
         <div>
@@ -60,7 +62,9 @@ const  talk=()=>{
            <Card backgroundColor='#eff1fa' >
                  <Heading fontSize='15px'>REPORT ON {valv.selectedValue.label} SALES </Heading>
              <CardBody m='5px' color=''>
-                 {messages.conversation[0].message_value}
+             {sentences.map((sentence, index) => (
+      <p key={index}>{sentence}</p>
+    ))}
              </CardBody>
              <Text>Have more questions ?</Text>
             <div>

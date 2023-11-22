@@ -14,7 +14,7 @@ import {
     ModalBody,
     ModalCloseButton,
   } from '@chakra-ui/react'
-  import { useDisclosure, Input,  Button, Heading, Stack, Spinner  } from "@chakra-ui/react"
+  import { useDisclosure, Input, Card, Text, Button, Heading, Stack, Spinner  } from "@chakra-ui/react"
   import { Wheel } from 'react-custom-roulette';
 
   const data = [
@@ -48,11 +48,13 @@ const Invoice =()=> {
     const [inputValue, setInputValue] = useState("");
     const [inputVa, setInputVa] = useState('')
     const [inputV, setInputV] = useState('');
+    const [tip, setTip] = useState('')
     const [pack_size1, setPacksize] = useState([]);
     const [product, setProduct] = useState([])
     const [payment_method, setPayment] = useState('')
     const [outline, setOutline] = useState('');
     const [message, setMessage] = useState('')
+    const [messages, setMessages] = useState('')
     const [valid, setValid] = useState('')
     const [buttonVisible, setButtonVisible] = useState(true);
     const modal1 = useDisclosure()
@@ -235,6 +237,68 @@ const optio = ['item', 'pack'];
       useEffect(() => {
         fetchDa()
       }, [])
+      const creat = async() => {
+   
+        let it ={refresh}
+        let rep = await fetch ('https://sandbox.prestigedelta.com/refreshtoken/',{
+            method: 'POST',
+            headers:{
+              'Content-Type': 'application/json',
+              'accept' : 'application/json'
+         },
+         body:JSON.stringify(it)
+        });
+        rep = await rep.json();
+        let bab = rep.access_token
+        let product_type = 'PRODUCT'
+        let pack_size= pack_size1
+        let amount = tota
+        let reward = selectedPrize
+      
+        let quantity_type = type.map(tod => tod.value)
+        let name = item.map(todo => todo.value)
+        console.log(name, price, quantity, quantity_type, pack_size)
+        let itemd = {name, price, quantity, quantity_type, pack_size};
+        
+        const separatedData = itemd.name.map((_, index) => ({
+          name: itemd.name[index],
+          price:parseInt( itemd.price[index]),
+          quantity:itemd.quantity[index],
+          quantity_type:itemd.quantity_type[index],
+          pack_size:itemd.pack_size[index],
+          product_type: product_type,
+          amount: amount
+        }));
+        let products = separatedData
+        let ite = {products, payment_method, reward}
+      try {
+        let result = await fetch('https://sandbox.prestigedelta.com/salestips/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'accept': 'application/json',
+            'Authorization': `Bearer ${bab}`
+          },
+          body: JSON.stringify(ite)
+        });
+              if (result.status !== 200 || product.item_no === 0) {
+          const errorResult = await result.json();
+          setMessage(JSON.stringify(errorResult))  
+        } else {
+           result =await result.json();
+          setMessage(JSON.stringify(result.message))
+          setTip(result)
+        } 
+      } catch (error) {
+        // Handle fetch error
+        console.error(error);
+      }   
+        }
+        const send =()=>{
+          let data = tip
+          navigate('/components/chat', {state:{data}})
+        }
+  
       const fetchData = async () => {
           let item ={refresh}
           let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
@@ -408,13 +472,24 @@ const optio = ['item', 'pack'];
                
                  </main></ChakraProvider>
                  <ChakraProvider>     
-                 {valid === 'Valid' ? (<Button colorScheme='blue' variant='solid' onClick={done}>Back</Button>):      
-                  <Stack direction='row' spacing={2} align='center' justify='center'>        
+                 {valid === 'Valid' ? (<Stack direction='row' spacing={2} align='center' justify='center'><Button colorScheme='blue' variant='solid' onClick={done}>Back</Button><br/>
+               <Button  colorScheme='blue' variant='solid' onClick={creat} >Get Sales Tips</Button>  </Stack>):      
+               <Stack direction='row' spacing={2} align='center' justify='center'>        
                    <Button colorScheme='blue' variant='solid' onClick={modal1.onOpen}>Add Product</Button> 
               { item.length !== 0 ? (  <div> {selectedPrize === ''? (<Button colorScheme='blue' variant='solid' onClick={modal2.onOpen}>Save</Button>): <div>{buttonVisible && (<Button colorScheme='blue' variant='solid' onClick={sprod}>Save Payment</Button> 
                    )}
         {!buttonVisible && <Spinner />}</div>}</div>): null }
                     </Stack>} 
+                {valid === 'Valid' ?Button(   
+                  <Card p={2}>
+                  <Heading fontSize='15px'>Sales Tip</Heading>
+                    <Text>{tip.message_value}</Text><br/>
+                    <Text>Have a question? </Text>
+<div>
+<Button colorScheme='blue' variant='solid' onClick={send}>Start Conversation</Button>
+</div>
+
+                  </Card> ): null} 
         <div className="message">{message ? <p>{message}</p> : null}</div>
               <Modal isOpen={modal1.isOpen} onClose={modal1.onClose}>
           <ModalOverlay />
@@ -435,7 +510,7 @@ const optio = ['item', 'pack'];
           value={inputVa}
           onCreateOption={handleAddProduct} // Handle adding a new option
           isClearable={true} 
-  
+          
         /><br/>
               
               <Input placeholder='Price of a single item/pack/service' size='md' onChange={handleInputChang} width={273} ml={9}/><br/><br/>
@@ -490,7 +565,8 @@ const optio = ['item', 'pack'];
         </Modal>
   
         </ChakraProvider></div>):<ChakraProvider> <div><Button colorScheme='black' variant='outline'>{toSentenceCase(list[0].business_name)}</Button><br/> <Button colorScheme='blue' variant='solid' mt='10px' onClick={beef}>Restock</Button></div></ChakraProvider>}
-          </div>
+        <div className="message">{message ? <p>{message}</p> : null}</div>
+        </div>
       )
 }
 export default Invoice

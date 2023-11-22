@@ -71,7 +71,8 @@ const Product = () => {
       setFun('')
     };
     const show=(index)=>{
-      const data = info[0].products[index]
+      const mata = info[0].products[index]
+      const data = {info, mata}
        navigate('/components/prodet', {state:{data}})
     }
     const handleClick = () => {
