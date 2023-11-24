@@ -6,60 +6,30 @@ import { Card, CardHeader, CardFooter, CardBody, SimpleGrid, Button, Heading, Te
 const ProDe = () =>{
     const [info, setInfo] = useState('')
     const [loading, setLoading] = useState(true)
-    const [list, setList] = useState('')
     const navigate = useNavigate()
     const location = useLocation()
     let fin = location.state.data
     let index = fin.mata
+  
 
     let tok= JSON.parse(localStorage.getItem("user-info"));
 const terms = (tok) => {
   let refreshval;
-console.log(list)
+console.log(info)
   if (tok === null || typeof tok === 'undefined') {
     refreshval = 0;
   } else {
     refreshval = tok.refresh_token;
   }
-
+ 
   return refreshval;
 };
-const send =()=>{
-  let data = list
-  navigate('/components/chat', {state:{data}})
+const sent =()=>{
+  const data = fin
+     navigate('/components/productanalytics', {state:{data}})
 }
+
 let refresh = terms(tok)
-const fetchDats = async () => {
-  let item ={refresh}
-  let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
-      method: 'POST',
-      headers:{
-        'Content-Type': 'application/json',
-        'accept' : 'application/json'
-   },
-   body:JSON.stringify(item)
-  });
-  
-  rep = await rep.json();
-  let bab = rep.access_token
-let response = await fetch(`https://api.prestigedelta.com/products/${parseInt(fin.info[0].id)}/?product_id=${parseInt(index.id)}`,{
-method: "GET",
-headers:{'Authorization': `Bearer ${bab}`},
-})
-
-//localStorage.setItem('user-info', JSON.stringify(tok))
-
-if (response.status === 401) {
-  navigate('/components/login');
-} else { 
- 
-response = await response.json();
-setLoading(false)
-setList(response)
-  }}
-  useEffect(() => {
-    fetchDats()
-  }, [])
 console.log(index)
     const fetchData = async () => {
         let item ={refresh}
@@ -155,15 +125,8 @@ console.log(index)
       <Text>{(new Date(index.sell_out_date).toLocaleString('en-GB'))}</Text>
   </Card>
 </SimpleGrid>
-
-<Card p={2} m={2}>
-<Heading fontSize='14px'>Product Analytics</Heading>
-<Text>{list.message_value}</Text><br/>
-<Text>Have a question? </Text>
 <div>
-<Button colorScheme='blue' variant='solid' onClick={send}>Start Conversation</Button>
-</div>
-</Card>
+<Button colorScheme='blue' variant='solid' onClick={sent}>Get Product Analysis</Button></div>
         </div>
         </ChakraProvider>
     )

@@ -16,7 +16,8 @@ const Revenue=()=>{
 console.log(valv)
 
 const  talk=()=>{
-    navigate('/components/chat')
+  let data = messages
+  navigate('/components/chat', {state:{data}})
 }
    const fetchDat = async () => {
     let item ={refresh}

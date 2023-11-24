@@ -238,9 +238,9 @@ const optio = ['item', 'pack'];
         fetchDa()
       }, [])
       const creat = async() => {
-   
+        handleClick()
         let it ={refresh}
-        let rep = await fetch ('https://sandbox.prestigedelta.com/refreshtoken/',{
+        let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
             method: 'POST',
             headers:{
               'Content-Type': 'application/json',
@@ -272,7 +272,7 @@ const optio = ['item', 'pack'];
         let products = separatedData
         let ite = {products, payment_method, reward}
       try {
-        let result = await fetch('https://sandbox.prestigedelta.com/salestips/', {
+        let result = await fetch('https://api.prestigedelta.com/salestips/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -286,18 +286,17 @@ const optio = ['item', 'pack'];
           setMessage(JSON.stringify(errorResult))  
         } else {
            result =await result.json();
+           
           setMessage(JSON.stringify(result.message))
-          setTip(result)
+          sprod()
+        navigate('/components/salesanalytics', {state:{result}})
         } 
       } catch (error) {
         // Handle fetch error
         console.error(error);
       }   
         }
-        const send =()=>{
-          let data = tip
-          navigate('/components/chat', {state:{data}})
-        }
+        
   
       const fetchData = async () => {
           let item ={refresh}
@@ -334,11 +333,11 @@ const optio = ['item', 'pack'];
             setButtonVisible(false);
             setTimeout(() => {
               setButtonVisible(true);
-            }, 5000);
+            }, 15000);
           };
   console.log(item.todo)
-      async function sprod(e) {
-        e.preventDefault()
+      async function sprod() {
+      
         handleClick()
          let items ={refresh}
           let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
@@ -400,6 +399,9 @@ const optio = ['item', 'pack'];
       }
       const done =()=> {
         navigate('/components/inventory')
+      }
+      const send =()=> {
+        
       }
         console.log(payment_method)
       
@@ -472,24 +474,17 @@ const optio = ['item', 'pack'];
                
                  </main></ChakraProvider>
                  <ChakraProvider>     
-                 {valid === 'Valid' ? (<Stack direction='row' spacing={2} align='center' justify='center'><Button colorScheme='blue' variant='solid' onClick={done}>Back</Button><br/>
-               <Button  colorScheme='blue' variant='solid' onClick={creat} >Get Sales Tips</Button>  </Stack>):      
+                 {valid === 'Valid' ? (<Button colorScheme='blue' variant='solid' onClick={done}>Back</Button>):      
                <Stack direction='row' spacing={2} align='center' justify='center'>        
                    <Button colorScheme='blue' variant='solid' onClick={modal1.onOpen}>Add Product</Button> 
               { item.length !== 0 ? (  <div> {selectedPrize === ''? (<Button colorScheme='blue' variant='solid' onClick={modal2.onOpen}>Save</Button>): <div>{buttonVisible && (<Button colorScheme='blue' variant='solid' onClick={sprod}>Save Payment</Button> 
                    )}
         {!buttonVisible && <Spinner />}</div>}</div>): null }
-                    </Stack>} 
-                {valid === 'Valid' ?Button(   
-                  <Card p={2}>
-                  <Heading fontSize='15px'>Sales Tip</Heading>
-                    <Text>{tip.message_value}</Text><br/>
-                    <Text>Have a question? </Text>
-<div>
-<Button colorScheme='blue' variant='solid' onClick={send}>Start Conversation</Button>
-</div>
-
-                  </Card> ): null} 
+                    </Stack>} <br/>
+                {item.length !== 0 ?( <div> 
+                  {buttonVisible && ( <Button  colorScheme='blue' variant='outline' onClick={creat} >Get Sales Tips</Button>
+                  )}
+        {!buttonVisible && <Spinner />} </div> ): null} 
         <div className="message">{message ? <p>{message}</p> : null}</div>
               <Modal isOpen={modal1.isOpen} onClose={modal1.onClose}>
           <ModalOverlay />

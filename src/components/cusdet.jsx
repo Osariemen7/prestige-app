@@ -14,43 +14,11 @@ const Cusdet=()=> {
  let refresh = tok.refresh_token
 
 console.log(ite.id)
- const fetchData = async () => {
-  let item ={refresh}
-  let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
-      method: 'POST',
-      headers:{
-        'Content-Type': 'application/json',
-        'accept' : 'application/json'
-   },
-   body:JSON.stringify(item)
-  });
-  
-  rep = await rep.json();
-  let bab = rep.access_token
-let response = await fetch(`https://api.prestigedelta.com/customerreport/${ite.id}/`,{
-method: "GET",
-headers:{'Authorization': `Bearer ${bab}`},
-})
-//localStorage.setItem('user-info', JSON.stringify(tok))
-
-if (response.status === 401) {
-  navigate('/components/login');
-} else { 
+ const send =()=>{
+  const data = ite
+  navigate('/components/cusdet', {state:{data}})
+ }
  
-response = await response.json();
-setLoading(false)
-setList(response)
-  }}
-  useEffect(() => {
-    fetchData()
-  }, [])
-
-  const send =()=>{
-    let data = list
-    navigate('/components/chat', {state:{data}})
-  }
-  console.log(list)
-
   if(loading) {
           return(
           <p>Loading...</p>)} 
@@ -95,15 +63,10 @@ setList(response)
               <p className='svin'>First Transaction: {(new Date(ite.first_transaction)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</p>
               <p className='svin'>Last Transaction: {(new Date(ite.last_transaction)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</p>
           </div>
-        
-          <Card p={2} m={2}>
-<Heading fontSize='14px'>Customer Analytics</Heading>
-<Text>{list.message_value}</Text><br/>
-<Text>Have a question? </Text>
-<div>
-<Button colorScheme='blue' variant='solid' onClick={send}>Start Conversation</Button>
-</div>
-</Card>
+        <div>
+          <Button colorScheme='blue' variant='solid' onClick={send}>Get Customer Report</Button>
+        </div>
+          
 </ChakraProvider>
         </div>
     )

@@ -55,6 +55,9 @@ import Sale from './components/dashboard';
 import Expense from './components/expense';
 import Revenue from './components/revenue';
 import People from './components/people'
+import ProductAnalytics from './components/productanalytic';
+import CustAnalytics from './components/customanalytics';
+import SalesAnalytics from './components/salesanalytics';
 
 import { Analytics } from '@vercel/analytics/react';
 function App() {
@@ -123,6 +126,9 @@ function App() {
         <Route path='/components/expense' element={<Expense />} />
         <Route path='/components/revenue' element={<Revenue />} />
         <Route path='/components/people' element={<People />} />
+        <Route path='/components/productanayltic' element={<ProductAnalytics />} />
+        <Route path='/components/salesanalytics' element={<SalesAnalytics />} />
+        <Route path='/components/customanalytics' element={<CustAnalytics />} />
 
        
      </Routes>
