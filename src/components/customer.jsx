@@ -65,7 +65,7 @@ if(loading) {
               //const spaceIndex = list[0].customers[0].customer_name.indexOf(' ');
               const customer=(index)=>{
                 const data = list[0].customers[index]
-                 navigate('/components/cusdet', {state:{data}})
+                 navigate('/components/customanalytics', {state:{data}})
               }
                     
     return(
