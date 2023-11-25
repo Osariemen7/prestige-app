@@ -18,6 +18,7 @@ import { useDisclosure, Input,  Spinner  } from "@chakra-ui/react"
 const Inventory = () => {
     const [sidebar, setSidebar] = useState('')
     const [info, setInfo] = useState('');
+    const [daily, setDaily] = useState([])
     const [loading, setLoading] = useState(true)
     const [start, setStart] = useState('')
   const [end, setEnd] = useState('')
@@ -31,6 +32,7 @@ const Inventory = () => {
     const [acct, setAcct] = useState([])
     const [selectedOption, setSelectedOption] = useState('')
     const [fin, setFin] = useState('')
+    const [name, setName] = useState('')
     const navigate = useNavigate()
     const [message, setMessage] = useState('')
     const [searchTerm, setSearchTerm] = useState("");
@@ -165,14 +167,25 @@ async function fproj() {
   headers:{'Authorization': `Bearer ${bab}`},
   })
   //localStorage.setItem('user-info', JSON.stringify(tok))
-  
+  let respons = await fetch("https://api.prestigedelta.com/analytics/?duration=DAILY",{
+    method: "GET",
+    headers:{'Authorization': `Bearer ${bab}`},
+    })
+
+    let respon = await fetch("https://api.prestigedelta.com/businessprofile",{
+    method: "GET",
+    headers:{'Authorization': `Bearer ${bab}`},
+    })
   if (response.status === 401) {
     navigate('/components/login');
   } else { 
    
   response = await response.json();
- 
+  respons = await respons.json()
+  respon = await respon.json()
   setInfo(response)
+  setDaily(respons)
+  setName(respon)
     }}
 
     useEffect(() => {
@@ -209,7 +222,6 @@ setAcct(response)
   useEffect(() => {
     fetchDa()
   }, [])
-
 const options = [
   ...acct.map((item) => ({
     label: `${item.name} 
@@ -328,19 +340,19 @@ const options = [
         const data = info[0].sub_account
            navigate('/components/overdraft', {state:{data}})
       }
-      const transfer= ()=>{
-    
-        navigate('/components/before')
-   }
-   
+     
    
    
       
       if(loading) {
         return(
         <p>Loading...</p>)} 
+        console.log(daily)
+        let sale = daily[daily.length - 1].sales
+
         const reverse = [...list.sales].reverse();
         console.log(reverse)
+
          return(
         <ChakraProvider>
         <div>
@@ -350,6 +362,7 @@ const options = [
                     <li className='nav-close'>
                     <i onClick={showSidebar} class="fa-solid fa-x"></i>
                     </li>
+                    
                     <li className='nav-list'>
                     <Link to='/components/inventory' className='nav-text'><i class="fa-solid fa-house"></i>
                       <p className='dfp'>Home</p></Link>
@@ -363,6 +376,10 @@ const options = [
                       <p className='dfp'>Sub-Account</p></Link>
                     </li>  
                     <li className='nav-list'>
+                    <Link to='/components/product' className='nav-text'><i class="fa-solid fa-cart-flatbed"></i>
+                      <p className='dfp'>Inventory</p></Link>
+                    </li>
+                    <li className='nav-list'>
                     <Link to='/components/customer' className='nav-text'><i class="fa-solid fa-people-roof"></i>
                       <p className='dfp'>Customers</p></Link>
                     </li>
@@ -370,7 +387,7 @@ const options = [
                     <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-chart-line"></i>
                     <p className='dfp'>Analytics</p></Link>
                     </li>
-                    
+                   
                     <li className='nav-list'>
                     <Link to='/components/chat' className='nav-text'><i class="fa-solid fa-user-tie"></i>
                   <p className='dfp'>Assistant</p></Link>
@@ -383,93 +400,13 @@ const options = [
                     </li>    
                 </ul>
             </nav>
-            <div className='dash'>
-               <h3 className='h1'>Inventory</h3>
-              <p className='dp'>Total Balance</p>
-              {typeof info[0].sub_account === 'undefined'? (<Heading size='xl' color='#fff'>₦0</Heading>):
-              <Heading size='xl' color='#fff'>₦{(info[0].sub_account.balance.available_balance).toLocaleString('en-US')}</Heading>}
+           
+        <div className='dash'>
+               <h3 className='h1'>{name[0].business_name}</h3>
+              <p className='dp'>Today's Sale</p>
+              <Heading size='xl' color='#fff'>₦{parseFloat(sale).toLocaleString('en-US')}</Heading>
               <Link to='/components/invoice'><button className='dbut'>Record a Sale</button></Link>
             </div>
-            <Heading size='sm' ml={6} textAlign='left'>Products</Heading>
-            { info.length > 0 && typeof info[0].products[0] === 'object' ? (
-            <Card m={5}>
-            <Card m={2} p='2px' >
-
-  <CardBody p='2px'>
-    <Stack divider={<StackDivider />} spacing='4'>
-      <Box p='2px'>
-        <Heading size='xs' textTransform='uppercase'>
-          Number of Products
-        </Heading>
-        <Text pt='2' fontSize='sm'>
-          {info[0].product_count}
-        </Text>
-      </Box>
-      
-    </Stack>
-  </CardBody>
-</Card>
-<SimpleGrid m={3} mt={1} spacing={4} templateColumns='repeat(auto-fill, minmax(100px, 1fr))'>
-  <Card height={90} justify='center'>
-    <CardHeader p={1}>
-      <Heading size='xs' textTransform='uppercase'>Sales Value</Heading>
-    </CardHeader>
-      <Text>₦{(info[0].stock_value).toLocaleString('en-Us')}</Text>
-  </Card>
-  <Card height={90} justify='center'>
-    <CardHeader p={1}>
-      <Heading size='xs' textTransform='uppercase'>Purchase Value</Heading>
-    </CardHeader>
-      <Text>₦{(info[0].input_value).toLocaleString('en-US')}</Text>
-  </Card> 
-</SimpleGrid>
-<Stack direction='row' mt={1} spacing={2} align='center' justify='center'>
-<Button colorScheme='blue' variant='solid' onClick={nav}>
-    Product List
-  </Button>
-  <Button colorScheme='blue' variant='outline' onClick={transfer}>Add Product</Button>
-</Stack>
-
-</Card>): (<Card m={5}  >
-            <Card m={2} >
-
-  <CardBody>
-    <Stack divider={<StackDivider />} spacing='4'>
-      <Box p='2px'>
-        <Heading size='xs' textTransform='uppercase'>
-          Number of Products
-        </Heading>
-        <Text pt='2' fontSize='sm'>
-          0
-        </Text>
-     </Box>
-      </Stack>
-  </CardBody>
-</Card>
-<SimpleGrid m={3} mt={1} spacing={4} templateColumns='repeat(auto-fill, minmax(100px, 1fr))'>
-  <Card height={90} justify='center'>
-    <CardHeader p={1}>
-      <Heading size='xs' textTransform='uppercase'> Stock Value</Heading>
-    </CardHeader>
-      <Text> 0</Text>
-  </Card>
-  <Card height={90} justify='center'>
-    <CardHeader p={1}>
-      <Heading size='xs' textTransform='uppercase' > Sales Value</Heading>
-    </CardHeader>
-      <Text>₦0</Text>
-    
-  </Card> 
-</SimpleGrid>
-<Stack direction='row' mt={2} spacing={2} align='center' justify='center'>
-<Button colorScheme='blue' variant='solid' onClick={nav}>
-    Product List
-  </Button>
-  <Button colorScheme='blue' variant='outline' onClick={transfer}>Add Product</Button>
-</Stack>
-
-</Card>)}
-
 <Heading fontSize='15px' textAlign='left' ml='15px'>Activity</Heading>
         <Stack direction='row' spacing={1} >
 <div>

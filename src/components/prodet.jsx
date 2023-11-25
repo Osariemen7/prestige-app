@@ -26,7 +26,7 @@ console.log(info)
 };
 const sent =()=>{
   const data = fin
-     navigate('/components/productanalytics', {state:{data}})
+     navigate('/components/productanayltic', {state:{data}})
 }
 
 let refresh = terms(tok)

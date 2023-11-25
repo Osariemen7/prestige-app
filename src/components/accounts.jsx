@@ -205,6 +205,7 @@ return(
                     <li className='nav-close'>
                     <i onClick={showSidebar} class="fa-solid fa-x"></i>
                     </li>
+                    
                     <li className='nav-list'>
                     <Link to='/components/inventory' className='nav-text'><i class="fa-solid fa-house"></i>
                       <p className='dfp'>Home</p></Link>
@@ -217,6 +218,10 @@ return(
                     <Link to='/components/savings' className='nav-text'><i class="fa-solid fa-money-bill"></i>
                       <p className='dfp'>Sub-Account</p></Link>
                     </li>  
+                    <li className='nav-list'>
+                    <Link to='/components/product' className='nav-text'><i class="fa-solid fa-cart-flatbed"></i>
+                      <p className='dfp'>Inventory</p></Link>
+                    </li>
                     <li className='nav-list'>
                     <Link to='/components/customer' className='nav-text'><i class="fa-solid fa-people-roof"></i>
                       <p className='dfp'>Customers</p></Link>
@@ -268,6 +273,7 @@ return(
                     <li className='nav-close'>
                     <i onClick={showSidebar} class="fa-solid fa-x"></i>
                     </li>
+                    
                     <li className='nav-list'>
                     <Link to='/components/inventory' className='nav-text'><i class="fa-solid fa-house"></i>
                       <p className='dfp'>Home</p></Link>
@@ -281,6 +287,10 @@ return(
                       <p className='dfp'>Sub-Account</p></Link>
                     </li>  
                     <li className='nav-list'>
+                    <Link to='/components/product' className='nav-text'><i class="fa-solid fa-cart-flatbed"></i>
+                      <p className='dfp'>Inventory</p></Link>
+                    </li>
+                    <li className='nav-list'>
                     <Link to='/components/customer' className='nav-text'><i class="fa-solid fa-people-roof"></i>
                       <p className='dfp'>Customers</p></Link>
                     </li>
@@ -288,7 +298,7 @@ return(
                     <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-chart-line"></i>
                     <p className='dfp'>Analytics</p></Link>
                     </li>
-                  
+                   
                     <li className='nav-list'>
                     <Link to='/components/chat' className='nav-text'><i class="fa-solid fa-user-tie"></i>
                   <p className='dfp'>Assistant</p></Link>

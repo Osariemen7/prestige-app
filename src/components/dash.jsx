@@ -8,7 +8,6 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import Select from "react-select";
 
 
-
 ChartJS.register(CategoryScale, LinearScale, BarElement,Title,Tooltip,Legend, ChartDataLabels);
 
 
@@ -16,7 +15,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement,Title,Tooltip,Legend, Ch
 const Dashboard =()=>{
   const [users, setUsers] = useState([])
   const [infos, setInfos] = useState([])
-  const [selectedValue, setSelectedValue] = useState('');
+  
   const [mon, setMon] = useState([])
   const navigate = useNavigate()
   const [sidebar, setSidebar] = useState('')
@@ -29,6 +28,8 @@ const Dashboard =()=>{
    label: p,
    value: p,
  }))
+ const defaultSelectedValue = opt.find(option => option.value === 'DAILY');
+ const [selectedValue, setSelectedValue] = useState(defaultSelectedValue);
 
  const term = (selectedValue, users, infos, mon) => {
   let val;
@@ -44,9 +45,9 @@ const Dashboard =()=>{
 
   return val;
 };
+
 let sure = term(selectedValue, users, infos, mon)
-const lastSeven = sure.slice(-7);
-const lastSeve = sure.slice(-7);
+const lastSeven = sure.slice(-7)
 let data = {
   labels: lastSeven.map((user) => user.start_day),
   datasets: [],
@@ -110,14 +111,14 @@ if (users.length >= 7) {
   const lastSevenUsers = sure.slice(-7);
 
   sata.datasets.push({
-    label: "Expense",
+    label: "Revenue",
     backgroundColor: "rgba(75, 192, 192, 0.2)",
     borderColor: "rgba(75, 192, 192, 1)",
     borderWidth: 1,
     data: lastSevenUsers.map((user) => user.expense),
   });
   sata.datasets.push({
-    label: "Expense Target",
+    label: "Revenue Target",
     backgroundColor: "rgba(255, 99, 132, 0.2)",
     borderColor: "rgba(255, 99, 132, 1)",
     borderWidth: 1,
@@ -182,14 +183,14 @@ if (users.length >= 7) {
       backgroundColor: "rgba(75, 192, 192, 0.2)",
       borderColor: "rgba(75, 192, 192, 1)",
       borderWidth: 1,
-      data: users.map((user) => user.new_customers),
+      data: sure.map((user) => user.new_customers),
     });
     cata.datasets.push({
       label: "No of customers",
       backgroundColor: "rgba(255, 99, 132, 0.2)",
       borderColor: "rgba(255, 99, 132, 1)",
       borderWidth: 1,
-      data: users.map((user) => user.customer_count),
+      data: sure.map((user) => user.customer_count),
     });
   }
       const optio = {
@@ -265,58 +266,7 @@ if (users.length >= 7) {
     };
   }, [navigate]);
 
-  const daily=()=>{
-    let rata
-    if (selectedValue.value ==='WEEKLY'){
-       rata = infos
-    } else if(selectedValue.value === 'MONTHLY'){
-      rata = mon
-    } else{
-      rata = users
-    }
-     data = {rata, selectedValue}
     
-    
-     navigate('/components/dashboard', {state:{data}})
-  }
-  const revenue=()=>{
-    let rata
-    if (selectedValue.value ==='WEEKLY'){
-       rata = infos
-    } else if(selectedValue.value === 'MONTHLY'){
-      rata = mon
-    } else{
-      rata = users
-    }
-     data = {rata, selectedValue}
-    
-    
-     navigate('/components/revenue', {state:{data}})
-  }
-  const expense=()=>{
-    let rata
-    if (selectedValue.value ==='WEEKLY'){
-       rata = infos
-    } else if(selectedValue.value === 'MONTHLY'){
-      rata = mon
-    } else{
-      rata = users
-    }
-     data = {rata, selectedValue}
-     navigate('/components/expense', {state:{data}})
-  }
-  const people=()=>{
-    let rata
-    if (selectedValue.value ==='WEEKLY'){
-       rata = infos
-    } else if(selectedValue.value === 'MONTHLY'){
-      rata = mon
-    } else{
-      rata = users
-    }
-     data = {rata, selectedValue}
-     navigate('/components/people', {state:{data}})
-  }
   const fetchData = async () => {
     let item ={refresh}
     let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
@@ -329,7 +279,7 @@ if (users.length >= 7) {
     });
     rep = await rep.json();
     let bab = rep.access_token
-  let response = await fetch("https://api.prestigedelta.com/analytics/",{
+  let response = await fetch("https://api.prestigedelta.com/analytics/?duration=DAILY",{
   method: "GET",
   headers:{'Authorization': `Bearer ${bab}`},
   })
@@ -361,7 +311,66 @@ if (users.length >= 7) {
 
   }
 }
-
+const daily=()=>{
+  let rata
+  if (selectedValue.value ==='WEEKLY'){
+     rata = infos
+  } else if(selectedValue.value === 'MONTHLY'){
+    rata = mon
+  } else{
+    rata = users
+    
+  }
+   data = {rata, selectedValue}
+  
+  
+   navigate('/components/dashboard', {state:{data}})
+}
+const revenue=()=>{
+  let rata
+  if (selectedValue.value ==='WEEKLY'){
+     rata = infos
+  } else if(selectedValue.value === 'MONTHLY'){
+    rata = mon
+  } else{
+    rata = users
+  }
+   data = {rata, selectedValue}
+  
+  
+   navigate('/components/revenue', {state:{data}})
+}
+const expense=()=>{
+  let rata
+  if (selectedValue.value ==='WEEKLY'){
+     rata = infos
+  } else if(selectedValue.value === 'MONTHLY'){
+    rata = mon
+  } else{
+    rata = users
+  }
+   data = {rata, selectedValue}
+  
+  
+   navigate('/components/expense', {state:{data}})
+}
+const people=()=>{
+  let rata
+  if (selectedValue.value ==='WEEKLY'){
+     rata = infos
+  } else if(selectedValue.value === 'MONTHLY'){
+    rata = mon
+  } else if(selectedValue === ''){
+    rata = users
+  }
+  else{
+    rata=users
+  }
+   data = {rata, selectedValue}
+  
+  
+   navigate('/components/people', {state:{data}})
+}
 useEffect(() => {
   fetchData()
 }, [])
@@ -374,7 +383,8 @@ useEffect(() => {
 //     let wark = JSON.stringify(data)
 let wark =users[0]
 
-console.log(users) 
+console.log(mon) 
+console.log(selectedValue.label)
 
 if(loading) {
   return(
@@ -385,7 +395,7 @@ if(loading) {
         <ChakraProvider>
             <i onClick={showSidebar} class="fa-solid fa-bars ac"></i>
             <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
-                <ul className='nav-menu-item'>
+            <ul className='nav-menu-item'>
                     <li className='nav-close'>
                     <i onClick={showSidebar} class="fa-solid fa-x"></i>
                     </li>
@@ -403,6 +413,10 @@ if(loading) {
                       <p className='dfp'>Sub-Account</p></Link>
                     </li>  
                     <li className='nav-list'>
+                    <Link to='/components/product' className='nav-text'><i class="fa-solid fa-cart-flatbed"></i>
+                      <p className='dfp'>Inventory</p></Link>
+                    </li>
+                    <li className='nav-list'>
                     <Link to='/components/customer' className='nav-text'><i class="fa-solid fa-people-roof"></i>
                       <p className='dfp'>Customers</p></Link>
                     </li>
@@ -410,9 +424,10 @@ if(loading) {
                     <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-chart-line"></i>
                     <p className='dfp'>Analytics</p></Link>
                     </li>
+                   
                     <li className='nav-list'>
                     <Link to='/components/chat' className='nav-text'><i class="fa-solid fa-user-tie"></i>
-                       <p className='dfp'>Assistant</p></Link>
+                  <p className='dfp'>Assistant</p></Link>
                     </li>
 
                     <li className='nav-list'>
@@ -441,33 +456,29 @@ if(loading) {
                 <div>
                 <Button mb={2} mt={1} colorScheme='blue' onClick={daily} variant='solid'>Report on Analytics</Button>
                 </div>
-              
             </Card>
             <Card backgroundColor='#eff1fa' m={3} >
                 <Heading size='sm'>Revenue</Heading>
                 <Bar data={data} options={options} />
                 <Text fontSize='12px'> Revenue Per Sales - ₦{parseFloat(sure[0].rps).toLocaleString('en-US')}</Text>
                <Text fontSize='12px'>Revenue Per Customer - ₦{parseFloat(sure[0].rpc).toLocaleString('en-US')}</Text>
-               <div><Button mb={2} mt={1} colorScheme='blue' onClick={revenue} variant='outline' >Report on Analytics</Button>
-           </div>  
-            </Card>
+           <div><Button mb={2} mt={1} colorScheme='blue' onClick={revenue} variant='outline' >Report on Analytics</Button>
+           </div></Card>
       
             <Card backgroundColor='#eff1fa' m={3} >
                 <Heading size='sm'>Expense</Heading>
-                <Bar data={sata}  options={option} />
-                <div>
+                <Bar data={sata}  options={option} /><div>
                 <Button mb={2} mt={1} colorScheme='blue' onClick={expense} variant='solid'>Report on Analytics</Button>
-                </div>
-            </Card>
+                </div></Card>
             <Card backgroundColor='#eff1fa' m={3} >
                 <Heading size='sm'>Customers</Heading>
                 <Bar data={cata}  options={optio} />
-                <div> <Button mb={2} mt={1} colorScheme='blue' onClick={people} variant='outline'>Report on Analytics</Button>
+               <div> <Button mb={2} mt={1} colorScheme='blue' onClick={people} variant='outline'>Report on Analytics</Button>
                </div>
-               
             </Card>
             
             </Card>
+           
             </ChakraProvider>   
         </div>
     )

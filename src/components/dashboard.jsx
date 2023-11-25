@@ -9,6 +9,10 @@ const Sale=()=>{
     const navigate = useNavigate()
     const location = useLocation()
 
+    const applyBoldFormatting = (text) => {
+      // Replace **text** with <strong>text</strong> for bold formatting
+      return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    };
    let valv = location.state.data
    let thread = valv.rata  
    let tok= JSON.parse(localStorage.getItem("user-info"));
@@ -52,7 +56,8 @@ const  talk=()=>{
     return(
     <p>Loading...</p>)
 }   
-const sentences =(messages.conversation[0].message_value).split('\n')
+const formattedMessage = messages.conversation[0].message_value.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+const sentences = formattedMessage.split('\n');
 
     return(
         <ChakraProvider>
@@ -64,7 +69,7 @@ const sentences =(messages.conversation[0].message_value).split('\n')
                  <Heading fontSize='15px'>REPORT ON {valv.selectedValue.label} SALES </Heading>
              <CardBody m='5px' color=''>
              {sentences.map((sentence, index) => (
-      <p key={index}>{sentence}</p>
+             <p key={index} dangerouslySetInnerHTML={{ __html: sentence }} />
     ))}
              </CardBody>
              <Text>Have more questions ?</Text>

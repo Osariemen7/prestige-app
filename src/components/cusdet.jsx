@@ -1,11 +1,10 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
 import { Card, CardHeader, CardFooter, CardBody, SimpleGrid, Button, Heading, Text } from '@chakra-ui/react'
 
 const Cusdet=()=> {
-  const [list, setList] = useState('')
-  const [loading, setLoading] = useState(true);
+  
   const navigate = useNavigate('')
     const location = useLocation()
  const ite= location.state.data 
@@ -19,9 +18,7 @@ console.log(ite.id)
   navigate('/components/cusdet', {state:{data}})
  }
  
-  if(loading) {
-          return(
-          <p>Loading...</p>)} 
+ 
     return(
         <div>
         <ChakraProvider>

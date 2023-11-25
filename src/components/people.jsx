@@ -52,7 +52,8 @@ const  talk=()=>{
     return(
     <p>Loading...</p>)
 }  
-const sentences =(messages.conversation[0].message_value).split('\n')
+const formattedMessage = messages.conversation[0].message_value.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+const sentences = formattedMessage.split('\n');
 
     return(
         <ChakraProvider backgroundColor='#eff1fa'>
@@ -64,7 +65,7 @@ const sentences =(messages.conversation[0].message_value).split('\n')
                  <Heading fontSize='15px'>REPORT ON {valv.selectedValue.label} CUSTOMER</Heading>
              <CardBody m={5} p={2} color=''>
              {sentences.map((sentence, index) => (
-      <p key={index}>{sentence}</p>
+             <p key={index} dangerouslySetInnerHTML={{ __html: sentence }} />
     ))}
              </CardBody>
              <Text>Have more questions ?</Text>

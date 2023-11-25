@@ -15,8 +15,12 @@ import {
   ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/react';
+import { Box, SimpleGrid,  StackDivider} from '@chakra-ui/react'
+
 
 const Product = () => {
+  const [sidebar, setSidebar] = useState('')
+  const [finfo, setFinfo]  = useState([])
   const [message, setMessage] = useState('')
   const [messag, setMessag] = useState('')
     const [info, setInfo] = useState('');
@@ -49,7 +53,7 @@ const Product = () => {
     const closeModal = () => {
       modal2.onClose() 
     };
-         
+    const showSidebar = () => setSidebar(!sidebar)    
   const handleCost = (event)=> {
     setCost(event.target.value)
   }
@@ -169,6 +173,37 @@ const Product = () => {
         console.error(error);
       };
     }
+    const fetchDat = async () => {
+      let item ={refresh}
+      let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
+          method: 'POST',
+          headers:{
+            'Content-Type': 'application/json',
+            'accept' : 'application/json'
+       },
+       body:JSON.stringify(item)
+      });
+      
+      rep = await rep.json();
+      let bab = rep.access_token
+    let response = await fetch("https://api.prestigedelta.com/products/",{
+    method: "GET",
+    headers:{'Authorization': `Bearer ${bab}`},
+    })
+    //localStorage.setItem('user-info', JSON.stringify(tok))
+    
+    if (response.status === 401) {
+      navigate('/components/login');
+    } else { 
+     
+    response = await response.json();
+   
+    setFinfo(response)
+      }}
+  
+      useEffect(() => {
+        fetchDat()
+      }, [])
     async function sprod(e) {
       
       e.preventDefault();
@@ -262,7 +297,10 @@ console.log(selectedOption)
       setSelectedOption(selectedOption);
      
     };
+    const transfers= ()=>{
     
+      navigate('/components/invoice')
+ }
     const handleAddProduct = (newValue) => {
     if (newValue && newValue.trim() !== '') {
       const newProduct = { label: newValue, value: newValue };
@@ -280,13 +318,134 @@ console.log(selectedOption)
     return(
         <ChakraProvider>
         <div>
-        <Link to='/components/inventory'>
-                 <i className="fa-solid fa-chevron-left bac"></i>
-             </Link>
-<Stack direction='row' spacing={1} align='center' justify='center'>
-  <Button colorScheme='blue' variant='outline' onClick={transfer}>
-    Buy Product
+        <i onClick={showSidebar} class="fa-solid fa-bars ac"></i>
+            <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+            <ul className='nav-menu-item'>
+                    <li className='nav-close'>
+                    <i onClick={showSidebar} class="fa-solid fa-x"></i>
+                    </li>
+                    
+                    <li className='nav-list'>
+                    <Link to='/components/inventory' className='nav-text'><i class="fa-solid fa-house"></i>
+                      <p className='dfp'>Home</p></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet home"></i>
+                      <p className='dfp'>Account</p></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/savings' className='nav-text'><i class="fa-solid fa-money-bill"></i>
+                      <p className='dfp'>Sub-Account</p></Link>
+                    </li>  
+                    <li className='nav-list'>
+                    <Link to='/components/product' className='nav-text'><i class="fa-solid fa-cart-flatbed"></i>
+                      <p className='dfp'>Inventory</p></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/customer' className='nav-text'><i class="fa-solid fa-people-roof"></i>
+                      <p className='dfp'>Customers</p></Link>
+                    </li>
+                    <li className='nav-list'>
+                    <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-chart-line"></i>
+                    <p className='dfp'>Analytics</p></Link>
+                    </li>
+                   
+                    <li className='nav-list'>
+                    <Link to='/components/chat' className='nav-text'><i class="fa-solid fa-user-tie"></i>
+                  <p className='dfp'>Assistant</p></Link>
+                    </li>
+
+                    <li className='nav-list'>
+                    
+                    <Link to='/components/login' className='nav-text'><i class="fa-solid fa-share"></i>
+                      <p className='dfp'>Log Out</p></Link>
+                    </li>    
+                </ul>
+            </nav>
+           
+           
+            <Heading size='sm' ml={6} textAlign='left'>Products</Heading>
+            { finfo.length > 0 && typeof finfo[0].products[0] === 'object' ? (
+            <Card m={5}>
+            <Card m={2} p='2px' >
+
+  <CardBody p='2px'>
+    <Stack divider={<StackDivider />} spacing='4'>
+      <Box p='2px'>
+        <Heading size='xs' textTransform='uppercase'>
+          Number of Products
+        </Heading>
+        <Text pt='2' fontSize='sm'>
+          {finfo[0].product_count}
+        </Text>
+      </Box>
+      
+    </Stack>
+  </CardBody>
+</Card>
+<SimpleGrid m={3} mt={1} spacing={4} templateColumns='repeat(auto-fill, minmax(100px, 1fr))'>
+  <Card height={90} justify='center'>
+    <CardHeader p={1}>
+      <Heading size='xs' textTransform='uppercase'>Sales Value</Heading>
+    </CardHeader>
+      <Text>₦{(finfo[0].stock_value).toLocaleString('en-Us')}</Text>
+  </Card>
+  <Card height={90} justify='center'>
+    <CardHeader p={1}>
+      <Heading size='xs' textTransform='uppercase'>Purchase Value</Heading>
+    </CardHeader>
+      <Text>₦{(finfo[0].input_value).toLocaleString('en-US')}</Text>
+  </Card> 
+</SimpleGrid>
+<Stack direction='row' mt={1} spacing={2} align='center' justify='center'>
+<Button colorScheme='blue' variant='solid' onClick={transfer}>
+    Add Product
   </Button>
+    <Button colorScheme='blue' variant='outline' onClick={transfers}>Record a Sale</Button>
+</Stack>
+
+</Card>): (<Card m={5}  >
+            <Card m={2} >
+
+  <CardBody>
+    <Stack divider={<StackDivider />} spacing='4'>
+      <Box p='2px'>
+        <Heading size='xs' textTransform='uppercase'>
+          Number of Products
+        </Heading>
+        <Text pt='2' fontSize='sm'>
+          0
+        </Text>
+     </Box>
+      </Stack>
+  </CardBody>
+</Card>
+<SimpleGrid m={3} mt={1} spacing={4} templateColumns='repeat(auto-fill, minmax(100px, 1fr))'>
+  <Card height={90} justify='center'>
+    <CardHeader p={1}>
+      <Heading size='xs' textTransform='uppercase'> Stock Value</Heading>
+    </CardHeader>
+      <Text> 0</Text>
+  </Card>
+  <Card height={90} justify='center'>
+    <CardHeader p={1}>
+      <Heading size='xs' textTransform='uppercase' > Sales Value</Heading>
+    </CardHeader>
+      <Text>₦0</Text>
+    
+  </Card> 
+</SimpleGrid>
+<Stack direction='row' mt={2} spacing={2} align='center' justify='center'>
+<Button colorScheme='blue' variant='solid' onClick={transfer}>
+    Add Product
+  </Button>
+  <Button colorScheme='blue' variant='outline' onClick={transfers}>Record a Sale</Button>
+</Stack>
+
+</Card>)}
+
+<Stack direction='row' spacing={1} align='center' justify='center'>
+  
 </Stack>
 <Heading size='md' m={5} mb={0}>Product List</Heading>
         { info.length > 0 && typeof info[0].products[0] === 'object' ? (

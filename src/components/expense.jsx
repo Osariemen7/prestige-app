@@ -9,6 +9,7 @@ const Expense=()=>{
     const navigate = useNavigate()
     const location = useLocation()
 
+        
    let valv = location.state.data
    let thread = valv.rata  
    let tok= JSON.parse(localStorage.getItem("user-info"));
@@ -48,12 +49,15 @@ const  talk=()=>{
   useEffect(() => {
     fetchDat()
   }, [])
+
   if(loading) {
     return(
     <p>Loading...</p>)
 }   
-const sentences =(messages.conversation[0].message_value).split('\n')
-
+const formattedMessage = messages.conversation[0].message_value.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+const sentences = formattedMessage.split('\n');
+ console.log(sentences)
+ 
     return(
         <ChakraProvider>
         <div>
@@ -64,8 +68,8 @@ const sentences =(messages.conversation[0].message_value).split('\n')
                  <Heading fontSize='15px'>REPORT ON {valv.selectedValue.label} EXPENSE</Heading>
              <CardBody m={5} p={2} color=''>
              {sentences.map((sentence, index) => (
-      <p key={index}>{sentence}</p>
-    ))}
+        <p key={index} dangerouslySetInnerHTML={{ __html: sentence }} />
+      ))}
              </CardBody>
              <Text>Have more questions ?</Text>
              <div>

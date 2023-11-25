@@ -52,16 +52,17 @@ const ProductAnalytics =()=>{
   if(loading) {
     return(
     <p>Loading...</p>)}
-    const sentences =(list.message_value).split('\n')
-
+    const formattedMessage = list.message_value.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  const sentences = formattedMessage.split('\n');
+       
     return(
         <div>
             <ChakraProvider>
             <Link to='/components/product'><i class="fa-solid fa-chevron-left bac"></i></Link>
 <Card p={2} m={2} backgroundColor='#eff1fa' >
-<Heading fontSize='14px'>Product Analytics</Heading>
+<Heading fontSize='16px'>Product Analytics for {index.name}</Heading>
 {sentences.map((sentence, index) => (
-      <p key={index}>{sentence}</p>
+    <p key={index} dangerouslySetInnerHTML={{ __html: sentence }} />
     ))}<br/>
     <Text>Have a question? </Text>
 <div>
