@@ -15,7 +15,7 @@ const Cusdet=()=> {
 console.log(ite.id)
  const send =()=>{
   const data = ite
-  navigate('/components/cusdet', {state:{data}})
+  navigate('/components/customanalytics', {state:{data}})
  }
  
  

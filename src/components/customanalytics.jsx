@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
-import { Card, CardHeader, CardFooter, CardBody, SimpleGrid, Button, Heading, Text } from '@chakra-ui/react'
+import { Card, Button, Heading, Text } from '@chakra-ui/react'
 
 const CustAnalytics =()=>{
     const [list, setList] = useState('')
