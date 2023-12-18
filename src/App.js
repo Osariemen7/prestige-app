@@ -58,6 +58,9 @@ import People from './components/people'
 import ProductAnalytics from './components/productanalytic';
 import CustAnalytics from './components/customanalytics';
 import SalesAnalytics from './components/salesanalytics';
+import Getloy from './components/getloy';
+import Loydet from './components/getdet';
+import CreateLoyalty from './components/custloy';
 
 import { Analytics } from '@vercel/analytics/react';
 function App() {
@@ -129,6 +132,9 @@ function App() {
         <Route path='/components/productanayltic' element={<ProductAnalytics />} />
         <Route path='/components/salesanalytics' element={<SalesAnalytics />} />
         <Route path='/components/customanalytics' element={<CustAnalytics />} />
+        <Route path='/components/getloy' element={<Getloy />} />
+        <Route path='/components/getdet' element= {<Loydet />} />
+        <Route path='/components/custloy' element={<CreateLoyalty />} />
 
        
      </Routes>

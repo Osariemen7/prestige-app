@@ -82,8 +82,9 @@ useEffect(()=>{
     //   if (data.code === 'token_not_valid'){
     //     navigate('/components/token')
     //   } else {
-      let  lastThread = response[0];
-    
+      let  lastThread = response[0].thread_id;
+
+      setThread(response? lastThread : '')
      setCon(response)
      
       }
@@ -264,7 +265,7 @@ console.log(selectedMessage)
                 </ul>
             </nav>
             
-<nav className={rightbar ? 'nav-menu active2' : 'nav-menutwo'} >
+<nav className={rightbar ? 'nav-menu active2' : 'nav-menu'} >
 <ul className='nav-menu-item'>
 <Heading fontSize='15px' color="white" mt={3}>Previous Chat</Heading>
 {mappedMessages.map((message, index) => (

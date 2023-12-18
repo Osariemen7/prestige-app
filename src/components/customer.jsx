@@ -53,7 +53,13 @@ let refresh = terms(tok)
         }, [])
         console.log(list)
         console.log(list[0])
+        const createLoy=()=>{
+          navigate('/components/custloy')
+       }
 
+       const getLoy=()=>{
+         navigate('/components/getloy')
+      }
         
 
 
@@ -136,6 +142,10 @@ if(loading) {
             <p className='dnc'>Customer Base</p>
             <h4 className='cbl'>{list[0].customer_base}</h4>
           </div>
+        </div>
+        <div className='clup'>
+          <button className='loyb' onClick={createLoy}>Create Loyalty program</button>
+          <button className='loyb' onClick={getLoy}>Get Loyalty program</button>
         </div>
         <h3>Customers</h3>
         { myArray.length > 0 && typeof myArray[0] === 'object' ?(

@@ -2038,6 +2038,16 @@ form{
   .sco{
     color: green;
   }
+  .loyt{
+    display: flex;
+    gap: 32%;
+    padding: 0;
+    height: 20px;
+    font-size: 13px;
+  }
+  .loy2{
+    margin-left: 25%;
+  }
   .ax{
     border-top: 1px solid gainsboro;
     display: flex;
@@ -2067,6 +2077,17 @@ form{
     padding:0 1%;
     background-color: blue;
     border: none;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    color: #fff;
+  }
+  .loyb{
+    width: 160px;
+    height:30px;
+    padding:0 1%;
+    background-color: #0A1172;
+    border: none;
+    border-radius: 5px;
     margin-top: 5px;
     margin-bottom: 0px;
     color: #fff;

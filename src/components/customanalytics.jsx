@@ -61,7 +61,7 @@ const CustAnalytics =()=>{
         <div>
             <ChakraProvider>
             <Link to='/components/customer'><i class="fa-solid fa-chevron-left bac"></i></Link>
-            <Card p={2} m={2} backgroundColor='#eff1fa'>
+            <Card p={2} m={2} backgroundColor='#eff1fa' textAlign='left'>
 <Heading fontSize='16px'>CUSTOMER ANALYSIS FOR {ite.customer_name}</Heading>
 {sentences.map((sentence, index) => (
                     <p key={index} dangerouslySetInnerHTML={{ __html: sentence }} />
