@@ -397,12 +397,10 @@ console.log(selectedOption)
       <Text>₦{(finfo[0].input_value).toLocaleString('en-US')}</Text>
   </Card> 
 </SimpleGrid>
-<Stack direction='row' mt={1} spacing={2} align='center' justify='center'>
+<Stack direction='row' mt={1}  align='center' justify='center'>
 <Button colorScheme='blue' variant='solid' onClick={transfer}>
-    Add Product
-  </Button>
-    <Button colorScheme='blue' variant='outline' onClick={transfers}>Record a Sale</Button>
-</Stack>
+    Add Products to Inventory
+  </Button></Stack>
 
 </Card>): (<Card m={5}  >
             <Card m={2} >
@@ -435,11 +433,10 @@ console.log(selectedOption)
     
   </Card> 
 </SimpleGrid>
-<Stack direction='row' mt={2} spacing={2} align='center' justify='center'>
+<Stack direction='row' mt={2}  align='center' justify='center'>
 <Button colorScheme='blue' variant='solid' onClick={transfer}>
-    Add Product
+    Add Products to Inventory
   </Button>
-  <Button colorScheme='blue' variant='outline' onClick={transfers}>Record a Sale</Button>
 </Stack>
 
 </Card>)}

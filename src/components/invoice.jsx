@@ -461,12 +461,7 @@ const optio = ['item', 'pack'];
                    </ul></div>
                       <p>Total: ₦{total}</p>
                          
-                  <div className='cules'>
-                  <p>Expected Payment:</p>
-                  <p></p>
-                  <p>₦{(tots).toLocaleString()}</p>
-                  </div>
-                  <hr className='hr1'></hr>
+                                <hr className='hr1'></hr>
   
                   </div> 
                   

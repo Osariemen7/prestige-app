@@ -353,7 +353,7 @@ const options = [
         <p>Loading...</p>)} 
         console.log(daily)
         let sale = daily[daily.length - 1].revenue
-
+        let target = daily[daily.length - 1].rev_target
         const reverse = [...list.sales].reverse();
         console.log(reverse)
 
@@ -409,6 +409,7 @@ const options = [
                <h3 className='h1'>{name[0].business_name}</h3>
               <p className='dp'>Today's Sale</p>
               <Heading size='xl' color='#fff'>₦{parseFloat(sale).toLocaleString('en-US')}</Heading>
+              <Text fontSize='10px' color='#fff'>Today's Target: ₦{parseFloat(target).toLocaleString('en-US')}</Text>
               <Link to='/components/invoice'><button className='dbut'>Record a Sale</button></Link>
             </div>
 <Heading fontSize='15px' textAlign='left' ml='15px'>Activity</Heading>
@@ -428,7 +429,7 @@ const options = [
     <div className="tg">
     <Text mb={0} >{(new Date(obj.time)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</Text>
     
-    {obj.verified !== true? (<Button colorScheme='red' onClick={() => receipt(index)} size='xs' outline='solid'>Verify Sales</Button>): null}     </div>
+    {obj.verified !== true? (<Button colorScheme='red' onClick={() => receipt(index)} size='xs' outline='solid'>Verify Sale</Button>): null}     </div>
     
     {obj.sold_products.filter(product=> product.product_name.toLowerCase().includes(searchTerm.toLowerCase()))
   .map((product, inde) => (

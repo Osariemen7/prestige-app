@@ -34,9 +34,9 @@ const Dashboard =()=>{
  const term = (selectedValue, users, infos, mon) => {
   let val;
 
-  if (selectedValue.label === 'Weekly') {
+  if (selectedValue.label === 'WEEKLY') {
     val = infos ;
-  }else if(selectedValue.label === 'Monthly'){
+  }else if(selectedValue.label === 'MONTHLY'){
     val = mon
   }
    else {
