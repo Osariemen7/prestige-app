@@ -253,7 +253,7 @@ const optio = ['item', 'pack'];
         let product_type = 'PRODUCT'
         let pack_size= pack_size1
         let amount = tota
-        let reward = selectedPrize
+        
       
         let quantity_type = type.map(tod => tod.value)
         let name = item.map(todo => todo.value)
@@ -270,7 +270,7 @@ const optio = ['item', 'pack'];
           amount: amount
         }));
         let products = separatedData
-        let ite = {products, payment_method, reward}
+        let ite = {products, payment_method}
       try {
         let result = await fetch('https://api.prestigedelta.com/salestips/', {
           method: 'POST',
@@ -370,7 +370,7 @@ const optio = ['item', 'pack'];
             amount: amount
           }));
           let products = separatedData
-          let ite = {products, payment_method, reward}
+          let ite = {products, payment_method}
         try {
           let result = await fetch('https://api.prestigedelta.com/sellproducts/', {
             method: 'POST',
@@ -477,9 +477,9 @@ const optio = ['item', 'pack'];
                  {valid === 'Valid' ? (<Button colorScheme='blue' variant='solid' onClick={done}>Back</Button>):      
                <Stack direction='row' spacing={2} align='center' justify='center'>        
                    <Button colorScheme='blue' variant='solid' onClick={modal1.onOpen}>Add Product</Button> 
-              { item.length !== 0 ? (  <div> {selectedPrize === ''? (<Button colorScheme='blue' variant='solid' onClick={modal2.onOpen}>Save</Button>): <div>{buttonVisible && (<Button colorScheme='blue' variant='solid' onClick={sprod}>Save Payment</Button> 
+              { item.length !== 0 ? (  <div>  <div>{buttonVisible && (<Button colorScheme='blue' variant='solid' onClick={sprod}>Save Payment</Button> 
                    )}
-        {!buttonVisible && <Spinner />}</div>}</div>): null }
+        {!buttonVisible && <Spinner />}</div></div>): null }
                     </Stack>} <br/>
                 {item.length !== 0 ?( <div> 
                   {buttonVisible && ( <Button  colorScheme='blue' variant='outline' onClick={creat} >Get Sales Tips</Button>

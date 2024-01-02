@@ -14,7 +14,7 @@ const Accounts =()=> {
   const [loading, setLoading] = useState(true)
   const [sidebar, setSidebar] = useState('')
   const [start, setStart] = useState('')
-  const [end, setEnd] = useState('')
+  const [end, setEnd] = useState(new Date())
   const [buttonEnabled, setButtonEnabled] = useState(false);
 
 
@@ -129,8 +129,8 @@ const toggleHidden =()=>{
           }, [])
   
 
-          const Infow = async (e) => {
-            e.preventDefault()
+          const Infow = async () => {
+          
             let item ={refresh}
             let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
                 method: 'POST',
@@ -312,8 +312,7 @@ return(
                 </ul>
             </nav>
             </div>
-             <div className="dash"
-             >
+             <div className="dash">
                 <h3 className="h1">Account</h3>
                 <p className='dp'>Total Balance</p>
                 { hidden ? <i onClick={toggleHidden} class="fa-regular fa-eye-slash see"></i> : <i class="fa-regular fa-eye see" onClick={toggleHidden}></i>}

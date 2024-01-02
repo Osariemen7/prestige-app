@@ -70,25 +70,27 @@ console.log(meal)
             
             <Button colorScheme='black'  variant='outline'>{toSentenceCase(list[0].business_name)}</Button>
             <Card backgroundColor='#f2f4f7' m={4} >
-             <Text justify='red' fontSize='12px'>{(new Date(meal.time)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</Text>
-            <Text>Method of Payment: {meal.channel}</Text>
             <Stack direction='column'mb={0} gap='10px' mt={3} spacing={4} align='center' justify='left'>
                <Stack direction='row'mb={2} gap='30px' mt={0} spacing={2} align='center' justify='center'>
-                 <Heading size='xs'>Product</Heading>
-                 <Text>{meal.sold_products[0].product_name}</Text>
+                 <Heading size='xs'>Product Name</Heading>
+                 <Text>{meal.product_name}</Text>
                </Stack>
                <Stack direction='row'mb={2} gap='30px' mt={0} spacing={2} align='center' justify='center'>
                <Heading size='xs'>Amount</Heading>
-                 <Text>₦{(meal.sold_products[0].sold_amount).toLocaleString('en-US')}</Text>
+                 <Text>₦{(meal.sold_amount).toLocaleString('en-US')}</Text>
                </Stack>
                <Stack direction='row'mb={2} gap='30px' mt={0} spacing={2} align='center' justify='center'>
                  <Heading size='xs'>Quantity</Heading>
-                 <Text>{meal.sold_products[0].sold_quantity}</Text>
+                 <Text>{meal.sold_quantity}</Text>
                </Stack>
                <Stack direction='row'mb={2} gap='30px' mt={0} spacing={2} align='center' justify='center'>
                <Heading size='xs'>Quantity Type</Heading>
-                 <Text>{meal.sold_products[0].quantity_type}</Text>
-               </Stack>          
+                 <Text>{meal.quantity_type}</Text>
+               </Stack>   
+               <Stack direction='row'mb={2} gap='30px' mt={0} spacing={2} align='center' justify='center'>
+               <Heading size='xs'>Product Type</Heading>
+                 <Text>{meal.product_type}</Text>
+               </Stack>        
       </Stack>
 </Card>
             </ChakraProvider>

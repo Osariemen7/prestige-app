@@ -334,6 +334,10 @@ const options = [
       }
       const receipt =(index)=>{
         const data = reverse[index]
+        navigate('/components/salesverify', {state:{data}} )
+      }
+      const invoice =(index)=>{
+        const data = reverse[index].sold_products[index]
         navigate('/components/pinvoice', {state:{data}} )
       }
       const overdraft= ()=>{
@@ -348,7 +352,7 @@ const options = [
         return(
         <p>Loading...</p>)} 
         console.log(daily)
-        let sale = daily[daily.length - 1].sales
+        let sale = daily[daily.length - 1].revenue
 
         const reverse = [...list.sales].reverse();
         console.log(reverse)
@@ -420,17 +424,17 @@ const options = [
         <Button colorScheme='blue' variant='outline' 
          w='230px' onClick={() => salesTra()}>Filter</Button><br/><br/>
 {reverse.map((obj, index) => (
-  <div className="td2" key={index} onClick={() => receipt(index)}>
+  <div className="td2" key={index} >
     <div className="tg">
     <Text mb={0} >{(new Date(obj.time)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</Text>
     
-    <div className='loos'><span>invoice </span><i className="fa-solid fa-file-export"></i></div>
-    </div>
+    {obj.verified !== true? (<Button colorScheme='red' onClick={() => receipt(index)} size='xs' outline='solid'>Verify Sales</Button>): null}     </div>
     
     {obj.sold_products.filter(product=> product.product_name.toLowerCase().includes(searchTerm.toLowerCase()))
   .map((product, inde) => (
-      <div key={inde}>
-      <Stack  direction='row'mt={0} mb={0} gap='115px' spacing={2} align='center' justify='center'>
+    <div key={inde} onClick={() => invoice(index)} >
+      <div className='loos'><span>invoice </span><i className="fa-solid fa-file-export"></i></div>
+<Stack  direction='row'mt={0} mb={0} gap='115px' spacing={2} align='center' justify='center'>
       <Text fontSize='13px'>Product:</Text>
       <Heading mt={0} fontSize='13px' className="ove">{product.product_name}</Heading>    
       </Stack>

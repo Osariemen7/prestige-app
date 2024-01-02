@@ -122,7 +122,7 @@ if(loading) {
             </nav>
            <h3 className='saed'>Business Profile</h3>
            <p className='svin'>Get to know your customers</p>
-           <h4>{list[0].business_name}</h4>
+           <h4 className='clun'>{list[0].business_name}</h4>
            <div className='clup'>
           <div className='blc'>
             <p className='dnc'>Nature of business</p>

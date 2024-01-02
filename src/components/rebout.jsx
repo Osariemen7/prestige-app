@@ -52,6 +52,7 @@ const terms = (tok) => {
         let bvn = locs.pers.bvn
         let state = locs.state
         let city = locs.city
+        let is_customer = false
         let ite ={refresh}
         let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
             method: 'POST',
@@ -66,7 +67,7 @@ const terms = (tok) => {
         
           setCreateanchoruser(create_anchor_user)
           console.warn(gender, address, dob, bvn, city, state, business_name, business_type, create_anchor_user)
-          let item = {gender, address, dob, bvn, city, state, business_name, business_type, create_anchor_user};
+          let item = {gender, address, dob, bvn, city, is_customer, state, business_name, business_type, create_anchor_user};
           let result = await fetch ('https://api.prestigedelta.com/updateuser/',{
               method: 'POST',
               headers:{
