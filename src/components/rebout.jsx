@@ -5,7 +5,6 @@ const Business=()=>{
     const [message, setMessage] = useState("");
     const [business_name, setBusinessname] = useState('');
     const [business_type, setBusinesstype] = useState('');
-    const [create_anchor_user, setCreateanchoruser] = useState(true);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -44,49 +43,16 @@ const terms = (tok) => {
         setBusinesstype(event.target.value)
     }
 
-    async function bus(e) {
-        e.preventDefault();
-        let gender =locs.pers.gender
-        let address = locs.address
-        let dob = locs.pers.dob
-        let bvn = locs.pers.bvn
-        let state = locs.state
-        let city = locs.city
-        let is_customer = false
-        let ite ={refresh}
-        let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
-            method: 'POST',
-            headers:{
-              'Content-Type': 'application/json',
-              'accept' : 'application/json'
-         },
-         body:JSON.stringify(ite)
-        });
-        rep = await rep.json();
-        let bab = rep.access_token
-        
-          setCreateanchoruser(create_anchor_user)
-          console.warn(gender, address, dob, bvn, city, state, business_name, business_type, create_anchor_user)
-          let item = {gender, address, dob, bvn, city, is_customer, state, business_name, business_type, create_anchor_user};
-          let result = await fetch ('https://api.prestigedelta.com/updateuser/',{
-              method: 'POST',
-              headers:{
-                'Content-Type': 'application/json',
-                'accept' : 'application/json',
-                'Authorization': `Bearer ${bab}`
-           },
-           body:JSON.stringify(item)
-          });
-        
-          if (result.status !== 200) {
-            result = await result.json()
-            setMessage(JSON.stringify(result));
-          } else {
-            result = await result.json();
-          localStorage.setItem('user-info', JSON.stringify(tok)) 
-          navigate('/components/reboard')
+        const bus=(e)=>{
+          e.preventDefault()
+          let data ={business_name, business_type, locs}
+          if ( business_name.length < 1 || business_type.length < 1){
+            setMessage('All Fields must be Filled')
           }
-        }
+          else {
+          
+          navigate('/components/last', {state:{data}})
+        }}
      console.log(tok)
     return(
         <div>

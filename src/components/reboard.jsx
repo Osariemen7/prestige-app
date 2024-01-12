@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Select from "react-select";
 
 const Bud=()=>{
@@ -7,22 +7,24 @@ const Bud=()=>{
     const [budget1, setBudget1] = useState(0);
     const [budget2, setBudget2] = useState(0);
     const [budget4, setBudget4] = useState(0)
-    const [budget, setBudget] = useState(0)
     const [profit, setProfit] = useState(0);
     const [rev, setRevenue] = useState(0)
-    const [total, setTotal] = useState(0)
+    const location = useLocation()
     const navigate = useNavigate()
-
+    
+    const hus = location.state.data
     const optio = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
     const opt = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     const option = optio.map((p) => ({
       label: `${p}%`,
       value: p,
     }));
+    
     const opti = opt.map((p) => ({
       label: `${p}%`,
       value: p,
     }));
+    
     let tok = JSON.parse(localStorage.getItem("user-info"));
     const terms = (tok) => {
         let refreshval;
@@ -47,9 +49,7 @@ const Bud=()=>{
    const handleRevenue =(rev)=> {
     setRevenue(rev)
 }
-    const handleBuget=(event)=> {
-      setBudget(event.target.value)
-  }
+    
     const handleBuget2 =(event)=> {
         setBudget2(event.target.value)
     }
@@ -58,9 +58,8 @@ const Bud=()=>{
         setBudget4(event.target.value)
          }
    
-        const newTotal=parseFloat(budget1) + (parseFloat(budget2)  + parseFloat(budget4)) ;
-         
-      
+  const newTotal=parseFloat(budget1) + (parseFloat(budget2)  + parseFloat(budget4)) ;
+               
 console.log(parseFloat(budget2)  + parseFloat(budget4))
     async function bus(e) {
         e.preventDefault();
@@ -81,12 +80,12 @@ console.log(parseFloat(budget2)  + parseFloat(budget4))
           let item = {profit_growth, revenue_growth,
             sub_accounts: [
                 {
-                  name: "GENERAL EXPENSE",
+                  name: "OPERATIONAL EXPENSE",
                   account_type: "EXPENSE",
                   budget: budget1, // Replace with the actual state variable for buget1
                 },
                 {
-                  name: "SALARIES",
+                  name: "OWNER SALARIES",
                   account_type: "EXPENSE",
                   budget: budget2, // Replace with the actual state variable for buget2
                 },
@@ -107,22 +106,21 @@ console.log(parseFloat(budget2)  + parseFloat(budget4))
            },
            body:JSON.stringify(item)
           });
-          if (result.status !== 201 || newTotal !== budget) {
+          if (result.status !== 201) {
             result = await result.json()
             setMessage(JSON.stringify(result.message));
           } else {
             result = await result.json();
           localStorage.setItem('user-info', JSON.stringify(tok)) 
-          navigate('/components/review', {state:{item}})
+          navigate('/components/Thanks', {state:{item}})
           }
         }
+        
 
     return(
         <div>
         <h2>Set your Monthly Budget</h2>
         <form>
-        <p className="sp">What is your intended revenue for the Month?</p>
-            <input className="line" type='number' onChange={handleBuget} /><br/><br/>
             <p className="sp">what is you intended Monthly revenue growth?</p>
             <Select
       onChange={handleRevenue}
@@ -144,7 +142,7 @@ console.log(parseFloat(budget2)  + parseFloat(budget4))
       isSearchable={true}
       value={profit}
     />
-            <p className="sp">How much are you spending on salaries <br/>monthly?</p>
+            <p className="sp">Set the monthly salary {hus.ans.business_name} will pay you <br/>monthly?</p>
             <input className="line" type='number' onChange={handleBuget2} /><br/><br/> 
             <p className="sp">How much do spend on other expenses per month?</p>
             <input className="line" type='number' onChange={handleBuget4} /><br/><br/>

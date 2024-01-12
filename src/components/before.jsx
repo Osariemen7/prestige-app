@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { ChakraProvider } from '@chakra-ui/react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import { Button, Stack, Input, Heading, useDisclosure,Card, Spinner, CardBody  } from "@chakra-ui/react"
 import CreatableSelect from 'react-select/creatable';
@@ -33,9 +33,15 @@ const BuyP =()=>{
   const [product, setProduct] = useState([])
   const [payment_method, setPayment] = useState('TRANSFER')
   const [info, setInfo] = useState([])
-
+ const location = useLocation()
   const navigate = useNavigate()
-  let tok= JSON.parse(localStorage.getItem("user-info"));
+  const data = location.state && location.state.data;
+  useEffect(() => {
+    setInputVa(data ? { label: data.inputVa.value, value: data.inputVa.value } : '');
+    setInputValue(data ? data.inputValue : '');
+  }, []);
+  console.log(data)
+    let tok= JSON.parse(localStorage.getItem("user-info"));
   const terms = (tok) => {
      let refreshval;
 
@@ -352,7 +358,15 @@ const options = product.map((item) => ({
           <ModalBody>
            <h3 className='h4'></h3>
             <form >
+{data ?(<div>
+<Input placeholder="Enter product/service" ml={9}
+onChange={handleInputchan} width={273}
+value={data.inputVa.value} /><br/><br/>
+<Input placeholder='Quantity Bought' size='md'
+ onChange={handleInputchan}
+ value ={data.inputValue} width={273} ml={9}/><br/><br/>
             
+</div>):( <div>           
   <CreatableSelect
         className="pne"
         placeholder="Enter product/service"
@@ -360,13 +374,14 @@ const options = product.map((item) => ({
         isSearchable={true}
         onChange={handleInputchan}
         value={inputVa}
-        onCreateOption={handleAddProduct} // Handle adding a new option
+        onCreateOption={handleAddProduct} 
         isClearable={true} 
 
       /><br/>
             
+            <Input placeholder='Quantity Bought' size='md' onChange={handleInputChange} width={273} ml={9}/><br/><br/></div>)}
             <Input placeholder='Price of a single item/pack/service' size='md' onChange={handleInputChang} width={273} ml={9}/><br/><br/>
-            <Input placeholder='Quantity Bought' size='md' onChange={handleInputChange} width={273} ml={9}/><br/><br/>
+           
             <Select
       onChange={handleInputCha}
       className="pne"

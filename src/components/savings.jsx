@@ -129,6 +129,14 @@ let refresh = terms(tok)
       }
     ;
     }
+    const operate = (index) => {
+      const data = total[index];
+      if (data.name === 'OPERATIONAL EXPENSE') {
+        navigate('/components/save', { state: { data } });
+      } else {
+        navigate('/components/detail', { state: { data } });
+      }
+    };
     const show=(index)=>{
       const data = total[index]
        navigate('/components/detail', {state:{data}})
@@ -192,7 +200,7 @@ let refresh = terms(tok)
            </div>
            
            {total.map((obj, index) => (
-  <div key={index} className='spt' onClick={() => show(index)}>
+  <div key={index} className='spt' onClick={() => operate(index)}>
     <div className='bfle'>
       <img src={add} alt='' className='wad' />
       <span>{obj.name}</span>
@@ -214,7 +222,7 @@ let refresh = terms(tok)
       <div>
         <div className='bfle'>
           <p className='clun' key={index}>0%</p>
-          <p className='clun'>₦{obj.spent.toLocaleString('en-US')} / ₦{obj.budget.toLocaleString('en-US')}</p>
+          <p className='clun'>₦{obj.balance.available_balance.toLocaleString('en-US')}</p>
         </div>
         <div className="progress-b" style={{ width: '100%' }}>
           <div className="progress-bi" style={{ width: '0%' }}>

@@ -326,7 +326,7 @@ const openModal = () => {
               });
               if (resut.status !== 200) {
                 const errorResult = await resut.json();
-                setError(JSON.stringify(errorResult));
+                setError(JSON.stringify(errorResult.message));
               } else {
                  resut =await resut.json();
                     setTock(JSON.stringify(resut))}

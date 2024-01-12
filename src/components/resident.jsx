@@ -130,8 +130,7 @@ const Resident =()=>{
         if ( city.length < 1 || state.length < 1 || address.length < 1){
           setMessage('All Fields must be Filled')
         }
-        else {
-        
+        else { 
         navigate('/components/rebout', {state:{data}})
       }}
     return(
@@ -185,7 +184,7 @@ const Resident =()=>{
                  <br/>
                  <p className='sp'>City</p>
                  <input className="line" onChange={handleCity} type="text" placeholder="Enter City" /><br/>
-                 <p className='sp'>Select Category</p>
+                 <p className='sp'>Are you registering as a business owner or customer?</p>
                  <select onChange={handleCategory} className="line" placeholder="Enter State">
                     <option></option>
                     <option>Customer</option>

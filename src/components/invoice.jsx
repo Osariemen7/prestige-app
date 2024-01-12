@@ -149,9 +149,16 @@ const optio = ['item', 'pack'];
       label: `${item.name} 
       (Pack:${item.pack_no}, Item:${item.item_no})`,
         value: item.name,
-        team:  item.pack_size,
-        mony: item.pack_cost,
+        team:  item.item_no,
+        mony: item.pack_no,
     }));
+    const isZeroPackOrItem = (select) => {
+      if (!select) {
+        return false; // Handle the case when no option is selected
+      }
+      const { pack_no, item_no } = select;
+      return pack_no === 0 || item_no === 0;
+    };
     // let amount = parseFloat(price) * parseFloat(quantity)
     // let tota =(amount.reduce((total, to) => {
     //   return total + parseFloat (to);
@@ -395,7 +402,8 @@ const optio = ['item', 'pack'];
         };
       }
       const beef =() =>{
-        navigate('/components/before')
+        const data = {inputVa, inputValue}
+        navigate('/components/before', {state:{data}})
       }
       const done =()=> {
         navigate('/components/inventory')
@@ -515,8 +523,11 @@ const optio = ['item', 'pack'];
           <div>
           <Input placeholder='No of items in pack/carton'  size='md' onChange={handlePack} width={273} ml={9} /><br/>
           <br/></div>): null}   
-                                     
-                  <Button colorScheme='blue' onClick={handleFormSubmit}>Add</Button>
+          {inputVa.mony !== 0 || inputVa.team !== 0 ? (
+      <Button colorScheme='blue' onClick={handleFormSubmit} >Add</Button>
+    ) : (
+      <Button colorScheme='blue' onClick={beef}>Restock</Button>
+    )}                    
               </form>
               </ModalBody>
               </ModalContent>
@@ -554,7 +565,8 @@ const optio = ['item', 'pack'];
               </ModalContent>
         </Modal>
   
-        </ChakraProvider></div>):<ChakraProvider> <div><Button colorScheme='black' variant='outline'>{toSentenceCase(list[0].business_name)}</Button><br/> <Button colorScheme='blue' variant='solid' mt='10px' onClick={beef}>Restock</Button></div></ChakraProvider>}
+        </ChakraProvider></div>):<ChakraProvider> <div><Button colorScheme='black' variant='outline'>{toSentenceCase(list[0].business_name)}</Button><br/>
+         <Button colorScheme='blue' variant='solid' mt='10px' >Restock</Button></div></ChakraProvider>}
         <div className="message">{message ? <p>{message}</p> : null}</div>
         </div>
       )

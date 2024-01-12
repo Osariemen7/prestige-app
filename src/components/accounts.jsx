@@ -40,6 +40,13 @@ const Accounts =()=> {
     };
     let refresh = terms(tok)
 
+    const send = ()=>{
+      if (tok.user.paystack_verify_status === 'NOT_VERIFIED' ){
+        navigate('/components/update')
+      } else {
+        navigate('/components/fund')
+      }
+    }
     const read = info.transactions
     const receipt =(index)=>{
       if (buttonEnabled) {
@@ -318,7 +325,7 @@ return(
                 { hidden ? <i onClick={toggleHidden} class="fa-regular fa-eye-slash see"></i> : <i class="fa-regular fa-eye see" onClick={toggleHidden}></i>}
                 <Heading size='lg' mt={0} color='#fff'>{hidden}</Heading>
                 <div >
-               <Link to='/components/fund'><Button mb={2} colorScheme='blue' variant='solid' >Add Funds</Button></Link> 
+               <Button mb={2} colorScheme='blue' variant='solid' onClick={send} >Add Funds</Button>
                 </div>
              </div>
              

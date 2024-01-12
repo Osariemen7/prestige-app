@@ -63,27 +63,27 @@ if(loading) {
            <Link to='/components/accounts'>
            <i class="fa-solid fa-chevron-left bac"></i>
            </Link> 
-            <h1>Fund via bank transfer</h1>
+            <h2 className=''>Fund via bank transfer</h2>
             <p className='dfp2'>To add fund to your prestige account, make a transfer to the account below. Funds should reflect instantly</p>
             <div className="fflex">
                 <img src={account_balance} alt=''/>
                 <div>
                   <p className='fdiv'>Bank</p>
-                  <h3 className='dh3'>{data.bank}</h3>
+                  <h4 className='dh3'>{data.bank}</h4>
                 </div>   
             </div>
             <div className="fflex">
                 <img src={user} alt=''/>
                 <div>
                   <p className='fdiv'>Account Name</p>
-                  <h3 className='dh3'>{data.account_name}</h3>
+                  <h4 className='dh3'>{data.account_name}</h4>
                 </div>   
             </div>
             <div className="fflex">
                 <img src={f123} alt=''/>
                 <div>
                   <p className=''>Account Number</p>
-                  <h3 className='dh3'>{data.account_number}</h3>
+                  <h4 className='dh3'>{data.account_number}</h4>
                 </div>   
             </div>
             
