@@ -65,6 +65,8 @@ import Enter from './components/getin';
 import Loyalty from './components/loyalty';
 import View from './components/view';
 import SalesVerify from './components/salesverify';
+import Update from './components/update';
+import Last from './components/last'
 
 
 import { Analytics } from '@vercel/analytics/react';
@@ -144,6 +146,9 @@ function App() {
         <Route path='/components/loyalty' element={<Loyalty />} />
         <Route path='/components/view' element={<View />} />
         <Route path='/components/salesverify' element={<SalesVerify />} />
+        <Route path='/components/update' element={<Update />} />
+        <Route path='/components/last' element={<Last />} />
+        
        
      </Routes>
       

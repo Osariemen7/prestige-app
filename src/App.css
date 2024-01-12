@@ -1414,6 +1414,7 @@ form{
   }
   .dh3{
     margin: 0;
+    text-align: left;
   }
   .dash{
     background: url(/src/components/images/outlined.svg) no-repeat;
