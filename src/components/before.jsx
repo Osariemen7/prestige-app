@@ -38,9 +38,10 @@ const BuyP =()=>{
   const data = location.state && location.state.data;
   useEffect(() => {
     setInputVa(data ? { label: data.inputVa.value, value: data.inputVa.value } : '');
-    setInputValue(data ? data.inputValue : '');
+    setInputValue(data ? (data.inputValue !== '' ? data.inputValue : '') : '');
   }, []);
-  console.log(data)
+
+   console.log(data)
     let tok= JSON.parse(localStorage.getItem("user-info"));
   const terms = (tok) => {
      let refreshval;
@@ -179,7 +180,7 @@ const options = product.map((item) => ({
     };
   
   let refresh = terms(tok)
-  
+  console.log(data)
   const fetchDa = async () => {
       let item ={refresh}
       let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
@@ -362,9 +363,14 @@ const options = product.map((item) => ({
 <Input placeholder="Enter product/service" ml={9}
 onChange={handleInputchan} width={273}
 value={data.inputVa.value} /><br/><br/>
+{data.inputValue === ''? <div>
 <Input placeholder='Quantity Bought' size='md'
- onChange={handleInputchan}
- value ={data.inputValue} width={273} ml={9}/><br/><br/>
+onChange={ handleInputChange}
+width={273} ml={9}/><br/><br/></div>
+: <div>
+<Input placeholder='Quantity Bought' size='md'
+onChange={ handleInputChange}
+  value={data.inputValue} width={273} ml={9}/><br/><br/></div>}
             
 </div>):( <div>           
   <CreatableSelect

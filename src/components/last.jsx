@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { Helmet } from "react-helmet";
 import Select from 'react-select';
 import { Link, useNavigate, useLocation } from "react-router-dom"
-import { ChakraProvider, InputGroup } from '@chakra-ui/react';
+import { ChakraProvider, InputGroup, Spinner } from '@chakra-ui/react';
 import { Input, InputRightElement, Button, Heading, Text } from '@chakra-ui/react'
  
 const Last =()=>{
@@ -12,6 +12,8 @@ const [nuban, setNuban] = useState('')
 const [selectedOption, setSelectedOption] = useState(null)
 const [users, setUsers] = useState('')
 const [messag, setMessag] = useState('')
+const [buttonVisible, setButtonVisible] = useState(true);
+
 const [create_anchor_user, setCreateanchoruser] = useState(true);
 const location = useLocation();
 
@@ -79,6 +81,7 @@ const fetchDa = async () => {
         
          async function bus(e) {
           e.preventDefault();
+          handleClick()
           let gender =ans.locs.pers.gender
           let address =ans.locs.address
           let dob =ans.locs.pers.dob
@@ -157,7 +160,13 @@ async function ema(e) {
      setUsers(response)
      
       }
-    
+      const handleClick = () => {
+        // When the button is clicked, setButtonVisible to false
+        setButtonVisible(false);
+        setTimeout(() => {
+          setButtonVisible(true);
+        }, 5000);
+      };
     useEffect(() => {
     if (selectedOption !== '' && nuban.length=== 10) {
       fetchData();
@@ -201,8 +210,11 @@ async function ema(e) {
           /><br/><br/>
           <div >{users ? <div><p className="me">{users.account_name}</p><br/></div> : null}</div>
 <br/>              
-          <button className="logb" onClick={bus}>Next</button>
-         
+{buttonVisible && (<button className="logb" onClick={bus}>Next</button>
+       )}  
+       {!buttonVisible && <Spinner />} 
+            <div className="message">{messag ? <p>{messag}</p> : null}</div>
+     
           </ChakraProvider>
         </div>
     )

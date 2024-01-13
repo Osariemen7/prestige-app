@@ -111,14 +111,14 @@ if (users.length >= 7) {
   const lastSevenUsers = sure.slice(-7);
 
   sata.datasets.push({
-    label: "Revenue",
+    label: "Expense",
     backgroundColor: "rgba(75, 192, 192, 0.2)",
     borderColor: "rgba(75, 192, 192, 1)",
     borderWidth: 1,
     data: lastSevenUsers.map((user) => user.expense),
   });
   sata.datasets.push({
-    label: "Revenue Target",
+    label: "Expense Target",
     backgroundColor: "rgba(255, 99, 132, 0.2)",
     borderColor: "rgba(255, 99, 132, 1)",
     borderWidth: 1,
@@ -460,7 +460,7 @@ if(loading) {
             <Card backgroundColor='#eff1fa' m={3} >
                 <Heading size='sm'>Revenue</Heading>
                 <Bar data={data} options={options} />
-                <Text fontSize='12px'> Revenue Per Sales - ₦{parseFloat(sure[0].rps).toLocaleString('en-US')}</Text>
+                <Text fontSize='12px'> Average Sale Amount - ₦{parseFloat(sure[0].rps).toLocaleString('en-US')}</Text>
                <Text fontSize='12px'>Revenue Per Customer - ₦{parseFloat(sure[0].rpc).toLocaleString('en-US')}</Text>
            <div><Button mb={2} mt={1} colorScheme='blue' onClick={revenue} variant='outline' >Report on Analytics</Button>
            </div></Card>

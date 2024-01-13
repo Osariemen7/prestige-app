@@ -54,7 +54,7 @@ const Invoice =()=> {
     const [payment_method, setPayment] = useState('')
     const [outline, setOutline] = useState('');
     const [message, setMessage] = useState('')
-    const [messages, setMessages] = useState('')
+    const [messag, setMessag] = useState('Out of Stock please Restock')
     const [valid, setValid] = useState('')
     const [buttonVisible, setButtonVisible] = useState(true);
     const modal1 = useDisclosure()
@@ -152,13 +152,7 @@ const optio = ['item', 'pack'];
         team:  item.item_no,
         mony: item.pack_no,
     }));
-    const isZeroPackOrItem = (select) => {
-      if (!select) {
-        return false; // Handle the case when no option is selected
-      }
-      const { pack_no, item_no } = select;
-      return pack_no === 0 || item_no === 0;
-    };
+    
     // let amount = parseFloat(price) * parseFloat(quantity)
     // let tota =(amount.reduce((total, to) => {
     //   return total + parseFloat (to);
@@ -522,11 +516,14 @@ const optio = ['item', 'pack'];
         {inputV.label !== 'item' || inputVa.label === options ? (
           <div>
           <Input placeholder='No of items in pack/carton'  size='md' onChange={handlePack} width={273} ml={9} /><br/>
-          <br/></div>): null}   
+          <br/></div>): null}  
+         
           {inputVa.mony !== 0 || inputVa.team !== 0 ? (
       <Button colorScheme='blue' onClick={handleFormSubmit} >Add</Button>
     ) : (
-      <Button colorScheme='blue' onClick={beef}>Restock</Button>
+      <div ><p className="message">{messag}</p>
+      
+      <Button colorScheme='blue' onClick={beef}>Restock</Button></div>
     )}                    
               </form>
               </ModalBody>
@@ -567,6 +564,7 @@ const optio = ['item', 'pack'];
   
         </ChakraProvider></div>):<ChakraProvider> <div><Button colorScheme='black' variant='outline'>{toSentenceCase(list[0].business_name)}</Button><br/>
          <Button colorScheme='blue' variant='solid' mt='10px' >Restock</Button></div></ChakraProvider>}
+         
         <div className="message">{message ? <p>{message}</p> : null}</div>
         </div>
       )

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import account_balance from './images/account_balance.svg';
 import user from './images/user.svg';
 import f123 from './images/f123.svg';
@@ -10,6 +10,25 @@ const FundPage =()=>{
   const [data, setData] = useState('')
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
+
+  const CopyButton = ({ textToCopy }) => {
+    const textRef = useRef(null);
+  
+    const copyToClipboard = async () => {
+      try {
+        await navigator.clipboard.writeText(textToCopy);
+        alert('Copied to clipboard!');
+      } catch (err) {
+        console.error('Unable to copy to clipboard.', err);
+      }
+    };
+  
+    return (
+      <div>
+        <button className='copy' onClick={copyToClipboard}>Copy</button>
+      </div>
+    );
+  };
   let tok= JSON.parse(localStorage.getItem("user-info"));
 const term = (tok) => {
   let refval;  
@@ -77,6 +96,7 @@ if(loading) {
                 <div>
                   <p className='fdiv'>Account Name</p>
                   <h4 className='dh3'>{data.account_name}</h4>
+                  
                 </div>   
             </div>
             <div className="fflex">
@@ -84,7 +104,8 @@ if(loading) {
                 <div>
                   <p className=''>Account Number</p>
                   <h4 className='dh3'>{data.account_number}</h4>
-                </div>   
+                </div>  
+                <CopyButton textToCopy={data.account_number} />
             </div>
             
         </div>
