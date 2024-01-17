@@ -72,8 +72,9 @@ const LoginPage = () => {
         } else if (result.user.nuban_set !== true) {
           localStorage.setItem('user-info', JSON.stringify(result))
           navigate('/components/thanks', {state:{result}})
-        } 
-        else if(result.user.is_customer === true){
+        } else if (result.user.has_bank_account !== true){
+          navigate('/components/personal')
+        } else if(result.user.is_customer === true){
           localStorage.setItem('user-info', JSON.stringify(result));
           navigate('/components/loyalty')
         }else {
