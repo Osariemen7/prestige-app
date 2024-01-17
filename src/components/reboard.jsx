@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useLocation, useNavigate } from "react-router-dom";
 import Select from "react-select";
 
@@ -9,10 +9,15 @@ const Bud=()=>{
     const [budget4, setBudget4] = useState(0)
     const [profit, setProfit] = useState(0);
     const [rev, setRevenue] = useState(0)
+    const [thread, setThread] = useState('')
     const location = useLocation()
     const navigate = useNavigate()
     
-    const hus = location.state.data
+    
+    const hus = location.state && location.state.data;
+useEffect(()=>{
+setThread(hus ? hus.ans.business_name : 'your business');
+},[])
     const optio = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
     const opt = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     const option = optio.map((p) => ({
@@ -142,7 +147,7 @@ console.log(parseFloat(budget2)  + parseFloat(budget4))
       isSearchable={true}
       value={profit}
     />
-            <p className="sp">Set the monthly salary {hus.ans.business_name} will pay you <br/>monthly?</p>
+            <p className="sp">Set the monthly salary {thread} will pay you <br/>monthly?</p>
             <input className="line" type='number' onChange={handleBuget2} /><br/><br/> 
             <p className="sp">How much do spend on other expenses per month?</p>
             <input className="line" type='number' onChange={handleBuget4} /><br/><br/>

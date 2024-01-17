@@ -73,7 +73,7 @@ const LoginPage = () => {
           localStorage.setItem('user-info', JSON.stringify(result))
           navigate('/components/thanks', {state:{result}})
         } else if (result.user.has_bank_account !== true){
-          navigate('/components/personal')
+          navigate('/components/reboard')
         } else if(result.user.is_customer === true){
           localStorage.setItem('user-info', JSON.stringify(result));
           navigate('/components/loyalty')
