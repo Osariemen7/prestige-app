@@ -93,6 +93,11 @@ useEffect(()=>{
       }, [])
     
     const creat = async() => {
+      if (newMessage.trim() === '') return;
+      const newMessages = [...messages, { text: newMessage, sender: 'user' }];
+      setMessages(newMessages);
+      setNewMessage('');
+
      setIsLoad(true)   
     let ite ={refresh}
     let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
@@ -132,11 +137,7 @@ useEffect(()=>{
     
     console.log(thread)
     const handleSendMessage = async () => {
-        if (newMessage.trim() === '') return;
-        const newMessages = [...messages, { text: newMessage, sender: 'user' }];
-        setMessages(newMessages);
-        setNewMessage('');
-
+       
        
         // Simulate a response from the assistant after posting the user's message
         setTimeout(async () => {
@@ -192,13 +193,20 @@ useEffect(()=>{
           } catch (error) {
             console.error('Error fetching messages:', error);
           }
-        }, 10000);
+        }, 1000);
          }
-   const send=()=>{
-
-    creat()
-    handleSendMessage()
-   }
+         const send = async () => {
+          try {
+            await creat(); // Wait for creat() to complete
+        
+            // Check if creat() was successful and produced a response
+            
+              handleSendMessage(); // Call handleSendMessage only when there is a response
+            
+          } catch (error) {
+            console.error('Error in send:', error);
+          }
+        };
    const mappedMessages = con.map(thread => {
     const lastConversation = thread;
     return lastConversation ? lastConversation : null;
@@ -212,7 +220,18 @@ console.log(selectedMessage)
     return(
     <p>Loading...</p>)}   
           
-  
+    const formatMessage = (text) => {
+      // Check if the message contains ** or newline characters
+      if (text.includes('**') || text.includes('\n')) {
+        // Format the message with ** replaced by <strong> and split into sentences
+        const formattedMessage = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        return formattedMessage.split('\n');
+      } else {
+        // Return the message as plain text
+        return [text];
+      }
+    };
+
   return (
     <ChakraProvider>
     <div className='fl'>
@@ -321,34 +340,35 @@ console.log(selectedMessage)
     
         <div   >
         
-        {messages.map((message, index) => (
-  <div
-    key={index}
-    style={{
-      justifyContent: message.sender === 'user' ? 'right' : 'left',
-    }}
-  >
-   
+         {messages.map((message, index) => (
       <div
-        className={`message ${message.sender}`}
+        key={index}
         style={{
-          textAlign: message.sender === 'user' ? 'right' : 'left',
-          backgroundColor: message.sender === 'user' ? '#5cb85c' : '#337ab7',
-          color: 'white',
-          maxWidth: 'fit-content',
-          borderRadius: '5px',
-          padding: '5px',
-          margin: '8px',
-          marginLeft: message.sender === 'user' ? 'auto' : '0',
-          marginRight: message.sender === 'user' ? '0' : 'auto',
-          justifySelf: message.sender === 'user' ? 'flex-end' : 'flex-start',
+          justifyContent: message.sender === 'user' ? 'right' : 'left',
         }}
       >
-        <Text className="message-content">{message.text}</Text>
+        {formatMessage(message.text).map((formattedSentence, sentenceIndex) => (
+          <div
+   key={sentenceIndex}
+            className={`message ${message.sender}`}
+            style={{
+              textAlign: message.sender === 'user' ? 'right' : 'left',
+              backgroundColor: message.sender === 'user' ? '#5cb85c' : '#337ab7',
+              color: 'white',
+              maxWidth: 'fit-content',
+              borderRadius: '5px',
+              padding: '5px',
+              margin: '8px',
+              marginLeft: message.sender === 'user' ? 'auto' : '0',
+              marginRight: message.sender === 'user' ? '0' : 'auto',
+              justifySelf: message.sender === 'user' ? 'flex-end' : 'flex-start',
+            }}
+          >
+            <Text className="message-content" dangerouslySetInnerHTML={{ __html: formattedSentence }} />
+          </div>
+        ))}
       </div>
-
-  </div>
-))}
+    ))}
 {isload && (
       // Show 'loading...' only for incoming assistant messages
       <Skeleton  height="15px" mb="2" />
