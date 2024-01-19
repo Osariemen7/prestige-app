@@ -61,7 +61,11 @@ let refresh = terms(tok)
          navigate('/components/getloy')
       }
         
-
+      let sub_account = tok.user.has_default_sub_accounts
+      const subAccount = () => {
+        const redirectTo = sub_account ? '/components/savings' : '/components/reboard';
+        navigate(redirectTo);
+      };
 
 if(loading) {
             return(
@@ -92,8 +96,8 @@ if(loading) {
                       <p className='dfp'>Account</p></Link>
                     </li>
                     <li className='nav-list'>
-                    <Link to='/components/savings' className='nav-text'><i class="fa-solid fa-money-bill"></i>
-                      <p className='dfp'>Sub-Account</p></Link>
+                    <div onClick={subAccount} className='nav-text'><i class="fa-solid fa-money-bill"></i>
+                      <p className='dfp'>Sub-Account</p></div>
                     </li>  
                     <li className='nav-list'>
                     <Link to='/components/product' className='nav-text'><i class="fa-solid fa-cart-flatbed"></i>

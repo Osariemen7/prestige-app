@@ -117,7 +117,7 @@ console.log(parseFloat(budget2)  + parseFloat(budget4))
           } else {
             result = await result.json();
           localStorage.setItem('user-info', JSON.stringify(tok)) 
-          navigate('/components/Thanks', {state:{item}})
+          navigate('/components/savings', {state:{item}})
           }
         }
         
