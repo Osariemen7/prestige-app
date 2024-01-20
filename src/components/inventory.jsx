@@ -239,6 +239,7 @@ const subAccount = () => {
   navigate(redirectTo);
 };
   console.log(tok.user.has_default_sub_accounts)  
+
     const fetchInfo = async () => {
       let item ={refresh}
       let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
@@ -414,7 +415,7 @@ const subAccount = () => {
               <p className='dp'>Today's Sale</p>
               <Heading size='xl' color='#fff'>₦{parseFloat(sale).toLocaleString('en-US')}</Heading>
               <Text fontSize='10px' color='#fff'>Today's Target: ₦{parseFloat(target).toLocaleString('en-US')}</Text>
-              <Link to='/components/invoice'><button className='dbut'>Record a Sale</button></Link>
+             {list.sales_count === 0 ? (<Link to='/components/invoice'><button className='dbut'>Record you first sale</button></Link>):<Link to='/components/invoice'><button className='dbut'>Record a Sale</button></Link>} 
             </div>
 <Heading fontSize='15px' textAlign='left' ml='15px'>Activity</Heading>
         <Stack direction='row' spacing={1} >

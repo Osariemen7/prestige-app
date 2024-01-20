@@ -51,7 +51,7 @@ const Invoice =()=> {
     const [tip, setTip] = useState('')
     const [pack_size1, setPacksize] = useState([]);
     const [product, setProduct] = useState([])
-    const [payment_method, setPayment] = useState('')
+    const [payment_meth, setPayment] = useState('')
     const [outline, setOutline] = useState('');
     const [message, setMessage] = useState('')
     const [messag, setMessag] = useState('Out of Stock please Restock')
@@ -110,7 +110,11 @@ const Invoice =()=> {
 //     value: item.name,
 //   }))]
 
-
+const payment = ['Cash', 'POS', 'Transfer']
+const pay = payment.map((p) => ({
+  label: p,
+  value: p
+}))
 const optio = ['item', 'pack'];
     const opt = optio.map((p) => ({
       label: p,
@@ -180,6 +184,9 @@ const optio = ['item', 'pack'];
     }
     const handleInputCha = (inputV) => {
       setInputV(inputV)
+    }
+    const handlePay = (payment_meth) =>{
+      setPayment(payment_meth)
     }
     const openModal = (button) => {
       setPayment('CASH')
@@ -254,7 +261,7 @@ const optio = ['item', 'pack'];
         let product_type = 'PRODUCT'
         let pack_size= pack_size1
         let amount = tota
-        
+        let payment_method = payment_meth.value
       
         let quantity_type = type.map(tod => tod.value)
         let name = item.map(todo => todo.value)
@@ -334,7 +341,7 @@ const optio = ['item', 'pack'];
             setButtonVisible(false);
             setTimeout(() => {
               setButtonVisible(true);
-            }, 15000);
+            }, 5000);
           };
   console.log(item.todo)
       async function sprod() {
@@ -355,7 +362,7 @@ const optio = ['item', 'pack'];
           let pack_size= pack_size1
           let amount = tota
           let reward = selectedPrize
-        
+          let payment_method = payment_meth.value
           let quantity_type = type.map(tod => tod.value)
           let name = item.map(todo => todo.value)
           console.log(name, price, quantity, quantity_type, pack_size)
@@ -405,7 +412,7 @@ const optio = ['item', 'pack'];
       const send =()=> {
         
       }
-        console.log(payment_method)
+        console.log(payment_meth)
       
           if(loading) {
             return(
@@ -421,13 +428,7 @@ const optio = ['item', 'pack'];
               <Button colorScheme='black' variant='outline'>{toSentenceCase(list[0].business_name)}</Button>
               <div></div>
               
-          <div><p>Choose Method of Payment?</p>
-      <Stack direction='row' m={2} gap='20px' spacing={3} align='center' justify='center'>        
-                   <Button colorScheme='blue' variant={outline  === 'CASH'?'solid' : 'outline'} onClick={() =>openModal('CASH')}>CASH</Button> 
-                   <Button colorScheme='blue' variant={outline ==='POS' ? 'solid' : 'outline'} onClick={() =>openModal1('POS')}>POS</Button> 
-                   <Button colorScheme='blue' variant={outline ==='TRANSFER' ?'solid' : 'outline'} onClick={() =>openModal2('TRANSFER')}>TRANSFER</Button>
-                   </Stack></div>
-        
+          
             
               <p className='ld'>{(new Date()).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true})}</p>
                  
@@ -462,7 +463,13 @@ const optio = ['item', 'pack'];
                     ))}
                    </ul></div>
                       <p>Total: ₦{total}</p>
-                         
+                      <p>Choose Method of Payment?</p>
+                      <Select
+        onChange={handlePay}
+        className="pne"
+        placeholder="Payment Method"
+        options={pay}
+        value={payment_meth} /><br/>    
                                 <hr className='hr1'></hr>
   
                   </div> 
@@ -472,17 +479,18 @@ const optio = ['item', 'pack'];
                  </main></ChakraProvider>
                  <ChakraProvider>     
                  {valid === 'Valid' ? (<Button colorScheme='blue' variant='solid' onClick={done}>Back</Button>):      
-               <Stack direction='row' spacing={2} align='center' justify='center'>        
+               <Stack direction='row' spacing={2} align='center' justify='center'>  
+
                    <Button colorScheme='blue' variant='solid' onClick={modal1.onOpen}>Add Product</Button> 
               { item.length !== 0 ? (  <div>  <div>{buttonVisible && (<Button colorScheme='blue' variant='solid' onClick={sprod}>Save Payment</Button> 
                    )}
         {!buttonVisible && <Spinner />}</div></div>): null }
                     </Stack>} <br/>
-                {item.length !== 0 ?( <div> 
-                  {buttonVisible && ( <Button  colorScheme='blue' variant='outline' onClick={creat} >Get Sales Tips</Button>
-                  )}
-        {!buttonVisible && <Spinner />} </div> ): null} 
-        <div className="message">{message ? <p>{message}</p> : null}</div>
+                {item.length !== 0 ?( <div> <br/>
+                  <Button  colorScheme='blue' variant='outline' onClick={creat} >Get Sales Tips</Button>
+                  
+         </div> ): null} 
+        <div className=" ">{message ? <p>{message}</p> : null}</div>
               <Modal isOpen={modal1.isOpen} onClose={modal1.onClose}>
           <ModalOverlay />
           <ModalContent>
@@ -565,7 +573,7 @@ const optio = ['item', 'pack'];
         </ChakraProvider></div>):<ChakraProvider> <div><Button colorScheme='black' variant='outline'>{toSentenceCase(list[0].business_name)}</Button><br/>
          <Button colorScheme='blue' variant='solid' mt='10px' >Restock</Button></div></ChakraProvider>}
          
-        <div className="message">{message ? <p>{message}</p> : null}</div>
+        
         </div>
       )
 }

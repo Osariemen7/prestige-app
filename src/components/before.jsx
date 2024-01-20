@@ -30,8 +30,9 @@ const BuyP =()=>{
   const [outline, setOutline] = useState('');
   const [buttonVisible, setButtonVisible] = useState(true);
   const [pack_size1, setPacksize] = useState([])
+  const [product_ty, setProductType] = useState([])
   const [product, setProduct] = useState([])
-  const [payment_method, setPayment] = useState('TRANSFER')
+  const [payment_meth, setPayment] = useState('')
   const [info, setInfo] = useState([])
  const location = useLocation()
   const navigate = useNavigate()
@@ -115,7 +116,11 @@ setInfo(response)
   //     fetchDal()
   //   }, [])
 
-
+const prod = ['PRODUCT', 'SERVICE']
+const  prud = prod.map((p) => ({
+  label: p,
+  value: p,
+}))
 const optio = ['item', 'pack'];
   const opt = optio.map((p) => ({
     label: p,
@@ -141,8 +146,11 @@ const handleClick = () => {
   setButtonVisible(false);
   setTimeout(() => {
     setButtonVisible(true);
-  }, 10000);
+  }, 5000);
 };
+const handleProduct =(product_ty) =>{
+   setProductType(product_ty)
+}
 const options = product.map((item) => ({
   label: item.name,
     value: item.name,
@@ -171,7 +179,9 @@ const options = product.map((item) => ({
     const handleInputCha = (inputV) => {
       setInputV(inputV)
     }
-    
+    const handlePay = (payment_meth) =>{
+      setPayment(payment_meth)
+    }
   const handleAddProduct = (newValue) => {
       if (newValue && newValue.trim() !== '') {
         const newProduct = { label: newValue, value: newValue };
@@ -224,9 +234,10 @@ const options = product.map((item) => ({
           });
           rep = await rep.json();
           let bab = rep.access_token 
-          let product_type = 'PRODUCT'
+          let product_type = product_ty.value
         let pack_size= pack_size1
         let amount = tota
+        let payment_method = payment_meth.value
       
         let quantity_type = type.map(tod => tod.value)
         let name = item.map(todo => todo.value)
@@ -290,7 +301,12 @@ const options = product.map((item) => ({
         const mata = info[0].sub_account
         navigate('/components/getgroup', {state:{mata}})
       }
-      console.log(payment_method)
+      const payment = ['CASH', 'POS', 'TRANSFER']
+const pay = payment.map((p) => ({
+  label: p,
+  value: p
+}))
+      console.log(payment_meth)
       if(loading) {
         return(
         <p>Loading...</p>)} 
@@ -343,11 +359,11 @@ const options = product.map((item) => ({
                  <p >Total Amount: ₦{total}</p>
 
                  </Card>  
-                 <div className="message">{messag ? <p>{messag}</p> : null}</div>
+                 <div className="">{messag ? <p>{messag}</p> : null}</div>
                  <br></br>
                  <Stack direction='row' mt={2} spacing={2} align='center' justify='center'>
                  {total !== '0'  ? (<Button colorScheme='blue' variant='solid' m={2} onClick={onOpen}>Add More Items</Button>) : <Button m={2} colorScheme='blue' variant='solid' onClick={onOpen}>Add Item</Button> }
-                 { item.length !== 0 ? (   <div>    {payment_method !== 'TRANSFER' ? ( <div>{buttonVisible && (<Button colorScheme='blue' variant='solid' onClick={aprod}>Save</Button> )}
+                 { item.length !== 0 ? (   <div>    {payment_meth !== 'TRANSFER' ? ( <div>{buttonVisible && (<Button colorScheme='blue' variant='solid' onClick={aprod}>Save</Button> )}
       {!buttonVisible && <Spinner />}</div>) : <Button colorScheme='blue' variant='solid' onClick={conti}>Continue</Button>}
       </div> ): null  } </Stack>
                  <Modal isOpen={isOpen} onClose={onClose}>
@@ -360,6 +376,12 @@ const options = product.map((item) => ({
            <h3 className='h4'></h3>
             <form >
 {data ?(<div>
+  <Select
+      onChange={handleProduct}
+      className="pne"
+      placeholder="Product Type"
+      options={prud}
+      value={product_ty} /><br/>
 <Input placeholder="Enter product/service" ml={9}
 onChange={handleInputchan} width={273}
 value={data.inputVa.value} /><br/><br/>
@@ -372,7 +394,13 @@ width={273} ml={9}/><br/><br/></div>
 onChange={ handleInputChange}
   value={data.inputValue} width={273} ml={9}/><br/><br/></div>}
             
-</div>):( <div>           
+</div>):( <div>   
+ <Select
+      onChange={handleProduct}
+      className="pne"
+      placeholder="Product Type"
+      options={prud}
+      value={product_ty} /><br/>        
   <CreatableSelect
         className="pne"
         placeholder="Enter product/service"
@@ -384,10 +412,16 @@ onChange={ handleInputChange}
         isClearable={true} 
 
       /><br/>
+
             
             <Input placeholder='Quantity Bought' size='md' onChange={handleInputChange} width={273} ml={9}/><br/><br/></div>)}
             <Input placeholder='Price of a single item/pack/service' size='md' onChange={handleInputChang} width={273} ml={9}/><br/><br/>
-           
+            <Select
+        onChange={handlePay}
+        className="pne"
+        placeholder="Payment Method"
+        options={pay}
+        value={payment_meth} /><br/>          
             <Select
       onChange={handleInputCha}
       className="pne"
