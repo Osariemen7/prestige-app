@@ -1,11 +1,14 @@
 [
-    {
-      "relation": ["delegate_permission/common.handle_all_urls"],
-      "target": {
-        "namespace": "android_app",
-        "package_name": "co.prestigefinance.biz",
-        "sha256_cert_fingerprints":
-          ["66:40:14:13:B7:37:DE:54:75:E2:0D:14:D1:D1:95:A6:DD:18:F1:4B:19:BB:A4:41:E3:2F:13:21:DD:85:15:1B"]
-      }
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "co.prestigefinance.biz",
+      "sha256_cert_fingerprints": [
+        "66:40:14:13:B7:37:DE:54:75:E2:0D:14:D1:D1:95:A6:DD:18:F1:4B:19:BB:A4:41:E3:2F:13:21:DD:85:15:1B"
+      ]
     }
-  ]
+  }
+]
