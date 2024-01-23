@@ -345,9 +345,9 @@ const subAccount = () => {
         const data = reverse[index].sold_products[index]
         navigate('/components/pinvoice', {state:{data}} )
       }
-      const overdraft= ()=>{
-        const data = info[0].sub_account
-           navigate('/components/overdraft', {state:{data}})
+      const overdraft= (index)=>{
+        const data = reverse[index]
+           navigate('/components/eventory', {state:{data}})
       }
      
    
@@ -433,13 +433,12 @@ const subAccount = () => {
   <div className="td2" key={index} >
     <div className="tg">
     <Text mb={0} >{(new Date(obj.time)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</Text>
-    
-    {obj.verified !== true? (<Button colorScheme='red' onClick={() => receipt(index)} size='xs' outline='solid'>Verify Sale</Button>): null}     </div>
-    
+    {obj.verified !== true? (<Button colorScheme='red' onClick={() => receipt(index)} size='xs' outline='solid'>Verify Sale</Button>): null} </div>
+    <div className='loos' onClick={() => overdraft(index)}><span>invoice </span><i className="fa-solid fa-file-export"></i></div>
     {obj.sold_products.filter(product=> product.product_name.toLowerCase().includes(searchTerm.toLowerCase()))
   .map((product, inde) => (
     <div key={inde} onClick={() => invoice(index)} >
-      <div className='loos'><span>invoice </span><i className="fa-solid fa-file-export"></i></div>
+     
 <Stack  direction='row'mt={0} mb={0} gap='115px' spacing={2} align='center' justify='center'>
       <Text fontSize='13px'>Product:</Text>
       <Heading mt={0} fontSize='13px' className="ove">{product.product_name}</Heading>    
