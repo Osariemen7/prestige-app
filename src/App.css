@@ -1085,7 +1085,7 @@ form{
   margin: 30px;
   margin-right: 10px;  
 }
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 1035px) {
   .slide-container{
     margin:20px;
     height: 200px;
@@ -2195,6 +2195,13 @@ form{
     overflow: visible;
     text-align: center;
     height: 4px;
+  }
+  .vcules{
+    display: flex;
+    margin: 0 10%;
+    margin-bottom: 0%;
+    gap: 15%;
+    font-size: 11px;
   }
   .frame3{
     margin-left:2%;

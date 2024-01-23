@@ -67,6 +67,7 @@ import View from './components/view';
 import SalesVerify from './components/salesverify';
 import Update from './components/update';
 import Last from './components/last'
+import SalesInvoice from './components/eventory';
 
 
 import { Analytics } from '@vercel/analytics/react';
@@ -148,7 +149,7 @@ function App() {
         <Route path='/components/salesverify' element={<SalesVerify />} />
         <Route path='/components/update' element={<Update />} />
         <Route path='/components/last' element={<Last />} />
-        
+       <Route path='/components/eventory' element={<SalesInvoice />} /> 
        
      </Routes>
       
