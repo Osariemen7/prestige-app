@@ -69,12 +69,16 @@ import Update from './components/update';
 import Last from './components/last'
 import SalesInvoice from './components/eventory';
 
+import './components/analytics.js'
 
+import './components/firebase-messaging-sw.js'
 import { Analytics } from '@vercel/analytics/react';
 function App() {
   const [loading, setLoading] = useState(true)
+  
+  
 
-  useEffect(() => {
+    useEffect(() => {
     setTimeout(() => setLoading(false), 3000)
   }, [])
   return (
