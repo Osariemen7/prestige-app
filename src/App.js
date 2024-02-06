@@ -68,16 +68,17 @@ import SalesVerify from './components/salesverify';
 import Update from './components/update';
 import Last from './components/last'
 import SalesInvoice from './components/eventory';
-
+import Tinvoice from './components/tinvoice.jsx';
+import TransferVerify from './components/transferverify.jsx';
 import './components/analytics.js'
 
-import './components/firebase-messaging-sw.js'
+
 import { Analytics } from '@vercel/analytics/react';
 function App() {
   const [loading, setLoading] = useState(true)
   
+ 
   
-
     useEffect(() => {
     setTimeout(() => setLoading(false), 3000)
   }, [])
@@ -154,7 +155,9 @@ function App() {
         <Route path='/components/update' element={<Update />} />
         <Route path='/components/last' element={<Last />} />
        <Route path='/components/eventory' element={<SalesInvoice />} /> 
-       
+         <Route path='/components/tinvoice' element={<Tinvoice />} />
+         <Route path='/components/transferverify' element={<TransferVerify />} />
+
      </Routes>
       
     </div>
