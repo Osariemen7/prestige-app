@@ -13,7 +13,7 @@ const SalesVerify = () => {
     const navigate = useNavigate()
     const location = useLocation() 
 
-   let meal = location.state.data || location.state.item.ite
+   let meal = location.state.data 
 
 
     let tok= JSON.parse(localStorage.getItem("user-info"));
@@ -163,8 +163,10 @@ const options = filteredItems.map((item) => ({
     />
 </Card>
 {message ? <p>{message}</p> : null}
+<Stack direction='row' spacing={5} justify='center'>
 <Button variant='solid' colorScheme='blue' onClick={ema}>Verify</Button>
-            <Button variant='outline' onClick={invo}>Share Receipt</Button>
+            <Button variant='outline' colorScheme='blue' onClick={invo}>Share Receipt</Button>
+            </Stack>
             </ChakraProvider>
             </div>
 

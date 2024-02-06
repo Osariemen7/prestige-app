@@ -14,6 +14,7 @@ import {
   ModalCloseButton,
 } from '@chakra-ui/react'
 import { useDisclosure, Input,   Spinner  } from "@chakra-ui/react"
+import { NotifyPop } from '../firebase';
 
 const Inventory = () => {
     const [sidebar, setSidebar] = useState('')
@@ -425,7 +426,7 @@ const subAccount = () => {
               <Text fontSize='10px' color='#fff'>Today's Target: ₦{parseFloat(target).toLocaleString('en-US')}</Text>
              {list.sales_count === 0 ? (<button onClick={modal3.onOpen} className='dbut'>Receive your first payment</button>):<button onClick={modal3.onOpen} className='dbut'>Receive Payement</button>} 
             </div>
-            
+            <NotifyPop />
 <Heading fontSize='15px' textAlign='left' ml='15px'>Activity</Heading>
         <Stack direction='row' spacing={1} >
 <div>
