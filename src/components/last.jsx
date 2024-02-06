@@ -4,7 +4,8 @@ import Select from 'react-select';
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import { ChakraProvider, InputGroup, Spinner } from '@chakra-ui/react';
 import { Input, InputRightElement, Button, Heading, Text } from '@chakra-ui/react'
- 
+import { NotifyPop } from "../firebase";
+
 const Last =()=>{
 const [info, setInfo] = useState([])
 const [loading, setLoading] = useState(true)
@@ -187,7 +188,7 @@ async function ema(e) {
          <Link to='/components/register'>
       <i className="fa-solid fa-chevron-left bac"></i>
     </Link>
-    
+    <NotifyPop />
          <Heading textAlign='left' ml='50px' fontSize='20px' mt='18px' color='blue'>Set up your Settlement Account</Heading>
             <Text textAlign='left' ml='50px' fontSize='14px'>Fill in your account details!</Text>
           <br/>

@@ -16,6 +16,7 @@ import {
   } from '@chakra-ui/react'
   import { useDisclosure, Input, Card, Text, Button, Heading, Stack, Spinner  } from "@chakra-ui/react"
   import { Wheel } from 'react-custom-roulette';
+  import { html2pdf } from 'html2pdf.js';
 
   const data = [
     { option: '0.6', likelihood: 0.3, style:{ backgroundColor: 'red', textColor: 'white' } },
@@ -33,7 +34,7 @@ import {
   { option: `0`, likelihood: 0.6, style:{ backgroundColor: 'black', textColor: 'white' }}
   ];
   
-const Invoice =()=> {
+const Tinvoice =()=> {
   const [mustSpin, setMustSpin] = useState(false);
   const [selectedPrize, setSelectedPrize] = useState('');
     const { isOpen, onOpen,  onClose } = useDisclosure()
@@ -51,7 +52,7 @@ const Invoice =()=> {
     const [tip, setTip] = useState('')
     const [pack_size1, setPacksize] = useState([]);
     const [product, setProduct] = useState([])
-    const [payment_meth, setPayment] = useState('')
+    const [payment_meth, setPayment] = useState('TRANSFER')
     const [outline, setOutline] = useState('');
     const [message, setMessage] = useState('')
     const [messag, setMessag] = useState('Out of Stock please Restock')
@@ -214,7 +215,7 @@ const optio = ['item', 'pack'];
     
   
   let refresh = terms(tok)
-
+  
   const fetchDa = async () => {
       let item ={refresh}
       let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
@@ -261,7 +262,7 @@ const optio = ['item', 'pack'];
         let product_type = 'PRODUCT'
         let pack_size= pack_size1
         let amount = tota
-        let payment_method = payment_meth.value
+        let payment_method = 'TRANSFER' 
       
         let quantity_type = type.map(tod => tod.value)
         let name = item.map(todo => todo.value)
@@ -305,7 +306,7 @@ const optio = ['item', 'pack'];
       }   
         }
         
-  
+        
       const fetchData = async () => {
           let item ={refresh}
           let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
@@ -341,7 +342,7 @@ const optio = ['item', 'pack'];
             setButtonVisible(false);
             setTimeout(() => {
               setButtonVisible(true);
-            }, 5000);
+            }, 15000);
           };
   console.log(item.todo)
       async function sprod() {
@@ -362,7 +363,7 @@ const optio = ['item', 'pack'];
           let pack_size= pack_size1
           let amount = tota
           let reward = selectedPrize
-          let payment_method = payment_meth.value
+          let payment_method = 'TRANSFER'
           let quantity_type = type.map(tod => tod.value)
           let name = item.map(todo => todo.value)
           console.log(name, price, quantity, quantity_type, pack_size)
@@ -396,6 +397,8 @@ const optio = ['item', 'pack'];
              result =await result.json();
             setMessage(JSON.stringify(result.message))
             setValid('Valid')
+            let rent = {result, ite, tota}
+            navigate('/components/transferverify', {state:{rent}} )
           } 
         } catch (error) {
           // Handle fetch error
@@ -409,7 +412,7 @@ const optio = ['item', 'pack'];
       const done =()=> {
         navigate('/components/inventory')
       }
-      
+        console.log(list)
         console.log(payment_meth)
       
           if(loading) {
@@ -461,11 +464,10 @@ const optio = ['item', 'pack'];
                     ))}
                    </ul></div>
                       <p>Total: ₦{total}</p>
-                     <br/>    
                                 <hr className='hr1'></hr>
   
                   </div> 
-                  
+                 
                   <img src={Logo} alt="logo" className="frame3"/>
                
                  </main></ChakraProvider>
@@ -474,7 +476,7 @@ const optio = ['item', 'pack'];
                <Stack direction='row' spacing={2} align='center' justify='center'>  
 
                    <Button colorScheme='blue' variant='solid' onClick={modal1.onOpen}>Add Product</Button> 
-              { item.length !== 0 ? (  <div>  <div>{buttonVisible && (<Button colorScheme='blue' variant='solid' onClick={sprod}>Save Payment</Button> 
+              { item.length !== 0 ? (  <div>  <div>{buttonVisible && (<Button colorScheme='blue' variant='solid' onClick={sprod}>Confirm Payment</Button> 
                    )}
         {!buttonVisible && <Spinner />}</div></div>): null }
                     </Stack>} <br/>
@@ -517,7 +519,9 @@ const optio = ['item', 'pack'];
           <div>
           <Input placeholder='No of items in pack/carton'  size='md' onChange={handlePack} width={273} ml={9} /><br/>
           <br/></div>): null}  
-         
+          
+                <img src={Logo} alt="logo" className="frame2"/>
+                
           {inputVa.mony !== 0 || inputVa.team !== 0 ? (
       <Button colorScheme='blue' onClick={handleFormSubmit} >Add</Button>
     ) : (
@@ -569,4 +573,4 @@ const optio = ['item', 'pack'];
         </div>
       )
 }
-export default Invoice
+export default Tinvoice

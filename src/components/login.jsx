@@ -66,15 +66,10 @@ const LoginPage = () => {
         setMessage('Invalid Username/Password');
       } else {
         let result = await response.json();
-        if (result.user.anchor_user_created !== true) {
+        if (result.user.paystack_id === null) {
           localStorage.setItem('user-info', JSON.stringify(result))
           navigate('/components/personal', {state:{result}})
-        } else if (result.user.nuban_set !== true) {
-          localStorage.setItem('user-info', JSON.stringify(result))
-          navigate('/components/thanks', {state:{result}})
-        } else if (result.user.has_bank_account !== true){
-          navigate('/components/reboard')
-        } else if(result.user.is_customer === true){
+        }  else if(result.user.is_customer === true){
           localStorage.setItem('user-info', JSON.stringify(result));
           navigate('/components/loyalty')
         }else {
@@ -83,6 +78,7 @@ const LoginPage = () => {
         }
       }
     }
+    
     async function ema(e) {
       e.preventDefault();
       

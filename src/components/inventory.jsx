@@ -1,9 +1,9 @@
 import { ChakraProvider } from '@chakra-ui/react';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import good from './images/good.svg';
-import { Card, CardHeader, CardBody, Box, Button, Heading, Stack, SimpleGrid,  StackDivider, Text } from '@chakra-ui/react'
+import { Card, CardHeader,AlertDialogBody, AlertDialog, AlertDialogOverlay, AlertDialogCloseButton, AlertDialogHeader, AlertDialogContent, AlertDialogFooter,  CardBody, Box, Button, Heading, Stack, SimpleGrid,  StackDivider, Text } from '@chakra-ui/react'
 import {
   Modal,
   ModalOverlay,
@@ -13,7 +13,7 @@ import {
   ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/react'
-import { useDisclosure, Input,  Spinner  } from "@chakra-ui/react"
+import { useDisclosure, Input,   Spinner  } from "@chakra-ui/react"
 
 const Inventory = () => {
     const [sidebar, setSidebar] = useState('')
@@ -39,11 +39,13 @@ const Inventory = () => {
     const [time, setTime] = useState('')
     const modal1 = useDisclosure()
     const modal2 = useDisclosure()
+    const modal3 = useDisclosure()
   
     const showSidebar = () => setSidebar(!sidebar)
   const nav =()=>{
     navigate('/components/product')
   }
+  
   const handleBank = (selectedOption) => {
     setSelectedOption(selectedOption);
   };
@@ -80,6 +82,10 @@ const range=(event)=>{
     setExpense(event.target.value);
   };
   
+  const closeMode = () => {
+    modal3.onClose() 
+  };
+
   const handleClick = () => {
     // When the button is clicked, setButtonVisible to false
     setButtonVisible(false);
@@ -347,10 +353,12 @@ const subAccount = () => {
       }
       const overdraft= (index)=>{
         const data = reverse[index]
-           navigate('/components/eventory', {state:{data}})
+        navigate('/components/eventory', {state:{data}})
       }
-     
-   
+      
+      const cancelRef = useRef();
+    
+   console.log(info)
    
       
       if(loading) {
@@ -415,8 +423,9 @@ const subAccount = () => {
               <p className='dp'>Today's Sale</p>
               <Heading size='xl' color='#fff'>₦{parseFloat(sale).toLocaleString('en-US')}</Heading>
               <Text fontSize='10px' color='#fff'>Today's Target: ₦{parseFloat(target).toLocaleString('en-US')}</Text>
-             {list.sales_count === 0 ? (<Link to='/components/invoice'><button className='dbut'>Record you first sale</button></Link>):<Link to='/components/invoice'><button className='dbut'>Record a Sale</button></Link>} 
+             {list.sales_count === 0 ? (<button onClick={modal3.onOpen} className='dbut'>Receive your first payment</button>):<button onClick={modal3.onOpen} className='dbut'>Receive Payement</button>} 
             </div>
+            
 <Heading fontSize='15px' textAlign='left' ml='15px'>Activity</Heading>
         <Stack direction='row' spacing={1} >
 <div>
@@ -433,8 +442,8 @@ const subAccount = () => {
   <div className="td2" key={index} >
     <div className="tg">
     <Text mb={0} >{(new Date(obj.time)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</Text>
-    {obj.verified !== true? (<Button colorScheme='red' onClick={() => receipt(index)} size='xs' outline='solid'>Verify Sale</Button>): null} </div>
-    <div className='loos' onClick={() => overdraft(index)}><span>invoice </span><i className="fa-solid fa-file-export"></i></div>
+    {obj.verified !== true? (<Button colorScheme='red' onClick={() => receipt(index)} size='xs' outline='solid'>Confirm Sale</Button>): null} </div>
+  {obj.verified !== true? (<div className='loos' onClick={() => overdraft(index)}><span>invoice </span><i className="fa-solid fa-file-export"></i></div>):<div className='loos' onClick={() => overdraft(index)}><span>receipt </span><i className="fa-solid fa-file-export"></i></div>}  
     {obj.sold_products.filter(product=> product.product_name.toLowerCase().includes(searchTerm.toLowerCase()))
   .map((product, inde) => (
     <div key={inde} onClick={() => invoice(index)} >
@@ -522,9 +531,32 @@ const subAccount = () => {
       </div>}
         </ModalContent>
       </Modal>
-
-      
         </div>
+        <AlertDialog
+        motionPreset='slideInBottom'
+        leastDestructiveRef={cancelRef}
+        onClose={modal3.onClose}
+        isOpen={modal3.isOpen}
+        isCentered
+      >
+        <AlertDialogOverlay />
+
+        <AlertDialogContent>
+          <AlertDialogHeader>Choose Payment Method</AlertDialogHeader>
+          <AlertDialogCloseButton />
+          <AlertDialogBody>
+            How did you receive payment? 
+          </AlertDialogBody>
+          <Stack m={5}  spacing={9} direction='row' justify='center'>
+          <Link to='/components/invoice'><Button ref={cancelRef} colorScheme='green' onClick={onClose}>
+              Cash
+            </Button></Link>
+            <Link to= '/components/tinvoice'><Button colorScheme='blue' ml={3}>
+              Transfer
+            </Button></Link>
+            </Stack>
+        </AlertDialogContent>
+      </AlertDialog>
         </ChakraProvider>
     )
 }

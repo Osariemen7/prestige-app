@@ -46,7 +46,7 @@ const GetGroup =()=>{
   const handleSubmit=(e)=>{
     e.preventDefault()
     let data ={amount, selectedOption, selectedOptions, nuban, users, narration, pin_id}
-    if (typeof users !=='object' || narration.length < 1 || nuban.length < 1 || selectedOption.length < 1){
+    if (users.account_name === undefined || narration.length < 1 || nuban.length < 1 || selectedOption.length < 1 || amount.length < 1){
       setMessage('All Fields must be Filled')
     }
     else {
@@ -217,7 +217,8 @@ let refresh = terms(tok)
 
     if(loading) {
       return(
-      <p>Loading...</p>)} 
+      <p>Loading...</p>)
+    } 
 
   return(
     <div>

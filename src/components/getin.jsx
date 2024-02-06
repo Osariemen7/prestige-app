@@ -4,7 +4,8 @@ import Select from 'react-select';
 import { Link, useNavigate } from "react-router-dom"
 import { ChakraProvider, InputGroup } from '@chakra-ui/react';
 import { Input, InputRightElement, Button, Heading, Text } from '@chakra-ui/react'
- 
+import { NotifyPop } from "../firebase"; 
+
 const Enter =()=>{
 const [info, setInfo] = useState([])
 const [loading, setLoading] = useState(true)
@@ -30,7 +31,7 @@ let tok= JSON.parse(localStorage.getItem("user-info"));
   let refresh = tok.refresh_token
 const fetchDa = async () => {
     let item ={refresh}
-    let rep = await fetch ('https://sandbox.prestigedelta.com/refreshtoken/',{
+    let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
         method: 'POST',
         headers:{
           'Content-Type': 'application/json',
@@ -41,7 +42,7 @@ const fetchDa = async () => {
     
     rep = await rep.json();
     let bab = rep.access_token
-  let response = await fetch("https://sandbox.prestigedelta.com/getbanklist/",{
+  let response = await fetch("https://api.prestigedelta.com/getbanklist/",{
   method: "GET",
   headers:{'Authorization': `Bearer ${bab}`},
   })
@@ -79,7 +80,7 @@ async function ema(e) {
       let bank_code=selectedOption.value
         console.warn(bank_code, nuban)
         let item = { bank_code, nuban};
-        let result = await fetch ('https://sandbox.prestigedelta.com/dj-rest-auth/login/',{
+        let result = await fetch ('https://api.prestigedelta.com/dj-rest-auth/login/',{
             method: 'POST',
             headers:{
               'Content-Type': 'application/json',
@@ -99,7 +100,7 @@ async function ema(e) {
       }
       const fetchData = async () => {
         let item ={refresh}
-        let rep = await fetch ('https://sandbox.prestigedelta.com/refreshtoken/',{
+        let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
             method: 'POST',
             headers:{
               'Content-Type': 'application/json',
@@ -109,7 +110,7 @@ async function ema(e) {
         });
         rep = await rep.json();
         let bab = rep.access_token
-      let response = await fetch(`https://sandbox.prestigedelta.com/banktransfer/?bank_code=${bank_code}&nuban=${nuban}`,{
+      let response = await fetch(`https://api.prestigedelta.com/banktransfer/?bank_code=${bank_code}&nuban=${nuban}`,{
       method: "GET",
       headers:{'Authorization': `Bearer ${bab}`},
       })
@@ -142,7 +143,7 @@ async function ema(e) {
          <Link to='/components/register'>
       <i className="fa-solid fa-chevron-left bac"></i>
     </Link>
-    
+      <NotifyPop />
          <Heading textAlign='left' ml='50px' fontSize='20px' mt='68px' color='blue'>Set up your Account</Heading>
             <Text textAlign='left' ml='50px' fontSize='14px'>Fill in your details to claim reward!</Text>
           <br/>

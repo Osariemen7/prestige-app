@@ -4,6 +4,7 @@ import html2canvas from 'html2canvas';
 import Logo from './images/Logo.png';
 import jsPDF from 'jspdf';
 import Modal from 'react-modal';
+import html2pdf from 'html2pdf.js';
 
 
 const SalesInvoice =()=> {
@@ -11,7 +12,7 @@ const SalesInvoice =()=> {
     const [loading, setLoading] = useState(true);
     const [quantity, setQuatity] = useState([]);
     const [price, setPrice] = useState([]);
-    const [type, setType] = useState([]);
+    const [tip, setTip] = useState([]);
     
     const [inputVal, setInputVal] = useState("");
     const [inputValue, setInputValue] = useState("");
@@ -52,7 +53,7 @@ const handleFormSubmit = (event) => {
     setVal('')
     closeModal()
   }
-
+  
   let tota = meal.amount
   let total = (tota).toLocaleString('en-US')
 
@@ -77,6 +78,37 @@ const handleFormSubmit = (event) => {
     if (!inputString) return inputString; // Handle empty or null input
     return inputString.charAt(0).toUpperCase() + inputString.slice(1);
 }
+
+const fetchDat = async () => {
+  let item ={refresh}
+        let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
+            method: 'POST',
+            headers:{
+              'Content-Type': 'application/json',
+              'accept' : 'application/json'
+         },
+         body:JSON.stringify(item)
+        });
+        
+        rep = await rep.json();
+        let bab = rep.access_token
+      let response = await fetch("https://api.prestigedelta.com/virtualnuban/",{
+      method: "GET",
+      headers:{'Authorization': `Bearer ${bab}`},
+      })
+      //localStorage.setItem('user-info', JSON.stringify(tok))
+      
+      if (response.status === 401) {
+        navigate('/components/login');
+      } else {     
+      response = await response.json();
+      setTip(response)
+}
+}
+useEffect(() => {
+  fetchDat()
+  }, [])
+  
 
 let refresh = terms(tok)
     const fetchData = async () => {
@@ -109,7 +141,47 @@ let refresh = terms(tok)
         useEffect(() => {
           fetchData()
         }, [])
-    
+
+        const sharePdf = async () => {
+          try {
+            const content = document.getElementById('main-element'); // Replace with the actual ID of your webpage content
+        
+            const options = {
+              margin: 10,
+              filename: new Date().toLocaleDateString('en-US'),
+              image: { type: 'jpeg', quality: 0.98 },
+              html2canvas: { scale: 2 },
+              jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+            };
+        
+            html2pdf(content, options, async (pdf) => {
+              try {
+                const blob = await pdf.output('blob');
+                const dataUrl = URL.createObjectURL(blob);
+        
+                if (navigator.share) {
+                  await navigator.share({
+                    title: toSentenceCase(list[0].business_name),
+                    text: 'Here is your receipt/invoice.',
+                    url: dataUrl,
+                  });
+                } else {
+                  // Fallback for browsers that don't support Web Share API
+                  console.log('Web Share API not supported.');
+                  // You can implement your custom sharing logic here for unsupported browsers.
+                }
+        
+                // Revoke the object URL to free up resources
+                URL.revokeObjectURL(dataUrl);
+              } catch (error) {
+                console.error('Error sharing PDF:', error);
+              }
+            });
+          } catch (error) {
+            console.error('Error generating PDF:', error);
+          }
+        };
+        
         const handleCaptureClick = async () => {
             const mainElement = document.getElementById('main-element');
             const canvas = await html2canvas(mainElement);
@@ -125,7 +197,10 @@ let refresh = terms(tok)
         // Save the PDF
         pdf.save(`${customer} receipt`);
     }
-    console.log(item)
+
+    
+    
+    console.log(meal)
         if(loading) {
           return(
           <p>Loading...</p>)}
@@ -134,8 +209,8 @@ let refresh = terms(tok)
         <Link to='/components/inventory'><i class="fa-solid fa-chevron-left bac"></i></Link>
             <main id="main-element">
             <div className='rax'><h4 className='shi'>{toSentenceCase(list[0].business_name)}</h4></div> 
-            <h5 className='invo'>INVOICE</h5> 
-            <h6 className='saed'>Bill To: {customer} -<span> {number}</span></h6>
+          {meal.verified === true? <h5 className='invo'>RECEIPT</h5>: <h5 className='invo'>INVOICE</h5>}   
+            {meal.verified === true? <div><h6 className='saed'>Receipt for: {customer} -<span> {number}</span></h6></div>:<div><h6 className='saed'>Bill To: {customer} -<span> {number}</span></h6></div>}
             <p className='ld'>{(new Date(item)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true})}</p>
                
             <hr className='hr'></hr>
@@ -167,13 +242,21 @@ let refresh = terms(tok)
                 <p>₦{(meal.amount).toLocaleString()}</p>
                 </div>
                 </div> 
-                <p className='font'>Thank you for your Patronage!!!</p>
+             {meal.verified === true? (<div> <p className='font'>Thank you for your Patronage!!!</p>
                 <p className='font'>Phone No: {list[0].owner_phone}</p>
                 <p className='font'>{list[0].owner_email}</p>
-                <p className='font'>{list[0].address}</p>
+                <p className='font'>{list[0].address}</p></div>):
+                <div>
+                <p className='font'>₦{total} Payment should be sent to</p>
+                <p className='font'>Account No: {tip.account_number}</p>
+                <p className='font'>Account Name: {tip.account_name}</p>
+                <p className='font'>Bank: {tip.bank}</p>
+                <p className='font'>Thank you for your Patronage!!!</p>
+         
+                </div>}  
                 <img src={Logo} alt="logo" className="frame2"/>
                 </main>
-                {customer !== ''   ? (<button className='logb' onClick={handleCaptureClick}>Download</button>) : <button className='logb' onClick={openModal}>Add Customer Name</button> }
+                {customer !== ''   ? (<button className='logb' onClick={sharePdf}>Share</button>) : <button className='logb' onClick={openModal}>Add Customer Name</button> }
            <Modal
             className='modal'
             isOpen={isOpen}

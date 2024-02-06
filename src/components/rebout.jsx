@@ -1,5 +1,6 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate, useLocation } from "react-router-dom";
+import { generateToken } from "../firebase";
 
 const Business=()=>{
     const [message, setMessage] = useState("");
@@ -35,6 +36,10 @@ const terms = (tok) => {
     return banes;
   };
   let bane = term(tok)
+
+  useEffect(() => {
+    generateToken();
+  }, []);
 
     const handleBusiness=(event) =>{
         setBusinessname(event.target.value)

@@ -90,17 +90,17 @@ const View=()=>{
             <Heading fontSize='14px' className='clun'>{JSON.stringify(dit.claimed)}</Heading>
           </div>
           <div className='dlu'>
-            <p className='clund'>claimed Time</p>
+            <p className='clund'>Claimed Time</p>
             <Heading fontSize='14px' className='clun'> {dit.claim_time}</Heading>
           </div>
          </div>
          <div className='clup'>
           <div className='dlu'>
-            <p className='clund'>Created On</p>
+            <p className='clund'>Created on</p>
             <Heading fontSize='14px' className='clun'>{(new Date(dit.created)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</Heading>
           </div>
           <div className='dlu'>
-            <p className='clund'>Expires On</p>
+            <p className='clund'>Expires on</p>
             <Heading fontSize='14px' className='clun'>{(new Date(dit.expires)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</Heading>
           </div>
          </div>
