@@ -549,10 +549,10 @@ const subAccount = () => {
             How did you receive payment? 
           </AlertDialogBody>
           <Stack m={5}  spacing={9} direction='row' justify='center'>
-          <Link to='/components/invoice'><Button ref={cancelRef} colorScheme='green' onClick={onClose}>
+          <Link to='/components/invoice'><Button ref={cancelRef} colorScheme='blue' onClick={onClose}>
               Cash
             </Button></Link>
-            <Link to= '/components/tinvoice'><Button colorScheme='blue' ml={3}>
+            <Link to= '/components/tinvoice'><Button colorScheme='green' ml={3}>
               Transfer
             </Button></Link>
             </Stack>

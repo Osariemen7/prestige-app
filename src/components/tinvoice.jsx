@@ -215,6 +215,38 @@ const optio = ['item', 'pack'];
     
   
   let refresh = terms(tok)
+
+  const fetchDat = async () => {
+    let item ={refresh}
+          let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
+              method: 'POST',
+              headers:{
+                'Content-Type': 'application/json',
+                'accept' : 'application/json'
+           },
+           body:JSON.stringify(item)
+          });
+          
+          rep = await rep.json();
+          let bab = rep.access_token
+        let response = await fetch("https://api.prestigedelta.com/virtualnuban/",{
+        method: "GET",
+        headers:{'Authorization': `Bearer ${bab}`},
+        })
+        //localStorage.setItem('user-info', JSON.stringify(tok))
+        
+        if (response.status === 401) {
+          navigate('/components/login');
+        } else {     
+        response = await response.json();
+        setTip(response)
+  }
+  }
+  useEffect(() => {
+    fetchDat()
+    }, [])
+    
+  
   
   const fetchDa = async () => {
       let item ={refresh}
@@ -480,7 +512,16 @@ const optio = ['item', 'pack'];
                    )}
         {!buttonVisible && <Spinner />}</div></div>): null }
                     </Stack>} <br/>
-                {item.length !== 0 ?( <div> <br/>
+                {item.length !== 0 ?( <div> 
+                  <div>
+                <p className='font'>₦{total} Payment should be sent to</p>
+                <p className='font'>Account No: {tip.account_number}</p>
+                <p className='font'>Bank: {tip.bank}</p>
+                
+         
+                </div>
+                
+                <br/>
                   <Button  colorScheme='blue' variant='outline' onClick={creat} >Get Sales Tips</Button>
                   
          </div> ): null} 

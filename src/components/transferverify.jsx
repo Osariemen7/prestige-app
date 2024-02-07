@@ -108,6 +108,17 @@ const thirtyDaysBefore = new Date(); // Create a new Date object
           salesTra()
           }, [info])
 
+          const handleSub=(e)=>{
+            e.preventDefault()
+            
+            if ( selectedOption.length < 1){
+              setMessage('Please select transaction!')
+            }
+            else {
+            ema()
+          }}
+            
+
 const fetchInfo = async () => {
   let item ={refresh}
   let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
@@ -141,9 +152,12 @@ const handleTransact = (selectedOption) => {
   setSelectedOption(selectedOption);
 };
 
-    const invo = () =>{
+const invo = () =>{
+  if(selectedOption.length < 1){
+    setMessage('Please select transaction!')
+  }else{
     let data = finfo
-   navigate('/components/eventory',  {state:{data}})
+    navigate('/components/eventory',  {state:{data}})}
 }
         function toSentenceCase(inputString) {
             if (!inputString) return inputString; // Handle empty or null input
@@ -240,10 +254,10 @@ const options = filteredItems.map((item) => ({
       value={selectedOption}
     />
 </Card>
-{message ? <p>{message}</p> : null}
+{message ? <p className='message'>{message}</p> : null}
 <Stack direction='row' spacing={6} justify='center'>
-<Button variant='solid' colorScheme='blue' onClick={ema}>Verify</Button>
             <Button variant='outline' colorScheme='blue' onClick={invo}>Share Receipt</Button>
+            <Button variant='solid' colorScheme='blue' onClick={handleSub}>Confirm Payment</Button>
             </Stack>
             </ChakraProvider>
             </div>

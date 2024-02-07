@@ -63,12 +63,26 @@ setUsers(response)
   fetchInfo()
   }, [])
 
+  const handleSub=(e)=>{
+    e.preventDefault()
+    
+    if ( selectedOption.length < 1){
+      setMessage('Please select transaction!')
+    }
+    else {
+    ema()
+  }}
+
 const handleTransact = (selectedOption) => {
   setSelectedOption(selectedOption);
 };
 
 const invo = () =>{
-   navigate('/components/eventory')
+  if(selectedOption.length < 1){
+    setMessage('Please select transaction!')
+  }else{
+    let data = meal
+    navigate('/components/eventory',  {state:{data}})}
 }
         function toSentenceCase(inputString) {
             if (!inputString) return inputString; // Handle empty or null input
@@ -160,12 +174,14 @@ const options = filteredItems.map((item) => ({
       options={options}
       isSearchable={true}
       value={selectedOption}
+      
     />
 </Card>
-{message ? <p>{message}</p> : null}
+{message ? <p className='message'>{message}</p> : null}
 <Stack direction='row' spacing={5} justify='center'>
-<Button variant='solid' colorScheme='blue' onClick={ema}>Verify</Button>
             <Button variant='outline' colorScheme='blue' onClick={invo}>Share Receipt</Button>
+            <Button variant='solid' colorScheme='blue' onClick={handleSub}>Confirm Payment</Button>
+
             </Stack>
             </ChakraProvider>
             </div>
