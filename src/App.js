@@ -19,7 +19,7 @@ import CreatePage from './components/createp';
 import AddPage from './components/Addlist';
 import ListPage from './components/listp';
 import Frequent from './components/frequent';
-import Accounts from './components/accounts';
+import Accounts from './components/accounts.jsx';
 import Transact from './components/transact';
 import Pro from './components/pro';
 import Club from './components/club';
@@ -70,6 +70,8 @@ import Last from './components/last'
 import SalesInvoice from './components/eventory';
 import Tinvoice from './components/tinvoice.jsx';
 import TransferVerify from './components/transferverify.jsx';
+import Dailysh from './components/customer/dailyTransact.jsx';
+import CustLog from './components/customer/custlog.jsx';
 import './components/analytics.js'
 
 
@@ -157,6 +159,8 @@ function App() {
        <Route path='/components/eventory' element={<SalesInvoice />} /> 
          <Route path='/components/tinvoice' element={<Tinvoice />} />
          <Route path='/components/transferverify' element={<TransferVerify />} />
+       <Route path='/components/customer/dailyTransact' element={<Dailysh />} />
+        <Route path='/components/customer/custlog' element={<CustLog />} />
 
      </Routes>
       
