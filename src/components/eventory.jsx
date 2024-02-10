@@ -73,11 +73,41 @@ const handleFormSubmit = (event) => {
   const handleInputchan = (event) => {
     setInputVa(event.target.value)
   }
+  const currentDate = new Date(); // Get the current date
+
+const thirtyDaysBefore = new Date(); // Create a new Date object
+    thirtyDaysBefore.setDate(currentDate.getDate() - 90)  
+
  
   function toSentenceCase(inputString) {
     if (!inputString) return inputString; // Handle empty or null input
     return inputString.charAt(0).toUpperCase() + inputString.slice(1);
 }
+const salesTra  = async () => {
+  let item ={refresh}
+  let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
+      method: 'POST',
+      headers:{
+        'Content-Type': 'application/json',
+        'accept' : 'application/json'
+   },
+   body:JSON.stringify(item)
+  });
+  rep = await rep.json();
+  let bab = rep.access_token
+let response = await fetch(`https://api.prestigedelta.com/salestransactions/?start_date=${thirtyDaysBefore.toLocaleDateString('en-US')}&end_date=${(new Date()).toLocaleDateString('en-US')}&name=INVENTORY`,{
+method: "GET",
+headers:{'Authorization': `Bearer ${bab}`},
+})
+
+if (response.status === 401) {
+  navigate('/components/login');
+} else {  
+response = await response.json();}
+setLoading(false)
+setPrice(response)
+}
+
 
 const fetchDat = async () => {
   let item ={refresh}
@@ -135,12 +165,13 @@ let refresh = terms(tok)
       } else { 
        
       response = await response.json();
-      setLoading(false)
+      
       setList(response)
         }}
         useEffect(() => {
           fetchData()
         }, [])
+        
 
         const sharePdf = async () => {
           try {
@@ -199,18 +230,25 @@ let refresh = terms(tok)
     }
 
     
+    useEffect(() => {
+      if( typeof list !== 'undefined')
+      salesTra()
+      }, [list])
     
     console.log(meal)
         if(loading) {
           return(
           <p>Loading...</p>)}
+
+          const finfo = price.sales.find(sale => sale.id === meal.id)
+          console.log(finfo)
     return(
         <div>
         <Link to='/components/inventory'><i class="fa-solid fa-chevron-left bac"></i></Link>
             <main id="main-element">
             <div className='rax'><h4 className='shi'>{toSentenceCase(list[0].business_name)}</h4></div> 
-          {meal.verified === true? <h5 className='invo'>RECEIPT</h5>: <h5 className='invo'>INVOICE</h5>}   
-            {meal.verified === true? <div><h6 className='saed'>Receipt for: {customer} -<span> {number}</span></h6></div>:<div><h6 className='saed'>Bill To: {customer} -<span> {number}</span></h6></div>}
+          {finfo.verified === true? <h5 className='invo'>RECEIPT</h5>: <h5 className='invo'>INVOICE</h5>}   
+            {finfo.verified === true? <div><h6 className='saed'>Receipt for: {customer} -<span> {number}</span></h6></div>:<div><h6 className='saed'>Bill To: {customer} -<span> {number}</span></h6></div>}
             <p className='ld'>{(new Date(item)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true})}</p>
                
             <hr className='hr'></hr>
@@ -242,7 +280,7 @@ let refresh = terms(tok)
                 <p>₦{(meal.amount).toLocaleString()}</p>
                 </div>
                 </div> 
-             {meal.verified === true? (<div> <p className='font'>Thank you for your Patronage!!!</p>
+             {finfo.verified === true? (<div> <p className='font'>Thank you for your Patronage!!!</p>
                 <p className='font'>Phone No: {list[0].owner_phone}</p>
                 <p className='font'>{list[0].owner_email}</p>
                 <p className='font'>{list[0].address}</p></div>):

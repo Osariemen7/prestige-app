@@ -5,6 +5,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { Card, Heading, Stack, Input, Button } from '@chakra-ui/react'
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 
+
 const Accounts =()=> {
   const [info, setInfo] = useState('')
   const [users, setUsers] = useState('');
@@ -197,6 +198,27 @@ const toggleHidden =()=>{
         useEffect(() => {
           fetchDat()
         }, [])
+      
+          const handleShare = (refresh) => {
+            if (navigator.share) {
+              navigator.share({
+                title: 'Daily Transactions',
+                text: `View transactions for today`,
+                url: 'https://prestigefinance.app/components/customer/custlog',
+                code: refresh
+              })
+                .then(() => console.log('App shared successfully.'))
+                .catch((error) => console.log('Error sharing app:', error));
+            } else {
+              console.log('Web Share API is not supported in this browser.');
+            }
+          };;
+        
+        const transfer= ()=>{
+         let fifo = {name:'main_account'}
+          const mata = fifo
+             navigate('/components/getgroup', {state:{mata}})
+        }
        
 console.log(info)
 if(loading) {
@@ -262,7 +284,11 @@ return(
               { hidden ? <i onClick={toggleHidden} class="fa-regular fa-eye-slash see"></i> : <i class="fa-regular fa-eye see" onClick={toggleHidden}></i>}
               <h1 className="h1">{hidden}</h1>
               <div>
-               <Link to='/components/fund'><Button mb={2} colorScheme='blue' variant='solid'>Add Funds</Button></Link>            
+              <Stack direction='row'm={3} spacing={3} justify='center'>
+                <Button colorScheme='green' onClick={transfer}>Transfer</Button>
+               <Button mb={2} colorScheme='blue' variant='solid' onClick={send} >Add Funds</Button>
+               </Stack>
+       
               </div>
            </div>
            
@@ -330,7 +356,10 @@ return(
                 { hidden ? <i onClick={toggleHidden} class="fa-regular fa-eye-slash see"></i> : <i class="fa-regular fa-eye see" onClick={toggleHidden}></i>}
                 <Heading size='lg' mt={0} color='#fff'>{hidden}</Heading>
                 <div >
+                <Stack direction='row'm={3} spacing={3} justify='center'>
+                <Button colorScheme='green' onClick={transfer}>Transfer</Button>
                <Button mb={2} colorScheme='blue' variant='solid' onClick={send} >Add Funds</Button>
+               </Stack>
                 </div>
              </div>
              
@@ -342,6 +371,8 @@ return(
   </TabList>
   <TabPanels>
     <TabPanel p={0}>
+    <Button onClick={() => handleShare(refresh)} mb={2} >Share daily transations</Button>
+               
     <Stack direction='row' spacing={1} >
 <div>
          <Heading fontSize='12px'>Start Date</Heading>

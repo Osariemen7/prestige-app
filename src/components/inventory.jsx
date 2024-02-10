@@ -424,7 +424,7 @@ const subAccount = () => {
               <p className='dp'>Today's Sale</p>
               <Heading size='xl' color='#fff'>₦{parseFloat(sale).toLocaleString('en-US')}</Heading>
               <Text fontSize='10px' color='#fff'>Today's Target: ₦{parseFloat(target).toLocaleString('en-US')}</Text>
-             {list.sales_count === 0 ? (<button onClick={modal3.onOpen} className='dbut'>Receive your first payment</button>):<button onClick={modal3.onOpen} className='dbut'>Receive Payement</button>} 
+             {list.sales_count === 0 ? (<button onClick={modal3.onOpen} className='dbut'>Receive your first payment</button>):<button onClick={modal3.onOpen} className='dbut'>Receive Payment</button>} 
             </div>
             <NotifyPop />
 <Heading fontSize='15px' textAlign='left' ml='15px'>Activity</Heading>

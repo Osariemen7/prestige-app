@@ -15,7 +15,7 @@ const SalesVerify = () => {
 
    let meal = location.state.data 
 
-
+console.log(meal)
     let tok= JSON.parse(localStorage.getItem("user-info"));
     const terms = (tok) => {
        let refreshval;
@@ -46,7 +46,7 @@ const fetchInfo = async () => {
   });
   rep = await rep.json();
   let bab = rep.access_token
-let response = await fetch(`https://api.prestigedelta.com/transactionlist/?start_date=${thirtyDaysBefore.toLocaleDateString('en-US')}&end_date=${(new Date()).toLocaleDateString('en-US')}`,{
+let response = await fetch(`https://api.prestigedelta.com/unverifiedtransactions/?sale_id=${meal.id}`,{
 method: "GET",
 headers:{'Authorization': `Bearer ${bab}`},
 })
@@ -63,8 +63,7 @@ setUsers(response)
   fetchInfo()
   }, [])
 
-  const handleSub=(e)=>{
-    e.preventDefault()
+  const handleSub=()=>{
     
     if ( selectedOption.length < 1){
       setMessage('Please select transaction!')
@@ -88,8 +87,8 @@ const invo = () =>{
             if (!inputString) return inputString; // Handle empty or null input
             return inputString.charAt(0).toUpperCase() + inputString.slice(1);
         }
-        async function ema(e) {
-          e.preventDefault(); 
+        async function ema() {
+        
           let ite={refresh}
           let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
             method: 'POST',
@@ -130,8 +129,7 @@ console.log(meal)
         if(loading) {
             return(
             <p>Loading...</p>)}
-            const filteredItems = users.transactions.filter(item => item.amount === meal.amount && item.transaction_type=== 'NIPCR');
-const options = filteredItems.map((item) => ({
+            const options = users.map((item) => ({
   label: `${item.beneficiary.account_name} (Amount:₦${item.amount}, Time:${new Date(item.time).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })})`,
   value: item.reference,
   }));
@@ -143,8 +141,8 @@ const options = filteredItems.map((item) => ({
    <div>            <ChakraProvider >
             
             <Button colorScheme='black'  variant='outline'>Verify Sales</Button>
-            <Card backgroundColor='#f2f4f7' m={4} >
-             <Text justify='red' fontSize='12px'>{(new Date(meal.time)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</Text>
+            <Card backgroundColor='#f2f4f7' m={1} >
+             <Text justify='red' fontSize='12px' m={5}>{(new Date(meal.time)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</Text>
             <Text>Method of Payment: {meal.channel}</Text>
             {meal.sold_products.map((obj, index) => (
   <div className="td2" key={index} >
@@ -176,6 +174,7 @@ const options = filteredItems.map((item) => ({
       value={selectedOption}
       
     />
+    <br/>
 </Card>
 {message ? <p className='message'>{message}</p> : null}
 <Stack direction='row' spacing={5} justify='center'>

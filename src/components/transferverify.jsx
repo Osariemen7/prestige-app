@@ -53,22 +53,11 @@ const thirtyDaysBefore = new Date(); // Create a new Date object
       headers:{'Authorization': `Bearer ${bab}`},
       })
       //localStorage.setItem('user-info', JSON.stringify(tok))
-      let respons = await fetch("https://api.prestigedelta.com/analytics/?duration=DAILY",{
-        method: "GET",
-        headers:{'Authorization': `Bearer ${bab}`},
-        })
-    
-        let respon = await fetch("https://api.prestigedelta.com/businessprofile",{
-        method: "GET",
-        headers:{'Authorization': `Bearer ${bab}`},
-        })
-      if (response.status === 401) {
+        if (response.status === 401) {
         navigate('/components/login');
       } else { 
        
       response = await response.json();
-      respons = await respons.json()
-      respon = await respon.json()
       setInfo(response)
       
         }}
@@ -131,7 +120,7 @@ const fetchInfo = async () => {
   });
   rep = await rep.json();
   let bab = rep.access_token
-let response = await fetch(`https://api.prestigedelta.com/transactionlist/?start_date=${thirtyDaysBefore.toLocaleDateString('en-US')}&end_date=${(new Date()).toLocaleDateString('en-US')}`,{
+let response = await fetch(`https://api.prestigedelta.com/unverifiedtransactions/?sale_id=${meal.result.sale_id}`,{
 method: "GET",
 headers:{'Authorization': `Bearer ${bab}`},
 })
@@ -144,7 +133,9 @@ response = await response.json();}
 setUsers(response)
 
 }
+console.log(users)
      useEffect(() => {
+
   fetchInfo()
   }, [])
 
@@ -164,7 +155,7 @@ const invo = () =>{
             return inputString.charAt(0).toUpperCase() + inputString.slice(1);
         }
         async function ema(e) {
-          e.preventDefault(); 
+         
           let ite={refresh}
           let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
             method: 'POST',
@@ -208,8 +199,8 @@ const invo = () =>{
             <p>Loading...</p>)}
             const finfo = list.sales.find(sale => sale.id === meal.result.sale_id)
             console.log(finfo)
-            const filteredItems = users.transactions.filter(item => item.amount === meal.tota && item.transaction_type=== 'NIPCR');
-const options = filteredItems.map((item) => ({
+    
+const options = users.map((item) => ({
   label: `${item.beneficiary.account_name} (Amount:₦${item.amount}, Time:${new Date(item.time).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })})`,
   value: item.reference,
   }));
@@ -253,6 +244,9 @@ const options = filteredItems.map((item) => ({
       isSearchable={true}
       value={selectedOption}
     />
+    <ul>
+      <li >{options}</li>
+    </ul>
 </Card>
 {message ? <p className='message'>{message}</p> : null}
 <Stack direction='row' spacing={6} justify='center'>
