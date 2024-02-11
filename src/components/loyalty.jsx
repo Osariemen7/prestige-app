@@ -8,6 +8,8 @@ const Loyalty =()=>{
     const [list, setList] = useState([])
     const [loading, setLoading] = useState(true)
 const navigate = useNavigate()
+const location = useLocation()
+let ams = location.state.response
 const currentDate = new Date(); // Get the current date
 
 const thirtyDaysBefore = new Date(); // Create a new Date object
@@ -43,16 +45,12 @@ thirtyDaysBefore.setDate(currentDate.getDate() - 60)
       setList(response)
       setLoading(false)
         }}
-        useEffect(() => {
-          fetchDa()
-        }, [])
+        
         const det=(index)=>{
             const data = list[0].rewards[index]
              navigate('/components/view', {state:{data}})
           }
-          if(loading) {
-            return(
-            <p>Loading...</p>)} 
+  console.log(ams) 
     return(
         <div>
             <ChakraProvider>
@@ -60,10 +58,12 @@ thirtyDaysBefore.setDate(currentDate.getDate() - 60)
             <div className="dash">
                 <h3 className="h1">Account</h3>
                 <Heading color='#fff' fontSize='15px'>Unclaimed Balance</Heading>
-                <Heading size='lg' mt={0} color='#fff'>₦{(parseFloat(list[0].unclaimed_balance)).toLocaleString('en-US')}</Heading>
-              <p className='h1'>Total Amount Spent: ₦{(parseFloat(list[0].spent_amount)).toLocaleString('en-US')} </p>
+                <Heading size='lg' mt={0} color='#fff'>₦{(parseFloat(ams.unclaimed_cashback)).toLocaleString('en-US')}</Heading>
               </div>
-              {list[0].rewards.map((obj, index) => (
+              <p >When Amount gets to a certain value it will be automatically transferred to: </p>
+                <p>{ams.bank}</p>
+                <p>{ams.account_number}</p>
+              {ams.relationships.map((obj, index) => (
                              <Card key={index} m={5} onClick={() => det(index)}>
                     <Heading fontSize='15px'>
                          {obj.program_name}
