@@ -61,7 +61,7 @@ import SalesAnalytics from './components/salesanalytics';
 import Getloy from './components/getloy';
 import Loydet from './components/getdet';
 import CreateLoyalty from './components/custloy';
-import Enter from './components/getin';
+import Enter from './cashback.jsx';
 import Loyalty from './components/loyalty';
 import View from './components/view';
 import SalesVerify from './components/salesverify';
@@ -150,7 +150,7 @@ function App() {
         <Route path='/components/getloy' element={<Getloy />} />
         <Route path='/components/getdet' element= {<Loydet />} />
         <Route path='/components/custloy' element={<CreateLoyalty />} />
-        <Route path= '/components/getin' element={<Enter/>} />
+        <Route path= '/cashback' element={<Enter/>} />
         <Route path='/components/loyalty' element={<Loyalty />} />
         <Route path='/components/view' element={<View />} />
         <Route path='/components/salesverify' element={<SalesVerify />} />
