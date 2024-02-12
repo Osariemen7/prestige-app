@@ -2,54 +2,15 @@ import { useState, useEffect } from "react"
 import { Helmet } from "react-helmet";
 import Select from 'react-select';
 import { Link, useNavigate, useLocation } from "react-router-dom"
-import { ChakraProvider, InputGroup, Spinner } from '@chakra-ui/react';
-import { Input, InputRightElement, Heading, Text } from '@chakra-ui/react';
-import { Typography, Button, TextField } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { purple } from '@mui/material/colors';
-import { NotifyPop } from "./firebase";
+import { Typography, Button, TextField, Autocomplete } from '@mui/material';
+import { BootstrapButton, ValidationTextField } from "./components/material";
 
-const BootstrapButton = styled(Button)({
-  boxShadow: 'none',
-  textTransform: 'none',
-  fontSize: 16,
-  padding: '6px 32%',
-  border: '1px solid',
-  lineHeight: 1.5,
-  backgroundColor: '#0063cc',
-  borderColor: '#0063cc',
-  fontFamily: [
-    '-apple-system',
-    'BlinkMacSystemFont',
-    '"Segoe UI"',
-    'Roboto',
-    '"Helvetica Neue"',
-    'Arial',
-    'sans-serif',
-    '"Apple Color Emoji"',
-    '"Segoe UI Emoji"',
-    '"Segoe UI Symbol"',
-  ].join(','),
-  '&:hover': {
-    backgroundColor: '#0069d9',
-    borderColor: '#0062cc',
-    boxShadow: 'none',
-  },
-  '&:active': {
-    boxShadow: 'none',
-    backgroundColor: '#0062cc',
-    borderColor: '#005cbf',
-  },
-  '&:focus': {
-    boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
-  },
-});
 
 const Enter =()=>{
 const [info, setInfo] = useState([])
 const [loading, setLoading] = useState(true)
 const [nuban, setNuban] = useState('')
-const [selectedOption, setSelectedOption] = useState(null)
+const [selectedOption, setSelectedOption] = useState('')
 const [users, setUsers] = useState('')
 const [messag, setMessag] = useState('')
 const [buttonVisible, setButtonVisible] = useState(true);
@@ -61,10 +22,8 @@ const location = useLocation();
 const navigate = useNavigate()
 
 
-const handleBank = (selectedOption) => {
-    setSelectedOption(selectedOption);
-  };
-
+const handleBank = (event, newValue) => {
+  setSelectedOption(newValue);}
 
 const handleNuban =(evnt)=>{
         
@@ -130,45 +89,49 @@ async function ema(e) {
           setButtonVisible(true);
         }, 5000);
       };
+      console.log(selectedOption)
     
   if(loading) {
     return(
     <p>Loading...</p>)
   }
     return(
-        <div>
+        <div style={{backgroundColor:'#F0F8FF', maxHeight:'100%', height: '100vh',paddingTop:'25%', zIndex:'0', alignItems: 'center', justifyContent: 'center'}} > 
          <Helmet>
             <title>Set up Page</title>
             
         </Helmet>
-         <ChakraProvider>
-         <Link to='/components/register'>
-      <i className="fa-solid fa-chevron-left bac"></i>
-    </Link>
-    <NotifyPop />
-         <Heading textAlign='left' ml='50px' fontSize='20px' mt='18px' color='blue'>Set up your Settlement Account</Heading>
-            <Text textAlign='left' ml='50px' fontSize='14px'>Fill in your account details!</Text>
+          <Typography variant="h6" align="left" marginLeft={3} fontWeight="fontWeightBold"  >Set up your Settlement Account</Typography>
+           <h2></h2>
+           <Typography align='left' marginLeft={3} variant='subtitle2' >Fill in your account details!</Typography>
+           
           <br/>
-          
-          
-      <Select
-      onChange={handleBank}
-      className="lne"
-      placeholder="Select Bank"
-      options={options}
-      isSearchable={true}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Autocomplete
+      
+      id="combo-box-demo"
       value={selectedOption}
-    /><br/>
-          <Input
-          size='md'
-          width={273} ml='18px'
-            type="number"
-            placeholder="Account Number"
-            onChange={handleNuban}
-          /><br/><br/>
+      options={options}
+      onChange={handleBank}
+      sx={{ width: '88%', maxWidth:'100%', align: 'center' }}
+      renderInput={(params) => <TextField {...params} label="Select Bank" />}
+        
+    /> </div>
+    <br/><br/>
+    <ValidationTextField
+  
+           onChange={handleNuban}
+        label="Account Number"
+        type='number'
+        required
+        variant="outlined"
+        id="validation-outlined-input"
+      />
+
+       <br/><br/>
           <div >{users ? <div><p className="me">{users.account_name}</p><br/></div> : null}</div>
 
-  </ChakraProvider>
+
 <br/>              
 {buttonVisible && (<BootstrapButton variant="contained" onClick={ema} disableRipple>
                    Next
