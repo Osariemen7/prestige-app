@@ -54,7 +54,7 @@ thirtyDaysBefore.setDate(currentDate.getDate() - 60)
     return(
         <div>
             <ChakraProvider>
-            <Link to='/components/login'><i class="fa-solid fa-chevron-left bac"></i></Link>
+            <Link to='/cashback'><i class="fa-solid fa-chevron-left bac"></i></Link>
             <div className="dash">
                 <h3 className="h1">Account</h3>
                 <Heading color='#fff' fontSize='15px'>Unclaimed Balance</Heading>
