@@ -74,15 +74,15 @@ if (sure.length >= 7) {
   // Use default data if there are not enough data points in the users array
   data.datasets.push({
     label: "Revenue",
-    backgroundColor: "#00d2ff",
-    borderColor: "rgba(75, 192, 192, 1)",
+    backgroundColor: "#028A0F",
+    borderColor: "#6179cc",
     borderWidth: 1,
     data: sure.map((user) => user.revenue),
   });
   data.datasets.push({
     label: "Revenue Target",
-    backgroundColor: "#ADD8E6",
-    borderColor: "#6179cc",
+    backgroundColor: "#00d2ff",
+    borderColor: "rgba(75, 192, 192, 1)",
     borderWidth: 1,
     data: sure.map((user) => user.rev_target),
   });
@@ -458,7 +458,7 @@ if(loading) {
                 <Heading size='sm'>Sales</Heading>
                 <Bar data={ata}  options={opti} />
                 <div>
-                <Button mb={2} mt={1} colorScheme='blue' onClick={daily} variant='solid'>Report on Analytics</Button>
+                <Button mb={2} mt={1} colorScheme='blue' onClick={daily} variant='solid'>Sales Report</Button>
                 </div>
             </Card>
             <Card backgroundColor='#eff1fa' m={3} >
@@ -466,18 +466,18 @@ if(loading) {
                 <Bar data={data} options={options} />
                 <Text fontSize='12px'> Average Sale Amount - ₦{parseFloat(sure[0].rps).toLocaleString('en-US')}</Text>
                <Text fontSize='12px'>Revenue Per Customer - ₦{parseFloat(sure[0].rpc).toLocaleString('en-US')}</Text>
-           <div><Button mb={2} mt={1} colorScheme='blue' onClick={revenue} variant='outline' >Report on Analytics</Button>
+           <div><Button mb={2} mt={1} colorScheme='blue' onClick={revenue} variant='outline' >Revenue Report</Button>
            </div></Card>
       
             <Card backgroundColor='#eff1fa' m={3} >
                 <Heading size='sm'>Expense</Heading>
                 <Bar data={sata}  options={option} /><div>
-                <Button mb={2} mt={1} colorScheme='blue' onClick={expense} variant='solid'>Report on Analytics</Button>
+                <Button mb={2} mt={1} colorScheme='blue' onClick={expense} variant='solid'>Expense Report</Button>
                 </div></Card>
             <Card backgroundColor='#eff1fa' m={3} >
                 <Heading size='sm'>Customers</Heading>
                 <Bar data={cata}  options={optio} />
-               <div> <Button mb={2} mt={1} colorScheme='blue' onClick={people} variant='outline'>Report on Analytics</Button>
+               <div> <Button mb={2} mt={1} colorScheme='blue' onClick={people} variant='outline'>Customer Report</Button>
                </div>
             </Card>
             

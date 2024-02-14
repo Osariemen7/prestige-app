@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Helmet } from "react-helmet";
+import { Typography, TextField } from '@mui/material';
+import { BootstrapButton, ValidationTextField, CssTextField, ValidationEyeField} from './material.js'
+import { ChakraProvider, Spinner } from '@chakra-ui/react';
+
+
 
 const RegisterPage =()=>{
     const [passwordType, setPasswordType] = useState("password");
@@ -13,10 +18,21 @@ const RegisterPage =()=>{
     const location= useLocation()
     const [message, setMessage] = useState("");
     const [check, setCheck] = useState('')
+    const [buttonVisible, setButtonVisible] = useState(true);
+
     const navigate = useNavigate()
-    const user =location.state.num
-    let username = user.phone_number
+    const user = location.state.num
+     
     
+    let username = user.phone_number
+   
+    const handleClick = () => {
+      // When the button is clicked, setButtonVisible to false
+      setButtonVisible(false);
+      setTimeout(() => {
+        setButtonVisible(true);
+      }, 15000);
+    };
    const handleCheck =(event) =>{
     setCheck(event.target.value)
    }
@@ -48,8 +64,9 @@ const RegisterPage =()=>{
         }
         setPasswordType("password")
       }
-      async function reg(e) {
-          e.preventDefault();
+      async function reg() {
+        
+          handleClick()
             console.warn(username, password1, password2, first_name, last_name, middle_name, email)
             let item = {username, password1, password2, first_name, last_name, middle_name, email};
             let resut = await fetch ('https://api.prestigedelta.com/dj-rest-auth/registration/',{
@@ -75,36 +92,78 @@ const RegisterPage =()=>{
           }
           //
       return(
-        <div>
+        <div style={{padding:'4%'}}>
       <Helmet>
          <title>Registration</title>
             
         </Helmet>
-        <h2>Enter your details</h2>
-         <p className='lp'>Let's set things up. Enter your details as they appear in your legal documents</p>
+        <Typography  variant="h5" align='left' marginLeft='8%' marginTop='10%' fontWeight="fontWeightBold">Enter your Details</Typography>
+            <br/><Typography align='left' marginLeft='8%' variant='subtitle2' >Let's set things up. Enter your details as they appear in your legal documents</Typography>
+          <br/> 
         <form>
-            <p className='sp'>Email Address</p>
-            <input type='email' className="lin" onChange={handleEmailChange } name='email' placeholder='Enter Email'/><br/>
-            <p className='sp'>First Name</p>
-            <input type='text' className="lin" onChange={handleFirstChange} name='first-name' placeholder='First Name'/><br/>
-            <p className='sp'>Last Name</p>
-            <input type='text' className="lin" onChange={handleLastname} name='last-name' placeholder='Last Name' /><br/>
-            <p className='sp'>Middle Name</p>
-             <input className="lin"  onChange={handleMiddlename} type="text" name="middlename" placeholder='Middle Name' required/><br/>
-            <p className='sp'>Create Password</p>
-            <input type={passwordType} className="line" onChange={handlePasswordChange} name='password1' />
-            { passwordType==="password"?
-             <i onClick={togglePassword} class="fa-regular fa-eye-slash ic"></i> : <i class="fa-regular fa-eye ic" onClick={togglePassword}></i>} <br/>
-            <p className='sp'>Confirm Password</p>
-            <input className="line" type={passwordType} onChange={handlePasswordConfirm} name='password2' />
-            { passwordType==="password"?
-             <i onClick={togglePassword} class="fa-regular fa-eye-slash ic"></i> : <i class="fa-regular fa-eye ic" onClick={togglePassword}></i>} <br/>
+        <ValidationTextField
+           onChange={handleEmailChange}
+        label="Email Address"
+        type='email'
+        required
+        variant="outlined"
+        id="validation-outlined-input"
+      /> <br/><br/>
+      <ValidationTextField
+           onChange={handleFirstChange}
+        label="First Name"
+        type='text'
+        required
+        variant="outlined"
+        id="validation-outlined-input"
+      />
+       <br/><br/>
+       <ValidationTextField
+           onChange={handleLastname}
+        label="Last Name"
+        type='text'
+        required
+        variant="outlined"
+        id="validation-outlined-input"
+      />
+      <br/> <br/>
+      <CssTextField label="Middle Name" onChange={handleMiddlename} id="custom-css-outlined-input" />
+      <br/> <br/>
+      <ValidationEyeField
+        onChange={handlePasswordChange}
+        label="Create Password"
+        type={passwordType}
+        required
+        variant="outlined"
+        id="validation-outlined-input"
+        name='password1'
+      />
+      
+      { passwordType==="password"?
+             <i onClick={togglePassword} style={{marginTop: '5%'}} class="fa-regular fa-eye-slash ic" ></i> : <i style={{marginTop: '5%'}} class="fa-regular fa-eye ic" onClick={togglePassword}></i>} <br/>
+            <br/>
+             <ValidationEyeField
+        onChange={handlePasswordConfirm}
+        label="Confirm Password"
+        type={passwordType}
+        required
+        variant="outlined"
+        id="validation-outlined-input"
+        name='password2'
+      />   
+       { passwordType==="password"?
+             <i onClick={togglePassword} style={{marginTop: '5%'}} class="fa-regular fa-eye-slash ic"></i> : <i style={{marginTop: '5%'}} class="fa-regular fa-eye ic" onClick={togglePassword}></i>} <br/>
              <br/>
              <input class="check" type="checkbox" name="" onChange={handleCheck} value="check" required></input>
-             <label>By tapping next, you agree to our <a className='lsf' href='https://prestigefinance.co/policy.html'>privacy policy</a><br/> and <a className='lsf' href='https://prestigefinance.co/terms.html'>Terms & Condition</a> </label>
+             <label>By tapping next, you agree to our <a className='lsf' href='https://prestigefinance.co/policy.html'>privacy policy</a>and <a className='lsf' href='https://prestigefinance.co/terms.html'>Terms & Condition</a> </label>
              <div className="message">{message ? <p>{message}</p> : null}</div>
-        </form>
-        <button className="but" onClick={reg} type="submit">Next</button>
+        </form><br/>
+        {buttonVisible && (  <BootstrapButton variant="contained" onClick={reg} disableRipple>
+                   Next
+      </BootstrapButton>
+      )}  <ChakraProvider>
+       {!buttonVisible && <Spinner />}</ChakraProvider>
+       
      </div>
       )
     
