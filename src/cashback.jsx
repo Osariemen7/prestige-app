@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react"
 import { Helmet } from "react-helmet";
-import Select from 'react-select';
-import { Link, useNavigate, useLocation } from "react-router-dom"
-import { Typography, Button, TextField, Autocomplete } from '@mui/material';
+import { useNavigate} from "react-router-dom"
+import { Typography, TextField, Autocomplete } from '@mui/material';
 import { BootstrapButton, ValidationTextField } from "./components/material";
 
 
@@ -12,11 +11,9 @@ const [loading, setLoading] = useState(true)
 const [nuban, setNuban] = useState('')
 const [selectedOption, setSelectedOption] = useState('')
 const [users, setUsers] = useState('')
-const [messag, setMessag] = useState('')
+const [message, setMessage] = useState('')
 const [buttonVisible, setButtonVisible] = useState(true);
 
-const [create_anchor_user, setCreateanchoruser] = useState(true);
-const location = useLocation();
 
  
 const navigate = useNavigate()
@@ -30,8 +27,6 @@ const handleNuban =(evnt)=>{
     setNuban(evnt.target.value);
 }
 console.log(info)
-let tok= JSON.parse(localStorage.getItem("user-info"));
-  let refresh = tok.refresh_token
 const fetchDa = async () => {
     let response = await fetch("https://api.prestigedelta.com/getbanklist/",{
   method: "GET",
@@ -66,18 +61,21 @@ const fetchDa = async () => {
          let bank_code = teams(selectedOption)
         
          
-async function ema(e) {
+async function ema() {
+  handleClick()
   let response = await fetch(`https://api.prestigedelta.com/accountrewards/?bank_code=${bank_code}&nuban=${nuban}`,{
     method: "GET",
     
     })
     //localStorage.setItem('user-info', JSON.stringify(tok))
     
-    if (response.status === 401) {
-      navigate('/components/login');
+    if (response.status !== 200) {
+      setMessage('Invalid Account Details!')
     } else { 
     response = await response.json();
-    
+  
+    let tem = {bank_code, nuban}
+    localStorage.setItem('user-info', JSON.stringify(tem))
       navigate('/components/loyalty', {state: {response}})
       }}
       
@@ -89,7 +87,7 @@ async function ema(e) {
           setButtonVisible(true);
         }, 5000);
       };
-      console.log(selectedOption)
+      
     
   if(loading) {
     return(
@@ -101,9 +99,9 @@ async function ema(e) {
             <title>Set up Page</title>
             
         </Helmet>
-          <Typography variant="h6" align="left" marginLeft={3} fontWeight="fontWeightBold"  >Set up your Settlement Account</Typography>
+          <Typography variant="h6" align="left" marginLeft={3} fontWeight="fontWeightBold"  >Login to view Cashbacks</Typography>
            <h2></h2>
-           <Typography align='left' marginLeft={3} variant='subtitle2' >Fill in your account details!</Typography>
+           <Typography align='left' marginLeft={3} variant='subtitle2' >Fill in the textfields with your account Details!</Typography>
            
           <br/>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -129,17 +127,14 @@ async function ema(e) {
       />
 
        <br/><br/>
-          <div >{users ? <div><p className="me">{users.account_name}</p><br/></div> : null}</div>
-
-
-<br/>              
+                   
 {buttonVisible && (<BootstrapButton variant="contained" onClick={ema} disableRipple>
                    Next
       </BootstrapButton>
       
        )}  
        {!buttonVisible && null} 
-            <div className="message">{messag ? <p>{messag}</p> : null}</div>
+            <div className="message">{message ? <p>{message}</p> : null}</div>
      
       
         </div>
