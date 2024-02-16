@@ -5,6 +5,9 @@ import { Link, useNavigate, useLocation } from "react-router-dom"
 import { ChakraProvider, InputGroup, Spinner } from '@chakra-ui/react';
 import { Input, InputRightElement, Button, Heading, Text } from '@chakra-ui/react'
 import { NotifyPop } from "../firebase";
+import { Typography, TextField, Autocomplete } from '@mui/material';
+import { BootstrapButton, ValidationTextField } from "./material";
+
 
 const Last =()=>{
 const [info, setInfo] = useState([])
@@ -23,10 +26,9 @@ const ans = location.state.data
 const navigate = useNavigate()
 
 
-const handleBank = (selectedOption) => {
-    setSelectedOption(selectedOption);
-  };
-
+  const handleBank = (event, newValue) => {
+    setSelectedOption(newValue);}
+  
 
 const handleNuban =(evnt)=>{
         
@@ -179,40 +181,51 @@ async function ema(e) {
     <p>Loading...</p>)
   }
     return(
-        <div>
+        <div style={{padding: '3%'}}>
          <Helmet>
             <title>Set up Page</title>
             
         </Helmet>
          <ChakraProvider>
-         <Link to='/components/register'>
+         <Link to='/components/signup'>
       <i className="fa-solid fa-chevron-left bac"></i>
     </Link>
     <NotifyPop />
-         <Heading textAlign='left' ml='50px' fontSize='20px' mt='18px' color='blue'>Set up your Settlement Account</Heading>
-            <Text textAlign='left' ml='50px' fontSize='14px'>Fill in your account details!</Text>
+         <Heading textAlign='left' ml='6%' fontSize='22px' mt='18px' color='blue'>Set up your Settlement Account</Heading>
+            <Text textAlign='left' ml='6%' fontSize='16px'>Fill in your account details!</Text>
           <br/>
-          
-          
-      <Select
-      onChange={handleBank}
-      className="lne"
-      placeholder="Select Bank"
-      options={options}
-      isSearchable={true}
+          </ChakraProvider>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Autocomplete
+      
+      id="combo-box-demo"
       value={selectedOption}
-    /><br/>
-          <Input
-          size='md'
-          width={273} ml='18px'
-            type="number"
-            placeholder="Account Number"
-            onChange={handleNuban}
-          /><br/><br/>
+      options={options}
+      onChange={handleBank}
+      sx={{ width: '88%', maxWidth:'100%', align: 'center' }}
+      renderInput={(params) => <TextField {...params} label="Select Bank" />}
+        
+    /> </div>
+    <br/><br/>
+             
+    <ValidationTextField
+  
+  onChange={handleNuban}
+label="Account Number"
+type='number'
+required
+variant="outlined"
+id="validation-outlined-input"
+/>
+
+<br/><br/>
+
           <div >{users ? <div><p className="me">{users.account_name}</p><br/></div> : null}</div>
 <br/>              
-{buttonVisible && (<button className="logb" onClick={bus}>Next</button>
-       )}  
+{buttonVisible && (<BootstrapButton variant="contained" onClick={bus} disableRipple>
+                   Next
+      </BootstrapButton>
+       )}  <ChakraProvider>
        {!buttonVisible && <Spinner />} 
             <div className="message">{messag ? <p>{messag}</p> : null}</div>
      

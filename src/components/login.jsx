@@ -2,6 +2,9 @@ import { useState } from "react"
 import { Helmet } from "react-helmet";
 import { Link, useNavigate } from "react-router-dom"
 import Modal from 'react-modal'
+import { Typography, TextField } from '@mui/material';
+import { BootstrapButton, ValidationTextField, CssTextField, ValidationEyeField} from './material.js'
+
 
 
 const LoginPage = () => {
@@ -104,7 +107,7 @@ const LoginPage = () => {
       }
    
     return(
-        <div>
+        <div style={{padding: '4%'}}>
         <Helmet>
             <title>Log in Page</title>
             
@@ -113,13 +116,32 @@ const LoginPage = () => {
             <p className="lp">Let's get started with some basic information about your business </p>
 
             <form>
-                <p className='sp'>Phone number</p>
-                <input className="lin"  onChange={handleUsernameChange} type="number" name="username"  required/><br/><br/>
-                <p className="sp">Password</p>
-                <input className="line" type={passwordType} onChange={handlePasswordChange}  name="password" required/>
-                { passwordType==="password"?
-                <i onClick={togglePassword} class="fa-regular fa-eye-slash ic"></i> : <i class="fa-regular fa-eye ic" onClick={togglePassword}></i>} <br/><br/>
-                <button className="logb" onClick={login} type="submit">Log in</button>
+            <ValidationTextField
+           onChange={handleUsernameChange}
+        label="Phone Number"
+        type="number"
+        required
+        variant="outlined"
+        id="validation-outlined-input"
+      />
+      <br/> <br/><br/>
+      <ValidationEyeField
+        onChange={handlePasswordChange}
+        label="Password"
+        type={passwordType}
+        required
+        variant="outlined"
+        id="validation-outlined-input"
+        name='password1'
+      />
+      
+      { passwordType==="password"?
+             <i onClick={togglePassword} style={{marginTop: '5%'}} class="fa-regular fa-eye-slash ic" ></i> : <i style={{marginTop: '5%'}} class="fa-regular fa-eye ic" onClick={togglePassword}></i>} <br/>
+            <br/><br/>
+            <BootstrapButton variant="contained" type="submit" onClick={login} disableRipple>
+                   Next
+      </BootstrapButton>
+
                 <div className="message">{message ? <p>{message}</p> : null}</div>
                 <p className="lop" onClick={openModal}>Forgot Password?</p>
             </form>

@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useLocation } from "react-router-dom";
 import { generateToken } from "../firebase";
+import { BootstrapButton,  ValidationTextField} from './material.js'
+
 
 const Business=()=>{
     const [message, setMessage] = useState("");
@@ -60,18 +62,31 @@ const terms = (tok) => {
         }}
      console.log(tok)
     return(
-        <div>
-            <h2>Hi {bane}, tell us about<br /> your business</h2>
+        <div style={{padding: '2%'}}>
+            <h2>Hi {bane}, tell us about your business</h2>
             <p>Prestige finance is legally required to collect this information</p>
-            
-                <p className='sp'>Business Name</p>
-                <input type="text" onChange={handleBusiness} className="line" />
-                <p className='sp'>Type of Business</p>
-                <input type='text' className="line" onChange={handleBusinesstype} />
+            <ValidationTextField
+  
+  onChange={handleBusiness}
+label="Business Name"
+type='text'
+required
+variant="outlined"
+id="validation-outlined-input"
+/><br/><br/><br/>
+
+<ValidationTextField
+  
+  onChange={handleBusinesstype}
+label="Type of business"
+type='text'
+required
+variant="outlined"
+id="validation-outlined-input"
+/><br/><br/><br/>
                 
                 <div className="message">{message ? <p>{message}</p> : null}</div>
-                <button className='pog' onClick={bus} type="submit">Next</button>
-        </div>
+              <BootstrapButton variant="contained" onClick={bus} type="submit">Next</BootstrapButton>          </div>
     )
 }
 export default Business

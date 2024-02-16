@@ -66,7 +66,7 @@ thirtyDaysBefore.setDate(currentDate.getDate() - 60)
                     {obj.business}
                     </Heading>
                     <Text>Total Amount Spent: {JSON.stringify(obj.total_value)}</Text>
-                    <Text>Number of items purchased: {obj.total_volume}</Text>
+                    <Text>Total Reward: ₦{(obj.claimed_loyalty_reward).toLocaleString('en-US')}</Text>
                     <Text color='blue'>View more details!</Text>
                 </Card>
     
