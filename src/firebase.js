@@ -5,8 +5,18 @@ import React, {useState, useRef, useEffect} from 'react';
 import { useDisclosure } from '@chakra-ui/react';
 
 let tok= JSON.parse(localStorage.getItem("user-info"));
-       let refresh = tok.refresh_token
+    const terms = (tok) => {
+      let refreshval;
     
+      if (tok === null || typeof tok === 'undefined') {
+        refreshval = 0;
+      } else {
+        refreshval = tok.refresh_token;
+      }
+    
+      return refreshval;
+    };
+    let refresh = terms(tok)    
 // TODO: Replace the following with your app's Firebase project configuration
 const firebaseConfig = {
     apiKey: "AIzaSyAzI_pYNOig5crDJA2SkyglGFC0yi0nm3s",
@@ -75,9 +85,22 @@ export const NotifyPop = () => {
     const [showPopover, setShowPopover] = useState(false);
   
     const handlePermissionDenied = () => {
-      onOpen();
-      console.log('hi');
+      const storageKey = 'lastOnOpenTimestamp';
+    
+      // Get the timestamp from localStorage
+      const lastTimestamp = localStorage.getItem(storageKey);
+    
+      // If lastTimestamp is not available or more than 35 hours have passed
+      const shouldCallOnOpen = !lastTimestamp || Date.now() - lastTimestamp > 35 * 60 * 60 * 1000;
+    
+      if (shouldCallOnOpen) {
+        onOpen();
+        // Update the timestamp in localStorage
+        localStorage.setItem(storageKey, Date.now());
+        console.log('hi');
+      }
     };
+    
   
     const requestNotificationPermission = async () => {
       try {
