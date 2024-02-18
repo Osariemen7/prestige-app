@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Select from 'react-select';
+import { Typography, TextField, Autocomplete } from '@mui/material';
+import { BootstrapButton, ValidationTextField } from "./material";
+
 
   
 const GetGroup =()=>{
@@ -30,10 +33,17 @@ const GetGroup =()=>{
     code: item.bank_name
   }));
    
-  const handleBank = (selectedOption) => {
-    setSelectedOption(selectedOption);
-  };
-  const handleBen = (selected) => {
+  
+  const handleBank = (event, newValue) => {
+    setSelectedOption(newValue);}
+  
+    const handleBen = (event, newValue) => {
+      setSelected(newValue);
+      setSelectedOption({ label: selected.code, value: selected.team });
+      setNuban(selected.value);
+  }
+    
+  const handleBe = (selected) => {
     setSelected(selected);
     // Set the selected bank and account number in their respective fields
     setSelectedOption({ label: selected.code, value: selected.team });
@@ -203,7 +213,6 @@ let refresh = terms(tok)
   //     navigate('/components/token')
   //   } else {
    setUsers(response)
-   setPinid(respet)
     }
   
   useEffect(() => {
@@ -221,59 +230,94 @@ let refresh = terms(tok)
     } 
 
   return(
-    <div>
+    <div style={{padding: '3%'}}>
        <Link to='/components/savings'><i class="fa-solid fa-chevron-left bac"></i></Link>
       
             <h3>Send Money</h3>
        <form>
-    <p className='sp'>Select Beneficiary</p>
-                <Select
-      onChange={handleBen}
-      className="lne"
-      placeholder="Select Beneficiary"
-      options={opt}
-      isSearchable={true}
+       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Autocomplete
+      
+      id="combo-box-demo"
       value={selected}
-    />
-    
-    
-    <p className='sp'>Select Bank</p>
-                
+      options={opt}
+      onChange={handleBen}
+      sx={{ width: '88%', maxWidth:'100%', align: 'center' }}
+      renderInput={(params) => <TextField {...params} label="Select Beneficiary" />}
+        
+    /> </div>
+    <br/>
+                 
      {selected === '' ?(
       <div>
-      <Select
-      onChange={handleBank}
-      className="lne"
-      placeholder="Select Bank"
-      options={options}
-      isSearchable={true}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Autocomplete
+      
+      id="combo-box-demo"
       value={selectedOption}
-    />
-                <p className='sp'>To Account Number</p>
-                <input type='number'  onChange={handleAcct} className="line" placeholder="Enter Account Number" name="birth"/><br/> 
-                </div>) :(
+      options={options}
+      onChange={handleBank}
+      sx={{ width: '88%', maxWidth:'100%', align: 'center' }}
+      renderInput={(params) => <TextField {...params} label="Select Bank" />}
+        
+    /> </div>
+    <br/>
+    
+    <ValidationTextField
+  onChange={handleAcct}
+label="Account Number"
+type='number'
+required
+variant="outlined"
+id="validation-outlined-input"
+/>     
+    
+               </div>) :(
                   <div> 
-                  <input
-              onChange={handleBank}
-              className="line"
-              placeholder="Select Bank"
-              value={selected.code}
-            />
-            <p className='sp'>To Account Number</p>
-            <input
-              type='number'
-              onChange={handleAcct}
-              value={selected.value}
-              className="line"
-              placeholder="Enter Account Number"
-            />
+  <ValidationTextField
+  
+  onChange={handleBank}
+label="Select Bank"
+type='text'
+required
+value={selected.code}
+variant="outlined"
+id="validation-outlined-input"
+/>
+                  <ValidationTextField
+  
+  onChange={handleAcct}
+label="Account Number"
+type='number'
+value={selected.value}
+required
+variant="outlined"
+id="validation-outlined-input"
+/><br/>
                   </div>)}
                 <div className="me">{users ? <p>{users.account_name}</p> : null}</div>
-                <p className='sp'>Enter Amount</p>
-                <input type="number" onChange={handleAmount} className="line" placeholder="0.00" name="BVN"/><br/><br/> 
-                <p className='sp'>Add a Note</p>
-                <input type='text' onChange={handleNote} placeholder='Add a note' className='line' />
-                <button onClick={handleSubmit} className='tranb'>Next</button>
+                <ValidationTextField
+  
+  onChange={handleAmount}
+label="Amount"
+type='number'
+required
+variant="outlined"
+id="validation-outlined-input"
+/><br/><br/>
+                <ValidationTextField
+  
+  onChange={handleNote}
+label="Add note"
+type='text'
+required
+variant="outlined"
+id="validation-outlined-input"
+/> <br/><br/><br/>
+                <BootstrapButton variant="contained" onClick={handleSubmit} disableRipple>
+                   Next
+      </BootstrapButton>
+               
                 <div className="message">{message ? <p>{message}</p> : null}</div>
       </form>
     </div>

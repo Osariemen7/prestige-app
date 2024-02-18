@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import Modal from 'react-modal';
 import OtpInput from 'react-otp-input';
-import { click } from "@testing-library/user-event/dist/click";
+import { BootstrapButton } from "./material";
+
 const PostMon=()=> {
     const [pin, setPin] = useState('');
     const [isOpen, setIsOpen] = useState(false);
@@ -170,9 +171,11 @@ let refresh = terms(tok)
         <Link to='/components/savings'><i class="fa-solid fa-chevron-left bac"></i></Link>
             
             <h3>Confirm Details</h3>
-           <div className="meat">
+                  
+               <div style={{backgroundColor:'rgb(235, 245, 248)', padding: '1%', margin:'4%'}}>
               <h4>Tranfer ₦{(parseInt(meal.amount)).toLocaleString('en-US')} to<br/> {meal.users.account_name}</h4>
            </div>
+           <div style={{marginLeft:'5%', marginRight:'5%'}}>
            <div className="vasa">
               <p>Account Number</p>
               <p>{meal.nuban}</p>
@@ -187,10 +190,33 @@ let refresh = terms(tok)
                <p>Bank</p>
                <p>{meal.selectedOption.label}</p>
            </div>
+           </div>
+
            <div className="meats">
              <p>Be sure of the account details before sending<br/> funds as this cannot be reversed</p>
-           </div> 
-           <button onClick={openModal} className="tranb">Proceed</button>
+           </div>
+           {pinExpired === true ? (
+  user === '' ? (
+    <div>
+      <h4>
+        Send OTP to{' '}
+        <span className="lop" onClick={fetchData}>
+          Email?
+        </span>{' '}
+        or{' '}
+        <span className="lop" onClick={fetchDat}>
+          Phone Number?
+        </span>
+      </h4>
+    </div>
+  ) : (
+    <div>Done</div>
+  )
+) : null} <br/><br/>
+<div style={{padding:'5%'}}>
+<BootstrapButton variant="contained" onClick={openModal} disableRipple>
+                   Continue
+      </BootstrapButton></div>
            <Modal
             className='trmo'
            isOpen={isOpen}
