@@ -388,7 +388,7 @@ console.log(selectedOption)
     </Stack>
   </CardBody>
 </Card>
-<SimpleGrid m={3} mt={1} spacing={4} templateColumns='repeat(auto-fill, minmax(100px, 1fr))'>
+<SimpleGrid m={3} justify='center' mt={1} spacing={4} templateColumns='repeat(auto-fill, minmax(100px, 1fr))'>
   <Card height={90} justify='center'>
     <CardHeader p={1}>
       <Heading size='xs' textTransform='uppercase'>Sales Value</Heading>

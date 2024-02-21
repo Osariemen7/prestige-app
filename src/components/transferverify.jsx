@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { ChakraProvider } from '@chakra-ui/react';
 import {  useLocation, Link, useNavigate } from "react-router-dom";
-import { Button, Stack, Text, Heading, Card, Spinner, CardBody  } from "@chakra-ui/react"
+import { Button, Stack, Text, Heading, Card } from "@chakra-ui/react"
 import Select from 'react-select';
 
 const TransferVerify = () => {
@@ -205,14 +205,14 @@ const options = users.map((item) => ({
   value: item.reference,
   }));
     return(
-        <div >
+        <div style={{backgroundColor:'#F0F8FF', maxHeight:'100%', height: '100vh', paddingTop:'3%', zIndex:'0', alignItems: 'center', justifyContent: 'center'}} >
 <Link to='/components/inventory'>
             <i className="fa-solid fa-chevron-left bac"></i>
              </Link>        
-   <div>            <ChakraProvider >
+   <div >            <ChakraProvider >
             
             <Button colorScheme='black'  variant='outline'>Verify Sales</Button>
-            <Card backgroundColor='#f2f4f7' m={4} >
+            <Card backgroundColor='#F0F8FF' m={4} >
              <Text justify='red' fontSize='12px'>{(new Date()).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</Text>
             <Text>Method of Payment: TRANSFER</Text>
             {meal.ite.products.map((obj, index) => (
@@ -249,7 +249,7 @@ const options = users.map((item) => ({
     </ul>
 </Card>
 {message ? <p className='message'>{message}</p> : null}
-<Stack direction='row' spacing={6} justify='center'>
+<Stack direction='row' spacing={6} justify='center' mb='5%'>
             <Button variant='outline' colorScheme='blue' onClick={invo}>Share Receipt</Button>
             <Button variant='solid' colorScheme='blue' onClick={handleSub}>Confirm Payment</Button>
             </Stack>

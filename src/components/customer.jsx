@@ -149,7 +149,7 @@ if(loading) {
         </div>
         <div className='clup'>
           <button className='loyb' onClick={createLoy}>Create Loyalty program</button>
-          <button className='loyb' onClick={getLoy}>Get Loyalty program</button>
+          <button className='loyb' onClick={getLoy}>Manage Loyalty program</button>
         </div>
         <h3>Customers</h3>
         { myArray.length > 0 && typeof myArray[0] === 'object' ?(

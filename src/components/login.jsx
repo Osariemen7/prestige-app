@@ -115,7 +115,8 @@ const LoginPage = () => {
             <h2 className="lh">Welcome Back</h2> 
             <p className="lp">Let's get started with some basic information about your business </p>
 
-            <form>
+           <br/>
+          <form>
             <ValidationTextField
            onChange={handleUsernameChange}
         label="Phone Number"
@@ -159,7 +160,7 @@ const LoginPage = () => {
            <form>
               <p className="sp">Email Address</p>
               <input className="lin" type="email" onChange={handleEmailChange} name="email" placeholder="Enter Email Address" required/><br/><br/>
-              <button className="logb" onClick={ema} type="submit">Next</button>
+              <button className="logb" onClick={ema} type="submit">Login</button>
               <div className="message">{messag ? <p>{messag}</p> : null}</div>
            </form>
     </Modal>

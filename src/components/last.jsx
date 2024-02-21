@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react"
 import { Helmet } from "react-helmet";
-import Select from 'react-select';
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import { ChakraProvider, InputGroup, Spinner } from '@chakra-ui/react';
 import { Input, InputRightElement, Button, Heading, Text } from '@chakra-ui/react'

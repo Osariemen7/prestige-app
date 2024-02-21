@@ -14,16 +14,15 @@ const Request = () => {
     )
 
     console.log(next)
-      const send = () =>{
-        console.warn(amount)
-        let data = {amount, sub_account}
-        if (amount.length > 1 ) {
-          navigate('/components/odisplay', {state:{data}})
-        } else {
-          setMessage('please set an amount');
-        }
-      
-        }
+    const send = () => {
+      const data = { amount, sub_account };
+      if (amount && amount.length > 0) {
+        navigate('/components/test', { state: { data } });
+      } else {
+        setMessage('Please set an amount');
+      }
+    };
+        
     
     return(
         <div>
@@ -34,7 +33,7 @@ const Request = () => {
            <form>
               <p className="sp">Amount</p>
               <input className="lin" type="number" onChange={handleAmountChange} name="amount" placeholder="Enter " required/><br/><br/>
-              <button className="logb" onClick={send} type="submit">Proceed</button>
+              <button className="logb"   onClick={send} >Proceed</button>
               <div className="message">{message ? <p>{message}</p> : null}</div>
            </form>
            

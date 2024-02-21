@@ -35,6 +35,7 @@ import {
   ];
   
 const Tinvoice =()=> {
+  
   const [mustSpin, setMustSpin] = useState(false);
   const [selectedPrize, setSelectedPrize] = useState('');
     const { isOpen, onOpen,  onClose } = useDisclosure()
@@ -56,13 +57,16 @@ const Tinvoice =()=> {
     const [outline, setOutline] = useState('');
     const [message, setMessage] = useState('')
     const [messag, setMessag] = useState('Out of Stock please Restock')
-    const [valid, setValid] = useState('')
+    const [mess, setMess] = useState('')
+    const [valid, setValid] = useState('');
+    const [product_type, setProd] = useState('Service')
     const [buttonVisible, setButtonVisible] = useState(true);
     const modal1 = useDisclosure()
     const modal2 = useDisclosure()
     const navigate = useNavigate()
     console.log(item)
 
+    
     const handleSpinClick = () => {
       if (!mustSpin) {
         spinWheel();
@@ -111,18 +115,20 @@ const Tinvoice =()=> {
 //     value: item.name,
 //   }))]
 
-const payment = ['Cash', 'POS', 'Transfer']
-const pay = payment.map((p) => ({
-  label: p,
-  value: p
-}))
+
 const optio = ['item', 'pack'];
     const opt = optio.map((p) => ({
       label: p,
       value: p,
     }));
-    const handleFormSubmit = (event) => {
-      event.preventDefault();
+
+    const optn= ['item'];
+    const op = optn.map((p) => ({
+      label: p,
+      value: p,
+    }));
+      
+    const handleFormSubmit = () => {
       const selectedProduct = inputVa.value // Replace with the actual selected product name
   const rin = product.find(option => option.name === selectedProduct);
   
@@ -140,7 +146,8 @@ const optio = ['item', 'pack'];
       setInputV('');
       setPacksize([...pack_size1, inputp])
       setInputp(0)
-      modal1.onClose()}
+      modal1.onClose()
+      modal2.onClose()}
     }
   //   const options = [
   //     ...product.map((item) => ({
@@ -186,22 +193,9 @@ const optio = ['item', 'pack'];
     const handleInputCha = (inputV) => {
       setInputV(inputV)
     }
-    const handlePay = (payment_meth) =>{
-      setPayment(payment_meth)
-    }
-    const openModal = (button) => {
-      setPayment('CASH')
-      setOutline(button)
+    
+    
       
-      };
-      const openModal1 = (button) => {
-        setPayment('POS');
-        setOutline(button)
-      };
-      const openModal2 = (button) => {
-        setPayment('TRANSFER');
-        setOutline(button)
-      };
     function toSentenceCase(inputString) {
       if (!inputString) return inputString; // Handle empty or null input
       return inputString.charAt(0).toUpperCase() + inputString.slice(1);
@@ -212,6 +206,22 @@ const optio = ['item', 'pack'];
         setInputVa(newProduct);
       }
     };
+    const summit = ()=>{
+      if(inputV === '' || inputVa === '' || inputValue === '' || inputVal=== '' ){
+     setMess('Please fill all the necessary fields')}
+     else {
+      handleFormSubmit()
+      setProd('Product')
+     }
+    }
+    
+    const sum = ()=>{
+      if(inputV === '' || inputVa === '' || inputValue === '' || inputVal=== '' ){
+     setMess('Please fill all the necessary fields')}
+     else {
+      handleFormSubmit()
+           }
+    }
     
   
   let refresh = terms(tok)
@@ -291,7 +301,6 @@ const optio = ['item', 'pack'];
         });
         rep = await rep.json();
         let bab = rep.access_token
-        let product_type = 'PRODUCT'
         let pack_size= pack_size1
         let amount = tota
         let payment_method = 'TRANSFER' 
@@ -337,7 +346,7 @@ const optio = ['item', 'pack'];
         console.error(error);
       }   
         }
-        
+         
         
       const fetchData = async () => {
           let item ={refresh}
@@ -391,12 +400,11 @@ const optio = ['item', 'pack'];
           });
           rep = await rep.json();
           let bab = rep.access_token 
-          let product_type = 'PRODUCT'
           let pack_size= pack_size1
           let amount = tota
           let reward = selectedPrize
           let payment_method = 'TRANSFER'
-          let quantity_type = type.map(tod => tod.value)
+          let quantity_type = type.map(tod => tod.value) 
           let name = item.map(todo => todo.value)
           console.log(name, price, quantity, quantity_type, pack_size)
           let itemd = {name, price, quantity, quantity_type, pack_size};
@@ -437,6 +445,7 @@ const optio = ['item', 'pack'];
           console.error(error);
         };
       }
+      
       const beef =() =>{
         const data = {inputVa, inputValue}
         navigate('/components/before', {state:{data}})
@@ -445,7 +454,7 @@ const optio = ['item', 'pack'];
         navigate('/components/inventory')
       }
         console.log(list)
-        console.log(payment_meth)
+        console.log(type)
       
           if(loading) {
             return(
@@ -474,7 +483,7 @@ const optio = ['item', 'pack'];
                   <Heading size='xs'>Amount</Heading>
                   <Heading size='xs'>Quantity Type</Heading>
            </Stack>
-      
+        
               <div className='culb'>
                    <ul className="au">
                       {(item).map((todo, index) => (
@@ -508,15 +517,18 @@ const optio = ['item', 'pack'];
                <Stack direction='row' spacing={2} align='center' justify='center'>  
 
                    <Button colorScheme='blue' variant='solid' onClick={modal1.onOpen}>Add Product</Button> 
-              { item.length !== 0 ? (  <div>  <div>{buttonVisible && (<Button colorScheme='blue' variant='solid' onClick={sprod}>Confirm Payment</Button> 
+                   <Button colorScheme='blue' variant='solid' onClick={modal2.onOpen}>Add Service</Button> 
+              
+                    </Stack>} <br/>
+                    { item.length !== 0 ? (  <div>  <div>{buttonVisible && (<Button colorScheme='blue' variant='solid' onClick={sprod}>Confirm Payment</Button> 
                    )}
         {!buttonVisible && <Spinner />}</div></div>): null }
-                    </Stack>} <br/>
+             
                 {item.length !== 0 ?( <div> 
                   <div>
-                <p className='font'>₦{total} Payment should be sent to</p>
-                <p className='font'>Account No: {tip.account_number}</p>
-                <p className='font'>Bank: {tip.bank}</p>
+                <p className=''>₦{total} Payment should be sent to</p>
+                <p className=''>Account No: {tip.account_number}</p>
+                <p className=''>Bank: {tip.bank}</p>
                 
          
                 </div>
@@ -536,9 +548,9 @@ const optio = ['item', 'pack'];
              <h3 className='h4'></h3>
               <form >
              
-    <CreatableSelect
+        <Select
           className="pne"
-          placeholder="Enter product/service"
+          placeholder="Enter product name"
           options={options}
           isSearchable={true}
           onChange={handleInputchan}
@@ -547,24 +559,25 @@ const optio = ['item', 'pack'];
           isClearable={true} 
           
         /><br/>
-              
-              <Input placeholder='Price of a single item/pack/service' size='md' onChange={handleInputChang} width={273} ml={9}/><br/><br/>
-              <Input placeholder='Quantity' size='md' onChange={handleInputChange} width={273} ml={9}/><br/><br/>
-              <Select
+               <Select
         onChange={handleInputCha}
         className="pne"
         placeholder="Quantity Type"
         options={opt}
         value={inputV} /><br/>
+              <Input placeholder='Price of a single item' size='md' onChange={handleInputChang} width={273} ml={9}/><br/><br/>
+              <Input placeholder='Quantity' size='md' onChange={handleInputChange} width={273} ml={9}/><br/><br/>
+             
         {inputV.label !== 'item' || inputVa.label === options ? (
           <div>
           <Input placeholder='No of items in pack/carton'  size='md' onChange={handlePack} width={273} ml={9} /><br/>
           <br/></div>): null}  
           
                 <img src={Logo} alt="logo" className="frame2"/>
-                
+                <div className=" ">{mess ? <p>{mess}</p> : null}</div>
+            
           {inputVa.mony !== 0 || inputVa.team !== 0 ? (
-      <Button colorScheme='blue' onClick={handleFormSubmit} >Add</Button>
+      <Button colorScheme='blue' onClick={summit} >Add</Button>
     ) : (
       <div ><p className="message">{messag}</p>
       
@@ -575,36 +588,45 @@ const optio = ['item', 'pack'];
               </ModalContent>
         </Modal>
         <Modal isOpen={modal2.isOpen} onClose={modal2.onClose}>
-          <ModalOverlay />
+         <ModalOverlay />
           <ModalContent>
           
-            <ModalHeader>Get Prize !</ModalHeader>
+            <ModalHeader>Add Service rendered</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-            <div className=''>
-        <Wheel 
-          mustStartSpinning={mustSpin}
-          prizeNumber={data.findIndex((prize) => prize.option === selectedPrize)} // Make sure to provide the number of segments
-          data={data}
-          radiusLineColor='yellow'
-          radiusLineWidth={6}
-          outerBorderWidth= {3}
-          innerRadius ={10}
-          onStopSpinning={() => {
-            // The onStopSpinning event is automatically triggered when spinning is complete
-            // You can use it to handle post-spin actions if needed
-            setMustSpin(false);
-            
-          }}
-        />
-      {!mustSpin ? (<div>
-        {selectedPrize && <p>{selectedPrize}% of ₦{total} </p>}
-        <p>You won: ₦{won}</p></div>): null}
-        {selectedPrize === '' ? (  <Button colorScheme='blue' variant='solid' onClick={handleSpinClick}>Spin</Button>
-                   ): null}
-      </div>
+             <h3 className='h4'></h3>
+              <form >
+                  <CreatableSelect
+          className="pne"
+          placeholder="Enter service Name"
+          options={options}
+          isSearchable={true}
+          onChange={handleInputchan}
+          value={inputVa}
+          onCreateOption={handleAddProduct} // Handle adding a new option
+          isClearable={true} 
+          
+        /><br/>
+              
+              <Input placeholder='Price of service for one customer' size='md' onChange={handleInputChang} width={273} ml={9}/><br/><br/>
+              <Input placeholder='Number of customers' size='md' onChange={handleInputChange} width={273} ml={9}/><br/><br/>
+              <Select
+        onChange={handleInputCha}
+        className="pne"
+        placeholder="Quantity Type"
+        options={op}
+        value={inputV} /><br/>
+          
+                <img src={Logo} alt="logo" className="frame2"/>
+                
+           <Button colorScheme='blue' onClick={sum} >Add</Button>
+     <p className="message">{mess}</p>
+      
+                          
+              </form>
               </ModalBody>
               </ModalContent>
+
         </Modal>
   
         </ChakraProvider></div>):<ChakraProvider> <div><Button colorScheme='black' variant='outline'>{toSentenceCase(list[0].business_name)}</Button><br/>

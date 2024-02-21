@@ -213,6 +213,7 @@ let refresh = terms(tok)
   //     navigate('/components/token')
   //   } else {
    setUsers(response)
+   setPinid(respet)
     }
   
   useEffect(() => {
