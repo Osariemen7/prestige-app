@@ -1417,13 +1417,14 @@ form{
     text-align: left;
   }
   .dash{
-    background: url(/src/components/images/outlined.svg) no-repeat;
+    background: url(/src/components/images/ble.jpg) ;
     background-color: #060b26;
     margin:2% 5%;
     width: 90%;
     border-radius: 10px;
   }
   .nav-menu{
+    background: url(/src/components/images/be.jpg);
     background-color: #060b26;
     width: 45%;
     height:100vh;
