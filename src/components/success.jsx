@@ -19,8 +19,9 @@ const SuccessPage=()=>{
     return(
         <div style={{backgroundColor:'#F0F8FF', maxHeight:'100%', height: '100vh', paddingTop:'3%', zIndex:'0', alignItems: 'center', justifyContent: 'center'}}>
           <ChakraProvider>
-           <div className=''>
-              <img src={tick} style={{marginLeft:'35%', marginTop:'30%'}} alt=''/>
+           <div style={{ marginTop:'30%'}}>
+           <Heading>Congratulations!</Heading>
+              <img src={tick} style={{marginLeft:'35%'}} alt=''/>
               <Heading fontSize='20px' mb={3}>You have Successfully Recorded Sales!</Heading>
               <Card m={3} backgroundColor='#F0F8FF' p={3}>
               <p >{meal.message}</p>

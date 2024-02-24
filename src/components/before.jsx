@@ -4,7 +4,6 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import { Button, Stack, Input, Heading, useDisclosure,Card, Spinner, CardBody  } from "@chakra-ui/react"
 import CreatableSelect from 'react-select/creatable';
-import Logo from './images/Logo.png';
 import {
   Modal,
   ModalOverlay,
@@ -19,7 +18,7 @@ const BuyP =()=>{
   const { isOpen, onOpen,  onClose } = useDisclosure()
   const [messag, setMessag] = useState([])
   const [loading, setLoading] = useState(true);
-  const [quatity, setQuatity] = useState([]);
+  const [quantity, setQuatity] = useState([]);
   const [price, setPrice] = useState([]);
   const [type, setType] = useState([]);
   const [item, setItem] = useState([])
@@ -33,15 +32,9 @@ const BuyP =()=>{
   const [buttonVisible, setButtonVisible] = useState(true);
   const [pack_size1, setPacksize] = useState([])
   const [product_ty, setProductType] = useState([])
-  const [mess, setMess] = useState('')
   const [product, setProduct] = useState([])
   const [payment_meth, setPayment] = useState('')
   const [info, setInfo] = useState([])
-  const [product_type, setProd] = useState('Service')
-  const modal1 = useDisclosure()
-  const modal2 = useDisclosure()
-
-    
  const location = useLocation()
   const navigate = useNavigate()
   const data = location.state && location.state.data;
@@ -50,28 +43,6 @@ const BuyP =()=>{
     setInputValue(data ? (data.inputValue !== '' ? data.inputValue : '') : '');
   }, []);
 
-  const summit = ()=>{
-    if(inputV === '' || inputVa === '' || inputValue === '' || inputVal=== '' ){
-   setMess('Please fill all the necessary fields')}
-   else {
-    handleFormSubmit()
-    setProd('Product')
-   }
-  }
-  
-  const sum = ()=>{
-    if(inputV === '' || inputVa === ''  || inputVal=== '' ){
-   setMess('Please fill all the necessary fields')}
-   else {
-    handleFormSubmit()
-    
-         }
-  }
-  const optn= ['item'];
-  const op = optn.map((p) => ({
-    label: p,
-    value: p,
-  }));
    console.log(data)
     let tok= JSON.parse(localStorage.getItem("user-info"));
   const terms = (tok) => {
@@ -115,15 +86,51 @@ setInfo(response)
   useEffect(() => {
     fetchData()
   }, [])
+  // const fetchDal = async () => {
+  //   let item ={refresh}
+  //   let rep = await fetch ('https://sandbox.prestigedelta.com/refreshtoken/',{
+  //       method: 'POST',
+  //       headers:{
+  //         'Content-Type': 'application/json',
+  //         'accept' : 'application/json'
+  //    },
+  //    body:JSON.stringify(item)
+  //   });
+    
+  //   rep = await rep.json();
+  //   let bab = rep.access_token
+  // let response = await fetch("https://sandbox.prestigedelta.com/subaccount/",{
+  // method: "GET",
+  // headers:{'Authorization': `Bearer ${bab}`},
+  // })
+  // //localStorage.setItem('user-info', JSON.stringify(tok))
   
+  // if (response.status === 401) {
+  //   navigate('/components/login');
+  // } else { 
+   
+  // response = await response.json();
+  // setAcct(response)
+  
+  //   }}
+  //   useEffect(() => {
+  //     fetchDal()
+  //   }, [])
 
+const prod = ['PRODUCT', 'SERVICE']
+const  prud = prod.map((p) => ({
+  label: p,
+  value: p,
+}))
 const optio = ['item', 'pack'];
   const opt = optio.map((p) => ({
     label: p,
     value: p,
   }));
-const handleFormSubmit = () => {
-  setQuatity([...quatity, inputValue]);
+const handleFormSubmit = (event) => {
+  event.preventDefault();
+  
+  setQuatity([...quantity, inputValue]);
   setInputValue("");
   setPrice([...price, inputVal]);
   setInputVal('');
@@ -133,8 +140,7 @@ const handleFormSubmit = () => {
   setInputV('');
   setPacksize([...pack_size1, inputp])
   setInputp(0)
-  modal1.onClose()
-  modal2.onClose()
+  onClose()
 }
 const handleClick = () => {
   // When the button is clicked, setButtonVisible to false
@@ -146,19 +152,16 @@ const handleClick = () => {
 const handleProduct =(product_ty) =>{
    setProductType(product_ty)
 }
-
 const options = product.map((item) => ({
   label: item.name,
     value: item.name,
     team:  item.pack_size,
     mony: item.pack_cost,
 }));
-
-const tota = quatity.reduce((total, q, index) => {
-  const quantityValue = parseFloat(q) || 1; // Replace missing quantity with 1
-  const itemAmount = quantityValue * parseFloat(price[index]);
-  return total + itemAmount;
-}, 0);
+  const tota = quantity.reduce((total, q, index) => {
+    const itemAmount =parseFloat(q) * parseFloat(price[index]);
+    return total + itemAmount;
+  }, 0);
     let total = (tota).toLocaleString('en-US')
     const handlePack =(e)=>{
       setInputp(e.target.value)
@@ -189,7 +192,6 @@ const tota = quatity.reduce((total, q, index) => {
   
   let refresh = terms(tok)
   console.log(data)
-  
   const fetchDa = async () => {
       let item ={refresh}
       let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
@@ -220,7 +222,6 @@ const tota = quatity.reduce((total, q, index) => {
       useEffect(() => {
         fetchDa()
       }, [])
-
       async function aprod() {
          handleClick()
          let items ={refresh}
@@ -234,11 +235,10 @@ const tota = quatity.reduce((total, q, index) => {
           });
           rep = await rep.json();
           let bab = rep.access_token 
-          
+          let product_type = product_ty.value
         let pack_size= pack_size1
         let amount = tota
         let payment_method = payment_meth.value
-        let quantity = quatity || 1
       
         let quantity_type = type.map(tod => tod.value)
         let name = item.map(todo => todo.value)
@@ -285,7 +285,18 @@ const tota = quatity.reduce((total, q, index) => {
         setOutline(button)
         
         };
-       
+        const openModal1 = (button) => {
+          setPayment('POS');
+          setOutline(button)
+        };
+        const openModal2 = (button) => {
+          setPayment('TRANSFER');
+          setOutline(button)
+        };
+        const openModal3 = (button) => {
+          setPayment('CREDIT');
+          setOutline(button)
+        };
       
       const conti = () => {
         aprod()
@@ -328,7 +339,7 @@ const pay = payment.map((p) => ({
                      <p key={index}>{todo.value}</p>))}
                  </ul>
                  <ul className="aul">
-                     {quatity.map((to, index1) => (
+                     {quantity.map((to, index1) => (
                     <p key={index1}>{to}</p>
                   ))}
                  </ul>
@@ -349,20 +360,11 @@ const pay = payment.map((p) => ({
                  <div className="">{messag ? <p>{messag}</p> : null}</div>
                  <br></br>
                  <Stack direction='row' mt={2} spacing={2} align='center' justify='center'>
-                 {total !== '0'  ? (<Stack direction='row' spacing={2} align='center' justify='center'>  
-
-<Button colorScheme='blue' variant='solid' onClick={modal1.onOpen}>Add Product</Button> 
-
- </Stack>) : <Stack direction='row' spacing={2} align='center' justify='center'>  
-
-<Button colorScheme='blue' variant='solid' onClick={modal1.onOpen}>Add Product</Button> 
-
-
- </Stack>} <br/>
+                 {total !== '0'  ? (<Button colorScheme='blue' variant='solid' m={2} onClick={onOpen}>Add More Items</Button>) : <Button m={2} colorScheme='blue' variant='solid' onClick={onOpen}>Add Item</Button> }
                  { item.length !== 0 ? (   <div>    {payment_meth !== 'TRANSFER' ? ( <div>{buttonVisible && (<div>{fun === ''?<Button colorScheme='blue' variant='solid' onClick={aprod}>Save</Button>:<Button colorScheme='blue' variant='solid' onClick={back}>Back</Button>}</div> )}
       {!buttonVisible && <Spinner />}</div>) : <Button colorScheme='blue' variant='solid' onClick={conti}>Continue</Button>}
       </div> ): null  } </Stack>
-                 <Modal isOpen={modal1.isOpen} onClose={modal1.onClose}>
+                 <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
         
@@ -372,8 +374,13 @@ const pay = payment.map((p) => ({
            <h3 className='h4'></h3>
             <form >
 {data ?(<div>
-  
-<Input placeholder="Enter product Name" ml={9}
+  <Select
+      onChange={handleProduct}
+      className="pne"
+      placeholder="Product Type"
+      options={prud}
+      value={product_ty} /><br/>
+<Input placeholder="Enter product/service" ml={9}
 onChange={handleInputchan} width={273}
 value={data.inputVa.value} /><br/><br/>
 {data.inputValue === ''? <div>
@@ -386,10 +393,15 @@ onChange={ handleInputChange}
   value={data.inputValue} width={273} ml={9}/><br/><br/></div>}
             
 </div>):( <div>   
- 
+ <Select
+      onChange={handleProduct}
+      className="pne"
+      placeholder="Product Type"
+      options={prud}
+      value={product_ty} /><br/>        
   <CreatableSelect
         className="pne"
-        placeholder="Enter product Name"
+        placeholder="Enter product/service"
         options={options}
         isSearchable={true}
         onChange={handleInputchan}
@@ -401,7 +413,7 @@ onChange={ handleInputChange}
 
             
             <Input placeholder='Quantity Bought' size='md' onChange={handleInputChange} width={273} ml={9}/><br/><br/></div>)}
-            <Input placeholder='Price of a single item' size='md' onChange={handleInputChang} width={273} ml={9}/><br/><br/>
+            <Input placeholder='Price of a single item/pack/service' size='md' onChange={handleInputChang} width={273} ml={9}/><br/><br/>
             <Select
         onChange={handlePay}
         className="pne"
@@ -419,60 +431,11 @@ onChange={ handleInputChange}
         <Input placeholder='No of items in pack/carton'  size='md' onChange={handlePack} width={273} ml={9} /><br/>
         <br/></div>): null}   
                                    
-                <Button colorScheme='blue' onClick={summit}>Add</Button>
+                <Button colorScheme='blue' onClick={handleFormSubmit}>Add</Button>
             </form>
             </ModalBody>
             </ModalContent>
       </Modal>
-      <Modal isOpen={modal2.isOpen} onClose={modal2.onClose}>
-         <ModalOverlay />
-          <ModalContent>
-          
-            <ModalHeader>Add Service rendered</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-             <h3 className='h4'></h3>
-              <form >
-                  <CreatableSelect
-          className="pne"
-          placeholder="Enter service Name"
-          options={options}
-          isSearchable={true}
-          onChange={handleInputchan}
-          value={inputVa}
-          onCreateOption={handleAddProduct} // Handle adding a new option
-          isClearable={true} 
-          
-        /><br/>
-        <Select
-        onChange={handlePay}
-        className="pne"
-        placeholder="Payment Method"
-        options={pay}
-        value={payment_meth} /><br/>          
-            
-              
-              <Input placeholder='Price of service for one customer' size='md' onChange={handleInputChang} width={273} ml={9}/><br/><br/>
-              
-              <Select
-        onChange={handleInputCha}
-        className="pne"
-        placeholder="Quantity Type"
-        options={op}
-        value={inputV} /><br/>
-          
-                <img src={Logo} alt="logo" className="frame2"/>
-                
-           <Button colorScheme='blue' onClick={sum} >Add</Button>
-     <p className="message">{mess}</p>
-      
-                          
-              </form>
-              </ModalBody>
-              </ModalContent>
-
-        </Modal>
-  
     </ChakraProvider>
        
     </div>

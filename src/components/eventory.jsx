@@ -83,31 +83,6 @@ const thirtyDaysBefore = new Date(); // Create a new Date object
     if (!inputString) return inputString; // Handle empty or null input
     return inputString.charAt(0).toUpperCase() + inputString.slice(1);
 }
-const salesTra  = async () => {
-  let item ={refresh}
-  let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
-      method: 'POST',
-      headers:{
-        'Content-Type': 'application/json',
-        'accept' : 'application/json'
-   },
-   body:JSON.stringify(item)
-  });
-  rep = await rep.json();
-  let bab = rep.access_token
-let response = await fetch(`https://api.prestigedelta.com/salestransactions/?start_date=${thirtyDaysBefore.toLocaleDateString('en-US')}&end_date=${(new Date()).toLocaleDateString('en-US')}&name=INVENTORY`,{
-method: "GET",
-headers:{'Authorization': `Bearer ${bab}`},
-})
-
-if (response.status === 401) {
-  navigate('/components/login');
-} else {  
-response = await response.json();}
-setLoading(false)
-setPrice(response)
-}
-
 
 const fetchDat = async () => {
   let item ={refresh}
@@ -230,6 +205,30 @@ let refresh = terms(tok)
     }
 
     
+    const salesTra  = async () => {
+      let item ={refresh}
+      let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
+          method: 'POST',
+          headers:{
+            'Content-Type': 'application/json',
+            'accept' : 'application/json'
+       },
+       body:JSON.stringify(item)
+      });
+      rep = await rep.json();
+      let bab = rep.access_token
+    let response = await fetch(`https://api.prestigedelta.com/salestransactions/?start_date=${thirtyDaysBefore.toLocaleDateString('en-US')}&end_date=${(new Date()).toLocaleDateString('en-US')}&name=INVENTORY`,{
+    method: "GET",
+    headers:{'Authorization': `Bearer ${bab}`},
+    })
+    
+    if (response.status === 401) {
+      navigate('/components/login');
+    } else {  
+    response = await response.json();}
+    setLoading(false)
+    setPrice(response)
+    }
     useEffect(() => {
       if( typeof list !== 'undefined')
       salesTra()

@@ -447,29 +447,28 @@ const subAccount = () => {
         <Button colorScheme='blue' variant='outline' 
          w='230px' onClick={() => salesTra()}>Filter</Button><br/><br/>
 {reverse.map((obj, index) => (
+  <Card m={2} backgroundColor='#F0F8FF'>
   <div className="td2" key={index} >
     <div className="tg">
     <Text mb={0} >{(new Date(obj.time)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</Text>
     {obj.verified !== true? (<Button colorScheme='red' onClick={() => receipt(index)} size='xs' outline='solid'>Confirm Sale</Button>): <div className='loos' onClick={() => overdraft(index)}><span>receipt </span><i className="fa-solid fa-file-export"></i></div>} </div>
   {obj.verified !== true? (<div className='loos' onClick={() => overdraft(index)}><span>invoice </span><i className="fa-solid fa-file-export"></i></div>): null}  
     {obj.sold_products.map((product, inde) => (
-    <div key={inde} onClick={() => invoice(index, inde)} >
-     
-<Stack  direction='row' mt={0} mb={0} gap='115px' spacing={2} align='center' justify='center'>
+    <div key={inde} onClick={() => invoice(index, inde)}  >
+   <div className='drz'> 
       <Text fontSize='13px'>Product:</Text>
       <Heading mt={0} fontSize='13px' className="ove">{product.product_name}</Heading>    
-      </Stack>
-      <Stack  direction='row'mt={0} mb={0} gap='100px' spacing={2} align='center' justify='center'>
+      </div> 
+      <Stack  direction='row' ml='4%' mb={0} gap='40%' spacing={2} align='center' justify=''>
       <Text fontSize='13px'>Amount Sold:</Text>
-      <Text mt={0} fontSize='13px' className="ove">₦{(product.sold_amount).toLocaleString('en-US')}</Text>    
+      <Heading mt={0} fontSize='13px' className="ove">₦{(product.sold_amount).toLocaleString('en-US')}</Heading>    
       </Stack>
        
        
       </div>
 ))}
   </div>
-))}
-
+</Card>))}
                        <Modal isOpen={modal1.isOpen} onClose={modal1.onClose}>
         <ModalOverlay />
         <ModalContent>

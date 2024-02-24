@@ -371,9 +371,9 @@ return(
   </TabList>
   <TabPanels>
     <TabPanel p={0}>
-    <Button onClick={() => handleShare(refresh)} mb={2} >Share daily transations</Button>
+    <Button onClick={() => handleShare(refresh)} mb={2} >Share View Access</Button>
                
-    <Stack direction='row' spacing={1} >
+    <Stack direction='row' spacing={1} justify='center' >
 <div>
          <Heading fontSize='12px'>Start Date</Heading>
         <Input placeholder='' defaultValue={(thirtyDaysBefore).toISOString().slice(0, 10)}  size='md' type='date' onChange={begin} width={173} ml={3}/><br/><br/>
@@ -385,6 +385,7 @@ return(
         <Button colorScheme='blue' variant='outline' 
          w='230px' onClick={() => Infow()}>Filter</Button>
         {info.transactions.map((obj, index) => 
+          <Card m={3} backgroundColor='#F0F8FF'>
                   <div className='td'  onClick={() => receipt(index)}>
                   <div className='tl'>
                        <p key={index}>{obj.classification}</p>
@@ -398,7 +399,7 @@ return(
                        <p className='tm' key={index}>{obj.narration}</p>) : <p className='tm' key={index}>Beneficiary: {obj.beneficiary.account_name} {obj.beneficiary.bank_name}</p>}
                   <div ><i class="fa-solid fa-file-export"></i></div>    
                   </div>
-                )}
+               </Card>)}
          </TabPanel>
 <TabPanel>
 <Card justify='center' ml='40px' backgroundColor='#9fc5e8' w='250px' p={2}>

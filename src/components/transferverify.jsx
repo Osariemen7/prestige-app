@@ -8,7 +8,7 @@ const TransferVerify = () => {
     const [loading, setLoading] = useState(true);
     const [list, setList] = useState()
     const [info, setInfo] = useState()
-    const [users, setUsers] = useState('')
+    const [users, setUsers] = useState([])
     const [selectedOption, setSelectedOption] = useState('')
     const [message, setMessage] = useState('')
     const navigate = useNavigate()
@@ -92,6 +92,7 @@ const thirtyDaysBefore = new Date(); // Create a new Date object
         setLoading(false)
         setList(response)
         }
+
         useEffect(() => {
           if( typeof info !== 'undefined')
           salesTra()
@@ -188,11 +189,12 @@ const invo = () =>{
               
             } else {
               result = await result.json();
-              setMessage(result.message)
+              navigate('/components/success', {state:{result}})
             }
           }
              console.log(meal) 
              console.log(list)
+             console.log(users)
 
         if(loading) {
 
@@ -201,11 +203,10 @@ const invo = () =>{
             const finfo = list.sales.find(sale => sale.id === meal.result.sale_id)
             console.log(finfo)
     
-const options = users.map((item) => ({
-  label: `${item.beneficiary.account_name} (Amount:₦${item.amount}, Time:${new Date(item.time).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })})`,
-  value: item.reference,
-  }));
-  
+            const options = users.map((item) => ({
+              label: `${item.beneficiary.account_name} (Amount:₦${item.amount}, Time:${new Date(item.time).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })})`,
+              value: item.reference,
+              }));
     return(
         <div style={{backgroundColor:'#F0F8FF', maxHeight:'100%', height: '100vh', paddingTop:'3%', zIndex:'0', alignItems: 'center', justifyContent: 'center'}} >
 <Link to='/components/inventory'>
@@ -247,7 +248,7 @@ const options = users.map((item) => ({
       value={selectedOption}
     />
     <ul>
-      <li >{options}</li>
+      <li >{options.label}</li>
     </ul>
 </Card>
 {message ? <p className='message'>{message}</p> : null}

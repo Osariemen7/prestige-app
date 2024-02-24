@@ -61,6 +61,7 @@ const Tinvoice =()=> {
     const [messag, setMessag] = useState('Out of Stock please Restock')
     const [mess, setMess] = useState('')
     const [valid, setValid] = useState('');
+    const [service, setService] = useState([])
     const [product_type, setProd] = useState('Service')
     const [buttonVisible, setButtonVisible] = useState(true);
     const modal1 = useDisclosure()
@@ -167,6 +168,14 @@ const optio = ['item', 'pack'];
         team:  item.item_no,
         mony: item.pack_no,
     }));
+
+    const opto = service.map((item) => ({
+      label: `${item.name} 
+      (Pack:${item.pack_no}, Item:${item.item_no})`,
+        value: item.name,
+        team:  item.item_no,
+        mony: item.pack_no,
+    }));
     
     // let amount = parseFloat(price) * parseFloat(quantity)
     // let tota =(amount.reduce((total, to) => {
@@ -261,7 +270,7 @@ const optio = ['item', 'pack'];
     
   
   
-  const fetchDa = async () => {
+  const fetchDas = async () => {
       let item ={refresh}
       let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
           method: 'POST',
@@ -274,7 +283,7 @@ const optio = ['item', 'pack'];
       
       rep = await rep.json();
       let bab = rep.access_token
-    let response = await fetch("https://api.prestigedelta.com/productcatalogue/",{
+    let response = await fetch("https://api.prestigedelta.com/productcatalogue/?product_type=SERVICE",{
     method: "GET",
     headers:{'Authorization': `Bearer ${bab}`},
     })
@@ -285,12 +294,44 @@ const optio = ['item', 'pack'];
     } else { 
      
     response = await response.json();
-    setProduct(response)
+    setService(response)
     
       }}
       useEffect(() => {
-        fetchDa()
+        fetchDas()
       }, [])
+
+      const fetchDap = async () => {
+        let item ={refresh}
+        let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
+            method: 'POST',
+            headers:{
+              'Content-Type': 'application/json',
+              'accept' : 'application/json'
+         },
+         body:JSON.stringify(item)
+        });
+        
+        rep = await rep.json();
+        let bab = rep.access_token
+      let response = await fetch("https://api.prestigedelta.com/productcatalogue/?product_type=PRODUCT",{
+      method: "GET",
+      headers:{'Authorization': `Bearer ${bab}`},
+      })
+      //localStorage.setItem('user-info', JSON.stringify(tok))
+      
+      if (response.status === 401) {
+        navigate('/components/login');
+      } else { 
+       
+      response = await response.json();
+      setProduct(response)
+      
+        }}
+        useEffect(() => {
+          fetchDap()
+        }, [])
+
       const creat = async() => {
         handleClick()
         let it ={refresh}
@@ -547,7 +588,7 @@ const optio = ['item', 'pack'];
                   <Heading size='xs'>Quantity Type</Heading>
            </Stack>
         
-              <div className='culb' style={{marginLeft:'10%'}}>
+              <div className='culb' style={{marginLeft:'8%'}}>
                    <ul className="au">
                       {(item).map((todo, index) => (
                        <p key={index}>{todo.value}</p>))}
@@ -557,12 +598,12 @@ const optio = ['item', 'pack'];
                       <p key={index1}>{to}</p>
                     ))}
                    </ul>
-                   <ul className="aul" style={{marginLeft:'10%'}}>
+                   <ul className="aul" style={{marginLeft:'5%'}}>
                        {price.map((t, index1) => (
                       <p key={index1}>₦{parseFloat(t).toLocaleString('en-US')}</p>
                     ))}
                    </ul>
-                   <ul className="aul">
+                   <ul className="aul" style={{marginLeft:'5%'}}>
                        {type.map((tod, index1) => (
                       <p key={index1}>{tod.value}</p>
                     ))}
@@ -662,7 +703,7 @@ const optio = ['item', 'pack'];
                   <CreatableSelect
           className="pne"
           placeholder="Enter service Name"
-          options={options}
+          options={opto}
           isSearchable={true}
           onChange={handleInputchan}
           value={inputVa}

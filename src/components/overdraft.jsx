@@ -51,7 +51,7 @@ const Overdraft = () => {
                    <p>0.1%</p>
                </div>
              </div>
-             <p className="ov">The fees will be applied only after you borrow from your loan account</p>
+             <p className="ov">{index.overdraft.message}</p>
         </div>
     )
 }

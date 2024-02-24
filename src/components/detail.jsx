@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import good from './images/good.svg'
 import { ChakraProvider } from "@chakra-ui/react";
-import { Card, CardHeader, CardBody, Box, Button, Heading, Stack,  Text } from '@chakra-ui/react'
+import { Card, CardHeader, CardBody, SimpleGrid, Box, Button, Heading, Stack,  Text } from '@chakra-ui/react'
 import {
   Modal,
   ModalOverlay,
@@ -378,7 +378,7 @@ const openModal = () => {
              <h4 className="cpn">{index.name} SUB ACCOUNT</h4>
              <div className="dash">
                 <p className="dp">Balance</p>
-                <h2 className="h2">₦{(finfo.balance.available_balance).toLocaleString('en-US')}</h2> 
+                <Heading fontSize='25px' className="h2">₦{(finfo.balance.available_balance).toLocaleString('en-US')}</Heading> 
             <div className="act">
                  <Button  colorScheme="blue" onClick={modal1.onOpen}>Fund</Button>  
                 <Button colorScheme="blue" onClick={modal2.onOpen}>Edit Budget</Button>  
@@ -393,8 +393,15 @@ const openModal = () => {
                 <p>Amount Spent</p>
                 <Heading fontSize='16px' className="sco">₦{(index.spent).toLocaleString('en-US')}</Heading>
              </Stack>
+             <SimpleGrid m={3} mt={1} spacing={2} templateColumns='repeat(auto-fill, minmax(100px, 2fr))'>
              <Button onClick={() => transfer()} colorScheme="blue">Transfers</Button>
+             {finfo.auto_fund === false ?(
+             <Button onClick={dauto} colorScheme="blue">Enable<br/> Auto Fund</Button>):(
+              <Button onClick={dauto} colorScheme="blue">Disable<br/> Auto Fund</Button>
+             )}
+                       <Button colorScheme="red" onClick={modal3.onOpen} >Close<br/> Sub Account</Button>
             
+             </SimpleGrid>
              <Heading fontSize='14px' className="saed">Activity</Heading>
              {list.map((obj, index) => 
              <Card m={2} backgroundColor='#F0F8FF'>
@@ -411,12 +418,7 @@ const openModal = () => {
                   </div></Card>
                        )}
                        <div className="dax">
-                       {finfo.auto_fund === false ?(
-             <Button onClick={dauto} colorScheme="blue">Enable Auto Fund</Button>):(
-              <Button onClick={dauto} colorScheme="blue">Disable Auto Fund</Button>
-             )}
-                       <Button colorScheme="red" onClick={modal3.onOpen} >Close Sub Account</Button>
-                       </div>
+                                 </div>
     <Modal isOpen={modal1.isOpen} onClose={modal1.onClose}>
       <ModalOverlay />
         <ModalContent>
@@ -461,7 +463,7 @@ const openModal = () => {
       <ModalOverlay />
         <ModalContent>
   
-          <ModalHeader>Fund {index.name }</ModalHeader>
+          <ModalHeader>Close {index.name } Sub-Account</ModalHeader>
           <ModalCloseButton />
           <ModalBody> 
     
@@ -489,7 +491,7 @@ const openModal = () => {
         <ModalOverlay />
         <ModalContent>
   
-          <ModalHeader>Set Monthly Amount for {index.name}</ModalHeader>
+          <ModalHeader>Set Monthly Budget for {index.name}</ModalHeader>
           <ModalCloseButton />
           <ModalBody> 
       {fin === '' ? (
