@@ -59,6 +59,7 @@ const Invoice =()=> {
     const [buttonVisible, setButtonVisible] = useState(true);
     const [mess, setMess] = useState('')
     const [product_type, setProd] = useState('Service')
+    const [service, setService] = useState([])
     const modal1 = useDisclosure()
     const modal2 = useDisclosure()
     const navigate = useNavigate()
@@ -160,6 +161,14 @@ const optio = ['item', 'pack'];
         mony: item.pack_no,
     }));
     
+    const opto = service.map((item) => ({
+      label: `${item.name} 
+      (Pack:${item.pack_no}, Item:${item.item_no})`,
+        value: item.name,
+        team:  item.item_no,
+        mony: item.pack_no,
+    }));
+    
     // let amount = parseFloat(price) * parseFloat(quantity)
     // let tota =(amount.reduce((total, to) => {
     //   return total + parseFloat (to);
@@ -218,7 +227,38 @@ const optio = ['item', 'pack'];
   
   let refresh = terms(tok)
 
-  const fetchDa = async () => {
+  const fetchDas = async () => {
+    let item ={refresh}
+    let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json',
+          'accept' : 'application/json'
+     },
+     body:JSON.stringify(item)
+    });
+    
+    rep = await rep.json();
+    let bab = rep.access_token
+  let response = await fetch("https://api.prestigedelta.com/productcatalogue/?product_type=SERVICE",{
+  method: "GET",
+  headers:{'Authorization': `Bearer ${bab}`},
+  })
+  //localStorage.setItem('user-info', JSON.stringify(tok))
+  
+  if (response.status === 401) {
+    navigate('/components/login');
+  } else { 
+   
+  response = await response.json();
+  setService(response)
+  
+    }}
+    useEffect(() => {
+      fetchDas()
+    }, [])
+
+    const fetchDap = async () => {
       let item ={refresh}
       let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
           method: 'POST',
@@ -231,7 +271,7 @@ const optio = ['item', 'pack'];
       
       rep = await rep.json();
       let bab = rep.access_token
-    let response = await fetch("https://api.prestigedelta.com/productcatalogue/",{
+    let response = await fetch("https://api.prestigedelta.com/productcatalogue/?product_type=PRODUCT",{
     method: "GET",
     headers:{'Authorization': `Bearer ${bab}`},
     })
@@ -246,8 +286,9 @@ const optio = ['item', 'pack'];
     
       }}
       useEffect(() => {
-        fetchDa()
+        fetchDap()
       }, [])
+
       const creat = async() => {
         handleClick()
         let it ={refresh}
@@ -570,7 +611,7 @@ const optio = ['item', 'pack'];
                   <CreatableSelect
           className="pne"
           placeholder="Enter service Name"
-          options={options}
+          options={opto}
           isSearchable={true}
           onChange={handleInputchan}
           value={inputVa}
