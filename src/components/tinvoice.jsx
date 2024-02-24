@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {  Link, useNavigate } from "react-router-dom";
 import Logo from './images/Logo.png';
 import Select from 'react-select';
@@ -15,6 +15,8 @@ import {
     ModalCloseButton,
   } from '@chakra-ui/react'
   import { useDisclosure, Input, Card, Text, Button, Heading, Stack, Spinner  } from "@chakra-ui/react"
+  import {AlertDialogBody, AlertDialog, AlertDialogOverlay, AlertDialogCloseButton, AlertDialogHeader, AlertDialogContent, } from '@chakra-ui/react'
+
   import { Wheel } from 'react-custom-roulette';
   import { html2pdf } from 'html2pdf.js';
 
@@ -63,6 +65,7 @@ const Tinvoice =()=> {
     const [buttonVisible, setButtonVisible] = useState(true);
     const modal1 = useDisclosure()
     const modal2 = useDisclosure()
+    const modal3 = useDisclosure()
     const navigate = useNavigate()
     console.log(item)
 
@@ -446,6 +449,66 @@ const optio = ['item', 'pack'];
         };
       }
       
+      async function spod() {
+      
+        handleClick()
+         let items ={refresh}
+          let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
+              method: 'POST',
+              headers:{
+                'Content-Type': 'application/json',
+                'accept' : 'application/json'
+           },
+           body:JSON.stringify(items)
+          });
+          rep = await rep.json();
+          let bab = rep.access_token 
+          let pack_size= pack_size1
+          let amount = tota
+          let reward = selectedPrize
+          let payment_method = 'TRANSFER'
+          let quantity_type = type.map(tod => tod.value) 
+          let name = item.map(todo => todo.value)
+          console.log(name, price, quantity, quantity_type, pack_size)
+          let itemd = {name, price, quantity, quantity_type, pack_size};
+          
+          const separatedData = itemd.name.map((_, index) => ({
+            name: itemd.name[index],
+            price:parseInt( itemd.price[index]),
+            quantity:itemd.quantity[index],
+            quantity_type:itemd.quantity_type[index],
+            pack_size:itemd.pack_size[index],
+            product_type: product_type,
+            amount: amount
+          }));
+          let products = separatedData
+          let ite = {products, payment_method}
+        try {
+          let result = await fetch('https://api.prestigedelta.com/sellproducts/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'accept': 'application/json',
+              'Authorization': `Bearer ${bab}`
+            },
+            body: JSON.stringify(ite)
+          });
+                if (result.status !== 200 || product.item_no === 0) {
+            const errorResult = await result.json();
+            setMessage(JSON.stringify(errorResult))  
+          } else {
+             result =await result.json();
+            setMessage(JSON.stringify(result.message))
+            setValid('Valid')
+            modal3.onClose()
+                     } 
+        } catch (error) {
+          // Handle fetch error
+          console.error(error);
+        };
+      }
+      const cancelRef = useRef();
+    
       const beef =() =>{
         const data = {inputVa, inputValue}
         navigate('/components/before', {state:{data}})
@@ -519,8 +582,8 @@ const optio = ['item', 'pack'];
                    <Button colorScheme='blue' variant='solid' onClick={modal1.onOpen}>Add Product</Button> 
                    <Button colorScheme='blue' variant='solid' onClick={modal2.onOpen}>Add Service</Button> 
               
-                    </Stack>} <br/>
-                    { item.length !== 0 ? (  <div>  <div>{buttonVisible && (<Button colorScheme='blue' variant='solid' onClick={sprod}>Confirm Payment</Button> 
+                    </Stack>} <br/><br/>
+                    { item.length !== 0 ? (  <div>  <div>{buttonVisible && (<Button colorScheme='blue' variant='solid' onClick={modal3.onOpen}>Confirm Payment</Button> 
                    )}
         {!buttonVisible && <Spinner />}</div></div>): null }
              
@@ -628,7 +691,31 @@ const optio = ['item', 'pack'];
               </ModalContent>
 
         </Modal>
-  
+        <AlertDialog
+        motionPreset='slideInBottom'
+        leastDestructiveRef={cancelRef}
+        onClose={modal3.onClose}
+        isOpen={modal3.isOpen}
+        isCentered
+      >
+        <AlertDialogOverlay />
+
+        <AlertDialogContent>
+          <AlertDialogHeader>Confirm Payment</AlertDialogHeader>
+          <AlertDialogCloseButton />
+          <AlertDialogBody>
+            Have you received payment for this items? 
+          </AlertDialogBody>
+          <Stack m={5}  spacing={9} direction='row' justify='center'>
+          <Button ref={cancelRef} colorScheme='blue' onClick={spod}>
+              No
+            </Button>
+            <Button colorScheme='green' ml={3} onClick={sprod}>
+              Yes
+            </Button>
+            </Stack>
+        </AlertDialogContent>
+      </AlertDialog>
         </ChakraProvider></div>):<ChakraProvider> <div><Button colorScheme='black' variant='outline'>{toSentenceCase(list[0].business_name)}</Button><br/>
          <Button colorScheme='blue' variant='solid' mt='10px' >Restock</Button></div></ChakraProvider>}
          
