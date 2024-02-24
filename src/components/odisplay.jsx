@@ -1,5 +1,8 @@
 import {useState} from 'react';
 import {Link, useNavigate, useLocation} from 'react-router-dom'
+import { ChakraProvider } from '@chakra-ui/react';
+import { Card, CardHeader, CardBody, Box, Button, Heading, Stack, SimpleGrid,  StackDivider, Text } from '@chakra-ui/react'
+
 const Display = ()=>{
        const [message, setMessage] = useState('')
        const navigate = useNavigate()
@@ -8,6 +11,8 @@ const Display = ()=>{
        let amount = am.amount
        let sub_account = am.sub_account
        const currentDate = new Date(); // Get the current date
+
+      
 
     const thirtyDaysBefore = new Date(); // Create a new Date object
     thirtyDaysBefore.setDate(currentDate.getDate() + 30)  
@@ -67,31 +72,37 @@ const Display = ()=>{
         <h4 className='oveh'>Confirm Overdraft</h4>
         <p className='ove'>You are borrowing</p>
         <h1>₦{(parseInt(amount)).toLocaleString('en-US')}</h1>
-             <div className='rev'>
-                <p>From</p>
+        <Stack direction='row' spacing={2} justify='center' align='center' gap='25%'>
+        <p>From</p>
                 <p>Overdraft Account</p>
-             </div>
-             <div className='orev'>
-                <p>To</p>
-                <p>{am.sub_account} Sub Account</p>
-             </div>
-             <div className='revd'>
-                <p>Maturity Date</p>
-                <p>{(thirtyDaysBefore).toLocaleDateString('en-GB')}</p>
-             </div>
-             <div className='rev'>
-                <p>Daily Interest Rate</p>
-                <p>0.1%</p>
-             </div>
-             <div className='orev2'>
-                <p>Term</p>
+        </Stack>
+        <hr/>
+        <Stack direction='row' spacing={2} ml='17%' justify='left' align='center' gap='35%'>
+              <p>To</p>
+                <p>{am.sub_account}<br/> Sub Account</p>
+        </Stack>
+        <hr/>
+        <Stack direction='row' spacing={2} ml='15%' justify='left' align='center' gap='20%'>
+        <p>Maturity Date</p>
+                <p>{(thirtyDaysBefore).toLocaleDateString('en-GB')}</p>     
+        </Stack>
+        <hr/>
+        <Stack direction='row' spacing={2} ml='15%' justify='left' align='center' gap='20%'>
+        <p>Daily Interest Rate</p>
+                <p>0.1%</p>   
+        </Stack>
+        <hr/>
+        <Stack direction='row' spacing={2} ml='15%' justify='left' align='center' gap='45%'>
+        <p>Term</p>
                 <p>Daily</p>
-             </div>
-             <div className='orev'>
-                <p>Description</p>
-                <p>Overdraft</p>
-             </div>
-             <button className='logb' onClick={overdraft}>Proceed</button>
+              </Stack>
+              <hr/>
+              <Stack direction='row' ml='15%' spacing={2} justify='left' align='center' gap='32%'>
+              <p>Description</p>
+                <p>Overdraft</p>    
+              </Stack>
+        
+        <button className='logb' onClick={overdraft}>Proceed</button>
              <div className="message">{message ? <p>{message}</p> : null}</div>
         </div>
     )

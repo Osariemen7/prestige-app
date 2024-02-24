@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { ChakraProvider } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 
 const Request = () => {
     const [message, setMessage] = useState("");
@@ -14,15 +16,16 @@ const Request = () => {
     )
 
     console.log(next)
-    const send = () => {
-      const data = { amount, sub_account };
-      if (amount && amount.length > 0) {
-        navigate('/components/test', { state: { data } });
-      } else {
-        setMessage('Please set an amount');
-      }
-    };
-        
+      const send = (e) =>{
+        e.preventDefault()
+        let data = {amount, sub_account}
+        if (amount.length > 1 ) {
+          navigate('/components/odisplay', {state:{data}})
+        } else {
+          setMessage('please set an amount');
+        }
+      
+        }
     
     return(
         <div>
@@ -32,8 +35,8 @@ const Request = () => {
 
            <form>
               <p className="sp">Amount</p>
-              <input className="lin" type="number" onChange={handleAmountChange} name="amount" placeholder="Enter " required/><br/><br/>
-              <button className="logb"   onClick={send} >Proceed</button>
+              <input className="lin" type="number" onChange={handleAmountChange} placeholder="Enter Amount" required/><br/><br/>
+                 <button className="logb" onClick={send} type="submit">Proceed</button>
               <div className="message">{message ? <p>{message}</p> : null}</div>
            </form>
            

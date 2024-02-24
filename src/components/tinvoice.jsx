@@ -454,7 +454,7 @@ const optio = ['item', 'pack'];
         navigate('/components/inventory')
       }
         console.log(list)
-        console.log(type)
+        console.log(options.length)
       
           if(loading) {
             return(
@@ -484,7 +484,7 @@ const optio = ['item', 'pack'];
                   <Heading size='xs'>Quantity Type</Heading>
            </Stack>
         
-              <div className='culb'>
+              <div className='culb' style={{marginLeft:'10%'}}>
                    <ul className="au">
                       {(item).map((todo, index) => (
                        <p key={index}>{todo.value}</p>))}
@@ -494,7 +494,7 @@ const optio = ['item', 'pack'];
                       <p key={index1}>{to}</p>
                     ))}
                    </ul>
-                   <ul className="aul">
+                   <ul className="aul" style={{marginLeft:'10%'}}>
                        {price.map((t, index1) => (
                       <p key={index1}>₦{parseFloat(t).toLocaleString('en-US')}</p>
                     ))}
@@ -576,7 +576,7 @@ const optio = ['item', 'pack'];
                 <img src={Logo} alt="logo" className="frame2"/>
                 <div className=" ">{mess ? <p>{mess}</p> : null}</div>
             
-          {inputVa.mony !== 0 || inputVa.team !== 0 ? (
+          {inputVa.mony !== 0 || inputVa.team !== 0  || options.length !== 0 ? (
       <Button colorScheme='blue' onClick={summit} >Add</Button>
     ) : (
       <div ><p className="message">{messag}</p>

@@ -134,7 +134,7 @@ console.log(meal)
   value: item.reference,
   }));
     return(
-        <div >
+        <div style={{backgroundColor:'#f2f4f7', maxHeight:'100%', height: '100vh', paddingTop:'3%', alignItems: 'center', justifyContent: 'center'}} >
 <Link to='/components/inventory'>
             <i className="fa-solid fa-chevron-left bac"></i>
              </Link>        
@@ -173,10 +173,10 @@ console.log(meal)
       isSearchable={true}
       value={selectedOption}
       
-    />
+    /><br/>
     <br/>
 </Card>
-{message ? <p className='message'>{message}</p> : null}
+{message ? <p className='message'>{message}</p> : null}<br/>
 <Stack direction='row' spacing={5} justify='center'>
             <Button variant='outline' colorScheme='blue' onClick={invo}>Share Receipt</Button>
             <Button variant='solid' colorScheme='blue' onClick={handleSub}>Confirm Payment</Button>

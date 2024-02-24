@@ -11,9 +11,10 @@ const Sales = () => {
 
    let meal = location.state.data
     let tok= JSON.parse(localStorage.getItem("user-info"));
+    console.log(meal)
     const terms = (tok) => {
        let refreshval;
-   console.log(meal)
+  
   if ( tok === null || typeof tok === "undefined" ) {
     refreshval = 0;
   } else {
@@ -73,7 +74,7 @@ console.log(meal)
             <Stack direction='column'mb={0} gap='10px' mt={3} spacing={4} align='center' justify='left'>
                <Stack direction='row'mb={2} gap='30px' mt={0} spacing={2} align='center' justify='center'>
                  <Heading size='xs'>Product Name</Heading>
-                 <Text>{meal[0].product_name}</Text>
+                 <Text>{meal.product_name}</Text>
                </Stack>
                <Stack direction='row'mb={2} gap='30px' mt={0} spacing={2} align='center' justify='center'>
                <Heading size='xs'>Amount</Heading>

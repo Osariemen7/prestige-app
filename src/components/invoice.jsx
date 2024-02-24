@@ -57,6 +57,8 @@ const Invoice =()=> {
     const [messag, setMessag] = useState('Out of Stock please Restock')
     const [valid, setValid] = useState('')
     const [buttonVisible, setButtonVisible] = useState(true);
+    const [mess, setMess] = useState('')
+    const [product_type, setProd] = useState('Service')
     const modal1 = useDisclosure()
     const modal2 = useDisclosure()
     const navigate = useNavigate()
@@ -120,8 +122,8 @@ const optio = ['item', 'pack'];
       label: p,
       value: p,
     }));
-    const handleFormSubmit = (event) => {
-      event.preventDefault();
+    const handleFormSubmit = () => {
+      
       const selectedProduct = inputVa.value // Replace with the actual selected product name
   const rin = product.find(option => option.name === selectedProduct);
   
@@ -139,7 +141,8 @@ const optio = ['item', 'pack'];
       setInputV('');
       setPacksize([...pack_size1, inputp])
       setInputp(0)
-      modal1.onClose()}
+      modal1.onClose()
+      modal2.onClose()}
     }
   //   const options = [
   //     ...product.map((item) => ({
@@ -258,10 +261,10 @@ const optio = ['item', 'pack'];
         });
         rep = await rep.json();
         let bab = rep.access_token
-        let product_type = 'PRODUCT'
+        
         let pack_size= pack_size1
         let amount = tota
-        let payment_method = payment_meth.value
+        let payment_method = 'Cash'
       
         let quantity_type = type.map(tod => tod.value)
         let name = item.map(todo => todo.value)
@@ -358,11 +361,11 @@ const optio = ['item', 'pack'];
           });
           rep = await rep.json();
           let bab = rep.access_token 
-          let product_type = 'PRODUCT'
+    
           let pack_size= pack_size1
           let amount = tota
           let reward = selectedPrize
-          let payment_method = payment_meth.value
+          let payment_method = 'Cash'
           let quantity_type = type.map(tod => tod.value)
           let name = item.map(todo => todo.value)
           console.log(name, price, quantity, quantity_type, pack_size)
@@ -409,6 +412,29 @@ const optio = ['item', 'pack'];
       const done =()=> {
         navigate('/components/inventory')
       }
+      const optn= ['item'];
+      const op = optn.map((p) => ({
+        label: p,
+        value: p,
+      }));
+      
+
+      const summit = ()=>{
+        if(inputV === '' || inputVa === '' || inputValue === '' || inputVal=== '' ){
+       setMess('Please fill all the necessary fields')}
+       else {
+        handleFormSubmit()
+        setProd('Product')
+       }
+      }
+      
+      const sum = ()=>{
+        if(inputV === '' || inputVa === '' || inputValue === '' || inputVal=== '' ){
+       setMess('Please fill all the necessary fields')}
+       else {
+        handleFormSubmit()
+             }
+      }
       
         console.log(payment_meth)
       
@@ -440,7 +466,7 @@ const optio = ['item', 'pack'];
                   <Heading size='xs'>Quantity Type</Heading>
            </Stack>
       
-              <div className='culb'>
+              <div className='culb' style={{marginLeft: '10%'}}>
                    <ul className="au">
                       {(item).map((todo, index) => (
                        <p key={index}>{todo.value}</p>))}
@@ -450,12 +476,12 @@ const optio = ['item', 'pack'];
                       <p key={index1}>{to}</p>
                     ))}
                    </ul>
-                   <ul className="aul">
+                   <ul className="aul" style={{marginLeft:'5%'}}>
                        {price.map((t, index1) => (
                       <p key={index1}>₦{parseFloat(t).toLocaleString('en-US')}</p>
                     ))}
                    </ul>
-                   <ul className="aul">
+                   <ul className="aul" style={{marginLeft:'8%'}}>
                        {type.map((tod, index1) => (
                       <p key={index1}>{tod.value}</p>
                     ))}
@@ -471,13 +497,16 @@ const optio = ['item', 'pack'];
                  </main></ChakraProvider>
                  <ChakraProvider>     
                  {valid === 'Valid' ? (<Button colorScheme='blue' variant='solid' onClick={done}>Back</Button>):      
-               <Stack direction='row' spacing={2} align='center' justify='center'>  
+             <div>  <Stack direction='row' spacing={2} align='center' justify='center'>  
 
                    <Button colorScheme='blue' variant='solid' onClick={modal1.onOpen}>Add Product</Button> 
-              { item.length !== 0 ? (  <div>  <div>{buttonVisible && (<Button colorScheme='blue' variant='solid' onClick={sprod}>Save Payment</Button> 
+                   <Button colorScheme='blue' variant='solid' onClick={modal2.onOpen}>Add Service</Button> 
+              
+                    </Stack><br/>
+                    { item.length !== 0 ? (  <div>  <div>{buttonVisible && (<Button colorScheme='blue' variant='solid' onClick={sprod}>Save Payment</Button> 
                    )}
-        {!buttonVisible && <Spinner />}</div></div>): null }
-                    </Stack>} <br/>
+        {!buttonVisible && <Spinner />}</div></div>): null }</div>}
+              <br/>
                 {item.length !== 0 ?( <div> <br/>
                   <Button  colorScheme='blue' variant='outline' onClick={creat} >Get Sales Tips</Button>
                   
@@ -495,7 +524,7 @@ const optio = ['item', 'pack'];
              
     <CreatableSelect
           className="pne"
-          placeholder="Enter product/service"
+          placeholder="Enter product name"
           options={options}
           isSearchable={true}
           onChange={handleInputchan}
@@ -505,7 +534,7 @@ const optio = ['item', 'pack'];
           
         /><br/>
               
-              <Input placeholder='Price of a single item/pack/service' size='md' onChange={handleInputChang} width={273} ml={9}/><br/><br/>
+              <Input placeholder='Price of a single item' size='md' onChange={handleInputChang} width={273} ml={9}/><br/><br/>
               <Input placeholder='Quantity' size='md' onChange={handleInputChange} width={273} ml={9}/><br/><br/>
               <Select
         onChange={handleInputCha}
@@ -519,7 +548,7 @@ const optio = ['item', 'pack'];
           <br/></div>): null}  
          
           {inputVa.mony !== 0 || inputVa.team !== 0 ? (
-      <Button colorScheme='blue' onClick={handleFormSubmit} >Add</Button>
+      <Button colorScheme='blue' onClick={summit} >Add</Button>
     ) : (
       <div ><p className="message">{messag}</p>
       
@@ -530,36 +559,45 @@ const optio = ['item', 'pack'];
               </ModalContent>
         </Modal>
         <Modal isOpen={modal2.isOpen} onClose={modal2.onClose}>
-          <ModalOverlay />
+         <ModalOverlay />
           <ModalContent>
           
-            <ModalHeader>Get Prize !</ModalHeader>
+            <ModalHeader>Add Service rendered</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-            <div className=''>
-        <Wheel 
-          mustStartSpinning={mustSpin}
-          prizeNumber={data.findIndex((prize) => prize.option === selectedPrize)} // Make sure to provide the number of segments
-          data={data}
-          radiusLineColor='yellow'
-          radiusLineWidth={6}
-          outerBorderWidth= {3}
-          innerRadius ={10}
-          onStopSpinning={() => {
-            // The onStopSpinning event is automatically triggered when spinning is complete
-            // You can use it to handle post-spin actions if needed
-            setMustSpin(false);
-            
-          }}
-        />
-      {!mustSpin ? (<div>
-        {selectedPrize && <p>{selectedPrize}% of ₦{total} </p>}
-        <p>You won: ₦{won}</p></div>): null}
-        {selectedPrize === '' ? (  <Button colorScheme='blue' variant='solid' onClick={handleSpinClick}>Spin</Button>
-                   ): null}
-      </div>
+             <h3 className='h4'></h3>
+              <form >
+                  <CreatableSelect
+          className="pne"
+          placeholder="Enter service Name"
+          options={options}
+          isSearchable={true}
+          onChange={handleInputchan}
+          value={inputVa}
+          onCreateOption={handleAddProduct} // Handle adding a new option
+          isClearable={true} 
+          
+        /><br/>
+              
+              <Input placeholder='Price of service for one customer' size='md' onChange={handleInputChang} width={273} ml={9}/><br/><br/>
+              <Input placeholder='Number of customers' size='md' onChange={handleInputChange} width={273} ml={9}/><br/><br/>
+              <Select
+        onChange={handleInputCha}
+        className="pne"
+        placeholder="Quantity Type"
+        options={op}
+        value={inputV} /><br/>
+          
+                <img src={Logo} alt="logo" className="frame2"/>
+                
+           <Button colorScheme='blue' onClick={sum} >Add</Button>
+     <p className="message">{mess}</p>
+      
+                          
+              </form>
               </ModalBody>
               </ModalContent>
+
         </Modal>
   
         </ChakraProvider></div>):<ChakraProvider> <div><Button colorScheme='black' variant='outline'>{toSentenceCase(list[0].business_name)}</Button><br/>

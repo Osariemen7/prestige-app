@@ -175,7 +175,7 @@ const invo = () =>{
             let item = {payment_method, payment_ref, sale_id};
             let result = await fetch ('https://api.prestigedelta.com/sellproducts/',{
                 method: 'POST',
-                headers:{
+                 headers:{
                   'Content-Type': 'application/json',
                   'accept' : 'application/json',
                   'Authorization': `Bearer ${bab}`
@@ -191,8 +191,9 @@ const invo = () =>{
               setMessage(result.message)
             }
           }
-             console.log(list) 
-        
+             console.log(meal) 
+             console.log(list)
+
         if(loading) {
 
                     return(
@@ -204,6 +205,7 @@ const options = users.map((item) => ({
   label: `${item.beneficiary.account_name} (Amount:₦${item.amount}, Time:${new Date(item.time).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })})`,
   value: item.reference,
   }));
+  
     return(
         <div style={{backgroundColor:'#F0F8FF', maxHeight:'100%', height: '100vh', paddingTop:'3%', zIndex:'0', alignItems: 'center', justifyContent: 'center'}} >
 <Link to='/components/inventory'>

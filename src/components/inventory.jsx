@@ -43,6 +43,11 @@ const Inventory = () => {
     const modal3 = useDisclosure()
   
     const showSidebar = () => setSidebar(!sidebar)
+    const closeSidebar =()=>{
+      if (sidebar === !sidebar){
+        setSidebar('')
+      }
+    }
   const nav =()=>{
     navigate('/components/product')
   }
@@ -348,10 +353,11 @@ const subAccount = () => {
         const data = reverse[index]
         navigate('/components/salesverify', {state:{data}} )
       }
-      const invoice =(index)=>{
-        const data = reverse[index].sold_products[index]
-        navigate('/components/pinvoice', {state:{data}} )
-      }
+      const invoice = (index, inde) => {
+        const data = reverse[index].sold_products[inde];
+        navigate('/components/pinvoice', { state: { data } });
+      };
+
       const overdraft= (index)=>{
         const data = reverse[index]
         navigate('/components/eventory', {state:{data}})
@@ -371,9 +377,10 @@ const subAccount = () => {
         const reverse = [...list.sales].reverse();
         console.log(reverse)
 
+        
          return(
         <ChakraProvider>
-        <div>
+        <div onClick={closeSidebar} >
         <i onClick={showSidebar} class="fa-solid fa-bars ac"></i>
             <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
                 <ul className='nav-menu-item'>
@@ -428,7 +435,7 @@ const subAccount = () => {
             </div>
             <NotifyPop />
 <Heading fontSize='15px' textAlign='left' ml='15px'>Activity</Heading>
-        <Stack direction='row' spacing={1} >
+        <Stack direction='row' spacing={1} justify='center' align='center' >
 <div>
          <Heading fontSize='12px'>Start Date</Heading>
         <Input placeholder='' defaultValue={(thirtyDaysBefore).toISOString().slice(0, 10)}  size='md' type='date' onChange={begin} width={173} ml={3}/><br/><br/>
@@ -443,13 +450,12 @@ const subAccount = () => {
   <div className="td2" key={index} >
     <div className="tg">
     <Text mb={0} >{(new Date(obj.time)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</Text>
-    {obj.verified !== true? (<Button colorScheme='red' onClick={() => receipt(index)} size='xs' outline='solid'>Confirm Sale</Button>): null} </div>
-  {obj.verified !== true? (<div className='loos' onClick={() => overdraft(index)}><span>invoice </span><i className="fa-solid fa-file-export"></i></div>):<div className='loos' onClick={() => overdraft(index)}><span>receipt </span><i className="fa-solid fa-file-export"></i></div>}  
-    {obj.sold_products.filter(product=> product.product_name.toLowerCase().includes(searchTerm.toLowerCase()))
-  .map((product, inde) => (
-    <div key={inde} onClick={() => invoice(index)} >
+    {obj.verified !== true? (<Button colorScheme='red' onClick={() => receipt(index)} size='xs' outline='solid'>Confirm Sale</Button>): <div className='loos' onClick={() => overdraft(index)}><span>receipt </span><i className="fa-solid fa-file-export"></i></div>} </div>
+  {obj.verified !== true? (<div className='loos' onClick={() => overdraft(index)}><span>invoice </span><i className="fa-solid fa-file-export"></i></div>): null}  
+    {obj.sold_products.map((product, inde) => (
+    <div key={inde} onClick={() => invoice(index, inde)} >
      
-<Stack  direction='row'mt={0} mb={0} gap='115px' spacing={2} align='center' justify='center'>
+<Stack  direction='row' mt={0} mb={0} gap='115px' spacing={2} align='center' justify='center'>
       <Text fontSize='13px'>Product:</Text>
       <Heading mt={0} fontSize='13px' className="ove">{product.product_name}</Heading>    
       </Stack>
@@ -457,10 +463,7 @@ const subAccount = () => {
       <Text fontSize='13px'>Amount Sold:</Text>
       <Text mt={0} fontSize='13px' className="ove">₦{(product.sold_amount).toLocaleString('en-US')}</Text>    
       </Stack>
-        <div className='tg'>
-          <p className="tm">Quantity Sold: {product.sold_quantity}</p>
-          <p className='tm'>Quantity Type: {product.quantity_type}</p>
-        </div>
+       
        
       </div>
 ))}
@@ -546,7 +549,7 @@ const subAccount = () => {
           <AlertDialogHeader>Choose Payment Method</AlertDialogHeader>
           <AlertDialogCloseButton />
           <AlertDialogBody>
-            How did you receive payment? 
+            How are you receiving payment? 
           </AlertDialogBody>
           <Stack m={5}  spacing={9} direction='row' justify='center'>
           <Link to='/components/invoice'><Button ref={cancelRef} colorScheme='blue' onClick={onClose}>
