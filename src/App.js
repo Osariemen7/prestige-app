@@ -72,7 +72,10 @@ import Tinvoice from './components/tinvoice.jsx';
 import TransferVerify from './components/transferverify.jsx';
 import Dailysh from './components/customer/dailyTransact.jsx';
 import CustLog from './components/customer/custlog.jsx';
+import Hat from './components/test.jsx';
+import SuccessPage from './components/success.jsx';
 import './components/analytics.js'
+import './components/test.jsx'
 
 
 import { Analytics } from '@vercel/analytics/react';
@@ -161,7 +164,8 @@ function App() {
          <Route path='/components/transferverify' element={<TransferVerify />} />
        <Route path='/components/customer/dailyTransact' element={<Dailysh />} />
         <Route path='/components/customer/custlog' element={<CustLog />} />
-
+        <Route path='/components/success' element={<SuccessPage />} />
+        <Route path='/components/test' element={<Hat />} />
      </Routes>
       
     </div>
