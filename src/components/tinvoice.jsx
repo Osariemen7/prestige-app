@@ -170,8 +170,7 @@ const optio = ['item', 'pack'];
     }));
 
     const opto = service.map((item) => ({
-      label: `${item.name} 
-      (Pack:${item.pack_no}, Item:${item.item_no})`,
+      label: `${item.name}`,
         value: item.name,
         team:  item.item_no,
         mony: item.pack_no,
@@ -228,7 +227,7 @@ const optio = ['item', 'pack'];
     }
     
     const sum = ()=>{
-      if(inputV === '' || inputVa === '' || inputValue === '' || inputVal=== '' ){
+      if( inputVa === '' || inputValue === '' || inputVal=== '' ){
      setMess('Please fill all the necessary fields')}
      else {
       handleFormSubmit()
@@ -382,7 +381,7 @@ const optio = ['item', 'pack'];
            result =await result.json();
            
           setMessage(JSON.stringify(result.message))
-          sprod()
+          spod()
         navigate('/components/salesanalytics', {state:{result}})
         } 
       } catch (error) {
@@ -427,9 +426,29 @@ const optio = ['item', 'pack'];
             setButtonVisible(false);
             setTimeout(() => {
               setButtonVisible(true);
-            }, 15000);
+            }, 10000);
           };
-  console.log(item.todo)
+
+          const handleDeleteItem = (index) => {
+            // Create copies of state arrays
+            const newItemArray = [...item];
+            const newQuantityArray = [...quantity];
+            const newPriceArray = [...price];
+            const newTypeArray = [...type];
+          
+            // Remove the entire row at the specified index
+            newItemArray.splice(index, 1);
+            newQuantityArray.splice(index, 1);
+            newPriceArray.splice(index, 1);
+            newTypeArray.splice(index, 1);
+          
+            // Update state with the new arrays
+            setItem(newItemArray);
+            setQuatity(newQuantityArray);
+            setPrice(newPriceArray);
+            setType(newTypeArray);
+          };
+ 
       async function sprod() {
       
         handleClick()
@@ -457,7 +476,7 @@ const optio = ['item', 'pack'];
             name: itemd.name[index],
             price:parseInt( itemd.price[index]),
             quantity:itemd.quantity[index],
-            quantity_type:itemd.quantity_type[index],
+            quantity_type:itemd.quantity_type[index] || 'item',
             pack_size:itemd.pack_size[index],
             product_type: product_type,
             amount: amount
@@ -517,7 +536,7 @@ const optio = ['item', 'pack'];
             name: itemd.name[index],
             price:parseInt( itemd.price[index]),
             quantity:itemd.quantity[index],
-            quantity_type:itemd.quantity_type[index],
+            quantity_type:itemd.quantity_type[index] || 'item',
             pack_size:itemd.pack_size[index],
             product_type: product_type,
             amount: amount
@@ -591,23 +610,27 @@ const optio = ['item', 'pack'];
               <div className='culb' style={{marginLeft:'8%'}}>
                    <ul className="au">
                       {(item).map((todo, index) => (
-                       <p key={index}>{todo.value}</p>))}
+                       <p key={index}>{todo.value} </p>))}
+                       
                    </ul>
                    <ul className="aul">
-                       {quantity.map((to, index1) => (
-                      <p key={index1}>{to}</p>
+                       {quantity.map((to, index) => (
+                      <p key={index}>{to}</p>
+                    ))}
+                   </ul>
+                   <ul className="aul" style={{marginLeft:'3%'}}>
+                       {price.map((t, index) => (
+                      <p key={index}>₦{parseFloat(t).toLocaleString('en-US')}</p>
                     ))}
                    </ul>
                    <ul className="aul" style={{marginLeft:'5%'}}>
-                       {price.map((t, index1) => (
-                      <p key={index1}>₦{parseFloat(t).toLocaleString('en-US')}</p>
+                       {type.map((tod, index) => (
+                      <p key={index}>{tod.value}<span className="deleteButton" onClick={() => handleDeleteItem(index)}>
+                      <i  class="fa-solid fa-x"></i>
+      </span></p>
                     ))}
                    </ul>
-                   <ul className="aul" style={{marginLeft:'5%'}}>
-                       {type.map((tod, index1) => (
-                      <p key={index1}>{tod.value}</p>
-                    ))}
-                   </ul></div>
+                   </div>
                       <p>Total: ₦{total}</p>
                                 <hr className='hr1'></hr>
   
@@ -631,8 +654,8 @@ const optio = ['item', 'pack'];
                 {item.length !== 0 ?( <div> 
                   <div>
                 <p className=''>₦{total} Payment should be sent to</p>
-                <p className=''>Account No: {tip.account_number}</p>
-                <p className=''>Bank: {tip.bank}</p>
+                <Heading fontSize='15px' className=''>Account No: {tip.account_number}</Heading>
+                <Heading fontSize='15px' className=''>Bank: {tip.bank}</Heading>
                 
          
                 </div>
@@ -714,13 +737,7 @@ const optio = ['item', 'pack'];
               
               <Input placeholder='Price of service for one customer' size='md' onChange={handleInputChang} width={273} ml={9}/><br/><br/>
               <Input placeholder='Number of customers' size='md' onChange={handleInputChange} width={273} ml={9}/><br/><br/>
-              <Select
-        onChange={handleInputCha}
-        className="pne"
-        placeholder="Quantity Type"
-        options={op}
-        value={inputV} /><br/>
-          
+              
                 <img src={Logo} alt="logo" className="frame2"/>
                 
            <Button colorScheme='blue' onClick={sum} >Add</Button>
@@ -745,7 +762,7 @@ const optio = ['item', 'pack'];
           <AlertDialogHeader>Confirm Payment</AlertDialogHeader>
           <AlertDialogCloseButton />
           <AlertDialogBody>
-            Have you received payment for this items? 
+          Has the customer transferred the sum of ₦{total} from their account? 
           </AlertDialogBody>
           <Stack m={5}  spacing={9} direction='row' justify='center'>
           <Button ref={cancelRef} colorScheme='blue' onClick={spod}>
@@ -758,7 +775,7 @@ const optio = ['item', 'pack'];
         </AlertDialogContent>
       </AlertDialog>
         </ChakraProvider></div>):<ChakraProvider> <div><Button colorScheme='black' variant='outline'>{toSentenceCase(list[0].business_name)}</Button><br/>
-         <Button colorScheme='blue' variant='solid' mt='10px' >Restock</Button></div></ChakraProvider>}
+         <Button colorScheme='blue'  variant='solid' mt='10px' onClick={beef} >Restock</Button></div></ChakraProvider>}
          
         
         </div>

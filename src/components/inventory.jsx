@@ -461,7 +461,7 @@ const subAccount = () => {
       </div> 
       <Stack  direction='row' ml='4%' mb={0} gap='40%' spacing={2} align='center' justify=''>
       <Text fontSize='13px'>Amount Sold:</Text>
-      <Heading mt={0} fontSize='13px' className="ove">₦{(product.sold_amount).toLocaleString('en-US')}</Heading>    
+      <Heading mt={0} fontSize='15px' className="ove">₦{(product.sold_amount).toLocaleString('en-US')}</Heading>    
       </Stack>
        
        

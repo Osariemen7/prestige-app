@@ -162,8 +162,7 @@ const optio = ['item', 'pack'];
     }));
     
     const opto = service.map((item) => ({
-      label: `${item.name} 
-      (Pack:${item.pack_no}, Item:${item.item_no})`,
+      label: `${item.name} `,
         value: item.name,
         team:  item.item_no,
         mony: item.pack_no,
@@ -387,7 +386,25 @@ const optio = ['item', 'pack'];
               setButtonVisible(true);
             }, 5000);
           };
-  console.log(item.todo)
+          const handleDeleteItem = (index) => {
+            // Create copies of state arrays
+            const newItemArray = [...item];
+            const newQuantityArray = [...quantity];
+            const newPriceArray = [...price];
+            const newTypeArray = [...type];
+          
+            // Remove the entire row at the specified index
+            newItemArray.splice(index, 1);
+            newQuantityArray.splice(index, 1);
+            newPriceArray.splice(index, 1);
+            newTypeArray.splice(index, 1);
+          
+            // Update state with the new arrays
+            setItem(newItemArray);
+            setQuatity(newQuantityArray);
+            setPrice(newPriceArray);
+            setType(newTypeArray);
+          };
       async function sprod() {
       
         handleClick()
@@ -416,7 +433,7 @@ const optio = ['item', 'pack'];
             name: itemd.name[index],
             price:parseInt( itemd.price[index]),
             quantity:itemd.quantity[index],
-            quantity_type:itemd.quantity_type[index],
+            quantity_type:itemd.quantity_type[index] || 'item',
             pack_size:itemd.pack_size[index],
             product_type: product_type,
             amount: amount
@@ -470,7 +487,7 @@ const optio = ['item', 'pack'];
       }
       
       const sum = ()=>{
-        if(inputV === '' || inputVa === '' || inputValue === '' || inputVal=== '' ){
+        if( inputVa === '' || inputValue === '' || inputVal=== '' ){
        setMess('Please fill all the necessary fields')}
        else {
         handleFormSubmit()
@@ -513,18 +530,20 @@ const optio = ['item', 'pack'];
                        <p key={index}>{todo.value}</p>))}
                    </ul>
                    <ul className="aul">
-                       {quantity.map((to, index1) => (
-                      <p key={index1}>{to}</p>
+                       {quantity.map((to, index) => (
+                      <p key={index}>{to}</p>
                     ))}
                    </ul>
                    <ul className="aul" style={{marginLeft:'5%'}}>
-                       {price.map((t, index1) => (
-                      <p key={index1}>₦{parseFloat(t).toLocaleString('en-US')}</p>
+                       {price.map((t, index) => (
+                      <p key={index}>₦{parseFloat(t).toLocaleString('en-US')}</p>
                     ))}
                    </ul>
                    <ul className="aul" style={{marginLeft:'8%'}}>
-                       {type.map((tod, index1) => (
-                      <p key={index1}>{tod.value}</p>
+                       {type.map((tod, index) => (
+                      <p key={index}>{tod.value}<span className="deleteButton" onClick={() => handleDeleteItem(index)}>
+                      <i  class="fa-solid fa-x"></i>
+      </span></p>
                     ))}
                    </ul></div>
                       <p>Total: ₦{total}</p>
@@ -622,12 +641,7 @@ const optio = ['item', 'pack'];
               
               <Input placeholder='Price of service for one customer' size='md' onChange={handleInputChang} width={273} ml={9}/><br/><br/>
               <Input placeholder='Number of customers' size='md' onChange={handleInputChange} width={273} ml={9}/><br/><br/>
-              <Select
-        onChange={handleInputCha}
-        className="pne"
-        placeholder="Quantity Type"
-        options={op}
-        value={inputV} /><br/>
+             
           
                 <img src={Logo} alt="logo" className="frame2"/>
                 

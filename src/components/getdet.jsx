@@ -1,17 +1,61 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import React from 'react';
+import React, {useState} from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
 import { Button, Heading, Text } from '@chakra-ui/react'
+import good from './images/good.svg'
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from '@chakra-ui/react'
+import { useDisclosure, Input, Stack  } from "@chakra-ui/react"
+
 
 const Loydet=()=> {
+  const [error, setError] = useState('');
+    const [tock, setTock] = useState('');
+    
+  const modal3 = useDisclosure()
   
-  const navigate = useNavigate('')
+  
+    const navigate = useNavigate('')
     const location = useLocation()
  const ite= location.state.data 
 
  let tok= JSON.parse(localStorage.getItem("user-info"));
  let refresh = tok.refresh_token
 
+ async function closeLoy(){
+  let item ={refresh}
+      let rep = await fetch ('https://sandbox.prestigedelta.com/refreshtoken/',{
+          method: 'POST',
+          headers:{
+            'Content-Type': 'application/json',
+            'accept' : 'application/json'
+       },
+       body:JSON.stringify(item)
+      });
+    
+      rep = await rep.json();
+      let bab = rep.access_token
+        let resut = await fetch (`https://api.prestigedelta.com/loyalty/${ite.id}/`,{
+            method: 'DELETE',
+            headers:{
+              'Content-Type': 'application/json',
+              'accept' : 'application/json',
+              'Authorization': `Bearer ${bab}`
+         },
+         
+        });
+          back()   
+}
+ const back =()=>{
+  navigate('/components/getloy')
+ }
 console.log(ite.id)
 //  const send =()=>{
 //   const data = ite
@@ -20,7 +64,7 @@ console.log(ite.id)
  
  
     return(
-        <div>
+        <div style={{padding:'5%'}}>
         <ChakraProvider>
         <Link to='/components/getloy'><i class="fa-solid fa-chevron-left bac"></i></Link>
             
@@ -66,7 +110,35 @@ console.log(ite.id)
               <p className='svin'>Creation Date: {(new Date(ite.created)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</p>
               <p className='svin'>Expiration Date: {(new Date(ite.expires)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</p>
           </div>
-                  
+          <Button colorScheme='red' variant='solid' onClick={modal3.onOpen}>Delete</Button>
+          <Modal isOpen={modal3.isOpen} onClose={modal3.onClose}>
+      <ModalOverlay />
+        <ModalContent>
+  
+          <ModalHeader>Close {ite.name} Program</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody> 
+    
+    {tock === '' ? (
+      <div>
+         <Heading fontSize='16px'>Are you sure you want to close this Loyalty Program?</Heading>
+        <div  className="">
+      <Stack direction='row' spacing={1} m={2} justify='center' align='center' gap='20%'>
+          <Button colorScheme="red" onClick={closeLoy}>Yes </Button>
+          <Button colorScheme="blue" onClick={modal3.onClose}>No </Button>
+          </Stack> </div>
+        
+        {error ? <p>{error}</p> : null}
+      </div>) :
+      <div>
+          <i class="fa-solid fa-x tx" onClick={back}></i>
+          <img className="goo" src={good} alt="" />
+          <Heading fontSize='14px'>Loyalty Program Closed Successfully</Heading>  
+      </div>}
+      </ModalBody>
+              </ModalContent>
+        </Modal>
+        
 </ChakraProvider>
         </div>
     )

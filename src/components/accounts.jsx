@@ -389,7 +389,7 @@ return(
                   <div className='td'  onClick={() => receipt(index)}>
                   <div className='tl'>
                        <p key={index}>{obj.classification}</p>
-                       <p key={index}>₦{(obj.amount).toLocaleString('en-US')}</p>
+                       <Heading fontSize='15px' key={index}>₦{(obj.amount).toLocaleString('en-US')}</Heading>
                   </div>
                   <div className='tg'>
                        <p  key={index}>{obj.status}</p>
