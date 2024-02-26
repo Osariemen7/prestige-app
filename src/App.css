@@ -2569,6 +2569,11 @@ form{
     font-size: 12px;
     
   }
+  .deleteButton {
+    cursor: pointer;
+    color: red;
+    margin-left: 10px;
+  }
   .clun{
     padding-bottom: 0;
     margin-bottom: 0;
