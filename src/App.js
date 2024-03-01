@@ -76,9 +76,11 @@ import Hat from './components/test.jsx';
 import SuccessPage from './components/success.jsx';
 import './components/analytics.js'
 import './components/test.jsx'
+import './components/support.jsx'
 
 
 import { Analytics } from '@vercel/analytics/react';
+import Support from './components/support.jsx';
 function App() {
   const [loading, setLoading] = useState(true)
   
@@ -166,6 +168,7 @@ function App() {
         <Route path='/components/customer/custlog' element={<CustLog />} />
         <Route path='/components/success' element={<SuccessPage />} />
         <Route path='/components/test' element={<Hat />} />
+        <Route path='/components/support' element={<Support />} />
      </Routes>
       
     </div>
