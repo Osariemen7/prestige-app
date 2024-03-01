@@ -5,6 +5,10 @@ import Logo from './images/Logo.png';
 import jsPDF from 'jspdf';
 import Modal from 'react-modal';
 import html2pdf from 'html2pdf.js';
+import { ChakraProvider } from '@chakra-ui/react';
+import { Button, Heading, Text } from '@chakra-ui/react'
+import { BootstrapButton, ValidationTextField, CssTextField, ValidationEyeField} from './material.js'
+
 
 
 const SalesInvoice =()=> {
@@ -244,20 +248,22 @@ let refresh = terms(tok)
     return(
         <div>
         <Link to='/components/inventory'><i class="fa-solid fa-chevron-left bac"></i></Link>
-            <main id="main-element">
-            <div className='rax'><h4 className='shi'>{toSentenceCase(list[0].business_name)}</h4></div> 
+            <main id="main-element"><ChakraProvider>
+              <Button colorScheme='black' variant='outline'>{toSentenceCase(list[0].business_name)}</Button>
+            
+            
           {finfo.verified === true? <h5 className='invo'>RECEIPT</h5>: <h5 className='invo'>INVOICE</h5>}   
-            {finfo.verified === true? <div><h6 className='saed'>Receipt for: {customer} -<span> {number}</span></h6></div>:<div><h6 className='saed'>Bill To: {customer} -<span> {number}</span></h6></div>}
+            {finfo.verified === true? <div><Heading fontSize='14px' className='saed'>Receipt for: {customer} -<span> {number}</span></Heading></div>:<div><h6 className='saed'>Bill To: {customer} -<span> {number}</span></h6></div>}
             <p className='ld'>{(new Date(item)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true})}</p>
-               
+            
             <hr className='hr'></hr>
                         
           <div className='grn'>
             <div className='cule'>
-                <h4>Item</h4>
-                <h4>Quantity</h4>
-                <h4>Amount</h4>
-                <h4>Quantity Type</h4>
+                <Heading fontSize='13px'>Item</Heading>
+                <Heading fontSize='13px'>Quantity</Heading>
+                <Heading fontSize='13px'>Amount</Heading>
+                <Heading fontSize='13px'>Quantity Type</Heading>
             </div>
     
             {meal.sold_products.map((obj, index) => (
@@ -268,7 +274,7 @@ let refresh = terms(tok)
                 
                      <p key={index}>{obj.sold_quantity}</p>
                 
-                    <p key={index}>₦{parseFloat(obj.sold_amount).toLocaleString('en-US')}</p>
+                    <p key={index} style={{marginLeft:'5%' }}>₦{parseFloat(obj.sold_amount).toLocaleString('en-US')}</p>
                      <p key={index}>{obj.quantity_type}</p>
                 </div>))}
                     <p className='cveh'>Total: ₦{total}</p>
@@ -291,9 +297,12 @@ let refresh = terms(tok)
                 <p className='font'>Thank you for your Patronage!!!</p>
          
                 </div>}  
-                <img src={Logo} alt="logo" className="frame2"/>
+                <img src={Logo} style={{marginLeft: '5%'}} alt="logo" className="frame2"/>
+                </ChakraProvider> 
                 </main>
-                {customer !== ''   ? (<button className='logb' onClick={sharePdf}>Share</button>) : <button className='logb' onClick={openModal}>Add Customer Name</button> }
+                <ChakraProvider>
+                {customer !== ''   ? (<Button colorScheme='blue'  onClick={sharePdf}>Share</Button>) : <Button colorScheme='blue' onClick={openModal}>Add Customer Name</Button> }
+                </ChakraProvider>
            <Modal
             className='modal'
             isOpen={isOpen}
@@ -302,12 +311,11 @@ let refresh = terms(tok)
         <i class="fa-solid fa-x mx" onClick={closeModal}></i>
            <h3 className='h4'>Add Customer details</h3>
             <form >
-            {customer === ''? (<input type='text' className='mine' placeholder='Customer Name' onChange={handleCust} />): null}
-            {number === ''? (<input type='number' className='mine' placeholder='Customer Number' onChange={handlePhone} />): null}
-            
-               
+            {customer === ''? (  <CssTextField label="Customer Name" onChange={handleCust} id="custom-css-outlined-input" />): null}
+            <br/><br/>{number === ''? (<CssTextField label="Customer Number" onChange={handlePhone} type='number' id="custom-css-outlined-input" />): null}
+             
+             <br/><br/> <BootstrapButton  onClick={handleFormSubmit} variant="contained">Add</BootstrapButton> 
                 
-                <button className='put' onClick={handleFormSubmit}>Add</button>
             </form>
             </Modal> 
         </div>

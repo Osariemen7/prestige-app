@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react'
 import { useDisclosure, Input,   Spinner  } from "@chakra-ui/react"
 import { NotifyPop } from '../firebase';
+import { Nav } from './nav.jsx'
 
 const Inventory = () => {
     const [sidebar, setSidebar] = useState('')
@@ -381,50 +382,7 @@ const subAccount = () => {
          return(
         <ChakraProvider>
         <div onClick={closeSidebar} >
-        <i onClick={showSidebar} class="fa-solid fa-bars ac"></i>
-            <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
-                <ul className='nav-menu-item'>
-                    <li className='nav-close'>
-                    <i onClick={showSidebar} class="fa-solid fa-x"></i>
-                    </li>
-                    
-                    <li className='nav-list'>
-                    <Link to='/components/inventory' className='nav-text'><i class="fa-solid fa-house"></i>
-                      <p className='dfp'>Home</p></Link>
-                    </li>
-                    <li className='nav-list'>
-                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet home"></i>
-                      <p className='dfp'>Account</p></Link>
-                    </li>
-                    <li className='nav-list'>
-                    <div onClick={subAccount} className='nav-text'><i class="fa-solid fa-money-bill"></i>
-                      <p className='dfp'>Sub-Account</p></div>
-                    </li>  
-                    <li className='nav-list'>
-                    <Link to='/components/product' className='nav-text'><i class="fa-solid fa-cart-flatbed"></i>
-                      <p className='dfp'>Inventory</p></Link>
-                    </li>
-                    <li className='nav-list'>
-                    <Link to='/components/customer' className='nav-text'><i class="fa-solid fa-people-roof"></i>
-                      <p className='dfp'>Customers</p></Link>
-                    </li>
-                    <li className='nav-list'>
-                    <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-chart-line"></i>
-                    <p className='dfp'>Analytics</p></Link>
-                    </li>
-                   
-                    <li className='nav-list'>
-                    <Link to='/components/chat' className='nav-text'><i class="fa-solid fa-user-tie"></i>
-                  <p className='dfp'>Assistant</p></Link>
-                    </li>
-
-                    <li className='nav-list'>
-                    
-                    <Link to='/components/login' className='nav-text'><i class="fa-solid fa-share"></i>
-                      <p className='dfp'>Log Out</p></Link>
-                    </li>    
-                </ul>
-            </nav>
+        <Nav />
            
         <div className='dash'>
                <h3 className='h1'>{name[0].business_name}</h3>

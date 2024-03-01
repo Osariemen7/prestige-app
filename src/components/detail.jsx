@@ -23,13 +23,11 @@ const Detail = () => {
     const [messages, setMessages] = useState('');
     const [buttonVisible, setButtonVisible] = useState(true);
     const [info, setInfo] = useState([])
-    const [isOpned, setIsOpned] = useState(false);
     const [fin, setFin] = useState('')
     const [fun, setFun] = useState('')
     const [amount, setAmount] = useState('')
     const [selectedOption, setSelectedOption] = useState('')
     const [loading, setLoading] = useState(true)
-    const [isOpens, setIsOpens] = useState(false);
     const [error, setError] = useState('');
     const [tock, setTock] = useState('');
     const [list, setList] = useState([])
@@ -57,15 +55,6 @@ const terms = (tok) => {
 };
 let refresh = terms(tok)
 
-const openModal1 = () => {
-    setIsOpens(true);
-  };
-  const closeModal1 = () => {
-    setIsOpens(false); 
-  };
-  const openModals = () => {
-    setIsOpned(true);
-  };
   const closeModals = () => {
     modal2.onClose(); 
   };
@@ -380,8 +369,8 @@ const openModal = () => {
                 <p className="dp">Balance</p>
                 <Heading fontSize='25px' className="h2">₦{(finfo.balance.available_balance).toLocaleString('en-US')}</Heading> 
             <div className="act">
-                 <Button  colorScheme="blue" onClick={modal1.onOpen}>Fund</Button>  
-                <Button colorScheme="blue" onClick={modal2.onOpen}>Edit Budget</Button>  
+                 <Button  colorScheme="blue" onClick={modal1.onOpen}>Fund</Button>
+                 <Button onClick={() => transfer()} colorScheme="blue">Transfers</Button>  
                 <Button onClick={() => overdraft()} colorScheme='blue'>Overdraft</Button>
             </div>                
              </div>
@@ -394,7 +383,7 @@ const openModal = () => {
                 <Heading fontSize='16px' className="sco">₦{(index.spent).toLocaleString('en-US')}</Heading>
              </Stack>
              <SimpleGrid m={3} mt={1} spacing={2} templateColumns='repeat(auto-fill, minmax(100px, 2fr))'>
-             <Button onClick={() => transfer()} colorScheme="blue">Transfers</Button>
+             <Button colorScheme="blue" onClick={modal2.onOpen}>Edit Budget</Button>  
              {finfo.auto_fund === false ?(
              <Button onClick={dauto} colorScheme="blue">Enable<br/> Auto Fund</Button>):(
               <Button onClick={dauto} colorScheme="blue">Disable<br/> Auto Fund</Button>

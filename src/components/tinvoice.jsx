@@ -136,11 +136,11 @@ const optio = ['item', 'pack'];
       const selectedProduct = inputVa.value // Replace with the actual selected product name
   const rin = product.find(option => option.name === selectedProduct);
   
-      if (rin && (rin.item_no === 0 && rin.pack_no === 0)) {
+      if (rin && (rin.item_no === 0 && rin.pack_no === 0 || inputValue > rin.item_no || inputValue > rin.pack_no)) {
         setMessage('Out of Stock please Restock');
         modal1.onClose()
       } else{
-      setQuatity([...quantity, inputValue]);
+      setQuatity([...quantity, inputValue ]);
       setInputValue("");
       setPrice([...price, inputVal]);
       setInputVal('');
@@ -692,7 +692,10 @@ const optio = ['item', 'pack'];
         placeholder="Quantity Type"
         options={opt}
         value={inputV} /><br/>
-              <Input placeholder='Price of a single item' size='md' onChange={handleInputChang} width={273} ml={9}/><br/><br/>
+         {inputV.label !== 'item' || inputVa.label === options ? (
+          <div>
+          <Input placeholder='Price of a single pack' size='md' onChange={handleInputChang} width={273} ml={9}/></div>): <Input placeholder='Price of a single item' size='md' onChange={handleInputChang} width={273} ml={9}/>}  
+          <br/> 
               <Input placeholder='Quantity' size='md' onChange={handleInputChange} width={273} ml={9}/><br/><br/>
              
         {inputV.label !== 'item' || inputVa.label === options ? (

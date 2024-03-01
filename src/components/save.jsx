@@ -1,8 +1,20 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation} from 'react-router-dom'
-import Modal from 'react-modal';
 import Select from 'react-select';
+import { ChakraProvider } from "@chakra-ui/react";
+import { Card, CardHeader, CardBody, SimpleGrid, Box, Button, Heading, Stack,  Text } from '@chakra-ui/react'
 import good from './images/good.svg'
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from '@chakra-ui/react'
+import { useDisclosure, Input, Spinner  } from "@chakra-ui/react"
+
 
 let tok= JSON.parse(localStorage.getItem("user-info"));
 const terms = (tok) => {
@@ -35,6 +47,10 @@ const Save =()=>{
   const [list, setList] = useState([])
   const [expense_budget, setExpense] = useState('');
   const [auto, setAuto] = useState('');
+  const modal1 = useDisclosure()
+  const modal2 = useDisclosure()
+  const modal3 = useDisclosure()
+
   const navigate = useNavigate()
   const location = useLocation();
    let index = location.state.data
@@ -63,17 +79,16 @@ const openModals = () => {
   setIsOpned(true);
 };
 const closeModals = () => {
-  setIsOpned(false); 
+  modal2.onClose(); 
 };
 const close = () => {
   navigate('/components/savings')
 }
-
 const openModal = () => {
   setIsOpen(true);
 };
 const closeModal = () => {
-  setIsOpen(false);
+  modal1.onClose();
   fetchDa()
 };
 const handleBank = (selectedOption) => {
@@ -365,7 +380,7 @@ if(loading) {
   <p>Loading...</p>)} 
 
   return(
-
+   <ChakraProvider>
       <div>
           <Link to='/components/savings'>
                <i className="fa-solid fa-chevron-left bac"></i>
@@ -373,25 +388,36 @@ if(loading) {
            <h4 className="cpn">{index.name} SUB ACCOUNT</h4>
            <div className="dash">
               <p className="dp">Balance</p>
-              <h2 className="h2">₦{(finfo.balance.available_balance).toLocaleString('en-US')}</h2> 
+              <Heading fontSize='25px' className="h2">₦{(finfo.balance.available_balance).toLocaleString('en-US')}</Heading>  
           <div className="act">
-               <button className="dogb" onClick={openModal}>Fund</button>  
-              <button className="dogb" onClick={openModals}>Edit Budget</button>  
-              <button onClick={() => overdraft()} className='dogb'>Overdraft</button>
+          <Button  colorScheme="blue" onClick={modal1.onOpen}>Fund</Button>  
+          <Button onClick={() => transfer()} colorScheme="blue">Transfers</Button>
+          <Button onClick={() => overdraft()} colorScheme='blue'>Overdraft</Button>
+        
           </div>                
            </div>
-           <div className="asx">
-              <p>Monthly Budget</p>
-              <h4 className="sco">₦{(index.budget).toLocaleString('en-US')}</h4>
-           </div>
-           <div className="sev">
-              <p>Amount Spent</p>
-              <h4 className="sco">₦{(index.spent).toLocaleString('en-US')}</h4>
-           </div>
-           <button onClick={() => transfer()} className="logb">Transfers</button>
-          
-           <h4 className="saed">Activity</h4>
-           {list.map((obj, index) => 
+           <Stack direction='row' justify='center' align='center' gap='20%' m='2%'>
+                <p>Monthly Budget</p>
+                <Heading fontSize='16px' className="sco">₦{(index.budget).toLocaleString('en-US')}</Heading>
+             </Stack>
+             <Stack direction='row' justify='center' align='center' gap='22%' mb='2%'>
+                <p>Amount Spent</p>
+                <Heading fontSize='16px' className="sco">₦{(index.spent).toLocaleString('en-US')}</Heading>
+             </Stack>
+             
+             <SimpleGrid m={3} mt={1} spacing={2} templateColumns='repeat(auto-fill, minmax(100px, 2fr))'>
+             <Button colorScheme="blue" onClick={modal2.onOpen}>Edit Budget</Button>  
+             {finfo.auto_fund === false ?(
+             <Button onClick={dauto} colorScheme="blue">Enable<br/> Auto Fund</Button>):(
+              <Button onClick={dauto} colorScheme="blue">Disable<br/> Auto Fund</Button>
+             )}
+                       <Button colorScheme="red" onClick={modal3.onOpen} >Close<br/> Sub Account</Button>
+            
+             </SimpleGrid>
+             <Heading fontSize='14px' className="saed">Activity</Heading>
+            
+            {list.map((obj, index) => 
+              <Card m={2} backgroundColor='#F0F8FF'>
                 <div className='td' onClick={() => receipt(index)}>
                 <div className='drz'>
                       <p className="ove" key={index}>{obj.status}</p>
@@ -403,96 +429,104 @@ if(loading) {
                 </div>
                      <p className='tm' key={index}>{obj.narration}</p>
                 </div>
+                </Card>
                      )}
-                     <div className="dax">
-                     {finfo.auto_fund === false ?(
-           <button onClick={dauto} className="dlog">Enable Auto Fund</button>):(
-            <button onClick={dauto} className="dlog">Disable Auto Fund</button>
-           )}
-                     <button className="plog" onClick={openModal1} >Close Sub Account</button>
-                     </div>
-          
-           <Modal
-    className='modal'
-    isOpen={isOpen}
-    onRequestClose={closeModal}
-    contentLabel="Example Popup"
-  >
+                     
+                     <Modal isOpen={modal1.isOpen} onClose={modal1.onClose}>
+      <ModalOverlay />
+        <ModalContent>
+  
+          <ModalHeader>Fund {index.name }</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody> 
     {fun === '' ? (
     <div>
-    <i className="fa-solid fa-x mx" onClick={closeModal}></i>
-    <h3 className='h4'>Fund {index.name }</h3>
     <form>
       
-     <Select
-    onChange={handleBank}
-    className="pne"
-    placeholder="Transfer From"
-    options={options}
-    isSearchable={true}
-    value={selectedOption}
-  /><br/><br/>
-              <input type="number" onChange={handleAmount} className="line" placeholder="                  Enter Amount" name="amount"/><br/><br/>
-              {buttonVisible && (  <button className="logbs" onClick={fsav}>Fund</button> 
-              )}
-    {!buttonVisible && <p>Processing...</p>}
-              
-              <div className="message">{message ? <p>{message}</p> : null}</div>
-          </form>
-          </div>) :
-          <div>
-        <i class="fa-solid fa-x tx" onClick={closeModal}></i>
-        <img src={good} alt="" />
-        <h4 className="hoo">Sub-Account Successfully Funded!</h4>  
-    </div>}
-          </Modal>
-          <Modal
-    className='prmo'
-    isOpen={isOpens}
-    onRequestClose={closeModal1}
-    contentLabel="Example Popup"
-  >
-  {tock === '' ? (
-    <div>
-       <h3>Are you sure you want to close this Sub Account?</h3>
-      <div  className="aflex">
-        <button className="plut" onClick={closeProj}>Yes</button>
-        <button className="plut" onClick={closeModal1}>No</button>
-      </div>
-      <p>Funds will be transfered into main account</p>
-      {error ? <p>{error}</p> : null}
-    </div>) :
-    <div>
-        <i class="fa-solid fa-x tx" onClick={close}></i>
-        <img className="goo" src={good} alt="" />
-        <h4 className="hoo">Sub account Closed Successfully</h4>  
-    </div>}
-  </Modal>
-  <Modal
-    className='svmo'
-    isOpen={isOpned}
-    onRequestClose={closeModals}
-    contentLabel="Example Popup"
-  >
-    {fin === '' ? (
-    <div>
-    <i className="fa-solid fa-x mx" onClick={closeModals}></i>
-    <h4 className='h4'>Set Monthly Amount for {index.name}</h4>
-    <form>
-      <input type="number" className='mine' onChange={handleInputChange}  placeholder='Enter New Amount'/><br />
-              {messages ? <p>{messages}</p> : null} 
-              <button className='logbs' onClick={fproj}>Save</button>
-          </form>
-          </div>) :
-          <div>
-        <i class="fa-solid fa-x tx" onClick={closeModals}></i>
-        <img src={good} alt="" />
-        <h4 className="hoo">Sub Account Updated!</h4>  
-    </div>}
-          </Modal>
-      
-      </div>
+    <Select
+      onChange={handleBank}
+      className="pne"
+      placeholder="Transfer From"
+      options={options}
+      isSearchable={true}
+      value={selectedOption}
+    /><br/>
+    <Input placeholder='Amount' size='md' type="number" onChange={handleAmount} width={273} ml={9}/><br/><br/>
+    <br/>
+                {buttonVisible && (  <Button colorScheme='blue' mr={3}  onClick={fsav}>Fund</Button> 
+                )}
+      {!buttonVisible && <p>Processing...</p>}
+                
+                <div className="message">{message ? <p>{message}</p> : null}</div>
+            </form>
+            </div>) :
+            <div>
+            <i class="fa-solid fa-x tx" onClick={closeModal}></i>
+            <ModalCloseButton  />
+          <img style={{marginLeft: '37%'}} src={good} alt="" />
+          <Heading fontSize='14px'>Sub-Account Successfully Funded!</Heading>  
+      </div>}
+
+            </ModalBody>
+              </ModalContent>
+        </Modal>
+        <Modal isOpen={modal3.isOpen} onClose={modal3.onClose}>
+      <ModalOverlay />
+        <ModalContent>
   
+          <ModalHeader>Close {index.name } Sub-Account</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody> 
+    
+    {tock === '' ? (
+      <div>
+         <Heading fontSize='16px'>Are you sure you want to close this Sub Account?</Heading>
+        <div  className="">
+      <Stack direction='row' spacing={1} m={2} justify='center' align='center' gap='20%'>
+          <Button colorScheme="red" onClick={closeProj}>Yes </Button>
+          <Button colorScheme="blue" onClick={modal3.onClose}>No </Button>
+          </Stack> </div>
+        <p>Funds will be transfered into main account</p>
+        {error ? <p>{error}</p> : null}
+      </div>) :
+      <div>
+          <i class="fa-solid fa-x tx" onClick={close}></i>
+          <img className="goo" src={good} alt="" />
+          <Heading fontSize='14px'>Sub account Closed Successfully</Heading>  
+      </div>}
+      </ModalBody>
+              </ModalContent>
+        </Modal>
+
+<Modal isOpen={modal2.isOpen} onClose={modal2.onClose}>
+        <ModalOverlay />
+        <ModalContent>
+  
+          <ModalHeader>Set Monthly Budget for {index.name}</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody> 
+      {fin === '' ? (
+      <div>
+      <h4 className='h4'></h4>
+      <form>
+      <Input placeholder='Amount' size='md' type="number" onChange={handleInputChange} width={273} ml={9}/><br/><br/>
+     
+        <br />
+                {messages ? <p>{messages}</p> : null} 
+                <Button colorScheme='blue' onClick={fproj}>Save</Button>
+            </form>
+            </div>) :
+            <div>
+          <i class="fa-solid fa-x tx" onClick={closeModals}></i>
+          <img style={{marginLeft:'38%'}} src={good} alt="" />
+          <Heading fontSize='14px' textAlign='center'>Sub Account Updated!</Heading>  
+      </div>}
+            
+            </ModalBody>
+              </ModalContent>
+        </Modal>
+      </div>
+      </ChakraProvider>
   )
 }
 export default Save

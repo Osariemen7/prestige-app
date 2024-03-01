@@ -3,6 +3,8 @@ import { Helmet } from "react-helmet";
 import { useNavigate, Link } from "react-router-dom"
 import { ChakraProvider} from '@chakra-ui/react';
 import { Input, InputRightElement, Button, Heading, Text } from '@chakra-ui/react'
+import { BootstrapButton, ValidationTextField } from "./material";
+import { Typography } from "@mui/material";
  
 const CreateLoyalty =()=>{
 const [messag, setMessag] = useState('')
@@ -86,59 +88,70 @@ async function ema(e) {
       <i className="fa-solid fa-chevron-left bac"></i>
     </Link>
     
-         <Heading textAlign='left' ml='50px' fontSize='22px' mt='1px' color='#4682B4'>Set up Loyalty program</Heading>
-            <Text textAlign='left' ml='50px' fontSize='14px'>To be eligible for the loyalty program, customers need to fulfill the specified purchase criteria within the set duration.</Text>
+         <Heading textAlign='left' ml='5%' fontSize='22px' mt='1px' color='#4682B4'>Set up Loyalty program</Heading>
+            <Text textAlign='left' ml='5%' fontSize='14px'>To be eligible for the loyalty program, customers need to fulfill the specified purchase criteria within the set duration.</Text>
+          
+            </ChakraProvider>
           <br/>
-          <Text ml='50px' textAlign='left'>Name of Loyalty Program</Text>
-          <Input
-          size='md'
-          width={273} ml='1px'
-            type="text"
-            placeholder="Enter Name"
-            onChange={handleUsernameChange}
-          /><br/><br/>
-          <Text ml='50px' textAlign='left'>Minimium Purchase Amount</Text>
-          <Input
-          size='md'
-          width={273} ml='8px'
-            type="number"
-            placeholder="Amount"
-            onChange={handleVal}
-          /><br/><br/>
-        <Text>Minimium number of Items Purchased</Text>
+          <ValidationTextField
+  onChange={handleUsernameChange}
+label="Loyalty Program Name"
+type='text'
+required
+variant="outlined"
+id="validation-outlined-input"
+/>  
+         <br/><br/>
+          <ValidationTextField
+  onChange={handleVal}
+label="Minimium Purchase Amount"
+type='number'
+required
+variant="outlined"
+id="validation-outlined-input"
+/>  
+         <br/><br/>
+
+<ValidationTextField
+  onChange={handleMin}
+label="Minimium number of store visit"
+type='number'
+required
+variant="outlined"
+id="validation-outlined-input"
+/>  
           
-          <Input
-          size='md'
-            type='number'
-            width={273}  ml='8px'
-            placeholder="Enter Number"
-            onChange={handleMin}
-          />
            <br/> <br/>
-           <Text textAlign='left' ml='50px'>Percentage cashback to be received</Text>
-          
-           <Input
-          size='md'
-          width={273}  ml='8px'
-            type='text'
-            placeholder="Enter Number"
-            onChange={handleCash}
-          />
-           <br/> <br/>
-           <Text ml='50px' textAlign='left'>Duration(Number of Days)</Text>
-          
-          <Input
-          size='md'
-            type='number'
-            width={273}  ml='8px'
-            placeholder="E.g 30"
-            onChange={handlePasswordChange}
-          />
+           <Typography textAlign='left' marginLeft='7%' marginBottom='2%'>Duration(Number of Days)</Typography>
+         
+          <ValidationTextField
+  onChange={handlePasswordChange}
+label="E.g 30"
+type='number'
+required
+variant="outlined"
+id="validation-outlined-input"
+/>  
+         
            <br/> <br/>
         
+           <Typography textAlign='left' marginBottom='2%' marginLeft='7%'>Percentage cashback to be received</Typography>
+        
+           <ValidationTextField
+  onChange={handleCash}
+label="Enter Number"
+type='number'
+required
+variant="outlined"
+id="validation-outlined-input"
+/>  
+           
+           <br/> <br/>
+
+           
    
     <div className="message">{messag ? <p>{messag}</p> : null}</div>
-        <br/>           
+        <br/> <ChakraProvider>          
           <Button colorScheme="blue" variant='solid' ml='' width={273} onClick={ema}>Create</Button>
           
           </ChakraProvider>

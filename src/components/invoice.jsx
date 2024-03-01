@@ -656,7 +656,7 @@ const optio = ['item', 'pack'];
         </Modal>
   
         </ChakraProvider></div>):<ChakraProvider> <div><Button colorScheme='black' variant='outline'>{toSentenceCase(list[0].business_name)}</Button><br/>
-         <Button colorScheme='blue' variant='solid' mt='10px' >Restock</Button></div></ChakraProvider>}
+         <Button colorScheme='blue' variant='solid' mt='10px' onClick={beef} >Restock</Button></div></ChakraProvider>}
          
         
         </div>

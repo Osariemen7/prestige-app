@@ -31,9 +31,10 @@ const BuyP =()=>{
   const [outline, setOutline] = useState('');
   const [buttonVisible, setButtonVisible] = useState(true);
   const [pack_size1, setPacksize] = useState([])
-  const [product_ty, setProductType] = useState([])
+  const [product_type, setProd] = useState('')
   const [product, setProduct] = useState([])
   const [payment_meth, setPayment] = useState('')
+  const [mess, setMess] = useState('')
   const [info, setInfo] = useState([])
  const location = useLocation()
   const navigate = useNavigate()
@@ -127,8 +128,8 @@ const optio = ['item', 'pack'];
     label: p,
     value: p,
   }));
-const handleFormSubmit = (event) => {
-  event.preventDefault();
+const handleFormSubmit = () => {
+  
   
   setQuatity([...quantity, inputValue]);
   setInputValue("");
@@ -149,9 +150,7 @@ const handleClick = () => {
     setButtonVisible(true);
   }, 5000);
 };
-const handleProduct =(product_ty) =>{
-   setProductType(product_ty)
-}
+
 const options = product.map((item) => ({
   label: item.name,
     value: item.name,
@@ -205,7 +204,7 @@ const options = product.map((item) => ({
       
       rep = await rep.json();
       let bab = rep.access_token
-    let response = await fetch("https://api.prestigedelta.com/productcatalogue/",{
+    let response = await fetch("https://api.prestigedelta.com/productcatalogue/?product_type=PRODUCT",{
     method: "GET",
     headers:{'Authorization': `Bearer ${bab}`},
     })
@@ -235,7 +234,7 @@ const options = product.map((item) => ({
           });
           rep = await rep.json();
           let bab = rep.access_token 
-          let product_type = product_ty.value
+          
         let pack_size= pack_size1
         let amount = tota
         let payment_method = payment_meth.value
@@ -253,7 +252,7 @@ const options = product.map((item) => ({
           pack_size:itemd.pack_size[index],
           product_type: product_type,
           amount:amount,
-          payment_method: payment_method
+          payment_method: 'CASH'
         }));
         let products = separatedData
         let ite = products
@@ -280,23 +279,6 @@ const options = product.map((item) => ({
           console.error(error);
         };
       }
-      const openModal = (button) => {
-        setPayment('CASH')
-        setOutline(button)
-        
-        };
-        const openModal1 = (button) => {
-          setPayment('POS');
-          setOutline(button)
-        };
-        const openModal2 = (button) => {
-          setPayment('TRANSFER');
-          setOutline(button)
-        };
-        const openModal3 = (button) => {
-          setPayment('CREDIT');
-          setOutline(button)
-        };
       
       const conti = () => {
         aprod()
@@ -311,6 +293,14 @@ const pay = payment.map((p) => ({
   label: p,
   value: p
 }))
+const summit = ()=>{
+  if(inputV === '' || inputVa === '' || inputValue === '' || inputVal=== ''){
+ setMess('Please fill all the necessary fields')}
+ else {
+  handleFormSubmit()
+  setProd('Product')
+ }
+}
       console.log(payment_meth)
       if(loading) {
         return(
@@ -361,7 +351,7 @@ const pay = payment.map((p) => ({
                  <br></br>
                  <Stack direction='row' mt={2} spacing={2} align='center' justify='center'>
                  {total !== '0'  ? (<Button colorScheme='blue' variant='solid' m={2} onClick={onOpen}>Add More Items</Button>) : <Button m={2} colorScheme='blue' variant='solid' onClick={onOpen}>Add Item</Button> }
-                 { item.length !== 0 ? (   <div>    {payment_meth !== 'TRANSFER' ? ( <div>{buttonVisible && (<div>{fun === ''?<Button colorScheme='blue' variant='solid' onClick={aprod}>Save</Button>:<Button colorScheme='blue' variant='solid' onClick={back}>Back</Button>}</div> )}
+                 { item.length !== 0 ? (   <div>    {payment_meth !== 'TRANSFER' ? ( <div>{buttonVisible && (<div>{fun === ''?<Button colorScheme='blue' variant='solid' onClick={aprod}>Buy</Button>:<Button colorScheme='blue' variant='solid' onClick={back}>Back</Button>}</div> )}
       {!buttonVisible && <Spinner />}</div>) : <Button colorScheme='blue' variant='solid' onClick={conti}>Continue</Button>}
       </div> ): null  } </Stack>
                  <Modal isOpen={isOpen} onClose={onClose}>
@@ -373,14 +363,8 @@ const pay = payment.map((p) => ({
           <ModalBody>
            <h3 className='h4'></h3>
             <form >
-{data ?(<div>
-  <Select
-      onChange={handleProduct}
-      className="pne"
-      placeholder="Product Type"
-      options={prud}
-      value={product_ty} /><br/>
-<Input placeholder="Enter product/service" ml={9}
+{data ?(<div>  
+<Input placeholder="Enter product" ml={9}
 onChange={handleInputchan} width={273}
 value={data.inputVa.value} /><br/><br/>
 {data.inputValue === ''? <div>
@@ -393,15 +377,9 @@ onChange={ handleInputChange}
   value={data.inputValue} width={273} ml={9}/><br/><br/></div>}
             
 </div>):( <div>   
- <Select
-      onChange={handleProduct}
-      className="pne"
-      placeholder="Product Type"
-      options={prud}
-      value={product_ty} /><br/>        
   <CreatableSelect
         className="pne"
-        placeholder="Enter product/service"
+        placeholder="Enter product"
         options={options}
         isSearchable={true}
         onChange={handleInputchan}
@@ -411,27 +389,25 @@ onChange={ handleInputChange}
 
       /><br/>
 
-            
-            <Input placeholder='Quantity Bought' size='md' onChange={handleInputChange} width={273} ml={9}/><br/><br/></div>)}
-            <Input placeholder='Price of a single item/pack/service' size='md' onChange={handleInputChang} width={273} ml={9}/><br/><br/>
-            <Select
-        onChange={handlePay}
-        className="pne"
-        placeholder="Payment Method"
-        options={pay}
-        value={payment_meth} /><br/>          
-            <Select
+<Select
       onChange={handleInputCha}
       className="pne"
       placeholder="Quantity Type"
       options={opt}
-      value={inputV} /><br/>
+      value={inputV} /><br/> 
+            <Input placeholder='Quantity Bought' size='md' onChange={handleInputChange} width={273} ml={9}/><br/><br/></div>)}
+            {inputV.label !== 'item' ? (
+        
+        <Input placeholder='Price of a single pack' size='md' onChange={handleInputChang} width={273} ml={9}/>): <Input placeholder='Price of a single item' size='md' onChange={handleInputChang} width={273} ml={9}/>}   
+      
+            <br/>     
       {inputV.label !== 'item' ? (
         <div>
         <Input placeholder='No of items in pack/carton'  size='md' onChange={handlePack} width={273} ml={9} /><br/>
         <br/></div>): null}   
-                                   
-                <Button colorScheme='blue' onClick={handleFormSubmit}>Add</Button>
+        <div className="message">{mess ? <p>{mess}</p> : null}</div>
+                                  
+                <Button colorScheme='blue' onClick={summit}>Add</Button>
             </form>
             </ModalBody>
             </ModalContent>
