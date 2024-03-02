@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, useLocation, Form } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Helmet } from "react-helmet";
 import { Typography} from '@mui/material';
 import { BootstrapButton, ValidationTextField} from './components/material.js'
@@ -75,8 +75,8 @@ const Foam =()=>{
               setMessage(JSON.stringify(resut));}
             else {
               resut = await resut.json();
-              setMess(resut)
-              modal2.onOpen()
+              navigate('/waitlistsuccess', {state:{resut}})
+            
                 
             }
           }
