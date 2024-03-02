@@ -77,7 +77,7 @@ import SuccessPage from './components/success.jsx';
 import './components/analytics.js'
 import './components/test.jsx'
 import './components/support.jsx'
-
+import Foam from './waitlist.jsx';
 
 import { Analytics } from '@vercel/analytics/react';
 import Support from './components/support.jsx';
@@ -169,6 +169,8 @@ function App() {
         <Route path='/components/success' element={<SuccessPage />} />
         <Route path='/components/test' element={<Hat />} />
         <Route path='/components/support' element={<Support />} />
+        <Route path='/waitlist' element={<Foam />} />
+
      </Routes>
       
     </div>
