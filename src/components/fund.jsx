@@ -3,6 +3,8 @@ import account_balance from './images/account_balance.svg';
 import user from './images/user.svg';
 import f123 from './images/f123.svg';
 import { Link, useNavigate } from 'react-router-dom'
+import { BootstrapButton } from './material';
+import { Business } from './api';
 
 
  
@@ -42,6 +44,45 @@ const term = (tok) => {
 }
 let refresh = term(tok)
 
+const [name, setName] = useState([])
+
+function toSentenceCase(inputString) {
+    if (!inputString) return inputString; // Handle empty or null input
+    return inputString.charAt(0).toUpperCase() + inputString.slice(1);
+}
+
+
+const fetchData = async () => {
+    let item ={refresh}
+    let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json',
+          'accept' : 'application/json'
+     },
+     body:JSON.stringify(item)
+    });
+    
+    rep = await rep.json();
+    let bab = rep.access_token
+  let response = await fetch("https://api.prestigedelta.com/businessprofile/",{
+  method: "GET",
+  headers:{'Authorization': `Bearer ${bab}`},
+  })
+  //localStorage.setItem('user-info', JSON.stringify(tok))
+  
+  if (response.status === 401) {
+    navigate('/components/login');
+  } else { 
+   
+  response = await response.json();
+   setLoading(false)
+  setName(response)
+    }}
+    useEffect(() => {
+      fetchData()
+    }, [])
+
   
   const fetchDat = async () => {
     let item ={refresh}
@@ -66,7 +107,7 @@ let refresh = term(tok)
   response = await response.json();}
 
  setData(response)
-  setLoading(false)
+  
 }
 useEffect(() => {
   fetchDat()
@@ -77,6 +118,35 @@ if(loading) {
   return(
   <p>Loading...</p>)
 } 
+const shareText = `Pay ${toSentenceCase(name[0].business_name)} on:
+
+  Account Number:
+   ${data.account_number}
+  
+  Bank Name: 
+  ${data.bank}
+  
+  Account Name:
+  ${data.account_name}
+  
+  You will receive an instant cashback from ${toSentenceCase(name[0].business_name)} for this payment that you can claim on prestigefinance.app/cashback`;
+
+  const handleShare = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: 'Account Details',
+          text: shareText,
+        });
+      } else {
+        throw new Error('Web Share API not supported');
+      }
+    } catch (error) {
+      console.error('Error sharing:', error.message);
+      // You can provide a fallback or inform the user if sharing fails
+    }
+  };
+
     return(
         <div >
            <Link to='/components/accounts'>
@@ -106,8 +176,12 @@ if(loading) {
                   <h4 className='dh3'>{data.account_number}</h4>
                 </div>  
                 <CopyButton textToCopy={data.account_number} />
-            </div>
-            
+            </div><br/>
+            <div style={{padding: '4%'}}>           
+             <BootstrapButton variant="contained" onClick={handleShare} disableRipple>
+              Share 
+            </BootstrapButton></div>
+
         </div>
     )
 }
