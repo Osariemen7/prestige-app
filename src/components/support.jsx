@@ -24,10 +24,11 @@ const Support=()=>{
             <Heading fontSize='18px'>Referral</Heading>
             <div style={{justifyContent:'center'}}>
             <p>Send an invite, get people to sign-up <br/>using your referral code and get a reward</p>
-            <p style={{fontWeight: 'bold'}}>{tok.user.referral}</p><br/>
-            <ShareApp inviteCode={tok.user.referral}/>
-          
+            <p style={{fontWeight: 'bold'}}>{tok.user.referral_code}</p><br/>
+            <ShareApp inviteCode={tok.user.referral_code}/>
             </div></Card>
+           <p>Download Prestige finance app on https://play.google.com/store/apps/details?id=co.prestigefinance.biz</p> 
+
             <br/>
             <Card m='5%' backgroundColor='#F0F8FF' p='3%'>
             <Heading fontSize='18px' mb='3%'>Support and Assistance</Heading>
