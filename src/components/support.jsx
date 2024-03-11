@@ -32,7 +32,7 @@ const Support=()=>{
             <br/>
             <Card m='5%' backgroundColor='#F0F8FF' p='3%'>
             <Heading fontSize='18px' mb='3%'>Support and Assistance</Heading>
-          <p>Need help  with your account, send an email to support <span style={{fontWeight: 'bold'}}>@prestigefinance.co</span></p>
+          <p>Need help  with your account, send an email to <span style={{fontWeight: 'bold'}}>support@prestigefinance.co</span></p>
           <br/><p>or Call your account manager on<br/><span style={{fontWeight: 'bold'}}> 0706 567 5105</span> </p>
           </Card>
             </ChakraProvider> 

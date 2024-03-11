@@ -236,14 +236,13 @@ return(
         <Nav />
             <ChakraProvider>
            <div className="dash">
-              <h3 className="h1">Account</h3>
+              <h3 className="h1">Collection Account</h3>
               <p className='dp'>Total Balance</p>
               { hidden ? <i onClick={toggleHidden} class="fa-regular fa-eye-slash see"></i> : <i class="fa-regular fa-eye see" onClick={toggleHidden}></i>}
               <h1 className="h1">{hidden}</h1>
               <div>
               <Stack direction='row'm={3} spacing={3} justify='center'>
-                <Button colorScheme='green' onClick={transfer}>Transfer</Button>
-               <Button mb={2} colorScheme='blue' variant='solid' onClick={send} >Add Funds</Button>
+                <Button mb={2} colorScheme='blue' variant='solid' onClick={send} >Add Funds</Button>
                </Stack>
        
               </div>
@@ -251,8 +250,10 @@ return(
            
             
            </ChakraProvider>
-           
-              <p className='l'>RECENT TRANSACTIONS</p>
+           {sub_account ?(
+             null
+           ): <Card m={5} backgroundColor='#1A83CC'><p style={{fontSize: '12px',color:'#fff', padding: '2%'}}>At the end of the day, funds will be moved to sub-accounts. If you are yet to create a sub-account, kindly click on the sub-account button located on the menu page</p></Card>}
+           <p className='l'>RECENT TRANSACTIONS</p>
               <p className='ad'>No Transaction Yet</p>
 
          
@@ -264,19 +265,21 @@ return(
       <Nav />
       
              <div className="dash">
-                <h3 className="h1">Account</h3>
+                <h3 className="h1">Collection Account</h3>
                 <p className='dp'>Total Balance</p>
                 { hidden ? <i onClick={toggleHidden} class="fa-regular fa-eye-slash see"></i> : <i class="fa-regular fa-eye see" onClick={toggleHidden}></i>}
                 <Heading size='lg' mt={0} color='#fff'>{hidden}</Heading>
                 <div >
                 <Stack direction='row'm={3} spacing={3} justify='center'>
-                <Button colorScheme='green' onClick={transfer}>Transfer</Button>
+                
                <Button mb={2} colorScheme='blue' variant='solid' onClick={send} >Add Funds</Button>
                </Stack>
                 </div>
              </div>
              
-           
+             {sub_account ?(
+             null
+           ): <Card m={5} backgroundColor='#1A83CC'><p style={{fontSize: '12px',color:'#fff', padding: '2%'}}>At the end of the day, funds will be moved to sub-accounts. If you have not created a sub-account, kindly click on the sub-account button located on the menu page</p></Card>}   
              <Tabs isFitted variant='enclosed'>
 <TabList mb='1em'>
     <Tab>Activity </Tab>

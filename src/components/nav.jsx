@@ -94,7 +94,7 @@ export const ShareApp = ({ inviteCode }) => {
         navigator.share({
           title: 'Prestige Finance',
           text: `Sign up on prestige finance!, use invite code ${inviteCode}`,
-          url: 'https://prestigefinance.app/dailyTransact',
+          url: 'https://play.google.com/store/apps/details?id=co.prestigefinance.biz',
         })
           .then(() => console.log('App shared successfully.'))
           .catch((error) => console.log('Error sharing app:', error));
@@ -109,4 +109,5 @@ export const ShareApp = ({ inviteCode }) => {
       </ChakraProvider>
     );
   };
+  
   

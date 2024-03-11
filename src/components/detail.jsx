@@ -341,10 +341,7 @@ const openModal = () => {
       label: item.name,
       value: item.name,
     })),
-    {
-      value: 'main',
-      label: 'MAIN ACCOUNT',
-    },
+   
   ];
   const overdraft= ()=>{
     const data = index

@@ -7,6 +7,7 @@ import { ChakraProvider, Spinner } from '@chakra-ui/react';
 
 
 
+
 const RegisterPage =()=>{
     const [passwordType, setPasswordType] = useState("password");
     const [email, setEmail] = useState('')
@@ -15,6 +16,7 @@ const RegisterPage =()=>{
     const [middle_name, setMiddlename] = useState('')
     const [password1, setPassword1] = useState("");
     const [password2, setPassword2] = useState("");
+    const [invite_code, setInvite] = useState('')
     const location= useLocation()
     const [message, setMessage] = useState("");
     const [check, setCheck] = useState('')
@@ -45,6 +47,9 @@ const RegisterPage =()=>{
     const handleLastname = (event)=> {
          setLastname(event.target.value)
     }
+    const handleInvitecode= (event)=> {
+      setInvite(event.target.value)
+ }
     const handleMiddlename = (event)=>{
          setMiddlename(event.target.value)
     }
@@ -67,8 +72,8 @@ const RegisterPage =()=>{
       async function reg() {
         
           handleClick()
-            console.warn(username, password1, password2, first_name, last_name, middle_name, email)
-            let item = {username, password1, password2, first_name, last_name, middle_name, email};
+            console.warn(username,invite_code, password1, password2, first_name, last_name, middle_name, email)
+            let item = {username, invite_code, password1, password2, first_name, last_name, middle_name, email};
             let resut = await fetch ('https://api.prestigedelta.com/dj-rest-auth/registration/',{
                 method: 'POST',
                 headers:{
@@ -87,7 +92,8 @@ const RegisterPage =()=>{
             else {
               resut = await resut.json();
               localStorage.setItem('user-info', JSON.stringify(resut)) 
-            navigate('/components/personal')
+              
+              navigate('/components/personal')
             }
           }
           //
@@ -95,10 +101,9 @@ const RegisterPage =()=>{
         <div style={{padding:'4%'}}>
       <Helmet>
          <title>Registration</title>
-            
-        </Helmet>
+         </Helmet>
         <Typography  variant="h5" align='left' marginLeft='8%' marginTop='10%' fontWeight="fontWeightBold">Enter your Details</Typography>
-            <br/><Typography align='left' marginLeft='8%' variant='subtitle2' >Let's set things up. Enter your details as they appear in your legal documents</Typography>
+            <br/><Typography align='left' marginLeft='8%' variant='subtitle2' >Let's set things up. You need to be invited by an existing member to join our merchant network. Please enter the invite code of your introducer</Typography>
           <br/> 
         <form>
         <ValidationTextField
@@ -129,6 +134,14 @@ const RegisterPage =()=>{
       <br/> <br/>
       <CssTextField label="Middle Name" onChange={handleMiddlename} id="custom-css-outlined-input" />
       <br/> <br/>
+      <ValidationTextField
+           onChange={handleInvitecode}
+        label="Invite Code"
+        type='number'
+        required
+        variant="outlined"
+        id="validation-outlined-input"
+      /><br/><br/>
       <ValidationEyeField
         onChange={handlePasswordChange}
         label="Create Password"

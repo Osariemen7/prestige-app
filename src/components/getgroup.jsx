@@ -26,8 +26,7 @@ const GetGroup =()=>{
   
   
   const opt = ben.map((item) => ({
-    label: `${item.account_name} s
-             (${item.bank_name})`,
+    label: `${item.account_name}(${item.bank_name})`,
     value: item.account_number,
     team:   item.bank_code,
     code: item.bank_name
@@ -39,8 +38,8 @@ const GetGroup =()=>{
   
     const handleBen = (event, newValue) => {
       setSelected(newValue);
-      setSelectedOption({ label: selected.code, value: selected.team });
-      setNuban(selected.value);
+      setSelectedOption({ label: newValue.code, value: newValue.team });
+      setNuban(newValue.value);
   }
     
   const handleBe = (selected) => {
@@ -232,7 +231,7 @@ let refresh = terms(tok)
 
   return(
     <div style={{padding: '3%'}}>
-       <Link to='/components/savings'><i class="fa-solid fa-chevron-left bac"></i></Link>
+       <Link to='/components/inventory'><i class="fa-solid fa-chevron-left bac"></i></Link>
       
             <h3>Send Money</h3>
        <form>
