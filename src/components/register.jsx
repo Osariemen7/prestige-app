@@ -137,7 +137,7 @@ const RegisterPage =()=>{
       <ValidationTextField
            onChange={handleInvitecode}
         label="Invite Code"
-        type='number'
+        type='text'
         required
         variant="outlined"
         id="validation-outlined-input"
