@@ -148,7 +148,7 @@ const shareText = `Pay ${toSentenceCase(name[0].business_name)} on:
   };
 
     return(
-        <div >
+        <div style={{paddingLeft:'3%', paddingRight:'3%'}}>
            <Link to='/components/accounts'>
            <i class="fa-solid fa-chevron-left bac"></i>
            </Link> 
@@ -174,8 +174,8 @@ const shareText = `Pay ${toSentenceCase(name[0].business_name)} on:
                 <div>
                   <p className=''>Account Number</p>
                   <h4 className='dh3'>{data.account_number}</h4>
-                </div>  
-                <CopyButton textToCopy={data.account_number} />
+                  <CopyButton textToCopy={data.account_number} />
+                </div> 
             </div><br/>
             <div style={{padding: '4%'}}>           
              <BootstrapButton variant="contained" onClick={handleShare} disableRipple>

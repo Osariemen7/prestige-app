@@ -20,6 +20,11 @@ const Chat = () => {
   const [selectedMessage, setSelectedMessage] = useState('');
   const navigate = useNavigate()
   const location = useLocation()
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   let tok= JSON.parse(localStorage.getItem("user-info"));
   let refresh = tok.refresh_token
@@ -239,21 +244,20 @@ console.log(selectedMessage)
 
   return (
     <ChakraProvider>
-
+     <Nav />
     <div className='fl'>
-    <Nav />
-    <div className='right'>
-            <i  onClick={showRighbar} class="fa-solid fa-square-caret-down"></i>
+    
+    <div className="menu-button" style={{margin:'0'}}>
+            <i   onClick={toggleMenu} class="fa-solid fa-square-caret-down"></i>
             <Heading fontSize='14px'>Previous Chat</Heading></div>
             </div>
             
-<nav className={rightbar ? 'nav-menu active2' : 'nav-menu'} >
-<ul className='nav-menu-item'>
+<div className={`side-menu ${isMenuOpen ? 'open' : ''}`} >
+<ul className=''>
 <Heading fontSize='15px' color="white" mt={3}>Previous Chat</Heading>
 {mappedMessages.map((message, index) => (
         <div key={index}>
           <li
-            className='nav-list2'
             onClick={() => {
         setSelectedMessage(message.conversation.slice().reverse());
         setThread(message.thread_id); showRighbar(); setMessages([])
@@ -264,7 +268,7 @@ console.log(selectedMessage)
           </li>
         </div>
       ))}</ul>
-</nav>
+</div>
     <div className="App">
       <div className="chat-container">
       

@@ -80,6 +80,7 @@ const LoginPage = () => {
         setMessage('Invalid Username/Password');
       } else {
         let result = await response.json();
+        localStorage.setItem('user-info', JSON.stringify(result))
         if (result.user.paystack_id === null) {
           localStorage.setItem('user-info', JSON.stringify(result))
           navigate('/components/personal', {state:{result}})

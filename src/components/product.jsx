@@ -16,6 +16,7 @@ import {
   ModalCloseButton,
 } from '@chakra-ui/react';
 import { Box, SimpleGrid,  StackDivider} from '@chakra-ui/react'
+import { Nav } from './nav.jsx'
 
 
 const Product = () => {
@@ -53,7 +54,9 @@ const Product = () => {
     const closeModal = () => {
       modal2.onClose() 
     };
-    const showSidebar = () => setSidebar(!sidebar)    
+    const showSidebar = () => setSidebar(!sidebar)
+    const closeSidebar = () => setSidebar(false);
+
   const handleCost = (event)=> {
     setCost(event.target.value)
   }
@@ -321,53 +324,9 @@ console.log(selectedOption)
         <p>Loading...</p>)} 
     
     return(
-        <ChakraProvider>
+        <ChakraProvider >
         <div>
-        <i onClick={showSidebar} class="fa-solid fa-bars ac"></i>
-            <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
-            <ul className='nav-menu-item'>
-                    <li className='nav-close'>
-                    <i onClick={showSidebar} class="fa-solid fa-x"></i>
-                    </li>
-                    
-                    <li className='nav-list'>
-                    <Link to='/components/inventory' className='nav-text'><i class="fa-solid fa-house"></i>
-                      <p className='dfp'>Home</p></Link>
-                    </li>
-                    <li className='nav-list'>
-                    <Link to='/components/accounts' className='nav-text'><i class="fa-solid fa-wallet home"></i>
-                      <p className='dfp'>Account</p></Link>
-                    </li>
-                    <li className='nav-list'>
-                    <div onClick={subAccount} className='nav-text'><i class="fa-solid fa-money-bill"></i>
-                      <p className='dfp'>Sub-Account</p></div>
-                    </li>  
-                    <li className='nav-list'>
-                    <Link to='/components/product' className='nav-text'><i class="fa-solid fa-cart-flatbed"></i>
-                      <p className='dfp'>Inventory</p></Link>
-                    </li>
-                    <li className='nav-list'>
-                    <Link to='/components/customer' className='nav-text'><i class="fa-solid fa-people-roof"></i>
-                      <p className='dfp'>Customers</p></Link>
-                    </li>
-                    <li className='nav-list'>
-                    <Link to='/components/dash' className='nav-text'><i class="fa-solid fa-chart-line"></i>
-                    <p className='dfp'>Analytics</p></Link>
-                    </li>
-                   
-                    <li className='nav-list'>
-                    <Link to='/components/chat' className='nav-text'><i class="fa-solid fa-user-tie"></i>
-                  <p className='dfp'>Assistant</p></Link>
-                    </li>
-
-                    <li className='nav-list'>
-                    
-                    <Link to='/components/login' className='nav-text'><i class="fa-solid fa-share"></i>
-                      <p className='dfp'>Log Out</p></Link>
-                    </li>    
-                </ul>
-            </nav>
-           
+        <Nav />
            
             <Heading size='sm' ml={6} textAlign='left'>Products</Heading>
             { finfo.length > 0 && typeof finfo[0].products[0] === 'object' ? (
@@ -388,7 +347,7 @@ console.log(selectedOption)
     </Stack>
   </CardBody>
 </Card>
-<SimpleGrid m={3} justify='center' mt={1} spacing={4} templateColumns='repeat(auto-fill, minmax(100px, 1fr))'>
+<Stack direction='row'  mt={1} spacing={4} justify='center' align='center' >
   <Card height={90} justify='center'>
     <CardHeader p={1}>
       <Heading size='xs' textTransform='uppercase'>Sales Value</Heading>
@@ -401,7 +360,7 @@ console.log(selectedOption)
     </CardHeader>
       <Text>₦{(finfo[0].input_value).toLocaleString('en-US')}</Text>
   </Card> 
-</SimpleGrid>
+</Stack>
 <Stack direction='row' mt={1}  align='center' justify='center'>
 <Button colorScheme='blue' variant='solid' onClick={transfer}>
     Add Products to Inventory
@@ -423,7 +382,7 @@ console.log(selectedOption)
       </Stack>
   </CardBody>
 </Card>
-<SimpleGrid m={3} mt={1} spacing={4} templateColumns='repeat(auto-fill, minmax(100px, 1fr))'>
+<Stack direction='row'  mt={1} spacing={4} justify='center' align='center'>
   <Card height={90} justify='center'>
     <CardHeader p={1}>
       <Heading size='xs' textTransform='uppercase'> Stock Value</Heading>
@@ -437,7 +396,7 @@ console.log(selectedOption)
       <Text>₦0</Text>
     
   </Card> 
-</SimpleGrid>
+</Stack>
 <Stack direction='row' mt={2}  align='center' justify='center'>
 <Button colorScheme='blue' variant='solid' onClick={transfer}>
     Add Products to Inventory
