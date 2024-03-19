@@ -81,7 +81,7 @@ import Foam from './waitlist.jsx';
 import WaitlistPage from './waitlistsuccess.jsx';
 import Item from './components/resitem.jsx';
 import Restock from './components/restock.js';
-
+import Referral from './components/referral.jsx';
 import { Analytics } from '@vercel/analytics/react';
 import Support from './components/support.jsx';
 function App() {
@@ -176,6 +176,7 @@ function App() {
         <Route path='/waitlistsuccess' element={<WaitlistPage />} />
         <Route path='/components/resitem' element={<Item />} />
         <Route path='/components/restock' element={<Restock />} />
+        <Route path= '/components/referral' element={<Referral />} />
 
      </Routes>
       
