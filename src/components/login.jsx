@@ -109,7 +109,8 @@ const LoginPage = () => {
         });
       
         if (result.status !== 200) {
-          setMessag(JSON.stringify(result));
+          const errorResult = await result.json();
+          setMessag(JSON.stringify(errorResult.message));
         } else {
           result = await result.json();
      

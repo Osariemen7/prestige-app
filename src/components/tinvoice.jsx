@@ -136,7 +136,7 @@ const optio = ['item', 'pack'];
       const selectedProduct = inputVa.value // Replace with the actual selected product name
   const rin = product.find(option => option.name === selectedProduct);
   
-      if (rin && (rin.item_no === 0 && rin.pack_no === 0 || inputValue > rin.item_no || inputValue > rin.pack_no)) {
+      if (rin && (rin.item_no === 0 && rin.pack_no === 0 || inputValue > rin.item_no || inputValue > rin.pack_no || inputVa !== rin.name)) {
         setMessage('Out of Stock please Restock');
         modal1.onClose()
       } else{
@@ -568,7 +568,9 @@ const optio = ['item', 'pack'];
         };
       }
       const cancelRef = useRef();
-    
+      const add =()=>{
+        navigate('/components/before')
+      }
       const beef =() =>{
         const data = {inputVa, inputValue}
         navigate('/components/before', {state:{data}})
@@ -576,9 +578,7 @@ const optio = ['item', 'pack'];
       const done =()=> {
         navigate('/components/inventory')
       }
-        console.log(list)
-        console.log(options.length)
-      
+        
           if(loading) {
             return(
             <p>Loading...</p>)}
@@ -663,7 +663,10 @@ const optio = ['item', 'pack'];
                 <br/>
                   <Button  colorScheme='blue' variant='outline' onClick={creat} >Get Sales Tips</Button>
                   
-         </div> ): null} 
+         </div> ): <div>
+          <p>Note:if products are not on the list</p>
+          <Button colorScheme='blue' onClick={add}>Add Product</Button>
+         </div>} 
         <div className=" ">{message ? <p>{message}</p> : null}</div>
               <Modal isOpen={modal1.isOpen} onClose={modal1.onClose}>
           <ModalOverlay />
@@ -704,7 +707,7 @@ const optio = ['item', 'pack'];
           <br/></div>): null}  
           
                 <img src={Logo} alt="logo" className="frame2"/>
-                <div className=" ">{mess ? <p>{mess}</p> : null}</div>
+                <div className="message">{mess ? <p>{mess}</p> : null}</div>
             
           {inputVa.mony !== 0 || inputVa.team !== 0  || options.length !== 0 ? (
       <Button colorScheme='blue' onClick={summit} >Add</Button>
@@ -744,8 +747,7 @@ const optio = ['item', 'pack'];
                 <img src={Logo} alt="logo" className="frame2"/>
                 
            <Button colorScheme='blue' onClick={sum} >Add</Button>
-     <p className="message">{mess}</p>
-      
+           <div className="message">{mess ? <p>{mess}</p> : null}</div>
                           
               </form>
               </ModalBody>

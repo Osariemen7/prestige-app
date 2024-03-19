@@ -348,7 +348,10 @@ const optio = ['item', 'pack'];
       }   
         }
         
-  
+        const beef =() =>{
+          const data = {inputVa, inputValue}
+          navigate('/components/before', {state:{data}})
+        }
       const fetchData = async () => {
           let item ={refresh}
           let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
@@ -463,10 +466,7 @@ const optio = ['item', 'pack'];
           console.error(error);
         };
       }
-      const beef =() =>{
-        const data = {inputVa, inputValue}
-        navigate('/components/before', {state:{data}})
-      }
+      
       const done =()=> {
         navigate('/components/inventory')
       }
@@ -486,6 +486,9 @@ const optio = ['item', 'pack'];
        }
       }
       
+      const add =()=>{
+        navigate('/components/before')
+      }
       const sum = ()=>{
         if( inputVa === '' || inputValue === '' || inputVal=== '' ){
        setMess('Please fill all the necessary fields')}
@@ -570,7 +573,10 @@ const optio = ['item', 'pack'];
                 {item.length !== 0 ?( <div> <br/>
                   <Button  colorScheme='blue' variant='outline' onClick={creat} >Get Sales Tips</Button>
                   
-         </div> ): null} 
+         </div> ):  <div>
+          <p>Note:if products are not on the list</p>
+          <Button colorScheme='blue' onClick={add}>Add Product</Button>
+         </div>} 
         <div className=" ">{message ? <p>{message}</p> : null}</div>
               <Modal isOpen={modal1.isOpen} onClose={modal1.onClose}>
           <ModalOverlay />

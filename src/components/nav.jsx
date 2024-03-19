@@ -71,9 +71,16 @@ const navigate = useNavigate()
         <li className='nav-list'>
             <Link to='/components/support' className='nav-text'>
             <i class="fa-solid fa-phone"></i>
-              <p className='dfp'>Support & Referral</p>
+              <p className='dfp'>Support</p>
             </Link>
           </li>
+          <li className='nav-list'>
+            <Link to='/components/referral' className='nav-text'>
+            <i class="fa-solid fa-user-plus"></i>
+              <p className='dfp'>Referral</p>
+            </Link>
+          </li>
+
           <li className='nav-list'>
             <Link to='/components/login' className='nav-text'>
               <i className="fa-solid fa-share"></i>
