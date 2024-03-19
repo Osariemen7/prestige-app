@@ -1416,6 +1416,60 @@ form{
     margin: 0;
     text-align: left;
   }
+  .menu-button {
+    background: none;
+    position: relative;
+    left: 70%;
+    margin: 3%;
+    font-size: 25px;
+    cursor: pointer;
+  }
+  
+  .side-menu {
+    position: fixed;
+    top: 0;
+    left: -200px; /* Offscreen initially */
+    width: 200px;
+    height: 100%;
+    background-color: #060b26;;
+    transition: left 0.3s ease;
+    z-index: 2;
+  }
+  
+  .side-menu.open {
+    left: 0; /* Slides in when open */
+  }
+  
+  .side-menu ul {
+    list-style-type: none;
+    padding: 0;
+    justify-content: center;
+    height: 85px;
+    padding: 8px 15px 8px 16px;
+    color:#fff;
+  
+  }
+  
+  .side-menu li {
+    padding: 10px;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 85px;
+    padding: 8px 15px 8px 16px;
+    border-bottom: 1px solid #fff ;
+    color:#fff;
+    overflow: hidden;
+    text-wrap:wrap;
+    margin: 10px 0;
+  }
+  
+  .side-menu li:hover {
+    background-color: #444;
+  }
   .dash{
     background: url(/src/components/images/ble.jpg) ;
     background-color: #060b26;
@@ -1442,24 +1496,7 @@ form{
     left: 0;
     transition: 350ms;
   }
-  .nav-menu.active2{
-    left: 0;
-    transition: 450ms;
-  }
-  .nav-menutwo{
-    background-color: #000;
-    width: 50%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    position: fixed;
-    top: 0;
-    left: -100%;
-    transition: 850ms;;
-    padding: 0;
-    overflow-x: scroll;
-    z-index: 1;
-  }
+ 
   .nav-text{
     text-decoration: none;
     color:#fff;
@@ -1469,28 +1506,8 @@ form{
     flex-direction: column;
     align-items: center;
   }
-  .nav-list2 {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 85px;
-    padding: 8px 15px 8px 16px;
-    border-bottom: 1px solid #fff ;
-    color:#fff;
-    overflow: hidden;
-    text-wrap:wrap;
-    margin: 10px 0;
-  }
-
-  .right{
-    position: relative;
-    left: 30%;
-    margin: 3%;
-    font-size: 25px;
-    
-  }
+ 
+ 
   .fl{
     display: flex;
     gap: 90px
