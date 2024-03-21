@@ -12,9 +12,56 @@ const Referral =()=>{
   const navigate = useNavigate()
 
   let tok= JSON.parse(localStorage.getItem("user-info"));
+  const terms = (tok) => {
+    let refreshval;
   
+    if (tok === null || typeof tok === 'undefined') {
+      refreshval = 0;
+    } else {
+      refreshval = tok.refresh_token;
+    }
+  
+    return refreshval;
+  };
+  
+  let refresh = terms(tok);  
+ const getAccessToken = async (refresh) => {
+    // Function to fetch access token using refresh token
+    let item = { refresh };
+    let rep = await fetch('https://api.prestigedelta.com/refreshtoken/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'accept': 'application/json'
+      },
+      body: JSON.stringify(item)
+    });
+  
+    rep = await rep.json();
+    return rep.access_token; // Return the access token
+  };
+ const fetchDat = async () => {
+    try {
+       const bab = await getAccessToken(refresh)
+  let response = await fetch("https://api.prestigedelta.com/referrals/",{
+  method: "GET",
+  headers:{'Authorization': `Bearer ${bab}`},
+  })
+  response = await response.json()
+  if (response.status === 401) {
+    navigate('/components/login');
+  } else {  
+  setInfo(response)
+  setLoading(false)
+  }
+  
+   }catch (error) {
+    console.error("Error fetching products:", error);
+    // Handle error
+  }
+  }
   useEffect(() => {
-    fetchDat(setInfo, navigate, setLoading)
+    fetchDat()
   }, [])
   console.log(info)
 
@@ -53,7 +100,7 @@ const Referral =()=>{
              <Card m='5%' mt={2} backgroundColor='#F0F8FF' p='3%'>
             <Heading fontSize='18px'>Referral</Heading>
             <div style={{justifyContent:'center'}}>
-            <p>Send an invite, get people to sign-up <br/>using your referral code and get a reward</p>
+            <p>Send an invite, get businesses to sign up and earn 0.5% of their first 180 day sales <br/>using your referral code and get a reward</p>
             <p style={{fontWeight: 'bold'}}>{info[0].referral_code}</p><br/>
             <ShareApp inviteCode={info[0].referral_code}/>
             </div></Card>
