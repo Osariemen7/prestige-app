@@ -305,9 +305,9 @@ console.log(selectedOption)
       setSelectedOption(selectedOption);
      
     };
-    const transfers= ()=>{
+    const restock= ()=>{
     
-      navigate('/components/invoice')
+      navigate('/components/restock')
  }
     const handleAddProduct = (newValue) => {
     if (newValue && newValue.trim() !== '') {
@@ -364,7 +364,8 @@ console.log(selectedOption)
 <Stack direction='row' mt={1}  align='center' justify='center'>
 <Button colorScheme='blue' variant='solid' onClick={transfer}>
     Add Products to Inventory
-  </Button></Stack>
+  </Button> 
+  <Button colorScheme='blue' variant='outline' onClick={restock}>Restock List</Button></Stack>
 
 </Card>): (<Card m={5}  >
             <Card m={2} >

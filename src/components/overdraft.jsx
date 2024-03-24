@@ -36,7 +36,6 @@ const Overdraft = () => {
              <h4 className="oveh">Overdraft</h4>
              <h5 className="ove">Overdraft Balance</h5>
              <h1 className="oveh">₦{(index.overdraft.balance).toLocaleString('en-US')}</h1>
-            <button  onClick={overdraft} className="logbd">Quick Credit</button>
              <div className="pd">
                <div className="ovp">
                   <p>Overdraft Limit</p>

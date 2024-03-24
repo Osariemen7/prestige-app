@@ -1,11 +1,6 @@
-import { ChakraProvider } from '@chakra-ui/react';
 import React, { useState, useEffect } from 'react';
+import { Stack, Heading, ChakraProvider, Input, Button, useDisclosure } from '@chakra-ui/react';
 import { Link, useNavigate } from 'react-router-dom';
-import Select from 'react-select';
-import CreatableSelect from 'react-select/creatable';
-import { Card, CardHeader, Stack, CardBody, Button, Heading, Text } from '@chakra-ui/react'
-import { useDisclosure, Input,  Spinner  } from "@chakra-ui/react"
-import good from './images/good.svg';
 import {
   Modal,
   ModalOverlay,
@@ -14,582 +9,380 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-} from '@chakra-ui/react';
-import { Box, SimpleGrid,  StackDivider} from '@chakra-ui/react'
-import { Nav } from './nav.jsx'
+} from '@chakra-ui/react'
+import { Spinner } from '@chakra-ui/react'
+import  Select  from 'react-select';
+import html2canvas from 'html2canvas';
+import Logo from './images/Logo.png';
+import jsPDF from 'jspdf';
 
-
-const Restock = () => {
-  const [sidebar, setSidebar] = useState('')
-  const [finfo, setFinfo]  = useState([])
-  const [message, setMessage] = useState('')
-  const [messag, setMessag] = useState('')
-    const [info, setInfo] = useState('');
-    const [product, setProduct] = useState([])
-    const [loading, setLoading] = useState('');
-    const [cost, setCost] = useState('');
-    const [selectedOption, setSelectedOption] = useState(null)
-    const [quantity, setQuantity] = useState('')
-    const [pack_size, setPacksize] = useState(0)
-    const [fun, setFun] = useState('')
-    const navigate = useNavigate()
-    const [buttonVisible, setButtonVisible] = useState(true);
-    const [selectedValue, setSelectedValue] = useState('');
-    const { isOpen, onOpen,  onClose } = useDisclosure()
-    const [fin, setFin] = useState('');
-    const [select, setSelect] = useState('');
-
-    const modal1 = useDisclosure()
-    const modal2 = useDisclosure()
-    const optio = ['item', 'pack'];
-    const opt = optio.map((p) => ({
-      label: p,
-      value: p,
-    }));
-    const menu = ['Product', 'Service'];
-    const op = menu.map((p) => ({
-      label: p,
-      value: p,
-    }));
-    const closeModal = () => {
-      modal2.onClose() 
-    };
-    const showSidebar = () => setSidebar(!sidebar)
-    const closeSidebar = () => setSidebar(false);
-
-  const handleCost = (event)=> {
-    setCost(event.target.value)
-  }
-  const handleQuantity =(e)=>{
-    setQuantity(e.target.value)
-  }
-  const handleType = (selectedValue) => {
-      setSelectedValue(selectedValue);
-    }; 
-    const selectType = (select) => {
-      setSelect(select);
-    };
-    const handlePack =(e)=>{
-      setPacksize(e.target.value)
-    }
-    const closeModals = () => {
-       modal1.onClose()
-      fetchData() 
-      setFun('')
-    };
-    const show=(index)=>{
-      const mata = info[0].products[index]
-      const data = {info, mata}
-       navigate('/components/prodet', {state:{data}})
-    }
-    const handleClick = () => {
-      // When the button is clicked, setButtonVisible to false
-      setButtonVisible(false);
-      setTimeout(() => {
-        setButtonVisible(true);
-      }, 20000);
-    };
-    let tok= JSON.parse(localStorage.getItem("user-info"));
-    const terms = (tok) => {
-      let refreshval;
-    
-      if (tok === null || typeof tok === 'undefined') {
-        refreshval = 0;
-      } else {
-        refreshval = tok.refresh_token;
-      }
-    
-      return refreshval;
-    };
-    const fetchData = async () => {
-      let item ={refresh}
-      let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
-          method: 'POST',
-          headers:{
-            'Content-Type': 'application/json',
-            'accept' : 'application/json'
-       },
-       body:JSON.stringify(item)
-      });
-      
-      rep = await rep.json();
-      let bab = rep.access_token
-    let response = await fetch("https://api.prestigedelta.com/products/",{
-    method: "GET",
-    headers:{'Authorization': `Bearer ${bab}`},
-    })
-    //localStorage.setItem('user-info', JSON.stringify(tok))
-    
-    if (response.status === 401) {
-      navigate('/components/login');
-    } else { 
-     
-    response = await response.json();
-    setLoading(false)
-    setInfo(response)
-    
-      }}
-      useEffect(() => {
-        fetchData()
-      }, [])
-    let refresh = terms(tok)
-    async function aprod(e) {
-      
-      e.preventDefault();
-      handleClick()
-       let items ={refresh}
-        let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
-            method: 'POST',
-            headers:{
-              'Content-Type': 'application/json',
-              'accept' : 'application/json'
-         },
-         body:JSON.stringify(items)
-        });
-        rep = await rep.json();
-        let bab = rep.access_token 
-        let product_type = 'PRODUCT'
-        let quantity_type = selectedValue.value
-        let name = selectedOption.value
-        console.warn(name, cost, quantity, quantity_type, pack_size)
-        let item = [{name, cost, quantity,  product_type , quantity_type, pack_size}];
-      
-      try {
-        let result = await fetch('https://api.prestigedelta.com/products/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'accept': 'application/json',
-            'Authorization': `Bearer ${bab}`
-          },
-          body: JSON.stringify(item)
-        });
-              if (result.status !== 200) {
-          const errorResult = await result.json();
-          setMessag('All fields must be filled');
-        } else {
-           result =await result.json();
-           setFun(result)
-        } 
-      } catch (error) {
-        // Handle fetch error
-        console.error(error);
-      };
-    }
-    const fetchDat = async () => {
-      let item ={refresh}
-      let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
-          method: 'POST',
-          headers:{
-            'Content-Type': 'application/json',
-            'accept' : 'application/json'
-       },
-       body:JSON.stringify(item)
-      });
-      
-      rep = await rep.json();
-      let bab = rep.access_token
-    let response = await fetch("https://api.prestigedelta.com/products/",{
-    method: "GET",
-    headers:{'Authorization': `Bearer ${bab}`},
-    })
-    //localStorage.setItem('user-info', JSON.stringify(tok))
-    
-    if (response.status === 401) {
-      navigate('/components/login');
-    } else { 
-     
-    response = await response.json();
-   
-    setFinfo(response)
-      }}
-  
-      useEffect(() => {
-        fetchDat()
-      }, [])
-    async function sprod(e) {
-      
-      e.preventDefault();
-      handleClick()
-       let items ={refresh}
-        let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
-            method: 'POST',
-            headers:{
-              'Content-Type': 'application/json',
-              'accept' : 'application/json'
-         },
-         body:JSON.stringify(items)
-        });
-        rep = await rep.json();
-        let bab = rep.access_token 
-        let product_type = 'PRODUCT'
-        let quantity_type = selectedValue.value
-        let name = selectedOption.value
-        let price = cost
-        console.warn(name, price, quantity, quantity_type, pack_size)
-        let item = [{name, price, quantity,  product_type , quantity_type, pack_size}];
-      
-      try {
-        let result = await fetch('https://api.prestigedelta.com/sellproducts/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'accept': 'application/json',
-            'Authorization': `Bearer ${bab}`
-          },
-          body: JSON.stringify(item)
-        });
-              if (result.status !== 200) {
-          const errorResult = await result.json();
-          setMessage('All fields must be filled');
-        } else {
-           result =await result.json();
-           setFin(result)
-        } 
-      } catch (error) {
-        // Handle fetch error
-        console.error(error);
-      };
-    }
-    
- let total =parseFloat( cost) * parseFloat(quantity)
-  
- let sub_account = tok.user.has_default_sub_accounts
-const subAccount = () => {
-  const redirectTo = sub_account ? '/components/savings' : '/components/reboard';
-  navigate(redirectTo);
-};
-const fetchDa = async () => {
-  let item ={refresh}
-  let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
-      method: 'POST',
-      headers:{
-        'Content-Type': 'application/json',
-        'accept' : 'application/json'
-   },
-   body:JSON.stringify(item)
-  });
-  
-  rep = await rep.json();
-  let bab = rep.access_token
-let response = await fetch("https://api.prestigedelta.com/productcatalogue/",{
-method: "GET",
-headers:{'Authorization': `Bearer ${bab}`},
-})
-//localStorage.setItem('user-info', JSON.stringify(tok))
-
-if (response.status === 401) {
-  navigate('/components/login');
-} else { 
- 
-response = await response.json();
-setProduct(response)
-
-  }}
-  useEffect(() => {
-    fetchDa()
-  }, [])
-console.log(info)
-console.log(selectedOption)
- 
-    const options = [
-      ...product.map((item) => ({
-        label: item.name,
-        value: item.name,
-        team:  item.pack_size,
-        mony: item.pack_cost,
-      }))
-    ];
-    const handleOptionSelect = (selectedOption) => {
-      // Handle option selection
-      setSelectedOption(selectedOption);
-     
-    };
-    const transfers= ()=>{
-    
-      navigate('/components/invoice')
- }
-    const handleAddProduct = (newValue) => {
-    if (newValue && newValue.trim() !== '') {
-      const newProduct = { label: newValue, value: newValue };
-      setSelectedOption(newProduct);
-    }
+const ListItem = ({ item, onDelete, onQuantityChange, customer, onPriceChange }) => {
+  const handleQuantityChange = (event) => {
+    onQuantityChange(item, event.target.value);
   };
-  const transfer= ()=>{
-    
-       navigate('/components/before')
-  }
-    if(loading) {
-        return(
-        <p>Loading...</p>)} 
-    
-    return(
-        <ChakraProvider >
-        <div>
-        <Nav />
-           
-            <Heading size='sm' ml={6} textAlign='left'>Products</Heading>
-            { finfo.length > 0 && typeof finfo[0].products[0] === 'object' ? (
-            <Card m={5}>
-            <Card m={2} p='2px' >
 
-  <CardBody p='2px'>
-    <Stack divider={<StackDivider />} spacing='4'>
-      <Box p='2px'>
-        <Heading size='xs' textTransform='uppercase'>
-          Number of Products
-        </Heading>
-        <Text pt='2' fontSize='sm'>
-          {finfo[0].product_count}
-        </Text>
-      </Box>
+  const handlePriceChange = (event) => {
+    onPriceChange(item, event.target.value);
+  };
+
+  return (
+    <Stack direction='row' mb={2} gap='10px' mt={3} spacing={2} align='center' justify='center'>
+      <div>
+        <Heading m={3} size='xs'>{item.name}</Heading>
+      </div>
+      <div style={{padding: '1%', width:'100px', alignItems: 'center', justifyContent: 'center'}}>
+        <Input type="number" width='50%' p={1} value={item.quantity} onChange={handleQuantityChange} />
+      </div>
+      <div style={{padding:'0', width: '100px'}}>
+        <Input type="number" width='60%'  p={1} value={item.price} onChange={handlePriceChange} />
+      </div>
+      {customer ? null: <div><span className="deleteButton" onClick={() => onDelete(item)}>
+                      <i  class="fa-solid fa-x"></i>
+      </span></div>}
+      
       
     </Stack>
-  </CardBody>
-</Card>
-<Stack direction='row'  mt={1} spacing={4} justify='center' align='center' >
-  <Card height={90} justify='center'>
-    <CardHeader p={1}>
-      <Heading size='xs' textTransform='uppercase'>Sales Value</Heading>
-    </CardHeader>
-      <Text>₦{(finfo[0].stock_value).toLocaleString('en-Us')}</Text>
-  </Card>
-  <Card height={90} justify='center'>
-    <CardHeader p={1}>
-      <Heading size='xs' textTransform='uppercase'>Purchase Value</Heading>
-    </CardHeader>
-      <Text>₦{(finfo[0].input_value).toLocaleString('en-US')}</Text>
-  </Card> 
-</Stack>
-<Stack direction='row' mt={1}  align='center' justify='center'>
-<Button colorScheme='blue' variant='solid' onClick={transfer}>
-    Add Products to Inventory
-  </Button></Stack>
+  );
+};
 
-</Card>): (<Card m={5}  >
-            <Card m={2} >
+const ListIte = ({ item, onDelete, onQuantityChange,customer, onPriceChange }) => {
+  const handleQuantityChange = (event) => {
+    onQuantityChange(item, event.target.value);
+  };
 
-  <CardBody>
-    <Stack divider={<StackDivider />} spacing='4'>
-      <Box p='2px'>
-        <Heading size='xs' textTransform='uppercase'>
-          Number of Products
-        </Heading>
-        <Text pt='2' fontSize='sm'>
-          0
-        </Text>
-     </Box>
-      </Stack>
-  </CardBody>
-</Card>
-<Stack direction='row'  mt={1} spacing={4} justify='center' align='center'>
-  <Card height={90} justify='center'>
-    <CardHeader p={1}>
-      <Heading size='xs' textTransform='uppercase'> Stock Value</Heading>
-    </CardHeader>
-      <Text> 0</Text>
-  </Card>
-  <Card height={90} justify='center'>
-    <CardHeader p={1}>
-      <Heading size='xs' textTransform='uppercase' > Sales Value</Heading>
-    </CardHeader>
-      <Text>₦0</Text>
-    
-  </Card> 
-</Stack>
-<Stack direction='row' mt={2}  align='center' justify='center'>
-<Button colorScheme='blue' variant='solid' onClick={transfer}>
-    Add Products to Inventory
-  </Button>
-</Stack>
+  const handlePriceChange = (event) => {
+    onPriceChange(item, event.target.value);
+  };
 
-</Card>)}
-
-<Stack direction='row' spacing={1} align='center' justify='center'>
-  
-</Stack>
-<Heading size='md' m={5} mb={0}>Product List</Heading>
-        { info.length > 0 && typeof info[0].products[0] === 'object' ? (
+  return (
+    <Stack direction='row' mb={2} gap='10px' mt={3} spacing={2} align='center' justify='center'>
       <div>
-      {info[0].products.map((obj, index) =>
+        <Heading m={3} size='xs'>{item.name}</Heading>
+      </div>
+      <div style={{padding: '1%', width:'100px', alignItems: 'center', justifyContent: 'center'}}>
+        <Input type="number" width='50%' p={1} value={item.team} onChange={handleQuantityChange} />
+      </div>
+      <div style={{padding:'0', width: '100px'}}>
+        <Input type="number" width='60%'  p={1} value={item.code} onChange={handlePriceChange} />
+      </div>
+      {customer ? null: <div><span className="deleteButton" onClick={() => onDelete(item)}>
+                      <i  class="fa-solid fa-x"></i>
+      </span></div>}
+      
+      
+    </Stack>
+  );
+};
 
-        <Card key={index} onClick={() => show(index)} m={3} >
-  <CardBody padding={2}>
-   <Heading size='xs'>{obj.name}</Heading>
-    <Text>Total Sales: {obj.total_sales}</Text>
-    <i class="fa-solid fa-arrow-right"></i>
-  </CardBody>
-</Card> )}</div> ): null }
-<Modal isOpen={modal1.isOpen} onClose={modal1.onClose}>
-        <ModalOverlay />
-        <ModalContent>
-        {fun === '' ? (
-  <div>
-
-          <ModalHeader>Add Product</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-          <Select
-      onChange={selectType}
-      className="pne"
-      placeholder="Product/Service"
-      options={op}
-      isSearchable={true}
-      value={select} /><br/>
-{select.label ==='Service' ? (
-  <div>
-  <CreatableSelect
-        className="pne"
-        placeholder="Enter Service name"
-        options={options}
-        isSearchable={true}
-        onChange={handleOptionSelect}
-        value={selectedOption}
-        onCreateOption={handleAddProduct} // Handle adding a new option
-        isClearable={true} 
-
-      /><br/>
-      <Select
-      onChange={handleType}
-      className="pne"
-      placeholder="Quantity Type"
-      options={opt}
-      value={selectedValue} /><br/>
-      {selectedValue.label !== 'item' ? (
+const ItemList = ({ items, onDelete, onQuantityChange,customer, onPriceChange, selectedValue }) => {
+  
+  return (
+    <ChakraProvider>
+      {/* Render headings only once */}
+      
+      <Stack direction='row' mb={2} gap='10px' mt={3} spacing={2} align='center' justify='center'>
         <div>
-        <Input placeholder='No of items in pack/carton'  size='md' onChange={handlePack} width={273} ml={9} /><br/>
-        <br/></div>): null}
-
-      <Input placeholder='No of persons rendered service' size='md' onChange={handleQuantity} width={273} ml={9}/><br/><br/>
-      <Input placeholder='Cost for a single person' size='md' onChange={handleCost} width={273} ml={9} />
-      </div>):(<div><CreatableSelect
-        className="pne"
-        placeholder="Enter product name"
-        options={options}
-        isSearchable={true}
-        onChange={handleOptionSelect}
-        value={selectedOption}
-        onCreateOption={handleAddProduct} // Handle adding a new option
-        isClearable={true} 
-
-      /><br/>
-      <Select
-      onChange={handleType}
-      className="pne"
-      placeholder="Quantity Type"
-      options={opt}
-      isSearchable={true}
-      value={selectedValue} /><br/>
-      {selectedValue.label !== 'item' ? (
-        <div>
-        <Input placeholder='No of items in pack/carton'  size='md' onChange={handlePack} width={273} ml={9} /><br/>
-        <br/></div>): null}
-
-      <Input placeholder='Quantity' size='md' onChange={handleQuantity} width={273} ml={9}/><br/><br/>
-      <Input placeholder='Cost for a single item/pack' size='md' onChange={handleCost} width={273} ml={9} /></div>)} </ModalBody>
-         {total? <Text ml={5}>Total cost is ₦{(total).toLocaleString('en-US')}</Text>: null}
-          <ModalFooter>
-          <div className="message">{messag ? <p>{messag}</p> : null}</div>
-          {buttonVisible && ( <Button colorScheme='blue' mr={3} onClick={aprod}>
-              Add
-            </Button>
-            )}
-      {!buttonVisible && <Spinner />}
-          </ModalFooter>
-          </div>): 
-        <ModalBody>
-        <div>
-          <i class="fa-solid fa-x tx" onClick={closeModals}></i>
-          <img src={good} alt="" className='nig'/>
-          <h4 className="nig">Product Added!</h4>  
-      </div></ModalBody>}
-        </ModalContent> 
-      </Modal>
-      <Modal isOpen={modal2.isOpen} onClose={modal2.onClose}>
-        <ModalOverlay />
-        <ModalContent>
-        {fin === '' ? (
-  <div>
-          <ModalHeader>Update Inventory</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-          <Select
-      onChange={selectType}
-      className="pne"
-      placeholder="Product/Service"
-      options={op}
-      isSearchable={true}
-      value={select} /><br/>
-{select.label ==='Service' ? (
-  <div>
-  <CreatableSelect
-        className="pne"
-        placeholder="Enter Service name"
-        options={options}
-        isSearchable={true}
-        onChange={handleOptionSelect}
-        value={selectedOption}
-        onCreateOption={handleAddProduct} // Handle adding a new option
-        isClearable={true} 
-
-      /><br/>
-      <Select
-      onChange={handleType}
-      className="pne"
-      placeholder="Quantity Type"
-      options={opt}
-      value={selectedValue} /><br/>
-      {selectedValue.label !== 'item' ? (
-        <div>
-        <Input placeholder='No of items in pack/carton'  size='md' onChange={handlePack} width={273} ml={9} /><br/>
-        <br/></div>): null}
-
-      <Input placeholder='No of persons rendered service' size='md' onChange={handleQuantity} width={273} ml={9}/><br/><br/>
-      <Input placeholder='Cost for a single person' size='md' onChange={handleCost} width={273} ml={9} />
-      </div>):(<div><CreatableSelect
-        className="pne"
-        placeholder="Enter product name"
-        options={options}
-        isSearchable={true}
-        onChange={handleOptionSelect}
-        value={selectedOption}
-        onCreateOption={handleAddProduct} // Handle adding a new option
-        isClearable={true} 
-
-      /><br/>
-      <Select
-      onChange={handleType}
-      className="pne"
-      placeholder="Quantity Type"
-      options={opt}
-      isSearchable={true}
-      value={selectedValue} /><br/>
-      {selectedValue.label !== 'item' ? (
-        <div>
-        <Input placeholder='No of items in pack/carton'  size='md' onChange={handlePack} width={273} ml={9} /><br/>
-        <br/></div>): null}
-
-      <Input placeholder='Quantity' size='md' onChange={handleQuantity} width={273} ml={9}/><br/><br/>
-      <Input placeholder='Price for a single item/pack' size='md' onChange={handleCost} width={273} ml={9} /></div>)} </ModalBody>
-      {total? <Text ml={5}>Total Sales is ₦{(total).toLocaleString('en-US')}</Text>: null}
-          <ModalFooter>
-          <div className="message">{message ? <p>{message}</p> : null}</div>
-          {buttonVisible && ( <Button colorScheme='blue' mr={3} onClick={sprod}>
-              Update
-            </Button>
-            )}
-      {!buttonVisible && <Spinner />}
-          </ModalFooter>
-          </div>): 
-        <div>
-          <i class="fa-solid fa-x tx" onClick={closeModal}></i>
-          <img src={good} alt="" className='nig'/>
-          <h4 className="nig">Product Updated!</h4>  
-      </div>}
-        </ModalContent> 
-      </Modal>
+          <Heading size='xs' p={2}>Item</Heading>
         </div>
-        </ChakraProvider>
-    )
+        <div style={{ padding: '1%', width: '100px', alignItems: 'center', justifyContent: 'center' }}>
+          <Heading size='xs' p={2}>Quantity</Heading>
+        </div>
+        <div style={{ padding: '0', width: '100px' }}>
+          <Heading size='xs'>Amount</Heading>
+        </div>
+      </Stack>
+
+      {/* Render each item */}
+      {selectedValue.value === 'ITEM'? (<div> {items.map((item, index) => (
+        <ListItem key={index} item={item} onDelete={onDelete} onQuantityChange={onQuantityChange} onPriceChange={onPriceChange} customer={customer} />
+      ))}</div>):
+       <div>
+       {items.map((item, index) => (
+        <ListIte key={index} item={item} onDelete={onDelete} onQuantityChange={onQuantityChange} onPriceChange={onPriceChange} customer={customer}/>
+      ))}
+       </div>}    
+       
+      
+      
+      
+    </ChakraProvider>
+  );
+};
+
+const Restock = () => {
+  const [info, setInfo] = useState([])
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate()
+  const [items, setItems] = useState([]);
+  const [customer, setCustomer] = useState('');
+    const [inpu, setInpu] = useState('');
+    const [number, setNumber] = useState('')
+    const [address, setAdd] = useState('')
+    const [put, setPut] = useState('')
+    const [val, setVal] = useState('')
+    const modal1 = useDisclosure();
+    const modal2 = useDisclosure()
+    
+  const [newItemName, setNewItemName] = useState('');
+  const [newItemQuantity, setNewItemQuantity] = useState('');
+  const [newItemPrice, setNewItemPrice] = useState('');
+
+  const handleNewItemSubmit = () => {
+    // Create a new item object
+    const newItem = {
+      name: newItemName,
+      quantity: parseInt(newItemQuantity),
+      price: parseInt(newItemPrice),
+    };
+
+    // Add the new item to the existing items list
+    setItems([...items, newItem]);
+
+    // Clear input fields
+    setNewItemName('');
+    setNewItemQuantity('');
+    setNewItemPrice('');
+
+    // Close the modal
+    modal2.onClose();
+  };
+
+  const [total, setTotal] = useState(0);
+
+  const handleCust = (event) =>{
+    setInpu(event.target.value)
+  }
+  const handleAdd = (event) =>{
+    setPut(event.target.value)
+  }
+   const handlePhone =(event) => {
+    setVal(event.target.value)
+   }
+
+   let tok= JSON.parse(localStorage.getItem("user-info"));
+  const terms = (tok) => {
+    let refreshval;
+  
+    if (tok === null || typeof tok === 'undefined') {
+      refreshval = 0;
+    } else {
+      refreshval = tok.refresh_token;
+    }
+  
+    return refreshval;
+  };
+  let refresh = terms(tok)
+
+  useEffect(() => {
+    fetchData()
+    
+    }, [])
+    
+   const fetchData = async () => {
+    let item ={refresh}
+    let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json',
+          'accept' : 'application/json'
+     },
+     body:JSON.stringify(item)
+    });
+    
+    rep = await rep.json();
+    let bab = rep.access_token
+  let response = await fetch("https://api.prestigedelta.com/procureproducts/",{
+  method: "GET",
+  headers:{'Authorization': `Bearer ${bab}`},
+  })
+  //localStorage.setItem('user-info', JSON.stringify(tok))
+  
+  if (response.status === 401) {
+    navigate('/components/login');
+  } else { 
+   
+  response = await response.json();
+  setLoading(false)
+  setInfo(response)
+  setItems(response[0].products.map((item) => ({
+    name: item.name,
+    quantity: item.item_restock_quantity,
+    team:   item.pack_restock_quantity,
+    price: item.item_restock_amount,
+    code: item.pack_restock_amount
+  })));
+    }}
+console.log(info)
+
+const mont = ['ITEM', 'PACK'];
+  const opt = mont.map((p) => ({
+    label: p,
+    value: p,
+  }))
+  const defaultSelectedValue = opt.find(option => option.value === 'ITEM');
+ const [selectedValue, setSelectedValue] = useState(defaultSelectedValue);
+ const handleType = (selectedValue) => {
+  setSelectedValue(selectedValue);
+  
+};
+
+console.log(selectedValue.value)
+  const onDelete = (itemToDelete) => {
+    setItems(items.filter(item => item !== itemToDelete));
+  };
+
+  const onQuantityChange = (item, newQuantity) => {
+    const updatedItems = items.map(existingItem => {
+      if (existingItem === item) {
+        return { ...existingItem, quantity: newQuantity };
+      }
+      return existingItem;
+    });
+    setItems(updatedItems);
+  };
+
+  const onPriceChange = (item, newPrice) => {
+    const updatedItems = items.map(existingItem => {
+      if (existingItem === item) {
+        return { ...existingItem, price: newPrice };
+      }
+      return existingItem;
+    });
+    setItems(updatedItems);
+  };
+ 
+
+  useEffect(() => {
+    let sum = items.reduce((total, item) => total + (item.quantity * item.price), 0);
+    setTotal(sum);
+  }, [items]);
+  const handleFormSubmit = () => {
+    
+    const newCustomer = customer || inpu;
+    const newNumber = number || val
+    setCustomer(newCustomer)
+    setInpu('')
+    setNumber(newNumber)
+    setAdd(put)
+    setPut('')
+    setVal('')
+    modal1.onClose()
+  }
+  const handleCaptureClick = async () => {
+    const mainElement = document.getElementById('main-element');
+    const canvas = await html2canvas(mainElement);
+    const pdf = new jsPDF('p', 'mm', 'a4'); // 'p' for portrait, 'mm' for millimeters, 'a4' for page size
+
+// Calculate the width and height to fit the whole canvas on the PDF
+const imgWidth = 210; // A4 page width in mm
+const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+// Add the captured image to the PDF
+pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, imgWidth, imgHeight);
+
+// Save the PDF
+pdf.save('download.pdf');
 }
-export default Restock 
+  if(loading){
+    return(
+      <div>Loading...</div>
+    )
+  }
+  
+  
+  return (
+    <div style={{backgroundColor:'#F0F8FF', maxHeight:'100%', height: '100vh', paddingTop:'3%', zIndex:'0', alignItems: 'center', justifyContent: 'center'}}>
+    <ChakraProvider>
+      <div style={{ padding:'5%' }}>
+        <Link to='/components/product'>
+          <i className="fa-solid fa-chevron-left bac"></i>
+        </Link> 
+        <Select 
+      onChange={handleType}
+      className="pne"
+      placeholder="Select Duration"
+      options={opt}
+      isSearchable={true}
+      value={selectedValue} /> <br/>
+       <main id="main-element" style={{ padding:'3%', maxHeight:'100%', backgroundColor:'#48AAAD', color: "#fff" }}>
+        <div >   
+        
+        <img src={Logo} alt="logo" className="frame1"/>     
+          <Heading fontSize='18px' mb={2}>Restock List</Heading>
+          <p className='ld'>{(new Date()).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true})}</p>
+          <ItemList items={items} onDelete={onDelete} onQuantityChange={onQuantityChange} customer={customer} onPriceChange={onPriceChange} selectedValue={selectedValue} />
+          <p>Quantity Type: {selectedValue.value}</p>
+          <div>Total: ₦{total}</div>
+          <h6 className='saed'> {customer} -<span> {number}</span></h6>
+           <p>{address}</p>
+
+        </div>
+        </main>
+        <br></br>
+      
+      {customer? (<Button colorScheme='blue' variant='solid' onClick={handleCaptureClick}>Share</Button>):<Stack direction='row' mt={1} gap={3} align='center' justify='center'><Button colorScheme='blue' variant='solid' onClick={modal2.onOpen}>Add Items</Button><Button colorScheme='blue' variant='outline' onClick={modal1.onOpen}>Add Your Details</Button></Stack>}  
+      </div>
+      <Modal isOpen={modal1.isOpen} onClose={modal1.onClose}>
+          <ModalOverlay />
+          <ModalContent>
+          
+            <ModalHeader>Add your Details</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+
+              
+             
+          <Input placeholder='Name' size='md' onChange={handleCust} width={273} ml={9}/>
+          <br/> <br/>
+              <Input placeholder='Phone No' size='md' onChange={handlePhone} width={273} ml={9}/><br/><br/>
+              <Input placeholder='Address' size='md' onChange={handleAdd} width={273} ml={9}/><br/><br/>
+             
+             <Button colorScheme='blue' onClick={handleFormSubmit}>Add</Button>                   
+              
+              </ModalBody>
+              </ModalContent>
+        </Modal>
+        <Modal isOpen={modal2.isOpen} onClose={modal2.onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Add New Item</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Input
+                placeholder="Name"
+                size="md"
+                value={newItemName}
+                onChange={(e) => setNewItemName(e.target.value)}
+                width={273}
+              />
+              <br /> <br />
+              <Input
+                placeholder="Quantity"
+                size="md"
+                value={newItemQuantity}
+                onChange={(e) => setNewItemQuantity(e.target.value)}
+                width={273}
+              />
+              <br /> <br />
+              <Input
+                placeholder="Price"
+                size="md"
+                value={newItemPrice}
+                onChange={(e) => setNewItemPrice(e.target.value)}
+                width={273}
+              />
+              <br /> <br />
+            </ModalBody>
+            <ModalFooter>
+              <Button colorScheme="blue" onClick={handleNewItemSubmit}>
+                Add
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+
+    </ChakraProvider></div>
+  );
+};
+
+export default Restock;

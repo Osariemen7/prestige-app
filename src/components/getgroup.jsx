@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Select from 'react-select';
 import { Typography, TextField, Autocomplete } from '@mui/material';
 import { BootstrapButton, ValidationTextField } from "./material";
+import { EventAvailable } from '@mui/icons-material';
 
 
   
@@ -23,7 +24,7 @@ const GetGroup =()=>{
   const location = useLocation();
 
   let selectedOptions = location.state.mata.name
-  
+  let subAccount = location.state.mata
   
   const opt = ben.map((item) => ({
     label: `${item.account_name}(${item.bank_name})`,
@@ -32,8 +33,9 @@ const GetGroup =()=>{
     code: item.bank_name
   }));
    
-  
-  const handleBank = (event, newValue) => {
+ let availableBal = parseInt(subAccount.balance.available_balance) + parseInt(subAccount.overdraft.available)
+ console.log(availableBal) 
+ const handleBank = (event, newValue) => {
     setSelectedOption(newValue);}
   
     const handleBen = (event, newValue) => {
@@ -172,6 +174,7 @@ let refresh = terms(tok)
 //      else {}
 //    }
 //  }
+
    console.log(selectedOptions)
     const teams = (selectedOption) => {
       let ref;
@@ -234,6 +237,7 @@ let refresh = terms(tok)
        <Link to='/components/inventory'><i class="fa-solid fa-chevron-left bac"></i></Link>
       
             <h3>Send Money</h3>
+            <p style={{paddingLeft:'3%'}}>Highest amount you can withdraw from this sub Account is ₦{availableBal.toLocaleString('en-US')}</p>
        <form>
        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Autocomplete
@@ -283,7 +287,7 @@ required
 value={selected.code}
 variant="outlined"
 id="validation-outlined-input"
-/>
+/><br/><br/>
                   <ValidationTextField
   
   onChange={handleAcct}
