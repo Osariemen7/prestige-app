@@ -363,7 +363,7 @@ console.log(selectedOption)
 </Stack>
 <Stack direction='row' mt={1}  align='center' justify='center'>
 <Button colorScheme='blue' variant='solid' onClick={transfer}>
-    Add Products to Inventory
+    Add Products
   </Button> 
   <Button colorScheme='blue' variant='outline' onClick={restock}>Restock List</Button></Stack>
 

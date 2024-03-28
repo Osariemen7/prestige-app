@@ -90,7 +90,7 @@ console.log(parseFloat(budget2)  + parseFloat(budget4))
                   budget: budget1, // Replace with the actual state variable for buget1
                 },
                 {
-                  name: "OWNER SALARIES",
+                  name: "SALARY",
                   account_type: "EXPENSE",
                   budget: budget2, // Replace with the actual state variable for buget2
                 },

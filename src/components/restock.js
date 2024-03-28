@@ -115,6 +115,7 @@ const Restock = () => {
   const navigate = useNavigate()
   const [items, setItems] = useState([]);
   const [customer, setCustomer] = useState('');
+  const [business, setBusiness] = useState([])
     const [inpu, setInpu] = useState('');
     const [number, setNumber] = useState('')
     const [address, setAdd] = useState('')
@@ -177,7 +178,36 @@ const Restock = () => {
     fetchData()
     
     }, [])
+    const fetchDa = async () => {
+      let item ={refresh}
+      let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
+          method: 'POST',
+          headers:{
+            'Content-Type': 'application/json',
+            'accept' : 'application/json'
+       },
+       body:JSON.stringify(item)
+      });
+      
+      rep = await rep.json();
+      let bab = rep.access_token
+    let response = await fetch("https://api.prestigedelta.com/businessprofile/",{
+    method: "GET",
+    headers:{'Authorization': `Bearer ${bab}`},
+    })
+    //localStorage.setItem('user-info', JSON.stringify(tok))
     
+    if (response.status === 401) {
+      navigate('/components/login');
+    } else { 
+     
+    response = await response.json();
+    setBusiness(response)
+    
+      }}
+      useEffect(() => {
+        fetchDa()
+      }, [])
    const fetchData = async () => {
     let item ={refresh}
     let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
@@ -304,7 +334,7 @@ pdf.save('download.pdf');
       options={opt}
       isSearchable={true}
       value={selectedValue} /> <br/>
-       <main id="main-element" style={{ padding:'3%', maxHeight:'100%', backgroundColor:'#48AAAD', color: "#fff" }}>
+       <main id="main-element" style={{ padding:'3%', maxHeight:'100%' }}>
         <div >   
         
         <img src={Logo} alt="logo" className="frame1"/>     
@@ -313,29 +343,25 @@ pdf.save('download.pdf');
           <ItemList items={items} onDelete={onDelete} onQuantityChange={onQuantityChange} customer={customer} onPriceChange={onPriceChange} selectedValue={selectedValue} />
           <p>Quantity Type: {selectedValue.value}</p>
           <div>Total: ₦{total}</div>
-          <h6 className='saed'> {customer} -<span> {number}</span></h6>
-           <p>{address}</p>
-
+          {customer? (<h5>Order from {business[0].business_name} to {customer}</h5>):null}
+          <h6 className='saed'> {address} -<span> {number}</span></h6>
         </div>
         </main>
         <br></br>
       
-      {customer? (<Button colorScheme='blue' variant='solid' onClick={handleCaptureClick}>Share</Button>):<Stack direction='row' mt={1} gap={3} align='center' justify='center'><Button colorScheme='blue' variant='solid' onClick={modal2.onOpen}>Add Items</Button><Button colorScheme='blue' variant='outline' onClick={modal1.onOpen}>Add Your Details</Button></Stack>}  
+      {customer? (<Button colorScheme='blue' variant='solid' onClick={handleCaptureClick}>Share List</Button>):<Stack direction='row' mt={1} gap={3} align='center' justify='center'><Button colorScheme='blue' variant='solid' onClick={modal2.onOpen}>Add Items</Button><Button colorScheme='blue' variant='outline' onClick={modal1.onOpen}>Add Seller's Details</Button></Stack>}  
       </div>
       <Modal isOpen={modal1.isOpen} onClose={modal1.onClose}>
           <ModalOverlay />
           <ModalContent>
           
-            <ModalHeader>Add your Details</ModalHeader>
+            <ModalHeader>Add Seller's Details</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-
-              
-             
-          <Input placeholder='Name' size='md' onChange={handleCust} width={273} ml={9}/>
+          <Input placeholder='Who are you buying from?' size='md' onChange={handleCust} width={273} ml={9}/>
           <br/> <br/>
-              <Input placeholder='Phone No' size='md' onChange={handlePhone} width={273} ml={9}/><br/><br/>
-              <Input placeholder='Address' size='md' onChange={handleAdd} width={273} ml={9}/><br/><br/>
+              <Input placeholder='Account No ' size='md' onChange={handlePhone} width={273} ml={9}/><br/><br/>
+              <Input placeholder='Bank Name' size='md' onChange={handleAdd} width={273} ml={9}/><br/><br/>
              
              <Button colorScheme='blue' onClick={handleFormSubmit}>Add</Button>                   
               
