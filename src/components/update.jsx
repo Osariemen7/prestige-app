@@ -4,6 +4,9 @@ import Select from 'react-select';
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import { ChakraProvider, InputGroup, Spinner } from '@chakra-ui/react';
 import { Input, InputRightElement, Button, Heading, Text } from '@chakra-ui/react'
+import { Typography, TextField, Autocomplete } from '@mui/material';
+import { BootstrapButton, ValidationTextField } from "./material";
+
  
 const Update =()=>{
 const [info, setInfo] = useState([])
@@ -15,7 +18,7 @@ const [messag, setMessag] = useState('')
 const [bvn, setBvn] = useState('')
 const [first_name, setFirstname] = useState(' ');
 const [last_name, setLastname] = useState('');
-const [middle_name, setMiddlename] = useState(' ')
+const [middle_name, setMiddlename] = useState('null')
 const [buttonVisible, setButtonVisible] = useState(true);
    
  
@@ -30,9 +33,9 @@ const handleLastname = (event)=> {
 const handleMiddlename = (event)=>{
     setMiddlename(event.target.value)
 }
-const handleBank = (selectedOption) => {
-    setSelectedOption(selectedOption);
-  };
+const handleBank = (event, newValue) => {
+  setSelectedOption(newValue);}
+;
 const handleBvn = (event) => {
     setBvn(event.target.value)
 }
@@ -156,7 +159,7 @@ async function ema(e) {
         });
         rep = await rep.json();
         let bab = rep.access_token
-      let response = await fetch(`https://api.prestigedelta.com/verifyaccount/?bank_code=${bank_code}&nuban=${nuban}&bank_name=${selectedOption.label}`,{
+      let response = await fetch(`https://api.prestigedelta.com/banktransfer/?bank_code=${bank_code}&nuban=${nuban}`,{
       method: "GET",
       headers:{'Authorization': `Bearer ${bab}`},
       })
@@ -185,64 +188,77 @@ async function ema(e) {
             <title>Set up Page</title>
             
         </Helmet>
-         <ChakraProvider>
+        
          <Link to='/components/accounts'>
       <i className="fa-solid fa-chevron-left bac"></i>
     </Link>
     
-         <Heading textAlign='left' ml='50px' fontSize='18px'  color='blue'>Account details were not verified</Heading>
-            <Text textAlign='left' ml='50px' fontSize='14px'>Please Fill in your details!</Text>
+         <h3 style={{textAlign:'left',fontSize:'20px',fontWeight:'bold', marginLeft:'50px', color:'blue'}}>Account details were not verified</h3>
+            <Typography textAlign='left' ml='50px' fontSize='14px'>Please Fill in your details!</Typography>
           <br/>
-          <Input
-          size='md'
-          width={273} ml='18px'
-            type="text"
-            placeholder="Enter First Name"
-            onChange={handleFirstChange}
-          /><br/><br/>    
-          <Input
-          size='md'
-          width={273} ml='18px'
-            type="text"
-            placeholder="Enter Last Name"
-            onChange={handleLastname}
-          /><br/><br/> 
-          <Input
-          size='md'
-          width={273} ml='18px'
-            type="text"
-            placeholder="Enter Middle Name"
-            onChange={handleMiddlename}
-          /><br/><br/>
-          <Input
-          size='md'
-          width={273} ml='18px'
-            type="number"
-            placeholder="Enter BVN"
-            onChange={handleBvn}
-          /><br/><br/>
-      <Select
-      onChange={handleBank}
-      className="lne"
-      placeholder="Select Bank"
-      options={options}
-      isSearchable={true}
+          <ValidationTextField
+
+  onChange={handleFirstChange}
+label="Enter First Name"
+type='text'
+required
+variant="outlined"
+id="validation-outlined-input"
+/> <br/><br/>
+<ValidationTextField
+  onChange={handleLastname}
+label="Enter Last Name"
+type='text'
+required
+variant="outlined"
+id="validation-outlined-input"
+/> <br/><br/>
+<ValidationTextField
+  onChange={handleMiddlename}
+label="Enter Middle Name"
+type='text'
+variant="outlined"
+id="validation-outlined-input"
+/> <br/><br/>
+<ValidationTextField
+  onChange={handleBvn}
+label="Enter BVN"
+type='number'
+required
+variant="outlined"
+id="validation-outlined-input"
+/> <br/><br/>
+<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Autocomplete
+      
+      id="combo-box-demo"
       value={selectedOption}
-    /><br/>
-          <Input
-          size='md'
-          width={273} ml='18px'
-            type="number"
-            placeholder="Account Number"
-            onChange={handleNuban}
-          /><br/><br/>
+      options={options}
+      onChange={handleBank}
+      sx={{ width: '88%', maxWidth:'100%', align: 'center' }}
+      renderInput={(params) => <TextField {...params} label="Select Bank" />}
+        
+    /> </div>
+    <br/>    
+      
+     <ValidationTextField
+  onChange={handleNuban}
+label="Account Number"
+type='number'
+required
+variant="outlined"
+id="validation-outlined-input"
+/> 
+         <br/><br/>
           <div >{users ? <div><p className="me">{users.account_name}</p><br/></div> : null}</div>
 <br/>              
-{buttonVisible && (<button className="logb" onClick={bus}>Next</button>
-)}
-      {!buttonVisible && <Spinner />}      <div className="message">{messag ? <p>{messag}</p> : null}</div>
+{buttonVisible && (<BootstrapButton variant="contained" onClick={bus} disableRipple>
+                   Next
+      </BootstrapButton>
+)}<ChakraProvider>
+      {!buttonVisible && <Spinner />}  </ChakraProvider>    <div className="message">{messag ? <p>{messag}</p> : null}</div>
      
-          </ChakraProvider>
+        
         </div>
     )
 }
