@@ -85,6 +85,7 @@ if(loading) {
            <h3 className='saed'>Business Profile</h3>
            <p className='svin'>Get to know your customers</p>
            <h4 className='clun'>{list[0].business_name}</h4>
+           <div style={{display: 'flex', flexDirection:'column', alignItems: 'center', justifyContent: 'center'}}>
            <div className='clup'>
           <div className='blc'>
             <p className='dnc'>Nature of business</p>
@@ -108,6 +109,7 @@ if(loading) {
         <div className='clup'>
           <button className='loyb' onClick={createLoy}>Create Loyalty program</button>
           <button className='loyb' onClick={getLoy}>Manage Loyalty program</button>
+        </div>
         </div>
         <h3>Customers</h3>
         { myArray.length > 0 && typeof myArray[0] === 'object' ?(

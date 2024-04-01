@@ -50,6 +50,11 @@ const Save =()=>{
   const modal1 = useDisclosure()
   const modal2 = useDisclosure()
   const modal3 = useDisclosure()
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   const navigate = useNavigate()
   const location = useLocation();
@@ -379,18 +384,48 @@ if(loading) {
   return(
    <ChakraProvider>
       <div>
-          <Link to='/components/savings'>
-               <i className="fa-solid fa-chevron-left bac"></i>
-           </Link>
+        <div className="menu-button" style={{margin:'0'}}>
+            <i   onClick={toggleMenu} class="fa-solid fa-square-caret-down bac"></i>
+            </div>
+            <Heading fontSize='14px' ml='60%' mt={0} >More</Heading>
+        
+    
+        <div className={`side-menu ${isMenuOpen ? 'open' : ''}`} >
+<ul className=''>
+<Heading fontSize='15px' color="white" mt={3}>More</Heading>
+         <li><Button  colorScheme="blue" onClick={modal1.onOpen}>Fund</Button>
+               </li>
+               <li>
+          <Button onClick={() => overdraft()} colorScheme='blue'>Overdraft</Button> 
+          </li>
+
+               <li>
+               <Button colorScheme="blue" onClick={modal2.onOpen}>Edit Budget</Button>  
+             
+               </li>
+               <li>
+               {finfo.auto_fund === false ?(
+             <Button onClick={dauto} colorScheme="blue">Enable Auto Fund</Button>):(
+              <Button onClick={dauto} colorScheme="blue">Disable Auto Fund</Button>
+             )}
+               </li>
+               <li>
+               <Button colorScheme="red" onClick={modal3.onOpen} >Close Sub Account</Button>
+               </li>
+               <Link to='/components/savings'><li>
+            
+                 <i className="fa-solid fa-chevron-left"></i>
+             Back
+            </li></Link>
+      </ul>
+</div>
            <h4 className="cpn">{index.name} SUB ACCOUNT</h4>
            <div className="dash">
               <p className="dp">Balance</p>
               <Heading fontSize='25px' className="h2">₦{(finfo.balance.available_balance).toLocaleString('en-US')}</Heading>  
-          <div className="act">
-          <Button  colorScheme="blue" onClick={modal1.onOpen}>Fund</Button>  
-          <Button onClick={() => transfer()} colorScheme="blue">Transfers</Button>
-          <Button onClick={() => overdraft()} colorScheme='blue'>Overdraft</Button>
-        
+          <div className="">
+          <Button w='60%' m={4} onClick={() => transfer()} colorScheme="blue">Transfers</Button>
+         
           </div>                
            </div>
            <Stack direction='row' justify='center' align='center' gap='20%' m='2%'>
@@ -402,16 +437,7 @@ if(loading) {
                 <Heading fontSize='16px' className="sco">₦{(index.spent).toLocaleString('en-US')}</Heading>
              </Stack>
              
-             <SimpleGrid m={3} mt={1} spacing={2} templateColumns='repeat(auto-fill, minmax(100px, 2fr))'>
-             <Button colorScheme="blue" onClick={modal2.onOpen}>Edit Budget</Button>  
-             {finfo.auto_fund === false ?(
-             <Button onClick={dauto} colorScheme="blue">Enable<br/> Auto Fund</Button>):(
-              <Button onClick={dauto} colorScheme="blue">Disable<br/> Auto Fund</Button>
-             )}
-                       <Button colorScheme="red" onClick={modal3.onOpen} >Close<br/> Sub Account</Button>
-            
-             </SimpleGrid>
-             <Heading fontSize='14px' className="saed">Activity</Heading>
+                        <Heading fontSize='14px' className="saed">Activity</Heading>
             
             {list.map((obj, index) => 
               <Card m={2} backgroundColor='#F0F8FF'>
