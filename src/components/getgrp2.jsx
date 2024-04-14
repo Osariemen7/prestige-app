@@ -200,7 +200,7 @@ let refresh = terms(tok)
                <p>{meal.selectedOption.label}</p>
            </div>
            </div>
-
+<br/>
            <div style={{backgroundColor:'rgb(235, 245, 248)', padding: '1%', margin:'4%', alignItems: 'center', justifyContent: 'center'}}>
              <p>Be sure of the account details before sending<br/> funds as this cannot be reversed</p>
            </div>
@@ -231,7 +231,7 @@ let refresh = terms(tok)
           <ModalOverlay />
           <ModalContent>
           
-            <ModalHeader>Create Sub-Account</ModalHeader>
+            <ModalHeader>Enter OTP</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
 
