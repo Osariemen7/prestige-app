@@ -273,7 +273,7 @@ let refresh = terms(tok)
   }
 }, [selectedOption, nuban]);
 
-   console.log((fun.status).toLocaleString())
+   
    
 
     if(loading) {
@@ -284,11 +284,12 @@ let refresh = terms(tok)
   return(
     <div style={{padding: '3%'}}>
        <Link to='/components/inventory'><i class="fa-solid fa-chevron-left bac"></i></Link>
-      
+  
             <h3>Send Money</h3>
             <p style={{paddingLeft:'3%'}}>Highest amount you can withdraw from this sub Account is ₦{availableBal.toLocaleString('en-US')}</p>
+            {fun === ''? (null):
             <p>Overdraft status: {(fun.status).toLocaleString()} <br/>{fun.message}</p>
-       <form>
+       }<form>
        <ValidationTextField
   
   onChange={handleAmount}
