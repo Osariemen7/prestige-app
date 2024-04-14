@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import Select from 'react-select';
 import { Typography, TextField, Autocomplete } from '@mui/material';
 import { BootstrapButton, ValidationTextField } from "./material";
 import { EventAvailable } from '@mui/icons-material';
@@ -19,6 +18,7 @@ const GetGroup =()=>{
   const [pin_id, setPinid] = useState('')
   const [message, setMessage] = useState('')
   const [ben, setBen] = useState([]);
+  const [fun, setFun] = useState('')
   const [selected, setSelected] = useState('')
   const navigate = useNavigate();
   const location = useLocation();
@@ -71,6 +71,55 @@ const GetGroup =()=>{
 const handleAmount=(event)=> {
   setAmount(event.target.value)
 }
+
+async function fproj() {
+  
+   let items ={refresh}
+    let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json',
+          'accept' : 'application/json'
+     },
+     body:JSON.stringify(items)
+    });
+    rep = await rep.json();
+    let bab = rep.access_token 
+    let account_id = subAccount.id
+    console.warn( amount, account_id)
+    let item = { amount, account_id};
+  
+
+  try {
+    let result = await fetch('https://api.prestigedelta.com/subaccount/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'accept': 'application/json',
+        'Authorization': `Bearer ${bab}`
+      },
+      body: JSON.stringify(item)
+    });
+
+    if (result.status === 400) {
+      const errorResult = await result.json();
+      setMessage(JSON.stringify(errorResult.message));
+    } else {
+       result =await result.json();
+       setFun((result))
+    }
+  } catch (error) {
+    // Handle fetch error
+    console.error(error);
+  }
+;
+}
+
+useEffect(() => {
+  if(amount !== ''){
+    fproj()
+  }
+}, [amount])
 
 const fetchDap = async () => {
   let item ={refresh}
@@ -224,7 +273,7 @@ let refresh = terms(tok)
   }
 }, [selectedOption, nuban]);
 
-   console.log(bank_code) 
+   console.log((fun.status).toLocaleString())
    
 
     if(loading) {
@@ -238,7 +287,17 @@ let refresh = terms(tok)
       
             <h3>Send Money</h3>
             <p style={{paddingLeft:'3%'}}>Highest amount you can withdraw from this sub Account is ₦{availableBal.toLocaleString('en-US')}</p>
+            <p>Overdraft status: {(fun.status).toLocaleString()} <br/>{fun.message}</p>
        <form>
+       <ValidationTextField
+  
+  onChange={handleAmount}
+label="Amount"
+type='number'
+required
+variant="outlined"
+id="validation-outlined-input"
+/><br/><br/>
        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Autocomplete
       
@@ -300,15 +359,7 @@ id="validation-outlined-input"
 /><br/>
                   </div>)}
                 <div className="me">{users ? <p>{users.account_name}</p> : null}</div>
-                <ValidationTextField
-  
-  onChange={handleAmount}
-label="Amount"
-type='number'
-required
-variant="outlined"
-id="validation-outlined-input"
-/><br/><br/>
+               
                 <ValidationTextField
   
   onChange={handleNote}

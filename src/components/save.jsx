@@ -373,6 +373,11 @@ const overdraft= ()=>{
   const data = index
      navigate('/components/overdraft', {state:{data}})
 }
+
+const fund= ()=>{ 
+  toggleMenu() 
+  modal1.onOpen()
+}
 const transfer= ()=>{
   const mata = finfo
      navigate('/components/getgroup', {state:{mata}})
@@ -387,38 +392,34 @@ if(loading) {
         <div className="menu-button" style={{margin:'0'}}>
             <i   onClick={toggleMenu} class="fa-solid fa-square-caret-down bac"></i>
             </div>
-            <Heading fontSize='14px' ml='60%' mt={0} >More</Heading>
+            <Heading fontSize='14px' ml='60%' mt={0} >Settings</Heading>
         
     
-        <div className={`side-menu ${isMenuOpen ? 'open' : ''}`} >
+            <div className={`side-menu ${isMenuOpen ? 'open' : ''}`} >
 <ul className=''>
-<Heading fontSize='15px' color="white" mt={3}>More</Heading>
-         <li><Button  colorScheme="blue" onClick={modal1.onOpen}>Fund</Button>
+<Heading fontSize='15px' color="blue" mt={3}>Account Settings</Heading>
+         <li onClick={fund}>Fund
                </li>
-               <li>
-          <Button onClick={() => overdraft()} colorScheme='blue'>Overdraft</Button> 
+               <li onClick={() => overdraft()}>
+          Overdraft
           </li>
 
-               <li>
-               <Button colorScheme="blue" onClick={modal2.onOpen}>Edit Budget</Button>  
+               <li onClick={modal2.onOpen}>
+               Edit Budget 
              
+               </li>               
+               <li onClick={modal3.onOpen} style={{color:'red'}}>
+               Close Sub Account
                </li>
-               <li>
-               {finfo.auto_fund === false ?(
-             <Button onClick={dauto} colorScheme="blue">Enable Auto Fund</Button>):(
-              <Button onClick={dauto} colorScheme="blue">Disable Auto Fund</Button>
-             )}
-               </li>
-               <li>
-               <Button colorScheme="red" onClick={modal3.onOpen} >Close Sub Account</Button>
-               </li>
-               <Link to='/components/savings'><li>
-            
-                 <i className="fa-solid fa-chevron-left"></i>
-             Back
-            </li></Link>
+               
       </ul>
 </div>
+<Link to='/components/savings'>
+            
+            <i className="fa-solid fa-chevron-left mac"></i>
+        
+       </Link>
+
            <h4 className="cpn">{index.name} SUB ACCOUNT</h4>
            <div className="dash">
               <p className="dp">Balance</p>
@@ -493,7 +494,7 @@ if(loading) {
             </ModalBody>
               </ModalContent>
         </Modal>
-        <Modal isOpen={modal3.isOpen} onClose={modal3.onClose}>
+        <Modal isOpen={modal3.isOpen} onClose={close}>
       <ModalOverlay />
         <ModalContent>
   
@@ -510,10 +511,10 @@ if(loading) {
           <Button colorScheme="blue" onClick={modal3.onClose}>No </Button>
           </Stack> </div>
         <p>Funds will be transfered into main account</p>
-        {error ? <p>{error}</p> : null}
+        {error ? <p style={{color:'red'}}>{error}</p> : null}
       </div>) :
       <div>
-          <i class="fa-solid fa-x tx" onClick={close}></i>
+      
           <img className="goo" src={good} alt="" />
           <Heading fontSize='14px'>Sub account Closed Successfully</Heading>  
       </div>}

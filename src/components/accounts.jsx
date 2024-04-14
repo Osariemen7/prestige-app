@@ -279,7 +279,7 @@ return(
              
              {sub_account ?(
              null
-           ): <Card m={5} backgroundColor='#1A83CC'><p style={{fontSize: '12px',color:'#fff', padding: '2%'}}>At the end of the day, funds will be moved to sub-accounts. If you have not created a sub-account, kindly click on the sub-account button located on the menu page</p></Card>}   
+           ): <Card m={5} backgroundColor='#1A83CC'><p style={{fontSize: '12px',color:'#fff', padding: '2%'}}>At the end of the day, funds will be moved to sub-accounts. If you have not created a sub-account, kindly click on the sub-account button located on the menu page, tranfers can be made only through the sub-account</p></Card>}   
              <Tabs isFitted variant='enclosed'>
 <TabList mb='1em'>
     <Tab>Activity </Tab>
@@ -287,7 +287,7 @@ return(
   </TabList>
   <TabPanels>
     <TabPanel p={0}>
-    <Button onClick={() => handleShare(refresh)} mb={2} >Share View Access</Button>
+    <Button onClick={() => handleShare(refresh)} mb={2} >Share Transactions</Button>
                
     <Stack direction='row' spacing={1} justify='center' >
 <div>

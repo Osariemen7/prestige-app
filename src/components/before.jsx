@@ -313,6 +313,7 @@ const summit = ()=>{
              </Link>
     <ChakraProvider>
     <Heading size='md' mb={2}>Buy Product</Heading>
+    <p>Add products to your inventory list</p>
                  
       <Card m={2} backgroundColor='gainsboro'>
       

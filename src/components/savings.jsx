@@ -1,18 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import add from './images/bud.svg'
 import pic from './images/v.svg';
-import Modal from 'react-modal';
 import good from './images/good.svg'
 import { Link, useNavigate } from 'react-router-dom';
 import { ChakraProvider, Heading } from '@chakra-ui/react';
 import { Nav } from './nav.jsx'
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from '@chakra-ui/react'
+import { useDisclosure, Input, Button  } from "@chakra-ui/react"
+
 
 const Savings = () =>{
     const [total, setTotal] = useState([]);
     const [budget, setBudget] = useState('');
     const [nam, setNam] = useState('')
-    const [isOpen, setIsOpen] = useState(false);
     const [message, setMessage] = useState('')
+    const { isOpen, onOpen,  onClose } = useDisclosure()
     const [fun, setFun] = useState('')
     const [loading, setLoading]= useState(true)
     const navigate = useNavigate()
@@ -35,11 +45,11 @@ const Savings = () =>{
 let refresh = terms(tok)
 
    
-    const openModal = () => {
-      setIsOpen(true);
-    };
+    // const openModal = () => {
+    //   setIsOpen(true);
+    // };
     const closeModal = () => {
-      setIsOpen(false);
+         onClose();
       fetchDa()
     };
     const handleInputChange = (event) => {
@@ -154,7 +164,7 @@ let refresh = terms(tok)
            <Heading size='md' className='saed'>Budget</Heading></ChakraProvider>
            <div className='svin'>
               <p>Create sub-account and manage your cash flow</p>
-              <img className=''  src={pic} alt='' onClick={openModal}/>
+              <img className=''  src={pic} alt='' onClick={onOpen}/>
            </div>
            
            {total.map((obj, index) => (
@@ -172,7 +182,7 @@ let refresh = terms(tok)
           <p className='clun'>₦{obj.balance.available_balance.toLocaleString('en-US')}</p>
         </div>
         <div className="progress-b" style={{ width: '100%' }}>
-          <div className="progress-bi" style={{ width: `${(parseInt(obj.spent) / parseInt(obj.budget)) * 100}%` }}>
+          <div className="progress-bi" style={{ width:`${Math.min(((parseInt(obj.spent) / parseInt(obj.budget)) * 100), 100)}%` }}>
           </div>
         </div>
       </div>
@@ -190,32 +200,36 @@ let refresh = terms(tok)
     )}
   </div>
 ))}
-
-           <Modal
-      className='svmo'
-      isOpen={isOpen}
-      onRequestClose={closeModal}
-      contentLabel="Example Popup"
-    >
+<ChakraProvider>
+<Modal isOpen={isOpen} onClose={closeModal}>
+          <ModalOverlay />
+          <ModalContent>
+          
+            <ModalHeader>Create Sub-Account</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
       {fun === '' ? (
       <div>
-      <i className="fa-solid fa-x mx" onClick={closeModal}></i>
-      <h3 className='h4'>Budget</h3>
-      <form>
-            <input type='text' placeholder='Name of Category' className='mine' onChange={handleName}/><br />
-        <input type="number" className='mine' onChange={handleInputChange}  placeholder='Enter Monthly Budget Amount'/><br />
-                {message ? <p>{message}</p> : null} 
-                {buttonVisible && (  <button className="logbs" onClick={fproj}>Add</button> 
+      
+  
+      
+            <Input type='text' placeholder='Name of Category' width={273} ml={9} onChange={handleName}/><br />
+       <br/> <Input type="number" width={273} ml={9} onChange={handleInputChange}  placeholder='Enter Monthly Budget Amount'/><br />
+               <br/> {message ? <p>{message}</p> : null} 
+                {buttonVisible && (  <Button  colorScheme='blue' variant='solid' onClick={fproj}>Add</Button> 
                 )}
       {!buttonVisible && <p>Processing...</p>}
-            </form>
+            
             </div>) :
             <div>
-          <i class="fa-solid fa-x tx" onClick={closeModal}></i>
-          <img src={good} alt="" />
-          <h4 className="hoo">Budget Successfully created!</h4>  
+          
+          <img className='goo' src={good} alt="" />
+          <Heading fontSize='14px' className="hoo">Sub-Account Successfully created!</Heading>  
       </div>}
-            </Modal> 
+      </ModalBody>
+              </ModalContent>
+      
+            </Modal> </ChakraProvider>
         </div>
     )
 

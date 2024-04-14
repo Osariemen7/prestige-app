@@ -16,6 +16,7 @@ import {
 import { useDisclosure, Input,   Spinner  } from "@chakra-ui/react"
 import { NotifyPop } from '../firebase';
 import { Nav } from './nav.jsx'
+import { Helmet } from 'react-helmet';
 
 const Inventory = () => {
     const [sidebar, setSidebar] = useState('')
@@ -382,6 +383,11 @@ const subAccount = () => {
          return(
         <ChakraProvider>
         <div onClick={closeSidebar} >
+        <Helmet>
+            
+            <title>Home</title>
+            
+        </Helmet>
         <Nav />
            
         <div className='dash'>
@@ -389,7 +395,7 @@ const subAccount = () => {
               <p className='dp'>Today's Sale</p>
               <Heading size='xl' color='#fff'>₦{parseFloat(sale).toLocaleString('en-US')}</Heading>
               <Text fontSize='10px' color='#fff'>Today's Target: ₦{parseFloat(target).toLocaleString('en-US')}</Text>
-             {list.sales_count === 0 ? (<button onClick={modal3.onOpen} className='dbut'>Receive your first payment</button>):<button onClick={modal3.onOpen} className='dbut'>Receive Payment</button>} 
+             {list.sales_count === 0 ? (<Button onClick={modal3.onOpen} colorScheme='blue' m={3}>Record your first Sale</Button>):<Button onClick={modal3.onOpen} colorScheme='blue' m={3}>Record Sales</Button>} 
             </div>
             <NotifyPop />
 <Heading fontSize='15px' textAlign='left' ml='15px'>Activity</Heading>
