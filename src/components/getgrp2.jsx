@@ -1,12 +1,23 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
-import Modal from 'react-modal';
 import OtpInput from 'react-otp-input';
 import { BootstrapButton } from "./material";
+import { ChakraProvider } from '@chakra-ui/react';
+import {
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+  } from '@chakra-ui/react'
+  import { useDisclosure, Input, Card, Text, Button, Heading, Stack, Spinner  } from "@chakra-ui/react"
+  import { Typography, TextField } from '@mui/material';
 
 const PostMon=()=> {
     const [pin, setPin] = useState('');
-    const [isOpen, setIsOpen] = useState(false);
+    const { isOpen, onOpen,  onClose } = useDisclosure()
     const [message, setMessage] = useState('')
     const [pinExpired, setPinExpired] = useState(false);
     const [user, setUser] = useState('')
@@ -27,11 +38,9 @@ const PostMon=()=> {
 
   return refreshval;
 };
-const openModal = () => {
-    setIsOpen(true);
-  };
-  const closeModal = () => {
-    setIsOpen(false);
+
+const closeModal = () => {
+    onClose()
   };
   
 
@@ -169,11 +178,11 @@ let refresh = terms(tok)
     return(
         <div>
         <Link to='/components/savings'><i class="fa-solid fa-chevron-left bac"></i></Link>
-            
-            <h3>Confirm Details</h3>
+        <Typography  variant="h6"  marginLeft='3%' marginTop='3%' fontWeight="fontWeightBold">Confirm Details</Typography>
                   
                <div style={{backgroundColor:'rgb(235, 245, 248)', padding: '1%', margin:'4%'}}>
-              <h4>Tranfer ₦{(parseInt(meal.amount)).toLocaleString('en-US')} to<br/> {meal.users.account_name}</h4>
+               <Typography  variant="h6"  margin='4%'  fontWeight="fontWeightBold">Tranfer ₦{(parseInt(meal.amount)).toLocaleString('en-US')} to<br/> {meal.users.account_name}</Typography>
+              <h4></h4>
            </div>
            <div style={{marginLeft:'5%', marginRight:'5%'}}>
            <div className="vasa">
@@ -192,7 +201,7 @@ let refresh = terms(tok)
            </div>
            </div>
 
-           <div className="meats">
+           <div style={{backgroundColor:'rgb(235, 245, 248)', padding: '1%', margin:'4%', alignItems: 'center', justifyContent: 'center'}}>
              <p>Be sure of the account details before sending<br/> funds as this cannot be reversed</p>
            </div>
            {pinExpired === true ? (
@@ -214,15 +223,19 @@ let refresh = terms(tok)
   )
 ) : null} <br/><br/>
 <div style={{padding:'5%'}}>
-<BootstrapButton variant="contained" onClick={openModal} disableRipple>
+<BootstrapButton variant="contained" onClick={onOpen} disableRipple>
                    Continue
       </BootstrapButton></div>
-           <Modal
-            className='trmo'
-           isOpen={isOpen}
-             onRequestClose={closeModal}
-               contentLabel="Example Popup">
-             <i class="fa-solid fa-x tx" onClick={closeModal}></i>
+      <ChakraProvider>
+      <Modal isOpen={isOpen} onClose={closeModal}>
+          <ModalOverlay />
+          <ModalContent>
+          
+            <ModalHeader>Create Sub-Account</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+
+          
              <p>Enter the 4-digit verification code<br/> sent to your phone number in the boxes below</p>
            <OtpInput  
                  value={pin}
@@ -251,9 +264,11 @@ let refresh = terms(tok)
 ) : null}
 
 <div className="message">{message ? <p>{message}</p> : null}</div>
-      {buttonVisible === true ?  <button className="logb" onClick={transfer}>Transfer</button> : <p>Processing...</p>}
-               
-           </Modal>
+      {buttonVisible === true ?  <Button colorScheme="blue" variant='solid' onClick={transfer}>Transfer</Button> : <p>Processing...</p>}
+      </ModalBody>
+              </ModalContent>
+              
+           </Modal></ChakraProvider>
         </div>
     )
 }
