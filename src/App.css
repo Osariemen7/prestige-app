@@ -1458,7 +1458,7 @@ form{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 55px;
+    height: 100%;
     padding: 8px 15px 8px 16px;
     border-bottom: 1px solid #060b26 ;
     color:#060b26;
@@ -1473,7 +1473,6 @@ form{
   .mac{
     position: relative;
     right: 40%;
-    top: 60%;
     margin: 3%;
     margin-top: 0;
     font-size: 25px;
