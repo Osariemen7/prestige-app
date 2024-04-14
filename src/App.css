@@ -1427,24 +1427,24 @@ form{
   
   .side-menu {
     position: fixed;
-    top: 0;
-    left: -200px; /* Offscreen initially */
+    top: -20%;
+    left: 0; /* Offscreen initially */
     width: 200px;
-    height: 100%;
-    background-color: #060b26;;
-    transition: left 0.3s ease;
+    height: 20%;
+    background-color:#F8F9FC;
+    transition: top 0.3s ease;
     z-index: 2;
   }
   
   .side-menu.open {
-    left: 0; /* Slides in when open */
+    top: 0; /* Slides in when open */
   }
   
   .side-menu ul {
     list-style-type: none;
     padding: 0;
     justify-content: center;
-    height: 85px;
+    height: 55px;
     padding: 8px 15px 8px 16px;
     color:#fff;
   
@@ -1458,17 +1458,25 @@ form{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 85px;
+    height: 55px;
     padding: 8px 15px 8px 16px;
-    border-bottom: 1px solid #fff ;
-    color:#fff;
+    border-bottom: 1px solid #060b26 ;
+    color:#060b26;
     overflow: hidden;
     text-wrap:wrap;
     margin: 10px 0;
   }
   
   .side-menu li:hover {
-    background-color: #444;
+    background-color: #c9d4f5
+  }
+  .mac{
+    position: relative;
+    right: 40%;
+    top: 60%;
+    margin: 3%;
+    margin-top: 0;
+    font-size: 25px;
   }
   .dash{
     background: url(/src/components/images/ble.jpg) ;
