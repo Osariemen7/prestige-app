@@ -22,8 +22,9 @@ const Chat = () => {
   const location = useLocation()
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+    setIsMenuOpen(!isMenuOpen); // Toggle menu state
   };
 
   let tok= JSON.parse(localStorage.getItem("user-info"));
@@ -247,27 +248,36 @@ console.log(selectedMessage)
      <Nav />
     <div className='fl'>
     
-    <div className="menu-button" style={{margin:'0'}}>
-            <i   onClick={toggleMenu} class="fa-solid fa-square-caret-down"></i>
-            <Heading fontSize='14px'>Previous Chat</Heading></div>
-            </div>
-            
-<div className={`side-menu ${isMenuOpen ? 'open' : ''}`} >
-<ul className=''>
-<Heading fontSize='15px' color="white" mt={3}>Previous Chat</Heading>
-{mappedMessages.map((message, index) => (
-        <div key={index}>
-          <li
-            onClick={() => {
-        setSelectedMessage(message.conversation.slice().reverse());
-        setThread(message.thread_id); showRighbar(); setMessages([])
-      }}
-            style={{ cursor: 'pointer' }}
-          >
-            <p>{message.conversation[message.conversation.length - 1].message_value}</p>
-          </li>
+    <div className="menu-button" style={{ margin: '0' }} >
+        <i onClick={toggleMenu} className="fa-solid fa-square-caret-down"></i>
+        <Heading fontSize="14px">Previous Chat</Heading>
+      </div>
+
+      {/* Side Menu */}
+      {isMenuOpen && (
+        <div className="slide-in-menu">
+          <ul>
+            <Heading fontSize="15px" color="white" mt={3}>
+              Previous Chat
+            </Heading>
+            {mappedMessages.map((message, index) => (
+              <div key={index}>
+                <li
+                  onClick={() => {
+                    setSelectedMessage(message.conversation.slice().reverse());
+                    setThread(message.thread_id);
+                    showRighbar();
+                    setMessages([]);
+                  }}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <p>{message.conversation[message.conversation.length - 1].message_value}</p>
+                </li>
+              </div>
+            ))}
+          </ul>
         </div>
-      ))}</ul>
+      )}
 </div>
     <div className="App">
       <div className="chat-container">
