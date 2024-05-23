@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import { Button, Stack, Input, Heading, useDisclosure,Card, Spinner, CardBody  } from "@chakra-ui/react"
 import CreatableSelect from 'react-select/creatable';
+import BarcodeScan from './barcode';
 import {
   Modal,
   ModalOverlay,
@@ -38,6 +39,7 @@ const BuyP =()=>{
   const [info, setInfo] = useState([])
  const location = useLocation()
   const navigate = useNavigate()
+ 
   const data = location.state && location.state.data;
   useEffect(() => {
     setInputVa(data ? { label: data.inputVa.value, value: data.inputVa.value } : '');
@@ -56,6 +58,8 @@ if ( tok === null || typeof tok === "undefined" ) {
 }
 return refreshval;
 };
+
+
 const fetchData = async () => {
   let item ={refresh}
   let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
@@ -355,7 +359,9 @@ const summit = ()=>{
                  { item.length !== 0 ? (   <div>    {payment_meth !== 'TRANSFER' ? ( <div>{buttonVisible && (<div>{fun === ''?<Button colorScheme='blue' variant='solid' onClick={aprod}>Buy</Button>:<Button colorScheme='blue' variant='solid' onClick={back}>Back</Button>}</div> )}
       {!buttonVisible && <Spinner />}</div>) : <Button colorScheme='blue' variant='solid' onClick={conti}>Continue</Button>}
       </div> ): null  } </Stack>
-                 <Modal isOpen={isOpen} onClose={onClose}>
+      <BarcodeScan />
+
+      <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
         

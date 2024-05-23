@@ -471,7 +471,7 @@ const openModal = () => {
             </div>) :
             <div>
         
-            <ModalCloseButton  />
+          
           <img style={{marginLeft: '37%'}} src={good} alt="" />
           <Heading fontSize='14px'>Sub-Account Successfully Funded!</Heading>  
       </div>}
@@ -526,7 +526,7 @@ const openModal = () => {
             </form>
             </div>) :
             <div>
-          <i class="fa-solid fa-x tx" onClick={closeModals}></i>
+      
           <img style={{marginLeft:'38%'}} src={good} alt="" />
           <Heading fontSize='14px' textAlign='center'>Sub Account Updated!</Heading>  
       </div>}

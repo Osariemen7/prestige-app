@@ -87,6 +87,7 @@ const closeModals = () => {
   modal2.onClose(); 
 };
 const close = () => {
+  modal3.onClose()
   navigate('/components/savings')
 }
 const openModal = () => {
@@ -541,7 +542,6 @@ if(loading) {
             </form>
             </div>) :
             <div>
-          <i class="fa-solid fa-x tx" onClick={closeModals}></i>
           <img style={{marginLeft:'38%'}} src={good} alt="" />
           <Heading fontSize='14px' textAlign='center'>Sub Account Updated!</Heading>  
       </div>}
