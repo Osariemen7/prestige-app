@@ -42,10 +42,12 @@ const BuyP =()=>{
  
   const data = location.state && location.state.data;
   useEffect(() => {
-    setInputVa(data ? { label: data.inputVa.value, value: data.inputVa.value } : '');
-    setInputValue(data ? (data.inputValue !== '' ? data.inputValue : '') : '');
-  }, []);
-
+    if (data) {
+      setInputVa({ label: data.inputVa.value, value: data.inputVa.value });
+      setInputValue(data.inputValue || '');
+      setInputV({ label: data.inputV.value, value: data.inputV.value });
+    }
+  }, [data]);
    console.log(data)
     let tok= JSON.parse(localStorage.getItem("user-info"));
   const terms = (tok) => {
@@ -277,6 +279,9 @@ const options = product.map((item) => ({
              result =await result.json();
             setMessag(JSON.stringify(result.message))
             setFun(result)
+            setInputVa('');
+            setInputValue('');
+            setInputV('');
           } 
         } catch (error) {
           // Handle fetch error
@@ -290,7 +295,7 @@ const options = product.map((item) => ({
         navigate('/components/getgroup', {state:{mata}})
       }
       const back = () => {
-        navigate('/components/products')
+        navigate('/components/product')
       }
       const payment = ['CASH', 'POS', 'TRANSFER']
 const pay = payment.map((p) => ({
@@ -354,12 +359,44 @@ const summit = ()=>{
                  </Card>  
                  <div className="">{messag ? <p>{messag}</p> : null}</div>
                  <br></br>
-                 <Stack direction='row' mt={2} spacing={2} align='center' justify='center'>
-                 {total !== '0'  ? (<Button colorScheme='blue' variant='solid' m={2} onClick={onOpen}>Add More Items</Button>) : <Button m={2} colorScheme='blue' variant='solid' onClick={onOpen}>Add Item</Button> }
-                 { item.length !== 0 ? (   <div>    {payment_meth !== 'TRANSFER' ? ( <div>{buttonVisible && (<div>{fun === ''?<Button colorScheme='blue' variant='solid' onClick={aprod}>Buy</Button>:<Button colorScheme='blue' variant='solid' onClick={back}>Back</Button>}</div> )}
-      {!buttonVisible && <Spinner />}</div>) : <Button colorScheme='blue' variant='solid' onClick={conti}>Continue</Button>}
-      </div> ): null  } </Stack>
-      <BarcodeScan />
+                
+                 {fun === '' ? (
+  <Stack direction='row' mt={2} spacing={2} align='center' justify='center'>
+    {total !== '0' && ( // Use && for short-circuiting if total is not 0
+      <Button colorScheme='blue' variant='solid' m={2} onClick={onOpen}>
+        Add More Items
+      </Button>
+    )}
+    {total === '0' && ( // Use && for short-circuiting if total is 0
+      <Button m={2} colorScheme='blue' variant='solid' onClick={onOpen}>
+        Add Item
+      </Button>
+    )}
+    {item.length !== 0 && (
+      <> {/* Use fragment to avoid unnecessary divs */}
+        {payment_meth !== 'TRANSFER' ? (
+          <div>
+            {buttonVisible && (
+              <Button colorScheme='blue' variant='solid' onClick={aprod}>
+                Add to Inventory
+              </Button>
+            )}
+            {!buttonVisible && <Spinner />}
+          </div>
+        ) : (
+          <Button colorScheme='blue' variant='solid' onClick={conti}>
+            Continue
+          </Button>
+        )}
+      </>
+    )}
+  </Stack>
+) : (
+  <Button colorScheme='blue' variant='solid' onClick={back}>
+    Back
+  </Button>
+)} <br/>
+  <BarcodeScan />
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -371,17 +408,27 @@ const summit = ()=>{
            <h3 className='h4'></h3>
             <form >
 {data ?(<div>  
-<Input placeholder="Enter product" ml={9}
-onChange={handleInputchan} width={273}
-value={data.inputVa.value} /><br/><br/>
-{data.inputValue === ''? <div>
+  <CreatableSelect
+        className="pne"
+        placeholder="Enter product"
+        options={options}
+        isSearchable={true}
+        onChange={handleInputchan}
+        value={inputVa}
+        onCreateOption={handleAddProduct} 
+        isClearable={true} 
+
+      /><br/>
+ <Select
+      onChange={handleInputCha}
+      className="pne"
+      placeholder="Quantity Type"
+      options={opt}
+      value={inputV} /><br/> 
+ <div>
 <Input placeholder='Quantity Bought' size='md'
 onChange={ handleInputChange}
-width={273} ml={9}/><br/><br/></div>
-: <div>
-<Input placeholder='Quantity Bought' size='md'
-onChange={ handleInputChange}
-  value={data.inputValue} width={273} ml={9}/><br/><br/></div>}
+  width={273} ml={9}/><br/><br/></div>
             
 </div>):( <div>   
   <CreatableSelect
@@ -407,7 +454,7 @@ onChange={ handleInputChange}
         
         <Input placeholder='Price of a single pack' size='md' onChange={handleInputChang} width={273} ml={9}/>): <Input placeholder='Price of a single item' size='md' onChange={handleInputChang} width={273} ml={9}/>}   
       
-            <br/>     
+            <br/> <br/>  
       {inputV.label !== 'item' ? (
         <div>
         <Input placeholder='No of items in pack/carton'  size='md' onChange={handlePack} width={273} ml={9} /><br/>

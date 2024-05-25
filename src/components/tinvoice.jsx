@@ -136,10 +136,16 @@ const optio = ['item', 'pack'];
       const selectedProduct = inputVa.value // Replace with the actual selected product name
   const rin = product.find(option => option.name === selectedProduct);
   
-      if (rin && (rin.item_no === 0 && rin.pack_no === 0 || inputValue > rin.item_no || inputValue > rin.pack_no || inputVa !== rin.name)) {
-        setMessage('Out of Stock please Restock');
-        modal1.onClose()
-      } else{
+  if (
+    rin && (
+      (rin.item_no === 0 && rin.pack_no === 0) ||
+    (inputValue > rin.item_no &&
+      inputValue > rin.pack_no) ||
+      inputVa.value !== rin.name
+    )
+  ) {
+    setMessage('Out of Stock please Restock');
+    onClose(); } else{
       setQuatity([...quantity, inputValue ]);
       setInputValue("");
       setPrice([...price, inputVal]);
@@ -572,7 +578,7 @@ const optio = ['item', 'pack'];
         navigate('/components/before')
       }
       const beef =() =>{
-        const data = {inputVa, inputValue}
+        const data = {inputVa, inputValue, inputV}
         navigate('/components/before', {state:{data}})
       }
       const done =()=> {
@@ -593,7 +599,7 @@ const optio = ['item', 'pack'];
               <Button colorScheme='black' variant='outline'>{toSentenceCase(list[0].business_name)}</Button>
               <div></div>
               
-          
+             <p>Add list of products sold or service rendered</p>
             
               <p className='ld'>{(new Date()).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true})}</p>
                  
@@ -695,10 +701,11 @@ const optio = ['item', 'pack'];
         placeholder="Quantity Type"
         options={opt}
         value={inputV} /><br/>
+        <div className='mobile-view'>
          {inputV.label !== 'item' || inputVa.label === options ? (
-          <div>
-          <Input placeholder='Price of a single pack' size='md' onChange={handleInputChang} width={273} ml={9}/></div>): <Input placeholder='Price of a single item' size='md' onChange={handleInputChang} width={273} ml={9}/>}  
-          <br/> 
+          
+          <Input placeholder='Price of a single pack' size='md' onChange={handleInputChang} width={273} ml={9}/>): <Input placeholder='Price of a single item' size='md' onChange={handleInputChang} width={273} ml={9}/>}  
+          <br/> <br/>
               <Input placeholder='Quantity' size='md' onChange={handleInputChange} width={273} ml={9}/><br/><br/>
              
         {inputV.label !== 'item' || inputVa.label === options ? (
@@ -715,7 +722,29 @@ const optio = ['item', 'pack'];
       <div ><p className="message">{messag}</p>
       
       <Button colorScheme='blue' onClick={beef}>Restock</Button></div>
-    )}                    
+    )} </div>                  
+    <div className='desktop-view'>
+         {inputV.label !== 'item' || inputVa.label === options ? (
+          <div>
+          <Input placeholder='Price of a single pack' size='md' onChange={handleInputChang} width={400} ml={0}/></div>): <Input placeholder='Price of a single item' size='md' onChange={handleInputChang} width={400} ml={0}/>}  
+          <br/> 
+              <Input placeholder='Quantity' size='md' onChange={handleInputChange} width={400} ml={0}/><br/><br/>
+             
+        {inputV.label !== 'item' || inputVa.label === options ? (
+          <div>
+          <Input placeholder='No of items in pack/carton'  size='md' onChange={handlePack} width={400} ml={0} /><br/>
+          <br/></div>): null}  
+          
+                <img src={Logo} alt="logo" className="frame2"/>
+                <div className="message">{mess ? <p>{mess}</p> : null}</div>
+            
+          {inputVa.mony !== 0 || inputVa.team !== 0  || options.length !== 0 ? (
+      <Button colorScheme='blue' onClick={summit} >Add</Button>
+    ) : (
+      <div ><p className="message">{messag}</p>
+      
+      <Button colorScheme='blue' onClick={beef}>Restock</Button></div>
+    )} </div>                  
               </form>
               </ModalBody>
               </ModalContent>
@@ -741,8 +770,40 @@ const optio = ['item', 'pack'];
           
         /><br/>
               
-              <Input placeholder='Price of service for one customer' size='md' onChange={handleInputChang} width={273} ml={9}/><br/><br/>
-              <Input placeholder='Number of customers' size='md' onChange={handleInputChange} width={273} ml={9}/><br/><br/>
+              <div className="desktop-view">
+        <Input
+          placeholder='Price of service for one customer'
+          size='md'
+          onChange={handleInputChang}
+          width={400}
+          ml={0}
+        /><br/><br/>
+        <Input
+          placeholder='Number of customers'
+          size='md'
+          onChange={handleInputChange}
+          width={400}
+          ml={0}
+        />
+      </div>
+
+      {/* For mobile */}
+      <div className="mobile-view">
+        <Input
+          placeholder='Price of service for one customer'
+          size='md'
+          onChange={handleInputChang}
+          width={273}
+          ml={9}
+        /><br/><br/>
+        <Input
+          placeholder='Number of customers'
+          size='md'
+          onChange={handleInputChange}
+          width={273}
+          ml={9}
+        />
+      </div><br/><br/>
               
                 <img src={Logo} alt="logo" className="frame2"/>
                 

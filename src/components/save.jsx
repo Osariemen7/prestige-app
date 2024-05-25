@@ -401,10 +401,6 @@ if(loading) {
 <Heading fontSize='15px' color="blue" mt={3}>Account Settings</Heading>
          <li onClick={fund}>Fund
                </li>
-               <li onClick={() => overdraft()}>
-          Overdraft
-          </li>
-
                <li onClick={modal2.onOpen}>
                Edit Budget 
              

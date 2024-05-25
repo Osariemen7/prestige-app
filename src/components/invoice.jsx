@@ -128,10 +128,16 @@ const optio = ['item', 'pack'];
       const selectedProduct = inputVa.value // Replace with the actual selected product name
   const rin = product.find(option => option.name === selectedProduct);
   
-      if (rin && (rin.item_no === 0 && rin.pack_no === 0)) {
-        setMessage('Out of Stock please Restock');
-        modal1.onClose()
-      } else{
+  if (
+    rin && (
+      (rin.item_no === 0 && rin.pack_no === 0) ||
+    (inputValue > rin.item_no &&
+      inputValue > rin.pack_no) ||
+      inputVa.value !== rin.name
+    )
+  ) {
+    setMessage('Out of Stock please Restock');
+    onClose();} else{
       setQuatity([...quantity, inputValue]);
       setInputValue("");
       setPrice([...price, inputVal]);
@@ -223,7 +229,6 @@ const optio = ['item', 'pack'];
       }
     };
     
-  
   let refresh = terms(tok)
 
   const fetchDas = async () => {
@@ -348,10 +353,7 @@ const optio = ['item', 'pack'];
       }   
         }
         
-        const beef =() =>{
-          const data = {inputVa, inputValue}
-          navigate('/components/before', {state:{data}})
-        }
+       
       const fetchData = async () => {
           let item ={refresh}
           let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
@@ -496,6 +498,11 @@ const optio = ['item', 'pack'];
         handleFormSubmit()
              }
       }
+
+      const beef =() =>{
+        const data = {inputVa, inputValue, inputV}
+        navigate('/components/before', {state:{data}})
+      }
       
         console.log(payment_meth)
       
@@ -512,11 +519,9 @@ const optio = ['item', 'pack'];
               <main id="main-element">
               <Button colorScheme='black' variant='outline'>{toSentenceCase(list[0].business_name)}</Button>
               <div></div>
-              
           
-            
               <p className='ld'>{(new Date()).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true})}</p>
-                 
+              <p>Add list of products sold or service rendered</p><br/>
               <hr className='hr'></hr>
                           
             <div className='grn'>
@@ -574,11 +579,11 @@ const optio = ['item', 'pack'];
                   <Button  colorScheme='blue' variant='outline' onClick={creat} >Get Sales Tips</Button>
                   
          </div> ):  <div>
-          <p>Note:if products are not on the list</p>
+          <p>Note: if products are not on the list</p>
           <Button colorScheme='blue' onClick={add}>Add Product</Button>
          </div>} 
         <div className=" ">{message ? <p>{message}</p> : null}</div>
-              <Modal isOpen={modal1.isOpen} onClose={modal1.onClose}>
+        <Modal isOpen={modal1.isOpen} onClose={modal1.onClose}>
           <ModalOverlay />
           <ModalContent>
           
@@ -588,7 +593,7 @@ const optio = ['item', 'pack'];
              <h3 className='h4'></h3>
               <form >
              
-    <CreatableSelect
+        <Select
           className="pne"
           placeholder="Enter product name"
           options={options}
@@ -599,27 +604,56 @@ const optio = ['item', 'pack'];
           isClearable={true} 
           
         /><br/>
-              
-              <Input placeholder='Price of a single item' size='md' onChange={handleInputChang} width={273} ml={9}/><br/><br/>
-              <Input placeholder='Quantity' size='md' onChange={handleInputChange} width={273} ml={9}/><br/><br/>
-              <Select
+               <Select
         onChange={handleInputCha}
         className="pne"
         placeholder="Quantity Type"
         options={opt}
         value={inputV} /><br/>
+        <div className='mobile-view'>
+         {inputV.label !== 'item' || inputVa.label === options ? (
+          
+          <Input placeholder='Price of a single pack' size='md' onChange={handleInputChang} width={273} ml={9}/>): <Input placeholder='Price of a single item' size='md' onChange={handleInputChang} width={273} ml={9}/>}  
+          <br/> <br/>
+              <Input placeholder='Quantity' size='md' onChange={handleInputChange} width={273} ml={9}/><br/><br/>
+             
         {inputV.label !== 'item' || inputVa.label === options ? (
           <div>
           <Input placeholder='No of items in pack/carton'  size='md' onChange={handlePack} width={273} ml={9} /><br/>
           <br/></div>): null}  
-         
-          {inputVa.mony !== 0 || inputVa.team !== 0 ? (
+          
+                <img src={Logo} alt="logo" className="frame2"/>
+                <div className="message">{mess ? <p>{mess}</p> : null}</div>
+            
+          {inputVa.mony !== 0 || inputVa.team !== 0  || options.length !== 0 ? (
       <Button colorScheme='blue' onClick={summit} >Add</Button>
     ) : (
       <div ><p className="message">{messag}</p>
       
       <Button colorScheme='blue' onClick={beef}>Restock</Button></div>
-    )}                    
+    )} </div>                  
+    <div className='desktop-view'>
+         {inputV.label !== 'item' || inputVa.label === options ? (
+          <div>
+          <Input placeholder='Price of a single pack' size='md' onChange={handleInputChang} width={400} ml={0}/></div>): <Input placeholder='Price of a single item' size='md' onChange={handleInputChang} width={400} ml={0}/>}  
+          <br/> 
+              <Input placeholder='Quantity' size='md' onChange={handleInputChange} width={400} ml={0}/><br/><br/>
+             
+        {inputV.label !== 'item' || inputVa.label === options ? (
+          <div>
+          <Input placeholder='No of items in pack/carton'  size='md' onChange={handlePack} width={400} ml={0} /><br/>
+          <br/></div>): null}  
+          
+                <img src={Logo} alt="logo" className="frame2"/>
+                <div className="message">{mess ? <p>{mess}</p> : null}</div>
+            
+          {inputVa.mony !== 0 || inputVa.team !== 0  || options.length !== 0 ? (
+      <Button colorScheme='blue' onClick={summit} >Add</Button>
+    ) : (
+      <div ><p className="message">{messag}</p>
+      
+      <Button colorScheme='blue' onClick={beef}>Restock</Button></div>
+    )} </div>                  
               </form>
               </ModalBody>
               </ModalContent>
