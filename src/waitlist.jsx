@@ -71,10 +71,10 @@ const Foam =()=>{
       return(
         <div style={{padding:'4%'}}>
       <Helmet>
-         <title>Waitlist</title>
+         <title>Close Account</title>
          </Helmet>
-        <Typography  variant="h5" align='left' marginLeft='8%' marginTop='10%' fontWeight="fontWeightBold">Join the Waitlist!</Typography>
-            <br/><Typography align='left' marginLeft='8%' variant='subtitle2' >ill and submit the form to get access to the the Prestige POS application</Typography>
+        <Typography  variant="h5" align='left' marginLeft='8%' marginTop='10%' fontWeight="fontWeightBold">Close Account!</Typography>
+            <br/><Typography align='left' marginLeft='8%' variant='subtitle2' >Fill and submit the form if you wish to close your account</Typography>
           <br/> 
         <form>
         <ValidationTextField
