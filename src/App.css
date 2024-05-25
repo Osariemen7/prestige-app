@@ -207,19 +207,58 @@ hr{
   border-radius: 15px;
   text-align: center;
 }
-.nav-menu{
-  background-color: #060b26;
-  width: 50%;
-  height:100vh;
-  display: flex;
-  justify-content: center;
+.sidebar {
+  width: 250px;
+  height: 100%;
+  max-height: 100vh;
   position: fixed;
   top: 0;
-  left: -100%;
-  transition: 850ms;;
+  left: 0;
+  background-color: #060b26;
+   overflow-x: hidden;
+  padding-top: 0px;
+}
+
+.content {
+  margin-left: 250px;
+  padding: 16px;
+  height: 100%;
+}
+
+.nav-menu {
   padding: 0;
-  overflow-x: scroll;
-  z-index: 1;
+  margin: 0;
+}
+
+.nav-menu-item {
+  list-style-type: none;
+}
+
+.nav-list {
+  margin-bottom: 10px;
+}
+
+.nav-text {
+  color: white;
+  text-decoration: none;
+  font-size: 25px;
+  display: block;
+  padding: 10px;
+}
+
+.nav-text:hover {
+  background-color: #333;
+}
+
+.nav-close {
+  margin-top: -20px;
+}
+
+.nav-close i {
+  float: right;
+  margin-right: 10px;
+  cursor: pointer;
+  color: white;
 }
 .nav-menu2{
   background-color: #000;
@@ -236,55 +275,6 @@ hr{
   z-index: 1;
 }
 
-.nav-menu.active {
-  left: 0;
-  transition: 350ms;
-}
-.nav-text{
-  justify-content: start;
-  align-items: center;
-  text-decoration: none;
-  color:#fff;
-  width: 100%;
-  height: 50%;
-}
-.nav-text span{
-  margin-left: 14px;
-}
-.nav-text i{
-  color: #fff;
-  font-size: 30px;
-}
-.nav-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 85px;
-  padding: 8px 15px 8px 16px;
-  border-bottom: 1px solid #fff ;
-}
-.nav-close{
-  list-style: none;
-  justify-content: end;
-  color:#fff;
-  margin-left: 60%;
-  
-}
-.nav-active{
-  justify-content: start;
-  align-items: center;
-  text-decoration: none;
-  color:#fff;
-  width: 95%;
-  height: 50%;
-  padding-top: 5%;
-  background-color: #060b26;
-}
-.nav-menu-item{
-  width:100%;
-}
 /* transact */
 .tl{
   display: flex;
@@ -331,7 +321,7 @@ hr{
 .l{
   text-align: left;
   color: grey;
-  margin-left: 20px;
+  margin-left: 45px;
   font-size: 12px;
 }
 .dp{
@@ -365,7 +355,7 @@ hr{
   color: black;
 }
 .dtp{
-  margin-left: 16%;
+  margin-left: 1%;
   margin-top: 10%;
   }
   /* Accounts */
@@ -435,9 +425,9 @@ hr{
     padding: 4% 12%;
   }
   .me{
-    background-color: lightblue;
-    width: fit-content;
-    margin-left: 100px;
+    color: rgb(20, 75, 94);
+    font-weight: 700;
+    
   }
   .trmo{
     margin-top: 50%;
@@ -999,19 +989,27 @@ border: 1px solid blue;
 }
 .but1{
   margin: 10px;
-  width: 90%;
+  width: 50%;
   height: 50px;
   background-color: blue;
   border: none;
   color: #fff;
 }
 .but2{
-  width: 90%;
+  width: 50%;
   height: 50px;
   background-color: skyblue;
   border: none;
   color:blue;
   margin-bottom: 10px;
+}
+.lap{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  max-width: 100%;
 }  
 .slide img{
   width: 100%;
@@ -1056,8 +1054,15 @@ form{
   position: relative;
   right: 18%;
   color: blue;
-  top:48%;
+  bottom: 30%;
+  margin-top: 1%;
 }
+ .culb{
+  display: flex;
+  gap: 40px;
+  margin: 0 5%;
+}
+
 .lop {
   color: blue;
   margin:0;
@@ -1071,10 +1076,10 @@ form{
 }
 .otp {
   font-size: 40px;
-  margin: 0 3%;
+  margin: 0 5%;
   border: 3px solid skyblue;
   box-shadow: 10%;
-  height: 30%;
+  height: 40%;
 }
 .but{
   width: 85%;
@@ -1085,10 +1090,44 @@ form{
   margin: 30px;
   margin-right: 10px;  
 }
+.desktop-view {
+  display: block; /* Or any other appropriate styling */
+}
+
+/* Styles for mobile view */
+.mobile-view {
+  display: none; /* Initially hide for desktop */
+}
+.frame2{
+  margin-right: 70%;
+  height: 20px;
+  margin-top: 2%;
+  margin-bottom: 0;
+}
+.frame3{
+  margin-right: 70%;
+  height:35px;
+  margin-top: 2%;
+  margin-bottom: 0;
+}
 @media screen and (max-width: 1035px) {
   .slide-container{
     margin:20px;
     height: 200px;
+  }
+  .lap{
+    align-items: 'center';
+    justify-content: 'center';
+     width: 100%;
+     display: flex;
+     flex-direction: column;
+  }
+  .desktop-view {
+    display: none; /* Hide for mobile */
+  }
+
+  .mobile-view {
+    display: block; /* Show for mobile */
   }
   .each-slide-effect {
     display: inline-block;
@@ -1188,6 +1227,7 @@ form{
     right: 18%;
     color: blue;
     top:48%;
+    margin-top: 5%;
   }
   .lop {
     color: blue;
@@ -1202,7 +1242,7 @@ form{
   }
   .otp {
     font-size: 40px;
-    margin: 0 3%;
+    margin: 0 2%;
     border: 3px solid skyblue;
     box-shadow: 10%;
     height: 30%;
@@ -1690,7 +1730,7 @@ form{
     color: black;
   }
   .dtp{
-    margin-left: 16%;
+    margin-left: 1%;
     margin-top: 10%;
     }
     /* Accounts */
@@ -2209,7 +2249,6 @@ form{
     border-color: black;
   }
   .thin{
-      
       background-color: blue;
       max-height: 100%;
       height: 800px;
