@@ -748,8 +748,10 @@ margin-left:8% ;
 }
 .lne {
   padding: 0 2%;
-  width: 295px;
-  margin-left: 37px;
+  width: 100%;
+  margin-left: 3px;
+  justify-content: center;
+  display: flex;
   height: 35px;
   border-color: black;
 }
@@ -1583,6 +1585,7 @@ form{
     padding: 0;
     padding-right: 20px;
     z-index: 1;
+    overflow-y: auto; 
   }
   .nav-menu.active {
     left: 0;
@@ -1649,6 +1652,7 @@ form{
   }
   .nav-menu-item{
     width:100%;
+    margin-top: 18%;
   }
   /* transact */
   .tl{
