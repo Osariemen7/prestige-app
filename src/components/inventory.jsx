@@ -17,6 +17,7 @@ import { useDisclosure, Input,   Spinner  } from "@chakra-ui/react"
 import { NotifyPop } from '../firebase';
 import { Nav } from './nav.jsx'
 import { Helmet } from 'react-helmet';
+import { DailyRep } from './daily.jsx'
 
 const Inventory = () => {
     const [sidebar, setSidebar] = useState('')
@@ -401,6 +402,7 @@ const subAccount = () => {
 <Heading fontSize='15px' textAlign='left' ml='15px'>Activity</Heading>
         <Stack direction='row' spacing={1} justify='center' align='center' >
 <div>
+<DailyRep />
          <Heading fontSize='12px'>Start Date</Heading>
         <Input placeholder='' defaultValue={(thirtyDaysBefore).toISOString().slice(0, 10)}  size='md' type='date' onChange={begin} width={173} ml={3}/><br/><br/>
         </div> 
@@ -410,6 +412,7 @@ const subAccount = () => {
         </div></Stack> 
         <Button colorScheme='blue' variant='outline' 
          w='230px' onClick={() => salesTra()}>Filter</Button><br/><br/>
+<div className='mobile-view'>
 {reverse.map((obj, index) => (
   <Card m={2} backgroundColor='#F0F8FF'>
   <div className="td2" key={index} >
@@ -433,6 +436,34 @@ const subAccount = () => {
 ))}
   </div>
 </Card>))}
+</div>
+<div className='desktop-view'>
+<div className='content'>
+{reverse.map((obj, index) => (
+  <Card m={2} backgroundColor='#F0F8FF'>
+  <div className="td2" key={index} >
+    <div className="tg">
+    <Text mb={0} >{(new Date(obj.time)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</Text>
+    {obj.verified !== true? (<Button colorScheme='red' onClick={() => receipt(index)} size='xs' outline='solid'>Confirm Sale</Button>): <div className='loos' onClick={() => overdraft(index)}><span>receipt </span><i className="fa-solid fa-file-export"></i></div>} </div>
+  {obj.verified !== true? (<div className='loos' onClick={() => overdraft(index)}><span>invoice </span><i className="fa-solid fa-file-export"></i></div>): null}  
+    {obj.sold_products.map((product, inde) => (
+    <div key={inde} onClick={() => invoice(index, inde)}  >
+   <div className='drz'> 
+      <Text fontSize='13px'>Product:</Text>
+      <Heading mt={0} fontSize='13px' className="ove">{product.product_name}</Heading>    
+      </div> 
+      <Stack  direction='row' ml='4%' mb={0} gap='40%' spacing={2} align='center' justify=''>
+      <Text fontSize='13px'>Amount Sold:</Text>
+      <Heading mt={0} fontSize='15px' className="ove">₦{(product.sold_amount).toLocaleString('en-US')}</Heading>    
+      </Stack>
+       
+       
+      </div>
+))}
+  </div>
+</Card>))}
+</div>
+</div>
                        <Modal isOpen={modal1.isOpen} onClose={modal1.onClose}>
         <ModalOverlay />
         <ModalContent>

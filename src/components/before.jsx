@@ -396,7 +396,7 @@ const summit = ()=>{
     Back
   </Button>
 )} <br/>
-  <BarcodeScan />
+
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
