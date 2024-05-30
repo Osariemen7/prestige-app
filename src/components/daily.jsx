@@ -56,8 +56,21 @@ export const DailyRep = () => {
       }
 
       const data = await response.json();
-      setInfo(data);
+      
       setLoading(false)
+      function applyBoldFormatting(text) {
+        // Replace **text** with <strong>text</strong> for bold formatting
+        text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        // Replace #### with <p> for new paragraphs
+        text = text.replace(/####\s?/g, '<p>');
+      
+        return text;
+      }
+      const formattedText = applyBoldFormatting(data.report);
+const formattedLines = formattedText.split('\n');
+
+// Set the formatted information (you may need to adjust this part based on your application)
+setInfo(formattedLines);
     } catch (error) {
       console.error('Failed to fetch daily report:', error);
     }
@@ -70,7 +83,7 @@ export const DailyRep = () => {
     
    
   };
-
+  
   return (
     <ChakraProvider>
       <Modal isOpen={modal2.isOpen} onClose={modal2.onClose}>
@@ -80,7 +93,9 @@ export const DailyRep = () => {
           <ModalCloseButton />
           <ModalBody>
           {loading ? <p>loading....</p>:   
-                  <p>{info.report}</p> }
+          <div> {info.map((line, index) => (
+        <div key={index} dangerouslySetInnerHTML={{ __html: line }} />
+      ))} </div> }
 
           </ModalBody>
         </ModalContent>
@@ -150,7 +165,19 @@ export const Report = () => {
 
       const data = await response.json();
       setLoading(false)
-      setInfo(data);
+      function applyBoldFormatting(text) {
+        // Replace **text** with <strong>text</strong> for bold formatting
+        text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        // Replace #### with <p> for new paragraphs
+        text = text.replace(/####\s?/g, '<p>');
+      
+        return text;
+      }
+      const formattedText = applyBoldFormatting(data.report);
+const formattedLines = formattedText.split('\n');
+
+// Set the formatted information (you may need to adjust this part based on your application)
+setInfo(formattedLines);
     } catch (error) {
       console.error('Failed to fetch daily report:', error);
     }
@@ -160,7 +187,7 @@ export const Report = () => {
     modal2.onOpen() 
     fetchDailyReport();
   };
-  
+  console.log(info)
   return(
     <div>
       <ChakraProvider>
@@ -172,7 +199,9 @@ export const Report = () => {
           <ModalCloseButton />
           <ModalBody>
           {loading ? <p>loading....</p>:   
-                  <p>{info.report}</p> }
+         <div> {info.map((line, index) => (
+        <div key={index} dangerouslySetInnerHTML={{ __html: line }} />
+      ))} </div>}
 
           </ModalBody>
         </ModalContent>
