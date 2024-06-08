@@ -4,7 +4,7 @@ import user from './images/user.svg';
 import f123 from './images/f123.svg';
 import { Link, useNavigate } from 'react-router-dom'
 import { BootstrapButton } from './material';
-import { Business } from './api';
+
 
 
  
@@ -129,7 +129,7 @@ const shareText = `Pay ${toSentenceCase(name[0].business_name)} on:
   Account Name:
   ${data.account_name}
   
-  You will receive an instant cashback from ${toSentenceCase(name[0].business_name)} for this payment that you can claim on prestigefinance.app/cashback`;
+  You will receive 2.5% cashback from ${toSentenceCase(name[0].business_name)} for this payment that you can claim on prestigefinance.app/cashback`;
 
   const handleShare = async () => {
     try {
