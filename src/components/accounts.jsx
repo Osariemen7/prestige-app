@@ -2,9 +2,10 @@ import {useState, useEffect} from 'react'
 import {Link, useNavigate} from "react-router-dom";
 import { Helmet } from "react-helmet"
 import { ChakraProvider } from '@chakra-ui/react';
-import { Card, Heading, Stack, Input, Button } from '@chakra-ui/react'
+import { Card, Heading, Stack, Input, Button,Text, Box } from '@chakra-ui/react'
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import { Nav } from './nav.jsx'
+import { Switch } from '@chakra-ui/react'
 
 const Accounts =()=> {
   const [info, setInfo] = useState('')
@@ -17,6 +18,49 @@ const Accounts =()=> {
   const [start, setStart] = useState('')
   const [end, setEnd] = useState(new Date())
   const [buttonEnabled, setButtonEnabled] = useState(false);
+  const [isToggled, setIsToggled] = useState(false);
+  const [active, setActivate] = useState('')
+
+  
+
+  const handleToggle = async () => {
+    const newToggleState = !isToggled;
+    setIsToggled(newToggleState);
+
+    let items ={refresh}
+   let rep = await fetch ('https://api.prestigedelta.com/refreshtoken/',{
+       method: 'POST',
+       headers:{
+         'Content-Type': 'application/json',
+         'accept' : 'application/json'
+    },
+    body:JSON.stringify(items)
+   });
+   rep = await rep.json();
+   let bab = rep.access_token 
+  
+    try {
+      const response = await fetch(`https://api.prestigedelta.com/overdraftdrawdown/${users[0].main_balances.id}/`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'accept': 'application/json',
+          'Authorization': `Bearer ${bab}`
+        },
+      
+        body: JSON.stringify({ activate: newToggleState }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const result = await response.json();
+      console.log(result); // Handle the response from the API if needed
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+    }
+  };
 
 
   const begin =(event)=>{
@@ -88,11 +132,13 @@ const subAccount = () => {
 //   } else {
  setUsers(response)
  setLoading(false)
+ setIsToggled(response[0].overdraft.activated)
   }
 
 useEffect(() => {
   fetchData()
 }, [])
+
 let wark =users[0]
 
 const toggleHidden =()=>{
@@ -223,8 +269,12 @@ const toggleHidden =()=>{
 console.log(info)
 if(loading) {
   return(
-  <p>Loading...</p>)} 
-else if (info.length < 1)        
+  <p>Loading...</p>)
+  
+} 
+
+else if (info.length < 1)  
+        
 return(
      
         <div>
@@ -234,15 +284,27 @@ return(
             
         </Helmet>
         <Nav />
+        <div></div>
             <ChakraProvider>
-           <div className="dash">
+            <div className="dash">
               <h3 className="h1">Collection Account</h3>
               <p className='dp'>Total Balance</p>
               { hidden ? <i onClick={toggleHidden} class="fa-regular fa-eye-slash see"></i> : <i class="fa-regular fa-eye see" onClick={toggleHidden}></i>}
               <h1 className="h1">{hidden}</h1>
               <div>
               <Stack direction='row'm={3} spacing={3} justify='center'>
-                <Button mb={2} colorScheme='blue' variant='solid' onClick={send} >Add Funds</Button>
+                <Button mb={2} colorScheme='blue' variant='solid' onClick={send} >Add Fund</Button>
+                <Box>
+               <Switch 
+        isChecked={isToggled} 
+        onChange={handleToggle}
+        size="lg" // You can adjust the size if needed
+        colorScheme="teal" // You can adjust the color scheme if needed
+      />
+       <Text mt={2} color='#fff'>
+          {isToggled ? 'Overdraft Activated' : 'Overdraft Deactivated'}
+        </Text>
+      </Box>
                </Stack>
        
               </div>
@@ -263,8 +325,92 @@ return(
       <div>
       <ChakraProvider>
       <Nav />
-      
+
+      <div className='mobile-view'>
              <div className="dash">
+                <h3 className="h1">Collection Account</h3>
+                <p className='dp'>Total Balance</p>
+                { hidden ? <i onClick={toggleHidden} class="fa-regular fa-eye-slash see"></i> : <i class="fa-regular fa-eye see" onClick={toggleHidden}></i>}
+                <Heading size='lg' mt={0} color='#fff'>{hidden}</Heading>
+                <div >
+                <Stack direction='row'm={3} spacing={3} justify='center'>
+               <Button mb={2} colorScheme='blue' variant='solid' onClick={send} >Add Fund</Button>
+              <Box>
+               <Switch 
+        isChecked={isToggled} 
+        onChange={handleToggle}
+        size="lg" // You can adjust the size if needed
+        colorScheme="teal" // You can adjust the color scheme if needed
+      />
+       <Text mt={2} color='#fff'>
+          {isToggled ? 'Overdraft Activated' : 'Overdraft Deactivated'}
+        </Text>
+      </Box>
+               </Stack>
+                </div>
+             </div>
+             
+             {sub_account ?(
+             null
+           ): <Card m={5} backgroundColor='#1A83CC'><p style={{fontSize: '12px',color:'#fff', padding: '2%'}}>At the end of the day, funds will be moved to sub-accounts. If you have not created a sub-account, kindly click on the sub-account button located on the menu page, tranfers can be made only through the sub-account</p></Card>}   
+             <Tabs isFitted variant='enclosed'>
+<TabList mb='1em'>
+    <Tab>Activity </Tab>
+    <Tab>Cash Flow</Tab>
+  </TabList>
+  <TabPanels>
+    <TabPanel p={0}>
+    <Button onClick={() => handleShare(refresh)} mb={2} >Share Transactions</Button>
+               
+    <Stack direction='row' spacing={1} justify='center' >
+<div>
+         <Heading fontSize='12px'>Start Date</Heading>
+        <Input placeholder='' defaultValue={(thirtyDaysBefore).toISOString().slice(0, 10)}  size='md' type='date' onChange={begin} width={173} ml={3}/><br/><br/>
+        </div> 
+        <div>
+        <Heading fontSize='12px'>End Date</Heading>
+        <Input placeholder='Date' size='md' defaultValue={new Date().toISOString().slice(0, 10)} type='date' onChange={conc} width={173} ml={2}/><br/><br/>
+        </div></Stack> 
+        <Button colorScheme='blue' variant='outline' 
+         w='230px' onClick={() => Infow()}>Filter</Button>
+        {info.transactions.map((obj, index) => 
+          <Card m={3} backgroundColor='#F0F8FF'>
+                  <div className='td'  onClick={() => receipt(index)}>
+                  <div className='tl'>
+                       <p key={index}>{obj.classification}</p>
+                       <Heading fontSize='15px' key={index}>₦{(obj.amount).toLocaleString('en-US')}</Heading>
+                  </div>
+                  <div className='tg'>
+                       <p  key={index}>{obj.status}</p>
+                       <p key={index}>{(new Date(obj.time)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })}</p>
+                  </div>
+                  {obj.transaction_type === 'CLOSE_PROJECT' || obj.transaction_type ==='NIPCR' ? (
+                       <p className='tm' key={index}>{obj.narration}</p>) : <p className='tm' key={index}>Beneficiary: {obj.beneficiary.account_name} {obj.beneficiary.bank_name}</p>}
+                  <div ><i class="fa-solid fa-file-export"></i></div>    
+                  </div>
+               </Card>)}
+         </TabPanel>
+<TabPanel>
+<Card justify='center' ml='40px' backgroundColor='#9fc5e8' w='250px' p={2}>
+               <Stack direction='row' gap='50px' spacing={5} justify='center'>
+                 <Stack direction='column'  spacing={2} >
+                  <Heading fontSize='15px' textAlign='center'>Inflow</Heading>
+                  <p>₦{(info.inflow).toLocaleString('en-US')}</p>
+                 </Stack>
+                 <Stack direction='column'>
+                  <Heading fontSize='15px'>Outflow</Heading>
+                  <p>₦{(info.outflow).toLocaleString('en-US')}</p>
+                 </Stack>
+                 </Stack>
+             </Card>
+           
+ 
+</TabPanel>
+</TabPanels>
+                </Tabs></div>
+                <div className='desktop-view'>
+                <div className='content'>
+                <div className="dash">
                 <h3 className="h1">Collection Account</h3>
                 <p className='dp'>Total Balance</p>
                 { hidden ? <i onClick={toggleHidden} class="fa-regular fa-eye-slash see"></i> : <i class="fa-regular fa-eye see" onClick={toggleHidden}></i>}
@@ -335,8 +481,10 @@ return(
 </TabPanel>
 </TabPanels>
                 </Tabs>
+                </div>
+                </div>
                 </ChakraProvider>               
-      </div>
+                 </div>
    )
 }
 export default Accounts
