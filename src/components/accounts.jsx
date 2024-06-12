@@ -132,7 +132,7 @@ const subAccount = () => {
 //   } else {
  setUsers(response)
  setLoading(false)
- setIsToggled(response[0].overdraft.activated)
+ setIsToggled(response[0].overdraft.customer_activated)
   }
 
 useEffect(() => {
@@ -294,7 +294,8 @@ return(
               <div>
               <Stack direction='row'm={3} spacing={3} justify='center'>
                 <Button mb={2} colorScheme='blue' variant='solid' onClick={send} >Add Fund</Button>
-                <Box>
+                {users[0].overdraft.activated === false ? null : 
+              <Box>
                <Switch 
         isChecked={isToggled} 
         onChange={handleToggle}
@@ -304,7 +305,7 @@ return(
        <Text mt={2} color='#fff'>
           {isToggled ? 'Overdraft Activated' : 'Overdraft Deactivated'}
         </Text>
-      </Box>
+      </Box>}
                </Stack>
        
               </div>
@@ -335,6 +336,7 @@ return(
                 <div >
                 <Stack direction='row'm={3} spacing={3} justify='center'>
                <Button mb={2} colorScheme='blue' variant='solid' onClick={send} >Add Fund</Button>
+             {users[0].overdraft.activated === false ? null : 
               <Box>
                <Switch 
         isChecked={isToggled} 
@@ -345,7 +347,7 @@ return(
        <Text mt={2} color='#fff'>
           {isToggled ? 'Overdraft Activated' : 'Overdraft Deactivated'}
         </Text>
-      </Box>
+      </Box>}
                </Stack>
                 </div>
              </div>

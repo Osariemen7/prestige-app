@@ -25,7 +25,7 @@ const Overdraft = () => {
     const thirtyDaysBefore = new Date(); // Create a new Date object
     thirtyDaysBefore.setDate(currentDate.getDate() - 30)  
 
-  
+  console.log(index)
   const overdraft= ()=>{
     const data = index.name
        navigate('/components/overd', {state:{data}})
@@ -51,6 +51,10 @@ const Overdraft = () => {
                </div>
              </div>
              <p className="ov">{index.overdraft.message}</p>
+             {index.overdraft.activated === false ?
+              <p style={{margin:'4%'}}><b>Overdraft Status:</b>User is not qualified for an overdraft</p> :
+             <p><b>Overdraft Status:</b>Activated</p>              }
+             
         </div>
     )
 }
