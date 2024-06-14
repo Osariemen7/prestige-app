@@ -175,25 +175,13 @@ required
 variant="outlined"
 id="validation-outlined-input"
 /><br/><br/><br/>
-<Typography textAlign='left' marginBottom='3%' marginLeft='7%'>Are you a Business Owner?</Typography>
-<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-<Autocomplete
-      id="combo-box-demo"
-      value={category}
-      options={opt}
-      onChange={handleCategory}
-      sx={{ width: '88%', maxWidth:'100%', align: 'center' }}
-      renderInput={(params) => <TextField {...params} label="Customer or Business Owner" />}    
-    /> </div><br/><br/>
+
 
                  <div className="message">{message ? <p>{message}</p> : null}</div>
-               {category === 'Customer'?
-               <BootstrapButton variant="contained" onClick={bus} disableRipple>
-                   Next
-      </BootstrapButton> :  <BootstrapButton variant="contained" onClick={handleSubmit} disableRipple>
+                 <BootstrapButton variant="contained" onClick={handleSubmit} disableRipple>
                    Next
       </BootstrapButton>
-                   }    </div>
+                   </div>
     )
 }
 export default Resident
