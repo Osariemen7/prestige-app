@@ -289,8 +289,6 @@ setProduct(response)
   useEffect(() => {
     fetchDa()
   }, [])
-console.log(info)
-console.log(selectedOption)
  
     const options = [
       ...product.map((item) => ({
@@ -327,7 +325,7 @@ console.log(selectedOption)
         <ChakraProvider >
         <div>
         <Nav />
-           
+           <div className='mobile-view'>
             <Heading size='sm' ml={6} textAlign='left'>Products</Heading>
             { finfo.length > 0 && typeof finfo[0].products[0] === 'object' ? (
             <Card m={5}>
@@ -421,6 +419,105 @@ console.log(selectedOption)
     <i class="fa-solid fa-arrow-right"></i>
   </CardBody>
 </Card> )}</div> ): null }
+
+</div>
+<div className='desktop-view'>
+  <div className='content'>
+      <Heading size='sm' ml={6} textAlign='left'>Products</Heading>
+            { finfo.length > 0 && typeof finfo[0].products[0] === 'object' ? (
+            <Card m={5}>
+            <Card m={2} p='2px' >
+
+  <CardBody p='2px'>
+    <Stack divider={<StackDivider />} spacing='4'>
+      <Box p='2px'>
+        <Heading size='xs' textTransform='uppercase'>
+          Number of Products
+        </Heading>
+        <Text pt='2' fontSize='sm'>
+          {finfo[0].product_count}
+        </Text>
+      </Box>
+      
+    </Stack>
+  </CardBody>
+</Card>
+<Stack direction='row'  mt={1} spacing={4} justify='center' align='center' >
+  <Card height={90} justify='center'>
+    <CardHeader p={1}>
+      <Heading size='xs' textTransform='uppercase'>Sales Value</Heading>
+    </CardHeader>
+      <Text>₦{(finfo[0].stock_value).toLocaleString('en-Us')}</Text>
+  </Card>
+  <Card height={90} justify='center'>
+    <CardHeader p={1}>
+      <Heading size='xs' textTransform='uppercase'>Purchase Value</Heading>
+    </CardHeader>
+      <Text>₦{(finfo[0].input_value).toLocaleString('en-US')}</Text>
+  </Card> 
+</Stack>
+<Stack direction='row' mt={1}  align='center' justify='center'>
+<Button colorScheme='blue' variant='solid' onClick={transfer}>
+    Add Products
+  </Button> 
+  <Button colorScheme='blue' variant='outline' onClick={restock}>Restock List</Button></Stack>
+
+</Card>): (<Card m={5}  >
+            <Card m={2} >
+
+  <CardBody>
+    <Stack divider={<StackDivider />} spacing='4'>
+      <Box p='2px'>
+        <Heading size='xs' textTransform='uppercase'>
+          Number of Products
+        </Heading>
+        <Text pt='2' fontSize='sm'>
+          0
+        </Text>
+     </Box>
+      </Stack>
+  </CardBody>
+</Card>
+<Stack direction='row'  mt={1} spacing={4} justify='center' align='center'>
+  <Card height={90} justify='center'>
+    <CardHeader p={1}>
+      <Heading size='xs' textTransform='uppercase'> Stock Value</Heading>
+    </CardHeader>
+      <Text> 0</Text>
+  </Card>
+  <Card height={90} justify='center'>
+    <CardHeader p={1}>
+      <Heading size='xs' textTransform='uppercase' > Sales Value</Heading>
+    </CardHeader>
+      <Text>₦0</Text>
+    
+  </Card> 
+</Stack>
+<Stack direction='row' mt={2}  align='center' justify='center'>
+<Button colorScheme='blue' variant='solid' onClick={transfer}>
+    Add Products to Inventory
+  </Button>
+</Stack>
+
+</Card>)}
+
+<Stack direction='row' spacing={1} align='center' justify='center'>
+  
+</Stack>
+<Heading size='md' m={5} mb={0}>Product List</Heading>
+        { info.length > 0 && typeof info[0].products[0] === 'object' ? (
+      <div>
+      {info[0].products.map((obj, index) =>
+
+        <Card key={index} onClick={() => show(index)} m={3} >
+  <CardBody padding={2}>
+   <Heading size='xs'>{obj.name}</Heading>
+    <Text>Total Sales: {obj.total_sales}</Text>
+    <i class="fa-solid fa-arrow-right"></i>
+  </CardBody>
+</Card> )}</div> ): null }
+  </div>
+</div>
 <Modal isOpen={modal1.isOpen} onClose={modal1.onClose}>
         <ModalOverlay />
         <ModalContent>

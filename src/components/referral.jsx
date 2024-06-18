@@ -74,6 +74,7 @@ const Referral =()=>{
           <ChakraProvider>
           <Heading fontSize='15px' textAlign='left' marginLeft='7%' marginTop='2%'>Hi {tok.user.first_name}</Heading>
           <p>Referral bonuses are paid on Mondays</p>
+          <div className='mobile-view'>
     
              <Card m='5%' mt={2} backgroundColor='#F0F8FF' p='3%'>
               <Stack direction='row' spacing={1} align='center' justify='center'>
@@ -112,7 +113,50 @@ const Referral =()=>{
                  {obj.referee_trans_amount? (<div>
                  <p>NO of transaction done: {obj.referee_trans_count}</p>
                  <p>Total Amount of Transation: ₦{parseFloat(obj.referee_trans_amount).toLocaleString('en-US')}</p>
-                 </div>): null}</Card> ))}          
+                 </div>): null}</Card> ))} 
+                 </div>
+                 <div className='desktop-view'>
+                    <div className='content'>
+                    <Card m='5%' mt={2} backgroundColor='#F0F8FF' p='3%'>
+              <Stack direction='row' spacing={1} align='center' justify='center'>
+              <Card m={2} backgroundColor='#2E5894' color='#fff' p='3%'>
+                <p>Available Invite Slot for the Month</p>
+                <p>{info[0].invite_count}</p>
+              </Card>
+              <Card m={2} backgroundColor='#2E5894' color='#fff' p='3%'>
+                <p>Number of people Invited</p>
+                <p>{info[0].invitee_count}</p>
+              </Card>
+              </Stack>
+              <Stack direction='row' spacing={1}>
+                <Card m={2} backgroundColor='#2E5894' color='#fff' p='3%'>
+                  <p>Cash Inflow of People Invited</p>
+                  <p>₦{parseFloat(info[0].invitee_inflow).toLocaleString('en-US')}</p>
+                </Card>
+                <Card m={2} backgroundColor='#2E5894' color='#fff' p='3%' >
+                  <p>Invite Bonus</p>
+                  <p>₦{parseFloat(info[0].invitee_bonus).toLocaleString('en-US')}</p>
+                </Card>
+              </Stack>
+             </Card>
+             <Card m='5%' mt={2} backgroundColor='#F0F8FF' p='3%'>
+            <Heading fontSize='18px'>Referral</Heading>
+            <div style={{justifyContent:'center'}}>
+            <p>Send an invite, get businesses to sign up and earn 0.5% of their first 180 day sales <br/>using your referral code and get a reward</p>
+            <p style={{fontWeight: 'bold'}}>{info[0].referral_code}</p><br/>
+            <ShareApp inviteCode={info[0].referral_code}/>
+            </div></Card>
+           
+             {info[0].invitees.map((obj, index) => ( 
+              <Card key={index} m='5%' mt={3} backgroundColor='#008080' p='3%' color='#fff'>
+                 <p>{obj.first_name}</p>
+                 <p>{obj.phone_no}</p>
+                 {obj.referee_trans_amount? (<div>
+                 <p>NO of transaction done: {obj.referee_trans_count}</p>
+                 <p>Total Amount of Transation: ₦{parseFloat(obj.referee_trans_amount).toLocaleString('en-US')}</p>
+                 </div>): null}</Card> ))} 
+                    </div>
+                 </div>         
           </ChakraProvider>
         </div>
     )

@@ -111,6 +111,7 @@ if(loading) {
           <button className='loyb' onClick={getLoy}>Manage Loyalty program</button>
         </div>
         </div>
+        <div className='mobile-view'>
         <h3>Customers</h3>
         { myArray.length > 0 && typeof myArray[0] === 'object' ?(
         <div>
@@ -135,7 +136,36 @@ if(loading) {
         </div>
         ):(
         <p></p>)}
-       
+        </div>
+        <div className='desktop-view'>
+          <div className='content'>
+          <h3>Customers</h3>
+        { myArray.length > 0 && typeof myArray[0] === 'object' ?(
+        <div>
+        {list[0].customers.map((obj, index) =>
+            
+            <div key={index} className='xp' onClick={() => customer(index)}>
+                  <h4 className='cbl'>{obj.customer_name}</h4>
+                <div className='zp'>
+                  <p className='dnc'>Total amount spent:</p>
+                  <h5 className='dnc'>₦{(obj.total_value).toLocaleString('en-US')}</h5>
+                  </div>
+
+                <div className='zp'>
+                      <p className='dnc'>No of Transactions</p>
+                       <h4 className='dnc'>{obj.total_volume}</h4>
+                 </div>
+                 <div className='zp'>
+                  <p className='dnc'>Last Transaction: </p>
+                  <h4 className='dnc'>{(new Date(obj.last_transaction)).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</h4>
+               </div>             
+              </div> )}
+        </div>
+        ):(
+        <p></p>)}
+
+          </div>
+        </div>
                
         </div>
     )

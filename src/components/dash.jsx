@@ -388,8 +388,6 @@ const subAccount = () => {
   const redirectTo = sub_account ? '/components/savings' : '/components/reboard';
   navigate(redirectTo);
 };
-console.log(mon) 
-console.log(selectedValue.label)
 
 if(loading) {
   return(
@@ -404,6 +402,7 @@ if(loading) {
             <Button colorScheme='black' variant='outline'>{info[0].business_name}</Button>
             <Heading size='md' >Analytics</Heading>
             </div>
+            <div className='mobile-view'>
             <Card mt={2}>
             <Select 
       onChange={handleType}
@@ -439,7 +438,48 @@ if(loading) {
                </div>
             </Card>
             
+            </Card></div>
+            <div className='desktop-view'>
+              <div className='content'>
+              <Card mt={2}>
+            <Select 
+      onChange={handleType}
+      className="pnes"
+      placeholder="Select Duration"
+      options={opt}
+      isSearchable={true}
+      value={selectedValue} />
+            <Card backgroundColor='#eff1fa' m={2} >
+                <Heading size='sm'>Sales</Heading>
+                <Bar data={ata}  options={opti} />
+                <div>
+                <Button mb={2} mt={1} colorScheme='blue' onClick={daily} variant='solid'>Sales Report</Button>
+                </div>
             </Card>
+            <Card backgroundColor='#eff1fa' m={3} >
+                <Heading size='sm'>Revenue</Heading>
+                <Bar data={data} options={options} />
+                <Text fontSize='12px'> Average Sale Amount - ₦{parseFloat(sure[0].rps).toLocaleString('en-US')}</Text>
+               <Text fontSize='12px'>Revenue Per Customer - ₦{parseFloat(sure[0].rpc).toLocaleString('en-US')}</Text>
+           <div><Button mb={2} mt={1} colorScheme='blue' onClick={revenue} variant='outline' >Revenue Report</Button>
+           </div></Card>
+      
+            <Card backgroundColor='#eff1fa' m={3} >
+                <Heading size='sm'>Expense</Heading>
+                <Bar data={sata}  options={option} /><div>
+                <Button mb={2} mt={1} colorScheme='blue' onClick={expense} variant='solid'>Expense Report</Button>
+                </div></Card>
+            <Card backgroundColor='#eff1fa' m={3} >
+                <Heading size='sm'>Customers</Heading>
+                <Bar data={cata}  options={optio} />
+               <div> <Button mb={2} mt={1} colorScheme='blue' onClick={people} variant='outline'>Customer Report</Button>
+               </div>
+            </Card>
+            
+            </Card>
+
+              </div>
+            </div>
            
             </ChakraProvider>   
         </div>

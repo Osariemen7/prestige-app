@@ -159,7 +159,9 @@ let refresh = terms(tok)
 
     return(
         <div>
+        
         <Nav />
+        <div className='mobile-view'>
             <ChakraProvider>
            <Heading size='md' className='saed'>Budget</Heading></ChakraProvider>
            <div className='svin'>
@@ -199,7 +201,49 @@ let refresh = terms(tok)
       </div>
     )}
   </div>
-))}
+))}</div>
+<div className='desktop-view'>
+<div className='content'>
+            <ChakraProvider>
+           <Heading size='md' className='saed'>Budget</Heading></ChakraProvider>
+           <div className='svin'>
+              <p>Create sub-account and manage your cash flow</p>
+              <img className=''  src={pic} alt='' onClick={onOpen}/>
+           </div>
+           
+           {total.map((obj, index) => (
+  <div key={index} className='spt' onClick={() => operate(index)}>
+    <div className='bfle'>
+      <img src={add} alt='' className='wad' />
+      <span>{obj.name}</span>
+    </div>
+    {obj.budget !== 0 ? (
+      <div>
+        <div className='asx'>
+          <p className='clun' key={index}>
+            {Math.round(((parseInt(obj.spent) / parseInt(obj.budget)) * 100 + Number.EPSILON) * 100) / 100}%
+          </p>
+          <p className='clun'>₦{obj.balance.available_balance.toLocaleString('en-US')}</p>
+        </div>
+        <div className="progress-b" style={{ width: '100%' }}>
+          <div className="progress-bi" style={{ width:`${Math.min(((parseInt(obj.spent) / parseInt(obj.budget)) * 100), 100)}%` }}>
+          </div>
+        </div>
+      </div>
+    ) : (
+      <div>
+        <div className='bfle'>
+          <p className='clun' key={index}>0%</p>
+          <p className='clun'>₦{obj.balance.available_balance.toLocaleString('en-US')}</p>
+        </div>
+        <div className="progress-b" style={{ width: '100%' }}>
+          <div className="progress-bi" style={{ width: '0%' }}>
+          </div>
+        </div>
+      </div>
+    )}
+  </div>
+))}</div></div>
 <ChakraProvider>
 <Modal isOpen={isOpen} onClose={closeModal}>
           <ModalOverlay />

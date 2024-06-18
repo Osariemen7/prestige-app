@@ -290,10 +290,10 @@ return(
               <h3 className="h1">Collection Account</h3>
               <p className='dp'>Total Balance</p>
               { hidden ? <i onClick={toggleHidden} class="fa-regular fa-eye-slash see"></i> : <i class="fa-regular fa-eye see" onClick={toggleHidden}></i>}
-              <h1 className="h1">{hidden}</h1>
+              <Heading size='lg' mt={0} color='#fff'>{hidden}</Heading>
               <div>
               <Stack direction='row'm={3} spacing={3} justify='center'>
-                <Button mb={2} colorScheme='blue' variant='solid' onClick={send} >Add Fund</Button>
+                <Button mb={2} colorScheme='blue' variant='solid' onClick={send} >Add Funds</Button>
                 {users[0].overdraft.activated === false ? null : 
               <Box>
                <Switch 
@@ -335,7 +335,7 @@ return(
                 <Heading size='lg' mt={0} color='#fff'>{hidden}</Heading>
                 <div >
                 <Stack direction='row'm={3} spacing={3} justify='center'>
-               <Button mb={2} colorScheme='blue' variant='solid' onClick={send} >Add Fund</Button>
+               <Button mb={2} colorScheme='blue' variant='solid' onClick={send} >Add Funds</Button>
              {users[0].overdraft.activated === false ? null : 
               <Box>
                <Switch 
