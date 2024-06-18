@@ -156,7 +156,9 @@ const handleClick = () => {
     setButtonVisible(true);
   }, 5000);
 };
-
+const handleProductType = (product_type) =>{
+  setProd(product_type)
+}
 const options = product.map((item) => ({
   label: item.name,
     value: item.name,
@@ -247,7 +249,7 @@ const options = product.map((item) => ({
       
         let quantity_type = type.map(tod => tod.value)
         let name = item.map(todo => todo.value)
-        console.log(name, price, quantity, quantity_type, pack_size)
+        console.log(name, price, quantity, quantity_type, pack_size, product_type)
         let itemd = {name, price, quantity, quantity_type, pack_size};
         
         const separatedData = itemd.name.map((_, index) => ({
@@ -256,7 +258,7 @@ const options = product.map((item) => ({
           quantity:itemd.quantity[index],
           quantity_type:itemd.quantity_type[index],
           pack_size:itemd.pack_size[index],
-          product_type: product_type,
+          product_type: product_type.value,
           amount:amount,
           payment_method: 'CASH'
         }));
@@ -307,7 +309,7 @@ const summit = ()=>{
  setMess('Please fill all the necessary fields')}
  else {
   handleFormSubmit()
-  setProd('Product')
+
  }
 }
       console.log(payment_meth)
@@ -419,6 +421,12 @@ const summit = ()=>{
         isClearable={true} 
 
       /><br/>
+       <Select
+      onChange={handleProductType}
+      className="pne"
+      placeholder="Product Type"
+      options={prud}
+      value={product_type} /><br/>
  <Select
       onChange={handleInputCha}
       className="pne"
@@ -442,6 +450,12 @@ onChange={ handleInputChange}
         isClearable={true} 
 
       /><br/>
+      <Select
+      onChange={handleProductType}
+      className="pne"
+      placeholder="Product Type"
+      options={prud}
+      value={product_type} /><br/>
 
 <Select
       onChange={handleInputCha}
