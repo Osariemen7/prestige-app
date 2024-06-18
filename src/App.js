@@ -79,7 +79,7 @@ import './components/test.jsx'
 import './components/support.jsx'
 import Foam from './waitlist.jsx';
 import WaitlistPage from './waitlistsuccess.jsx';
-import Item from './components/resitem.jsx';
+import Employee from './components/employee.jsx';
 import Restock from './components/restock.js';
 import Referral from './components/referral.jsx';
 import { Analytics } from '@vercel/analytics/react';
@@ -174,9 +174,10 @@ function App() {
         <Route path='/components/support' element={<Support />} />
         <Route path='/waitlist' element={<Foam />} />
         <Route path='/waitlistsuccess' element={<WaitlistPage />} />
-        <Route path='/components/resitem' element={<Item />} />
+        
         <Route path='/components/restock' element={<Restock />} />
         <Route path= '/components/referral' element={<Referral />} />
+        <Route path='/components/employee' element={<Employee />} />
 
      </Routes>
       
