@@ -612,7 +612,7 @@ const optio = ['item', 'pack'];
                   <Heading size='xs'>Amount</Heading>
                   <Heading size='xs'>Quantity Type</Heading>
            </Stack>
-        
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
               <div className='culb' style={{marginLeft:'8%'}}>
                    <ul className="au">
                       {(item).map((todo, index) => (
@@ -636,7 +636,7 @@ const optio = ['item', 'pack'];
       </span></p>
                     ))}
                    </ul>
-                   </div>
+                   </div></div>
                       <p>Total: ₦{total}</p>
                                 <hr className='hr1'></hr>
   
@@ -683,7 +683,8 @@ const optio = ['item', 'pack'];
             <ModalBody>
              <h3 className='h4'></h3>
               <form >
-             
+        
+        <div className='mobile-view'>
         <Select
           className="pne"
           placeholder="Enter product name"
@@ -701,7 +702,6 @@ const optio = ['item', 'pack'];
         placeholder="Quantity Type"
         options={opt}
         value={inputV} /><br/>
-        <div className='mobile-view'>
          {inputV.label !== 'item' || inputVa.label === options ? (
           
           <Input placeholder='Price of a single pack' size='md' onChange={handleInputChang} width={273} ml={9}/>): <Input placeholder='Price of a single item' size='md' onChange={handleInputChang} width={273} ml={9}/>}  
@@ -724,9 +724,26 @@ const optio = ['item', 'pack'];
       <Button colorScheme='blue' onClick={beef}>Restock</Button></div>
     )} </div>                  
     <div className='desktop-view'>
+    <Select
+          className=""
+          placeholder="Enter product name"
+          options={options}
+          isSearchable={true}
+          onChange={handleInputchan}
+          value={inputVa}
+          onCreateOption={handleAddProduct} // Handle adding a new option
+          isClearable={true} 
+          
+        /><br/>
+               <Select
+        onChange={handleInputCha}
+        className=""
+        placeholder="Quantity Type"
+        options={opt}
+        value={inputV} /><br/>
          {inputV.label !== 'item' || inputVa.label === options ? (
           <div>
-          <Input placeholder='Price of a single pack' size='md' onChange={handleInputChang} width={400} ml={0}/></div>): <Input placeholder='Price of a single item' size='md' onChange={handleInputChang} width={400} ml={0}/>}  
+          <Input placeholder='Price of a single pack' size='md' onChange={handleInputChang} width={400} ml={0}/></div>): <div><Input placeholder='Price of a single item' size='md' onChange={handleInputChang} width={400} ml={0}/></div>}  
           <br/> 
               <Input placeholder='Quantity' size='md' onChange={handleInputChange} width={400} ml={0}/><br/><br/>
              
@@ -758,8 +775,12 @@ const optio = ['item', 'pack'];
             <ModalBody>
              <h3 className='h4'></h3>
               <form >
-                  <CreatableSelect
-          className="pne"
+          
+                 
+              
+              <div className="desktop-view">
+              <CreatableSelect
+          className=""
           placeholder="Enter service Name"
           options={opto}
           isSearchable={true}
@@ -769,8 +790,6 @@ const optio = ['item', 'pack'];
           isClearable={true} 
           
         /><br/>
-              
-              <div className="desktop-view">
         <Input
           placeholder='Price of service for one customer'
           size='md'
@@ -789,6 +808,17 @@ const optio = ['item', 'pack'];
 
       {/* For mobile */}
       <div className="mobile-view">
+      <CreatableSelect
+          className="pne"
+          placeholder="Enter service Name"
+          options={opto}
+          isSearchable={true}
+          onChange={handleInputchan}
+          value={inputVa}
+          onCreateOption={handleAddProduct} // Handle adding a new option
+          isClearable={true} 
+          
+        /><br/>
         <Input
           placeholder='Price of service for one customer'
           size='md'

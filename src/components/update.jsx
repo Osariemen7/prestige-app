@@ -3,13 +3,24 @@ import { Helmet } from "react-helmet";
 import Select from 'react-select';
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import { ChakraProvider, InputGroup, Spinner } from '@chakra-ui/react';
-import { Input, InputRightElement, Button, Heading, Text } from '@chakra-ui/react'
+import { Input, InputRightElement, Button, Heading, useDisclosure, Text } from '@chakra-ui/react'
 import { Typography, TextField, Autocomplete } from '@mui/material';
 import { BootstrapButton, ValidationTextField } from "./material";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from '@chakra-ui/react'
+import good from './images/good.svg'
 
  
 const Update =()=>{
 const [info, setInfo] = useState([])
+const { isOpen, onOpen,  onClose } = useDisclosure()
 const [loading, setLoading] = useState(true)
 const [nuban, setNuban] = useState('')
 const [selectedOption, setSelectedOption] = useState(null)
@@ -128,16 +139,21 @@ const fetchDa = async () => {
              body:JSON.stringify(item)
             });
           
-            if (result.status !== 201) {
+            if (result.status !== 200) {
               result = await result.json()
               setMessag(JSON.stringify(result));
             } else {
               result = await result.json();
-            localStorage.setItem('user-info', JSON.stringify(tok)) 
-            navigate('/components/accounts')
+            localStorage.setItem('user-info', JSON.stringify(tok))
+            onOpen()
             }
           }
-      
+      const close =()=>{
+        onClose()
+        navigate('/components/inventory')
+            
+      }
+
 async function ema(e) {
       e.preventDefault();
       
@@ -207,7 +223,7 @@ id="validation-outlined-input"
 /> <br/><br/>
 <ValidationTextField
   onChange={handleLastname}
-label="Enter Last Name"
+label="Enter Surname Name"
 type='text'
 required
 variant="outlined"
@@ -215,7 +231,7 @@ id="validation-outlined-input"
 /> <br/><br/>
 <ValidationTextField
   onChange={handleMiddlename}
-label="Enter Middle Name"
+label="Enter Middle Name (optional)"
 type='text'
 variant="outlined"
 id="validation-outlined-input"
@@ -257,8 +273,26 @@ id="validation-outlined-input"
       </BootstrapButton>
 )}<ChakraProvider>
       {!buttonVisible && <Spinner />}  </ChakraProvider>    <div className="message">{messag ? <p>{messag}</p> : null}</div>
-     
-        
+     <ChakraProvider>
+      <Modal isOpen={isOpen} onClose={close}>
+          <ModalOverlay />
+          <ModalContent>
+          
+            <ModalHeader>Updated</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+               
+            <div>
+          
+          <img className='goo' src={good} alt="" />
+          <Heading fontSize='14px' className="hoo">Account Successfully Updated!</Heading>  
+      </div>
+      <Button  colorScheme='blue' variant='solid' onClick={close}>Continue</Button>
+      </ModalBody>
+              </ModalContent>
+      
+            </Modal> </ChakraProvider>
+
         </div>
     )
 }

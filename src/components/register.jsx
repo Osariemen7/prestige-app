@@ -33,7 +33,7 @@ const RegisterPage =()=>{
       setButtonVisible(false);
       setTimeout(() => {
         setButtonVisible(true);
-      }, 15000);
+      }, 10000);
     };
    const handleCheck =(event) =>{
     setCheck(event.target.value)
@@ -102,10 +102,10 @@ const RegisterPage =()=>{
       <Helmet>
          <title>Registration</title>
          </Helmet>
-        <Typography  variant="h5" align='left' marginLeft='8%' marginTop='10%' fontWeight="fontWeightBold">Enter your Details</Typography>
+        <Typography  variant="h5" align='left' marginLeft='8%' marginTop='0%' fontWeight="fontWeightBold">Enter your Details</Typography>
             <br/><Typography align='left' marginLeft='8%' variant='subtitle2' >Let's set things up. You need to be invited by an existing member to join our merchant network. Please enter the invite code of your introducer</Typography>
           <br/> 
-        <form>
+        <form >
         <ValidationTextField
            onChange={handleEmailChange}
         label="Email Address"
@@ -153,7 +153,7 @@ const RegisterPage =()=>{
       />
       
       { passwordType==="password"?
-             <i onClick={togglePassword} style={{marginTop: '5%'}} class="fa-regular fa-eye-slash ic" ></i> : <i style={{marginTop: '5%'}} class="fa-regular fa-eye ic" onClick={togglePassword}></i>} <br/>
+             <i onClick={togglePassword} class="fa-regular fa-eye-slash ic" ></i> : <i  class="fa-regular fa-eye ic" onClick={togglePassword}></i>} <br/>
             <br/>
              <ValidationEyeField
         onChange={handlePasswordConfirm}
@@ -165,7 +165,7 @@ const RegisterPage =()=>{
         name='password2'
       />   
        { passwordType==="password"?
-             <i onClick={togglePassword} style={{marginTop: '5%'}} class="fa-regular fa-eye-slash ic"></i> : <i style={{marginTop: '5%'}} class="fa-regular fa-eye ic" onClick={togglePassword}></i>} <br/>
+             <i onClick={togglePassword}  class="fa-regular fa-eye-slash ic"></i> : <i  class="fa-regular fa-eye ic" onClick={togglePassword}></i>} <br/>
              <br/>
              <input class="check" type="checkbox" name="" onChange={handleCheck} value="check" required></input>
              <label>By tapping next, you agree to our <a className='lsf' href='https://prestigefinance.co/policy.html'>privacy policy</a>and <a className='lsf' href='https://prestigefinance.co/terms.html'>Terms & Condition</a> </label>
