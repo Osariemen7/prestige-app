@@ -153,7 +153,7 @@ const shareText = `Pay ${toSentenceCase(name[0].business_name)} on:
            <i class="fa-solid fa-chevron-left bac"></i>
            </Link> 
             <h2 className=''>Fund via bank transfer</h2>
-            <p className='dfp2'>To add fund to your prestige account, make a transfer to the account below. Funds should reflect instantly</p>
+            <p className='dfp2'>Fund your prestige account, make a transfer to the account below. Funds should reflect instantly</p>
             <div className="fflex">
                 <img src={account_balance} alt=''/>
                 <div>
