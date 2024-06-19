@@ -1421,6 +1421,7 @@ form{
   display: flex;
   gap: 40px;
   margin: 0 5%;
+  align-items: flex-start;
 }
 .cules{
   display: flex;
@@ -1777,13 +1778,20 @@ form{
 
 .side-menu {
   position: fixed;
-  top: -20%;
+  top: -70%;
   left: 0; /* Offscreen initially */
   width: 200px;
-  height: 20%;
+  height: 70%;
   background-color:#F8F9FC;
   transition: top 0.3s ease;
-  z-index: 2;
+  z-index: 2
+}
+.mac{
+  position: relative;
+  right: 40%;
+  margin: 3%;
+  margin-top: 0;
+  font-size: 25px;
 }
 .slide-in-menu {
   position: fixed;
@@ -1838,7 +1846,7 @@ form{
   list-style-type: none;
   padding: 0;
   justify-content: center;
-  height: 55px;
+  height: 85px;
   padding: 8px 15px 8px 16px;
   color:#fff;
 
