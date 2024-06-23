@@ -213,5 +213,28 @@ export const ShareApp = ({ inviteCode }) => {
       </ChakraProvider>
     );
   };
+
+  export const InviteApp = ({ inviteCode, numb }) => {
+    const handleShares = () => {
+      if (navigator.share) {
+        navigator.share({
+          title: 'Prestige Finance',
+          text: `Sign up on prestige finance with this number ${numb}!, use invite code ${inviteCode}`,
+          url: 'https://play.google.com/store/apps/details?id=co.prestigefinance.biz',
+        })
+          .then(() => console.log('App shared successfully.'))
+          .catch((error) => console.log('Error sharing app:', error));
+      } else {
+        console.log('Web Share API is not supported in this browser.');
+      }
+    };;
+  
+    return (
+        <ChakraProvider>
+      <Button colorScheme='blue' w='25%'  onClick={handleShares}>Share</Button>
+      </ChakraProvider>
+    );
+  };
+
   
   
