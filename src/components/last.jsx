@@ -90,7 +90,13 @@ const fetchDa = async () => {
           let bvn = ans.locs.pers.bvn
           let state = ans.locs.state
           let city = ans.locs.city
-          let is_customer = false
+          let is_customer;
+          if(tok.user.is_customer === 'employee' ) {
+            is_customer = 'employee'                        
+          } 
+            else {
+              is_customer ='owner'
+            }
           let business_name = ans.business_name
           let business_type = ans.business_type
           let account_name = users.account_name
@@ -201,7 +207,15 @@ async function ema(e) {
       value={selectedOption}
       options={options}
       onChange={handleBank}
-      sx={{ width: '88%', maxWidth:'100%', align: 'center' }}
+      sx={{
+        width: '100%', // Default width for mobile
+        maxWidth: '88%', // Max width for desktop
+        align: 'center',
+        '@media (min-width: 600px)': { // Adjustments for desktop view
+          width: '40%', // Decrease width for larger screens
+          maxWidth: 'none', // Remove maximum width for larger screens
+        },
+      }}
       renderInput={(params) => <TextField {...params} label="Select Bank" />}
         
     /> </div>
