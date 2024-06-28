@@ -35,7 +35,7 @@ useEffect(()=>{
   setThread(data ? data.thread_id  : '');
 },[])
   
-
+console.log(data)
   const showSidebar = () => setSidebar(!sidebar && !rightbar)
 
   const showRighbar = ()=> setRightbar(!rightbar)
@@ -90,16 +90,16 @@ useEffect(()=>{
     //   if (data.code === 'token_not_valid'){
     //     navigate('/components/token')
     //   } else {
-      let  lastThread = response[0].thread_id;
+      
 
-      setThread(response? lastThread : '')
+      
      setCon(response)
      
       }
       useEffect(() => {
         fetchDat()
       }, [])
-    
+      console.log(con)
     const creat = async() => {
       if (newMessage.trim() === '') return;
       const newMessages = [...messages, { text: newMessage, sender: 'user' }];
@@ -229,9 +229,10 @@ useEffect(()=>{
 console.log(messages)
 console.log(selectedMessage)
   if(loading) {
+    
     return(
     <p>Loading...</p>)}   
-          
+      
     const formatMessage = (text) => {
       // Check if the message contains ** or newline characters
       if (text.includes('**') || text.includes('\n')) {
@@ -270,6 +271,7 @@ console.log(selectedMessage)
                     setThread(message.thread_id);
                     showRighbar();
                     setMessages([]);
+                    setThread(con? con[0].thread_id : '')
                   }}
                   style={{ cursor: 'pointer' }}
                 >
@@ -395,6 +397,7 @@ console.log(selectedMessage)
                     setThread(message.thread_id);
                     showRighbar();
                     setMessages([]);
+                    setThread(con? con[0].thread_id : '')
                   }}
                   style={{ cursor: 'pointer' }}
                 >
