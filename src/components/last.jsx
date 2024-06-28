@@ -92,10 +92,10 @@ const fetchDa = async () => {
           let city = ans.locs.city
           let is_customer;
           if(tok.user.is_customer === 'employee' ) {
-            is_customer = 'employee'                        
+            is_customer =  true                       
           } 
             else {
-              is_customer ='owner'
+              is_customer = false
             }
           let business_name = ans.business_name
           let business_type = ans.business_type
